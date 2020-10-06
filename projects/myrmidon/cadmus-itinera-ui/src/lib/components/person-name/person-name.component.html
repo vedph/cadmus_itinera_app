@@ -1,7 +1,7 @@
 <form [formGroup]="form" (submit)="save()">
   <div>
     <!-- language (bound) -->
-    <ng-container *ngIf="!langThesaurus">
+    <ng-container *ngIf="!langEntries">
       <mat-form-field style="width: 6em">
         <input matInput placeholder="language" [formControl]="language" />
         <mat-error
@@ -21,10 +21,10 @@
       </mat-form-field>
     </ng-container>
     <!-- language (free) -->
-    <ng-container *ngIf="langThesaurus">
+    <ng-container *ngIf="langEntries">
       <mat-form-field style="width: 6em">
         <mat-select [formControl]="language" placeholder="language">
-          <mat-option *ngFor="let e of langThesaurus.entries" [value]="e.id">{{
+          <mat-option *ngFor="let e of langEntries" [value]="e.id">{{
             e.value
           }}</mat-option>
         </mat-select>
@@ -33,7 +33,7 @@
 
     &nbsp;
     <!-- tag (bound) -->
-    <ng-container *ngIf="!tagThesaurus">
+    <ng-container *ngIf="!tagEntries">
       <mat-form-field style="width: 8em">
         <input matInput placeholder="tag" [formControl]="tag" />
         <mat-error
@@ -47,10 +47,10 @@
       </mat-form-field>
     </ng-container>
     <!-- tag (free) -->
-    <ng-container *ngIf="tagThesaurus">
+    <ng-container *ngIf="tagEntries">
       <mat-form-field style="width: 8em">
         <mat-select [formControl]="tag" placeholder="tag">
-          <mat-option *ngFor="let e of tagThesaurus.entries" [value]="e.id">{{
+          <mat-option *ngFor="let e of tagEntries" [value]="e.id">{{
             e.value
           }}</mat-option>
         </mat-select>
@@ -122,11 +122,11 @@
 
         <!-- child controls -->
         <!-- type (bound) -->
-        <ng-container *ngIf="typeThesaurus">
+        <ng-container *ngIf="typeEntries">
           <mat-form-field style="width: 8em">
             <mat-select formControlName="type" placeholder="type">
               <mat-option
-                *ngFor="let e of typeThesaurus.entries"
+                *ngFor="let e of typeEntries"
                 [value]="e.id"
                 >{{ e.value }}</mat-option
               >
@@ -142,7 +142,7 @@
         </ng-container>
 
         <!-- type (free) -->
-        <ng-container *ngIf="!typeThesaurus">
+        <ng-container *ngIf="!typeEntries">
           <mat-form-field style="width: 8em">
             <input matInput formControlName="type" placeholder="type" />
             <mat-error

@@ -16,8 +16,8 @@
   </div>
   <div>
     <lib-person-name
-      [typeThesaurus]="typeThesaurus"
-      [langThesaurus]="langThesaurus"
+      [typeEntries]="typeThesaurus?.entries"
+      [langEntries]="langThesaurus?.entries"
       [model$]="person$"
       (editorSave)="onEditorSave($event)"
     ></lib-person-name>

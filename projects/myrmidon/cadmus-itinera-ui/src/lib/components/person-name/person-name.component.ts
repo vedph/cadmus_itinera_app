@@ -6,7 +6,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { Thesaurus } from '@myrmidon/cadmus-core';
+import { Thesaurus, ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { PersonName, PersonNamePart } from '@myrmidon/cadmus-itinera-core';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 
@@ -25,11 +25,11 @@ export class PersonNameComponent implements OnInit {
   @Input()
   public parentForm: FormGroup;
   @Input()
-  public langThesaurus: Thesaurus;
+  public langEntries: ThesaurusEntry[];
   @Input()
-  public tagThesaurus: Thesaurus;
+  public tagEntries: ThesaurusEntry[];
   @Input()
-  public typeThesaurus: Thesaurus;
+  public typeEntries: ThesaurusEntry[];
   @Input()
   public get model$(): Observable<PersonName> {
     return this.model$;

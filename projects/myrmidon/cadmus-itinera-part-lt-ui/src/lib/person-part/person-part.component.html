@@ -1,1 +1,114 @@
-<p>person-part works!</p>
+<form [formGroup]="form" (submit)="save()">
+  <mat-card>
+    <mat-card-header>
+      <div mat-card-avatar>
+        <mat-icon>picture_in_picture</mat-icon>
+      </div>
+      <mat-card-title>Person Part</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <!-- ID TAB -->
+      <mat-tab-group>
+        <!-- person ID -->
+        <mat-tab label="ID">
+          <div>
+            <mat-form-field>
+              <input matInput [formControl]="personId" placeholder="ID" />
+              <mat-error
+                *ngIf="
+                  personId.hasError('required') &&
+                  (personId.dirty || personId.touched)
+                "
+                >enter person ID</mat-error
+              >
+              <mat-error
+                *ngIf="
+                  personId.hasError('max-length') &&
+                  (personId.dirty || personId.touched)
+                "
+                >person ID too long</mat-error
+              >
+            </mat-form-field>
+
+            <!-- sex -->
+            &nbsp;
+            <mat-form-field>
+              <mat-select [formControl]="sex" placeholder="sex">
+                <mat-option [value]="null">-</mat-option>
+                <mat-option [value]="M">male</mat-option>
+                <mat-option [value]="F">female</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <!-- name(s) -->
+          TODO
+
+          <!-- external IDs -->
+          TODO
+        </mat-tab>
+
+        <!-- BIRTH TAB -->
+        <mat-tab label="birth">
+          <!-- birth place -->
+          <div>
+            <mat-form-field>
+              <input matInput [formControl]="birthPlace" placeholder="place" />
+              <mat-error
+                *ngIf="
+                  birthPlace.hasError('max-length') &&
+                  (birthPlace.dirty || birthPlace.touched)
+                "
+                >birth place too long</mat-error
+              >
+            </mat-form-field>
+          </div>
+
+          <!-- birth date -->
+          TODO
+        </mat-tab>
+
+        <!-- DEATH TAB -->
+        <mat-tab label="death">
+          <!-- death place -->
+          <div>
+            <mat-form-field>
+              <input matInput [formControl]="deathPlace" placeholder="place" />
+              <mat-error
+                *ngIf="
+                  deathPlace.hasError('max-length') &&
+                  (deathPlace.dirty || deathPlace.touched)
+                "
+                >death place too long</mat-error
+              >
+            </mat-form-field>
+          </div>
+
+          <!-- death date -->
+          TODO
+        </mat-tab>
+
+        <!-- BIO TAB -->
+        <mat-tab label="bio">
+          <!-- bio -->
+          <div>
+            <ngx-monaco-editor
+              [options]="editorOptions"
+              [formControl]="bio"
+            ></ngx-monaco-editor>
+            <mat-error
+              *ngIf="bio.hasError('max-length') && (bio.touched || bio.dirty)"
+              >bio too long</mat-error
+            >
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </mat-card-content>
+    <mat-card-actions>
+      <cadmus-close-save-buttons
+        [form]="form"
+        [noSave]="userLevel < 2"
+        (closeRequest)="close()"
+      ></cadmus-close-save-buttons>
+    </mat-card-actions>
+  </mat-card>
+</form>
