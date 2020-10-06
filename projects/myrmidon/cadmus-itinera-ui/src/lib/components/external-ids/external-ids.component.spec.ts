@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CadmusItineraUiComponent } from './cadmus-itinera-ui.component';
+import { ExternalIdsComponent } from './external-ids.component';
 
-describe('CadmusItineraUiComponent', () => {
-  let component: CadmusItineraUiComponent;
-  let fixture: ComponentFixture<CadmusItineraUiComponent>;
+describe('ExternalIdsComponent', () => {
+  let component: ExternalIdsComponent;
+  let fixture: ComponentFixture<ExternalIdsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CadmusItineraUiComponent ]
+      declarations: [ ExternalIdsComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CadmusItineraUiComponent);
+    fixture = TestBed.createComponent(ExternalIdsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,0 +1,73 @@
+<form [formGroup]="parentForm">
+  <div formArrayName="ids">
+    <div *ngIf="!ids.length">
+      <br />
+      <button type="button" mat-raised-button color="primary" (click)="addId()">
+        add ID
+      </button>
+    </div>
+    <div
+      *ngFor="
+        let item of ids.controls;
+        let i = index;
+        let first = first;
+        let last = last
+      "
+    >
+      <!-- child form -->
+      <div [formGroupName]="i">
+        <!-- child actions -->
+        {{ i + 1 }}.
+        <button
+          mat-icon-button
+          type="button"
+          matTooltip="Add ID below"
+          color="primary"
+          (click)="addIdBelow(i)"
+        >
+          <mat-icon>add_circle</mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          type="button"
+          matTooltip="Remove this ID"
+          color="warn"
+          (click)="removeId(i)"
+        >
+          <mat-icon>remove_circle</mat-icon>
+        </button>
+        <button
+          [disabled]="first"
+          mat-icon-button
+          type="button"
+          matTooltip="Move ID up"
+          (click)="moveIdUp(i)"
+        >
+          <mat-icon>arrow_upward</mat-icon>
+        </button>
+        <button
+          [disabled]="last"
+          mat-icon-button
+          type="button"
+          matTooltip="Move ID down"
+          (click)="moveIdDown(i)"
+        >
+          <mat-icon>arrow_downward</mat-icon>
+        </button>
+
+        <!-- child controls -->
+        <!-- ID -->
+        <mat-form-field>
+          <input
+            matInput
+            maxlength="500"
+            formControlName="id"
+            placeholder="external ID"
+            autofocus
+          />
+          <mat-error>enter an ID</mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+</form>

@@ -1,12 +1,17 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { CadmusItineraUiComponent } from './cadmus-itinera-ui.component';
-
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CadmusMaterialModule } from '@myrmidon/cadmus-material';
+import { ExternalIdsComponent } from './components/external-ids/external-ids.component';
 
 @NgModule({
-  declarations: [CadmusItineraUiComponent],
+  declarations: [ExternalIdsComponent],
   imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    CadmusMaterialModule,
   ],
-  exports: [CadmusItineraUiComponent]
+  exports: [ExternalIdsComponent],
 })
-export class CadmusItineraUiModule { }
+export class CadmusItineraUiModule {}
