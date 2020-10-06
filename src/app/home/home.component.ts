@@ -1,17 +1,21 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { EnvService, Thesaurus } from '@myrmidon/cadmus-core';
 import { AuthService } from '@myrmidon/cadmus-api';
+import { PersonName } from 'dist/myrmidon/cadmus-itinera-core/lib/models';
+import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
 
 @Component({
   selector: 'cadmus-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
   public title: string;
   public logged: boolean;
 
   public typeThesaurus: Thesaurus;
+  public langThesaurus: Thesaurus;
+  public person$: BehaviorSubject<PersonName>;
 
   constructor(env: EnvService, authService: AuthService) {
     this.title = env.name;
@@ -21,10 +25,35 @@ export class HomeComponent {
       id: 'types',
       language: 'eng',
       entries: [
-        { id: 'title', value: 'title' },
-        { id: 'first', value: 'first' },
-        { id: 'last', value: 'last' },
-      ]
+        { id: 'praenomen', value: 'praenomen' },
+        { id: 'nomen', value: 'nomen' },
+        { id: 'cognomen', value: 'cognomen' },
+      ],
     };
+    this.langThesaurus = {
+      id: 'languages',
+      language: 'eng',
+      entries: [
+        { id: 'eng', value: 'English' },
+        { id: 'lat', value: 'Latin' },
+        { id: 'grc', value: 'Greek' },
+      ],
+    };
+  }
+
+  public ngOnInit(): void {
+    this.person$ = new BehaviorSubject({
+      language: 'lat',
+      tag: 'sample',
+      parts: [
+        { type: 'praenomen', value: 'Publius' },
+        { type: 'nomen', value: 'Vergilius' },
+        { type: 'cognomen', value: 'Maro' },
+      ],
+    });
+  }
+
+  public onEditorSave(event: PersonName) {
+    console.log(JSON.stringify(event));
   }
 }

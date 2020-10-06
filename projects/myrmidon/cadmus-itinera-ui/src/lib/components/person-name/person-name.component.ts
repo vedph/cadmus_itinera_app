@@ -8,7 +8,7 @@ import {
 } from '@angular/forms';
 import { Thesaurus } from '@myrmidon/cadmus-core';
 import { PersonName, PersonNamePart } from '@myrmidon/cadmus-itinera-core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 
 /**
  * Person name editor.
@@ -19,6 +19,9 @@ import { Observable } from 'rxjs';
   styleUrls: ['./person-name.component.css'],
 })
 export class PersonNameComponent implements OnInit {
+  private _modelSub: Subscription;
+  private _modelSubject: BehaviorSubject<PersonName>;
+
   @Input()
   public parentForm: FormGroup;
   @Input()
@@ -28,7 +31,22 @@ export class PersonNameComponent implements OnInit {
   @Input()
   public typeThesaurus: Thesaurus;
   @Input()
-  public model$: Observable<PersonName>;
+  public get model$(): Observable<PersonName> {
+    return this.model$;
+  }
+  public set model$(value: Observable<PersonName>) {
+    // unsubscribe the previous observable if any
+    if (this._modelSub) {
+      this._modelSub.unsubscribe();
+    }
+    // subscribe to the new observable, passing its
+    // values into the inner subject
+    if (value) {
+      this._modelSub = value.subscribe((m) => {
+        this._modelSubject.next(m);
+      });
+    }
+  }
 
   @Output()
   public editorClose: EventEmitter<any>;
@@ -41,14 +59,18 @@ export class PersonNameComponent implements OnInit {
   public parts: FormArray;
 
   constructor(private _formBuilder: FormBuilder) {
+    // create a model subject to be connected to the input observable
+    this._modelSubject = new BehaviorSubject<PersonName>({
+      language: null,
+      parts: []
+    });
+    this._modelSubject.subscribe(m => {
+      this.setModel(m);
+    });
+
     // events
     this.editorClose = new EventEmitter<any>();
     this.editorSave = new EventEmitter<PersonName>();
-
-    // handlers
-    this.model$?.subscribe((m) => {
-      this.setModel(m);
-    });
   }
 
   ngOnInit(): void {
@@ -67,6 +89,9 @@ export class PersonNameComponent implements OnInit {
     if (this.parentForm) {
       this.parentForm.addControl('personName', this.form);
     }
+    // once we are initialized, set the model to the current
+    // value, because if it was set meantime it would be lost
+    this.setModel(this._modelSubject.value);
   }
 
   private getPartGroup(part?: PersonNamePart): FormGroup {
@@ -117,6 +142,9 @@ export class PersonNameComponent implements OnInit {
   }
 
   private setModel(model: PersonName): void {
+    if (!this.language) {
+      return;
+    }
     if (!model) {
       this.language.reset();
       this.tag.reset();
