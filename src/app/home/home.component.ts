@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { EnvService } from 'cadmus-core';
-import { AuthService } from 'cadmus-api';
+import { EnvService } from '@myrmidon/cadmus-core';
+import { AuthService } from '@myrmidon/cadmus-api';
 
 @Component({
   selector: 'cadmus-home',

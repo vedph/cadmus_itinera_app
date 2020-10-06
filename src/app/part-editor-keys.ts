@@ -9,14 +9,14 @@ import {
   COMMENT_FRAGMENT_TYPEID,
   BIBLIOGRAPHY_PART_TYPEID,
   CHRONOLOGY_FRAGMENT_TYPEID,
-} from 'cadmus-part-general-ui';
+} from '@myrmidon/cadmus-part-general-ui';
 import {
   APPARATUS_FRAGMENT_TYPEID,
   ORTHOGRAPHY_FRAGMENT_TYPEID,
   WITNESSES_FRAGMENT_TYPEID,
   QUOTATIONS_FRAGMENT_TYPEID,
-} from 'cadmus-part-philology-ui';
-import { PartEditorKeys } from 'cadmus-core';
+} from '@myrmidon/cadmus-part-philology-ui';
+import { PartEditorKeys } from '@myrmidon/cadmus-core';
 
 const GENERAL = 'general';
 const PHILOLOGY = 'philology';

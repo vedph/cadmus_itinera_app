@@ -20,30 +20,18 @@ import {
   CadmusCoreModule,
   PendingChangesGuard,
   EnvServiceProvider,
-} from 'cadmus-core';
-import { CadmusUiModule } from 'cadmus-ui';
-import { CadmusPartGeneralUiModule } from 'cadmus-part-general-ui';
-import { CadmusPartPhilologyUiModule } from 'cadmus-part-philology-ui';
+} from '@myrmidon/cadmus-core';
+import { CadmusUiModule } from '@myrmidon/cadmus-ui';
+import { CadmusPartGeneralUiModule } from '@myrmidon/cadmus-part-general-ui';
+import { CadmusPartPhilologyUiModule } from '@myrmidon/cadmus-part-philology-ui';
 import { HomeComponent } from './home/home.component';
-import { CadmusMaterialModule } from 'cadmus-material';
+import { CadmusMaterialModule } from '@myrmidon/cadmus-material';
 import {
   AuthInterceptor,
   AdminGuardService,
   AuthGuardService,
   EditorGuardService,
-} from 'cadmus-api';
-// import { FeatureOrthographyFragmentDemoComponent } from './demo/feature-orthography-fragment-demo/feature-orthography-fragment-demo.component';
-// import { FeatureNotePartDemoComponent } from './demo/feature-note-part-demo/feature-note-part-demo.component';
-// import { FeatureApparatusFragmentDemoComponent } from './demo/feature-apparatus-fragment-demo/feature-apparatus-fragment-demo.component';
-// import { FeatureCategoriesPartDemoComponent } from './demo/feature-categories-part-demo/feature-categories-part-demo.component';
-// import { FeatureCommentFragmentDemoComponent } from './demo/feature-comment-fragment-demo/feature-comment-fragment-demo.component';
-// import { FeatureChronologyFragmentDemoComponent } from './demo/feature-chronology-fragment-demo/feature-chronology-fragment-demo.component';
-// import { FeatureHistoricalDatePartDemoComponent } from './demo/feature-historical-date-part-demo/feature-historical-date-part-demo.component';
-// import { FeatureKeywordsPartDemoComponent } from './demo/feature-keywords-part-demo/feature-keywords-part-demo.component';
-// import { FeatureTiledTextPartDemoComponent } from './demo/feature-tiled-text-part-demo/feature-tiled-text-part-demo.component';
-// import { FeatureTokenTextPartDemoComponent } from './demo/feature-token-text-part-demo/feature-token-text-part-demo.component';
-// import { FeatureBibliographyPartDemoComponent } from './demo/feature-bibliography-part-demo/feature-bibliography-part-demo.component';
-// import { FeatureQuotationsFragmentDemoComponent } from './demo/feature-quotations-fragment-demo/feature-quotations-fragment-demo.component';
+} from '@myrmidon/cadmus-api';
 import { PART_EDITOR_KEYS } from './part-editor-keys';
 import { ITEM_BROWSER_KEYS } from './item-browser-keys';
 import { INDEX_LOOKUP_DEFINITIONS } from './index-lookup-definitions';
@@ -51,22 +39,7 @@ import { INDEX_LOOKUP_DEFINITIONS } from './index-lookup-definitions';
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
-    // FeatureApparatusFragmentDemoComponent,
-    // FeatureCategoriesPartDemoComponent,
-    // FeatureChronologyFragmentDemoComponent,
-    // FeatureCommentFragmentDemoComponent,
-    // FeatureHistoricalDatePartDemoComponent,
-    // FeatureIndexKeywordsPartDemoComponent,
-    // FeatureKeywordsPartDemoComponent,
-    // FeatureNotePartDemoComponent,
-    // FeatureOrthographyFragmentDemoComponent,
-    // FeatureTokenTextPartDemoComponent,
-    // FeatureWitnessesFragmentDemoComponent,
-    // FeatureTiledTextPartDemoComponent,
-    // FeatureIndexKeywordsPartDemoComponent,
-    // FeatureBibliographyPartDemoComponent,
-    // FeatureQuotationsFragmentDemoComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
@@ -81,7 +54,7 @@ import { INDEX_LOOKUP_DEFINITIONS } from './index-lookup-definitions';
         {
           path: 'login',
           loadChildren: () =>
-            import('cadmus-login').then((module) => module.CadmusLoginModule),
+            import('@myrmidon/cadmus-login').then((module) => module.CadmusLoginModule),
         },
         // {
         //   path: 'demo/categories-part',
@@ -163,7 +136,7 @@ import { INDEX_LOOKUP_DEFINITIONS } from './index-lookup-definitions';
         {
           path: 'items',
           loadChildren: () =>
-            import('cadmus-item-list').then(
+            import('@myrmidon/cadmus-item-list').then(
               (module) => module.CadmusItemListModule
             ),
           canActivate: [AuthGuardService],
@@ -171,7 +144,7 @@ import { INDEX_LOOKUP_DEFINITIONS } from './index-lookup-definitions';
         {
           path: 'items/:id',
           loadChildren: () =>
-            import('cadmus-item-editor').then(
+            import('@myrmidon/cadmus-item-editor').then(
               (module) => module.CadmusItemEditorModule
             ),
           canActivate: [AuthGuardService],
@@ -180,7 +153,7 @@ import { INDEX_LOOKUP_DEFINITIONS } from './index-lookup-definitions';
         {
           path: 'items/:iid/general',
           loadChildren: () =>
-            import('cadmus-part-general-pg').then(
+            import('@myrmidon/cadmus-part-general-pg').then(
               (module) => module.CadmusPartGeneralPgModule
             ),
           canActivate: [AuthGuardService],
@@ -188,7 +161,7 @@ import { INDEX_LOOKUP_DEFINITIONS } from './index-lookup-definitions';
         {
           path: 'items/:iid/philology',
           loadChildren: () =>
-            import('cadmus-part-philology-pg').then(
+            import('@myrmidon/cadmus-part-philology-pg').then(
               (module) => module.CadmusPartPhilologyPgModule
             ),
           canActivate: [AuthGuardService],
@@ -196,7 +169,7 @@ import { INDEX_LOOKUP_DEFINITIONS } from './index-lookup-definitions';
         {
           path: 'thesauri',
           loadChildren: () =>
-            import('cadmus-thesaurus-list').then(
+            import('@myrmidon/cadmus-thesaurus-list').then(
               (module) => module.CadmusThesaurusListModule
             ),
           canActivate: [EditorGuardService],
@@ -204,7 +177,7 @@ import { INDEX_LOOKUP_DEFINITIONS } from './index-lookup-definitions';
         {
           path: 'thesauri/:id',
           loadChildren: () =>
-            import('cadmus-thesaurus-editor').then(
+            import('@myrmidon/cadmus-thesaurus-editor').then(
               (module) => module.CadmusThesaurusEditorModule
             ),
           canActivate: [EditorGuardService],
@@ -212,26 +185,26 @@ import { INDEX_LOOKUP_DEFINITIONS } from './index-lookup-definitions';
         {
           path: 'admin',
           loadChildren: () =>
-            import('cadmus-admin').then((module) => module.CadmusAdminModule),
+            import('@myrmidon/cadmus-admin').then((module) => module.CadmusAdminModule),
           canActivate: [AdminGuardService],
         },
         {
           path: 'user',
           loadChildren: () =>
-            import('cadmus-user').then((module) => module.CadmusUserModule),
+            import('@myrmidon/cadmus-user').then((module) => module.CadmusUserModule),
           canActivate: [AuthGuardService],
         },
         {
           path: 'reset-password',
           loadChildren: () =>
-            import('cadmus-reset-password').then(
+            import('@myrmidon/cadmus-reset-password').then(
               (module) => module.CadmusResetPasswordModule
             ),
         },
         {
           path: 'search',
           loadChildren: () =>
-            import('cadmus-item-search').then(
+            import('@myrmidon/cadmus-item-search').then(
               (module) => module.CadmusItemSearchModule
             ),
           canActivate: [AuthGuardService],

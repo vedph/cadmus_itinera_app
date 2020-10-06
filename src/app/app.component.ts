@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { User, GravatarService, Thesaurus, ThesaurusEntry } from 'cadmus-core';
-import { AuthService } from 'cadmus-api';
-import { AppService, AppQuery } from 'cadmus-state';
+import { User, GravatarService, Thesaurus, ThesaurusEntry } from '@myrmidon/cadmus-core';
+import { AuthService } from '@myrmidon/cadmus-api';
+import { AppService, AppQuery } from '@myrmidon/cadmus-state';
 
 @Component({
   selector: 'cadmus-root',

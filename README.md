@@ -1,5 +1,7 @@
 # Cadmus Itinera App
 
+Quick Docker image build: `docker build . -t vedph2020/cadmus-itinera-app:1.0.0 -t vedph2020/cadmus-itinera-app:latest` (replace with the current version).
+
 Web application frontend for Cadmus _Itinera_.
 
 The corresponding backend API is [Cadmus Itinera API](https://github.com/vedph/cadmus_itinera_api), depending on [Cadmus Itinera](https://github.com/vedph/cadmus_itinera) for its specific parts.
