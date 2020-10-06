@@ -35,7 +35,8 @@ import {
 import { PART_EDITOR_KEYS } from './part-editor-keys';
 import { ITEM_BROWSER_KEYS } from './item-browser-keys';
 import { INDEX_LOOKUP_DEFINITIONS } from './index-lookup-definitions';
-import { CadmusItineraUiModule } from '@myrmidon/cadmus-itinera-ui';
+import { CadmusItineraUiModule } from 'projects/myrmidon/cadmus-itinera-ui/src/public-api';
+// import { CadmusItineraUiModule } from '@myrmidon/cadmus-itinera-ui';
 
 @NgModule({
   declarations: [

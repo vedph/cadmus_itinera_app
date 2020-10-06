@@ -1,7 +1,7 @@
-<form [formGroup]="parentForm">
+<form [formGroup]="parentForm" (submit)="save()">
   <!-- language (bound) -->
   <div *ngIf="!langThesaurus">
-    <mat-form-field>
+    <mat-form-field style="width: 6em">
       <input matInput placeholder="language" [formControl]="language" />
       <mat-error
         *ngIf="
@@ -20,7 +20,7 @@
   </div>
   <!-- language (free) -->
   <div *ngIf="langThesaurus">
-    <mat-form-field>
+    <mat-form-field style="width: 6em">
       <mat-select [formControl]="language" placeholder="language">
         <mat-option *ngFor="let e of langThesaurus.entries" [value]="e.id">{{
           e.value
@@ -183,5 +183,19 @@
         </mat-form-field>
       </div>
     </div>
+  </div>
+  <div>
+    <button
+      type="button"
+      mat-icon-button
+      color="warn"
+      matTooltip="Discard changes"
+      (click)="cancel()"
+    >
+      <mat-icon>clear</mat-icon>
+    </button>
+    <button type="submit" mat-icon-button matTooltip="Save changes" color="primary">
+      <mat-icon>check_circle</mat-icon>
+    </button>
   </div>
 </form>
