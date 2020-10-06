@@ -35,6 +35,7 @@ export class PersonNameComponent implements OnInit {
   @Output()
   public editorSave: EventEmitter<PersonName>;
 
+  public form: FormGroup;
   public language: FormControl;
   public tag: FormControl;
   public parts: FormArray;
@@ -57,17 +58,14 @@ export class PersonNameComponent implements OnInit {
     ]);
     this.tag = this._formBuilder.control(null, Validators.maxLength(50));
     this.parts = this._formBuilder.array([], Validators.required);
+    this.form = this._formBuilder.group({
+      language: this.language,
+      tag: this.tag,
+      parts: this.parts,
+    });
 
-    if (!this.parentForm) {
-      this.parentForm = this._formBuilder.group({
-        language: this.language,
-        tag: this.tag,
-        parts: this.parts,
-      });
-    } else {
-      this.parentForm.addControl('language', this.language);
-      this.parentForm.addControl('tag', this.tag);
-      this.parentForm.addControl('parts', this.parts);
+    if (this.parentForm) {
+      this.parentForm.addControl('personName', this.form);
     }
   }
 
@@ -156,7 +154,7 @@ export class PersonNameComponent implements OnInit {
   }
 
   public save(): void {
-    if (this.parentForm.invalid) {
+    if (this.form.invalid) {
       return;
     }
     const model = this.getModel();

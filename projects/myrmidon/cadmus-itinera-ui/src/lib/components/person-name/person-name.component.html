@@ -1,56 +1,61 @@
-<form [formGroup]="parentForm" (submit)="save()">
-  <!-- language (bound) -->
-  <div *ngIf="!langThesaurus">
-    <mat-form-field style="width: 6em">
-      <input matInput placeholder="language" [formControl]="language" />
-      <mat-error
-        *ngIf="
-          language.hasError('required') && (language.dirty || language.touched)
-        "
-        >enter a language</mat-error
-      >
-      <mat-error
-        *ngIf="
-          language.hasError('max-length') &&
-          (language.dirty || language.touched)
-        "
-        >language too long</mat-error
-      >
-    </mat-form-field>
-  </div>
-  <!-- language (free) -->
-  <div *ngIf="langThesaurus">
-    <mat-form-field style="width: 6em">
-      <mat-select [formControl]="language" placeholder="language">
-        <mat-option *ngFor="let e of langThesaurus.entries" [value]="e.id">{{
-          e.value
-        }}</mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
+<form [formGroup]="form" (submit)="save()">
+  <div>
+    <!-- language (bound) -->
+    <ng-container *ngIf="!langThesaurus">
+      <mat-form-field style="width: 6em">
+        <input matInput placeholder="language" [formControl]="language" />
+        <mat-error
+          *ngIf="
+            language.hasError('required') &&
+            (language.dirty || language.touched)
+          "
+          >enter a language</mat-error
+        >
+        <mat-error
+          *ngIf="
+            language.hasError('max-length') &&
+            (language.dirty || language.touched)
+          "
+          >language too long</mat-error
+        >
+      </mat-form-field>
+    </ng-container>
+    <!-- language (free) -->
+    <ng-container *ngIf="langThesaurus">
+      <mat-form-field style="width: 6em">
+        <mat-select [formControl]="language" placeholder="language">
+          <mat-option *ngFor="let e of langThesaurus.entries" [value]="e.id">{{
+            e.value
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </ng-container>
 
-  <!-- tag (bound) -->
-  <div *ngIf="!tagThesaurus">
-    <mat-form-field>
-      <input matInput placeholder="tag" [formControl]="tag" />
-      <mat-error *ngIf="tag.hasError('required') && (tag.dirty || tag.touched)"
-        >enter a tag</mat-error
-      >
-      <mat-error
-        *ngIf="tag.hasError('max-length') && (tag.dirty || tag.touched)"
-        >tag too long</mat-error
-      >
-    </mat-form-field>
-  </div>
-  <!-- tag (free) -->
-  <div *ngIf="tagThesaurus">
-    <mat-form-field>
-      <mat-select [formControl]="tag" placeholder="tag">
-        <mat-option *ngFor="let e of tagThesaurus.entries" [value]="e.id">{{
-          e.value
-        }}</mat-option>
-      </mat-select>
-    </mat-form-field>
+    &nbsp;
+    <!-- tag (bound) -->
+    <ng-container *ngIf="!tagThesaurus">
+      <mat-form-field style="width: 8em">
+        <input matInput placeholder="tag" [formControl]="tag" />
+        <mat-error
+          *ngIf="tag.hasError('required') && (tag.dirty || tag.touched)"
+          >enter a tag</mat-error
+        >
+        <mat-error
+          *ngIf="tag.hasError('max-length') && (tag.dirty || tag.touched)"
+          >tag too long</mat-error
+        >
+      </mat-form-field>
+    </ng-container>
+    <!-- tag (free) -->
+    <ng-container *ngIf="tagThesaurus">
+      <mat-form-field style="width: 8em">
+        <mat-select [formControl]="tag" placeholder="tag">
+          <mat-option *ngFor="let e of tagThesaurus.entries" [value]="e.id">{{
+            e.value
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </ng-container>
   </div>
 
   <!-- parts -->
@@ -194,7 +199,13 @@
     >
       <mat-icon>clear</mat-icon>
     </button>
-    <button type="submit" mat-icon-button matTooltip="Save changes" color="primary">
+    <button
+      type="submit"
+      [disabled]="form.invalid || form.pristine"
+      mat-icon-button
+      matTooltip="Save changes"
+      color="primary"
+    >
       <mat-icon>check_circle</mat-icon>
     </button>
   </div>
