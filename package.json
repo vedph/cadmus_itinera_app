@@ -7,7 +7,11 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "build-lib-core": "ng build @myrmidon/cadmus-itinera-core --prod && ng build @myrmidon/cadmus-itinera-ui --prod",
+    "build-lib-lt": "ng build @myrmidon/cadmus-itinera-part-lt-ui --prod && ng build @myrmidon/cadmus-itinera-part-lt-pg --prod",
+    "build-lib-ms": "ng build @myrmidon/cadmus-itinera-part-ms-ui --prod && ng build @myrmidon/cadmus-itinera-part-ms-pg --prod",
+    "build-all": "npm run-script build-lib-core && npm run-script build-lib-lt && npm run-script build-lib-ms"
   },
   "private": true,
   "dependencies": {
@@ -71,6 +75,7 @@
     "karma-coverage-istanbul-reporter": "~3.0.2",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "^1.5.0",
+    "ng-packagr": "^10.1.0",
     "protractor": "~7.0.0",
     "ts-node": "~8.3.0",
     "tslint": "~6.1.0",
