@@ -1,0 +1,187 @@
+<form [formGroup="parentForm" ]>
+  <!-- language (bound) -->
+  <div *ngIf="!langThesaurus">
+    <mat-form-field>
+      <input matInput placeholder="language" [formControl]="language" />
+      <mat-error
+        *ngIf="
+          language.hasError('required') && (language.dirty || language.touched)
+        "
+        >enter a language</mat-error
+      >
+      <mat-error
+        *ngIf="
+          language.hasError('max-length') &&
+          (language.dirty || language.touched)
+        "
+        >language too long</mat-error
+      >
+    </mat-form-field>
+  </div>
+  <!-- language (free) -->
+  <div *ngIf="langThesaurus">
+    <mat-form-field>
+      <mat-select [formControl]="language" placeholder="language">
+        <mat-option *ngFor="let e of langThesaurus.entries" [value]="e.id">{{
+          e.value
+        }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <!-- tag (bound) -->
+  <div *ngIf="!tagThesaurus">
+    <mat-form-field>
+      <input matInput placeholder="tag" [formControl]="tag" />
+      <mat-error *ngIf="tag.hasError('required') && (tag.dirty || tag.touched)"
+        >enter a tag</mat-error
+      >
+      <mat-error
+        *ngIf="tag.hasError('max-length') && (tag.dirty || tag.touched)"
+        >tag too long</mat-error
+      >
+    </mat-form-field>
+  </div>
+  <!-- tag (free) -->
+  <div *ngIf="tagThesaurus">
+    <mat-form-field>
+      <mat-select [formControl]="tag" placeholder="tag">
+        <mat-option *ngFor="let e of tagThesaurus.entries" [value]="e.id">{{
+          e.value
+        }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <!-- parts -->
+  <div formArrayName="parts">
+    <div *ngIf="!parts?.length">
+      <br />
+      <button
+        type="button"
+        mat-raised-button
+        color="primary"
+        (click)="addPart()"
+      >
+        add name part
+      </button>
+    </div>
+    <div
+      *ngFor="
+        let item of parts.controls;
+        let i = index;
+        let first = first;
+        let last = last
+      "
+    >
+      <!-- child form -->
+      <div [formGroupName]="i">
+        <!-- child actions -->
+        {{ i + 1 }}.
+        <button
+          mat-icon-button
+          type="button"
+          matTooltip="Add part below"
+          color="primary"
+          (click)="addPartBelow(i)"
+        >
+          <mat-icon>add_circle</mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          type="button"
+          matTooltip="Remove this part"
+          color="warn"
+          (click)="removePart(i)"
+        >
+          <mat-icon>remove_circle</mat-icon>
+        </button>
+        <button
+          [disabled]="first"
+          mat-icon-button
+          type="button"
+          matTooltip="Move part up"
+          (click)="movePartUp(i)"
+        >
+          <mat-icon>arrow_upward</mat-icon>
+        </button>
+        <button
+          [disabled]="last"
+          mat-icon-button
+          type="button"
+          matTooltip="Move part down"
+          (click)="movePartDown(i)"
+        >
+          <mat-icon>arrow_downward</mat-icon>
+        </button>
+
+        <!-- child controls -->
+        <!-- type (bound) -->
+        <ng-container *ngIf="typeThesaurus">
+          <mat-form-field>
+            <mat-select formControlName="type" placeholder="type">
+              <mat-option
+                *ngFor="let e of typeThesaurus.entries"
+                [value]="e.id"
+                >{{ e.value }}</mat-option
+              >
+            </mat-select>
+            <mat-error
+              *ngIf="
+                item['controls'].type.hasError('required') &&
+                (item['controls'].type.dirty || item['controls'].type.touched)
+              "
+              >select a type
+            </mat-error>
+          </mat-form-field>
+        </ng-container>
+
+        <!-- type (free) -->
+        <ng-container *ngIf="!typeThesaurus">
+          <mat-form-field>
+            <input matInput formControlName="type" placeholder="type" />
+            <mat-error
+              *ngIf="
+                item['controls'].type.hasError('required') &&
+                (item['controls'].type.dirty || item['controls'].type.touched)
+              "
+              >enter a type
+            </mat-error>
+            <mat-error
+              *ngIf="
+                item['controls'].type.hasError('max-length') &&
+                (item['controls'].type.dirty || item['controls'].type.touched)
+              "
+              >type too long
+            </mat-error>
+          </mat-form-field>
+        </ng-container>
+
+        <!-- value -->
+        <mat-form-field>
+          <input
+            matInput
+            maxlength="50"
+            formControlName="value"
+            placeholder="value"
+            autofocus
+          />
+          <mat-error
+            *ngIf="
+              item['controls'].value.hasError('required') &&
+              (item['controls'].value.dirty || item['controls'].value.touched)
+            "
+            >enter a value
+          </mat-error>
+          <mat-error
+            *ngIf="
+              item['controls'].value.hasError('max-length') &&
+              (item['controls'].value.dirty || item['controls'].value.touched)
+            "
+            >value too long
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+</form>

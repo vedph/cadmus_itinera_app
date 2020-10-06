@@ -25,6 +25,7 @@ export class ExternalIdsComponent implements OnInit {
 
   ngOnInit(): void {
     this.ids = this._formBuilder.array([]);
+
     if (!this.parentForm) {
       this.parentForm = this._formBuilder.group({
         ids: this.ids,

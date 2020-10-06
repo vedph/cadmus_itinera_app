@@ -3,4 +3,5 @@
  */
 
 export * from './lib/components/external-ids/external-ids.component';
+export * from './lib/components/person-name/person-name.component';
 export * from './lib/cadmus-itinera-ui.module';

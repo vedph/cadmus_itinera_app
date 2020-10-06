@@ -1,6 +1,6 @@
 <form [formGroup]="parentForm">
   <div formArrayName="ids">
-    <div *ngIf="!ids.length">
+    <div *ngIf="!ids?.length">
       <br />
       <button type="button" mat-raised-button color="primary" (click)="addId()">
         add ID
