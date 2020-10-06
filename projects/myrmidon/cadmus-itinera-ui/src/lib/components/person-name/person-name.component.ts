@@ -1,6 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
-  AbstractControl,
   FormArray,
   FormBuilder,
   FormControl,
@@ -8,7 +7,12 @@ import {
   Validators,
 } from '@angular/forms';
 import { Thesaurus } from '@myrmidon/cadmus-core';
+import { PersonName, PersonNamePart } from '@myrmidon/cadmus-itinera-core';
+import { Observable } from 'rxjs';
 
+/**
+ * Person name editor.
+ */
 @Component({
   selector: 'lib-person-name',
   templateUrl: './person-name.component.html',
@@ -23,12 +27,28 @@ export class PersonNameComponent implements OnInit {
   public tagThesaurus: Thesaurus;
   @Input()
   public typeThesaurus: Thesaurus;
+  @Input()
+  public model$: Observable<PersonName>;
+
+  @Output()
+  public editorClose: EventEmitter<any>;
+  @Output()
+  public editorSave: EventEmitter<PersonName>;
 
   public language: FormControl;
   public tag: FormControl;
   public parts: FormArray;
 
-  constructor(private _formBuilder: FormBuilder) {}
+  constructor(private _formBuilder: FormBuilder) {
+    // events
+    this.editorClose = new EventEmitter<any>();
+    this.editorSave = new EventEmitter<PersonName>();
+
+    // handlers
+    this.model$?.subscribe((m) => {
+      this.setModel(m);
+    });
+  }
 
   ngOnInit(): void {
     this.language = this._formBuilder.control(null, [
@@ -51,30 +71,21 @@ export class PersonNameComponent implements OnInit {
     }
   }
 
-  private getPartGroup(id?: string): FormGroup {
+  private getPartGroup(part?: PersonNamePart): FormGroup {
     return this._formBuilder.group({
-      type: this._formBuilder.control(id, [
+      type: this._formBuilder.control(part?.type, [
         Validators.required,
         Validators.maxLength(20),
       ]),
-      value: this._formBuilder.control(id, [
+      value: this._formBuilder.control(part?.value, [
         Validators.required,
         Validators.maxLength(50),
       ]),
     });
   }
 
-  public addPart(id?: string): void {
-    // do not add if falsy or already exists
-    if (
-      !id ||
-      this.parts.controls.some((c: AbstractControl) => {
-        return c.value === id;
-      })
-    ) {
-      return;
-    }
-    this.parts.push(this.getPartGroup(id));
+  public addPart(part?: PersonNamePart): void {
+    this.parts.push(this.getPartGroup(part));
   }
 
   public addPartBelow(index: number): void {
@@ -105,5 +116,50 @@ export class PersonNameComponent implements OnInit {
 
   public clearParts(): void {
     this.parts.clear();
+  }
+
+  private setModel(model: PersonName): void {
+    if (!model) {
+      this.language.reset();
+      this.tag.reset();
+      this.parts.reset();
+    } else {
+      this.language.setValue(model.language);
+      this.tag.setValue(model.tag);
+      this.parts.clear();
+      for (const p of model.parts) {
+        this.addPart(p);
+      }
+    }
+  }
+
+  private getModel(): PersonName {
+    const parts: PersonNamePart[] = [];
+
+    for (let i = 0; i < this.parts.length; i++) {
+      const g = this.parts.controls[i] as FormGroup;
+      parts.push({
+        type: g.controls.type.value,
+        value: g.controls.value.value,
+      });
+    }
+
+    return {
+      language: this.language.value,
+      tag: this.tag.value,
+      parts,
+    };
+  }
+
+  public cancel(): void {
+    this.editorClose.emit();
+  }
+
+  public save(): void {
+    if (this.parentForm.invalid) {
+      return;
+    }
+    const model = this.getModel();
+    this.editorSave.emit(model);
   }
 }
