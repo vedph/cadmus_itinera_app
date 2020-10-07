@@ -43,7 +43,19 @@
 
           <!-- name(s) -->
           <h3>names</h3>
-          TODO
+          <div *ngIf="names?.length">
+            <table>
+              <tbody>
+                <tr *ngFor="let name of names">
+                  <td>TODO: edit delete up down buttons</td>
+                  <td>{{ name.language }}</td>
+                  <td>{{ name.tag }}</td>
+                  <td>{{ getFullName(name) }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          TODO: add name button
 
           <!-- external IDs -->
           <mat-expansion-panel>

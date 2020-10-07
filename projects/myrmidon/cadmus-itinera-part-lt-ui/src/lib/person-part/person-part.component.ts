@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { AuthService } from '@myrmidon/cadmus-api';
 import { HistoricalDate, ThesaurusEntry } from '@myrmidon/cadmus-core';
+import { PersonName } from '@myrmidon/cadmus-itinera-core';
 import { ModelEditorComponentBase } from '@myrmidon/cadmus-ui';
 import { BehaviorSubject } from 'rxjs';
 import { PersonPart, PERSON_PART_TYPEID } from '../person-part';
@@ -42,11 +43,17 @@ export class PersonPartComponent
   public externalIds$: BehaviorSubject<string[]>;
   public birthDate: HistoricalDate;
   public deathDate: HistoricalDate;
+  public names: PersonName[];
+  public name$: BehaviorSubject<PersonName>;
 
   constructor(authService: AuthService, formBuilder: FormBuilder) {
     super(authService);
     // subjects
     this.externalIds$ = new BehaviorSubject<string[]>([]);
+    this.name$ = new BehaviorSubject<PersonName>({
+      language: 'ita',
+      parts: []
+    });
 
     // form
     this.personId = formBuilder.control(null, [
@@ -78,7 +85,7 @@ export class PersonPartComponent
     }
     this.personId.setValue(model.personId);
     this.externalIds$.next(model.externalIds || []);
-    // TODO names
+    this.names = model.names || [];
     this.sex.setValue(model.sex);
     this.birthDate = model.birthDate;
     this.birthPlace.setValue(model.birthPlace);
@@ -134,7 +141,7 @@ export class PersonPartComponent
     }
     part.personId = this.personId.value;
     part.externalIds = this._externalIds;
-    // TODO part.names
+    part.names = this.names || [];
     part.sex = this.sex.value;
     part.birthDate = this.birthDate;
     part.birthPlace = this.birthPlace.value?.trim() || null;
@@ -146,5 +153,13 @@ export class PersonPartComponent
 
   public onExternalIdsChange(ids: string[]): void {
     this._externalIds = ids || [];
+  }
+
+  public getFullName(name: PersonName): string {
+    const sb: string[] = [];
+    for (let i = 0; i < name.parts?.length || 0; i++) {
+      sb.push(name.parts[i].value);
+    }
+    return sb.join(' ');
   }
 }
