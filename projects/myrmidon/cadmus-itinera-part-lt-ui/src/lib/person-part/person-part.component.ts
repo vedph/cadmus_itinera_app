@@ -44,7 +44,7 @@ export class PersonPartComponent
   public externalIds$: BehaviorSubject<string[]>;
   public birthDate: HistoricalDate;
   public deathDate: HistoricalDate;
-  public names: PersonName[];
+  public names$: BehaviorSubject<PersonName[]>;
   public name$: BehaviorSubject<PersonName>;
 
   constructor(authService: AuthService, formBuilder: FormBuilder) {
@@ -54,8 +54,9 @@ export class PersonPartComponent
     this.externalIds$ = new BehaviorSubject<string[]>([]);
     this.name$ = new BehaviorSubject<PersonName>({
       language: 'ita',
-      parts: []
+      parts: [],
     });
+    this.names$ = new BehaviorSubject<PersonName[]>([]);
 
     // form
     this.personId = formBuilder.control(null, [
@@ -87,7 +88,7 @@ export class PersonPartComponent
     }
     this.personId.setValue(model.personId);
     this.externalIds$.next(model.externalIds || []);
-    this.names = model.names || [];
+    this.names$.next(model.names || []);
     this.sex.setValue(model.sex);
     this.birthDate = model.birthDate;
     this.birthPlace.setValue(model.birthPlace);
@@ -138,12 +139,12 @@ export class PersonPartComponent
         timeModified: new Date(),
         userId: null,
         personId: null,
-        names: []
+        names: [],
       };
     }
     part.personId = this.personId.value;
     part.externalIds = this._externalIds;
-    part.names = this.names || [];
+    part.names = this.names$.value || [];
     part.sex = this.sex.value;
     part.birthDate = this.birthDate;
     part.birthPlace = this.birthPlace.value?.trim() || null;
@@ -166,45 +167,55 @@ export class PersonPartComponent
   }
 
   public editNameAt(index: number): void {
-    this.name$.next(this.names[index]);
+    this.name$.next(this.names$.value[index]);
     this.nameIndex = index;
   }
 
   public removeNameAt(index: number): void {
     // TODO prompt
-    this.names.splice(index, 1);
+    const updated: PersonName[] = this.names$.value;
+    updated.splice(index, 1);
+    this.names$.next(updated);
   }
 
   public moveNameUp(index: number): void {
     if (index < 1) {
       return;
     }
-    const item = this.names[index];
-    this.names.splice(index, 1);
-    this.names.splice(index - 1, 0, item);
+    const name = this.names$.value[index];
+    const updated: PersonName[] = this.names$.value;
+    updated.splice(index, 1);
+    updated.splice(index - 1, 0, name);
+    this.names$.next(updated);
   }
 
   public moveNameDown(index: number): void {
-    if (index + 1 >= this.names.length) {
+    if (index + 1 >= this.names$.value.length) {
       return;
     }
-    const item = this.names[index];
-    this.names.splice(index, 1);
-    this.names.splice(index + 1, 0, item);
+    const name = this.names$.value[index];
+    const updated: PersonName[] = this.names$.value;
+    updated.splice(index, 1);
+    updated.splice(index + 1, 0, name);
+    this.names$.next(updated);
   }
 
   public addName(): void {
-    this.names.push({
+    const updated: PersonName[] = this.names$.value;
+    updated.push({
       language: 'ita',
-      parts: []
+      parts: [],
     });
-    this.editNameAt(this.names.length - 1);
+    this.names$.next(updated);
+    this.editNameAt(updated.length - 1);
   }
 
   public onNameChange(name: PersonName): void {
-    if (this.nameIndex < 0 || this.nameIndex >= this.names.length) {
+    if (this.nameIndex < 0 || this.nameIndex >= this.names$.value.length) {
       return;
     }
-    this.names.splice(this.nameIndex, 1, this.name$.value);
+    const updated: PersonName[] = this.names$.value;
+    updated.splice(this.nameIndex, 1, name);
+    this.names$.next(updated);
   }
 }

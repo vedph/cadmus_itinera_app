@@ -14,7 +14,12 @@
     <p>Welcome to the Itinera project editing dashboard.</p>
     <p *ngIf="!logged">Please <a routerLink="/login">login</a> to start.</p>
   </div>
+
   <div>
+    <cadmus-person-part></cadmus-person-part>
+  </div>
+
+  <!-- <div>
     <cadmus-person-name
       [typeEntries]="typeThesaurus?.entries"
       [langEntries]="langThesaurus?.entries"
@@ -28,5 +33,5 @@
       [model$]="ids$"
       (modelChange)="onIdsChange($event)">
     </lib-external-ids>
-  </div>
+  </div> -->
 </div>

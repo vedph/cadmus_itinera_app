@@ -37,7 +37,7 @@
 
           <!-- name(s) -->
           <h3>names</h3>
-          <div *ngIf="names?.length">
+          <div *ngIf="names$?.value?.length">
             <table>
               <thead>
                 <th></th>
@@ -46,7 +46,7 @@
                 <th>name</th>
               </thead>
               <tbody>
-                <tr *ngFor="let name of names; let first=first; let last=last; let i=index" [ngClass]="{ 'sel-row' : nameIndex === i }">
+                <tr *ngFor="let name of names$ | async; let first=first; let last=last; let i=index" [ngClass]="{ 'sel-row' : nameIndex === i }">
                   <td>
                     <button mat-icon-button type="button" matTooltip="Edit this name" color="primary"
                       (click)="editNameAt(i)">
@@ -88,7 +88,7 @@
           <!-- external IDs -->
           <mat-expansion-panel>
             <mat-expansion-panel-header>
-              <mat-panel-title>external IDs </mat-panel-title>
+              <mat-panel-title>external IDs</mat-panel-title>
               <mat-panel-description>
                 {{ externalIds$?.value.length || 0 }}
               </mat-panel-description>
