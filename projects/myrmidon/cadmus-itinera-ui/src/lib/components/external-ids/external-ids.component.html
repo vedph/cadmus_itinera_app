@@ -1,4 +1,4 @@
-<form [formGroup]="parentForm">
+<form [formGroup]="form">
   <div formArrayName="ids">
     <div *ngIf="!ids?.length">
       <br />
@@ -67,6 +67,15 @@
           />
           <mat-error>enter an ID</mat-error>
         </mat-form-field>
+
+        <button *ngIf="isValidUrl(item.value?.id)"
+          mat-icon-button
+          type="button"
+          matTooltip="Visit this URL"
+          (click)="visitUrl(item.value.id)"
+        >
+          <mat-icon>link</mat-icon>
+        </button>
       </div>
     </div>
   </div>

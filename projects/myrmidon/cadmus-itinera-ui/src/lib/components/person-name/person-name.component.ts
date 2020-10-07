@@ -12,7 +12,7 @@ import { BehaviorSubject, Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 /**
- * Person name editor.
+ * Person name in-place editor.
  */
 @Component({
   selector: 'lib-person-name',
@@ -48,8 +48,7 @@ export class PersonNameComponent implements OnInit {
   /**
    * The person name edited by this component, wrapped
    * in a subject stream. This component updates when
-   * the stream updates (unless no changes occurred),
-   * and updates the stream when user edits the name.
+   * the stream updates (unless no changes occurred).
    */
   @Input()
   public get model$(): BehaviorSubject<PersonName> {
@@ -70,6 +69,11 @@ export class PersonNameComponent implements OnInit {
     }
   }
 
+  /**
+   * Event emitted whenever the user has changed the model.
+   * The consumer component should subscribe to this to get
+   * the updated model.
+   */
   @Output()
   public modelChange: EventEmitter<PersonName>;
 
@@ -199,9 +203,7 @@ export class PersonNameComponent implements OnInit {
       return;
     }
     if (!model) {
-      this.language.reset();
-      this.tag.reset();
-      this.parts.reset();
+      this.form.reset();
     } else {
       this.language.setValue(model.language);
       this.tag.setValue(model.tag);
@@ -209,6 +211,7 @@ export class PersonNameComponent implements OnInit {
       for (const p of model.parts) {
         this.addPart(p);
       }
+      this.form.markAsPristine();
     }
   }
 

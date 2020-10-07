@@ -17,6 +17,8 @@ export class HomeComponent implements OnInit {
   public langThesaurus: Thesaurus;
   public person$: BehaviorSubject<PersonName>;
 
+  public ids$: BehaviorSubject<string[]>;
+
   constructor(env: EnvService, authService: AuthService) {
     this.title = env.name;
     this.logged = authService.currentUserValue !== null;
@@ -42,7 +44,7 @@ export class HomeComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.person$ = new BehaviorSubject({
+    this.person$ = new BehaviorSubject<PersonName>({
       language: 'lat',
       tag: 'sample',
       parts: [
@@ -51,9 +53,19 @@ export class HomeComponent implements OnInit {
         { type: 'cognomen', value: 'Maro' },
       ],
     });
+
+    this.ids$ = new BehaviorSubject<string[]>([
+      'hello',
+      'http://www.fusisoft.net',
+      'world',
+    ]);
   }
 
-  public onModelChange(person: PersonName) {
+  public onPersonChange(person: PersonName) {
     console.log(JSON.stringify(person));
+  }
+
+  public onIdsChange(ids: string[]) {
+    console.log(JSON.stringify(ids));
   }
 }

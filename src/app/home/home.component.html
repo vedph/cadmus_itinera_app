@@ -19,7 +19,14 @@
       [typeEntries]="typeThesaurus?.entries"
       [langEntries]="langThesaurus?.entries"
       [model$]="person$"
-      (modelChange)="onModelChange($event)"
+      (modelChange)="onPersonChange($event)"
     ></lib-person-name>
+  </div>
+
+  <div>
+    <lib-external-ids
+      [model$]="ids$"
+      (modelChange)="onIdsChange($event)">
+    </lib-external-ids>
   </div>
 </div>
