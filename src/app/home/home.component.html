@@ -19,7 +19,7 @@
       [typeEntries]="typeThesaurus?.entries"
       [langEntries]="langThesaurus?.entries"
       [model$]="person$"
-      (editorSave)="onEditorSave($event)"
+      (modelChange)="onModelChange($event)"
     ></lib-person-name>
   </div>
 </div>

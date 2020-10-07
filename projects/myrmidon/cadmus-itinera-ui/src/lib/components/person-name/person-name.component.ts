@@ -6,9 +6,10 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { Thesaurus, ThesaurusEntry } from '@myrmidon/cadmus-core';
+import { ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { PersonName, PersonNamePart } from '@myrmidon/cadmus-itinera-core';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, Subject, Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 /**
  * Person name editor.
@@ -22,36 +23,55 @@ export class PersonNameComponent implements OnInit {
   private _modelSub: Subscription;
   private _modelSubject: BehaviorSubject<PersonName>;
 
+  /**
+   * The optional parent form this component should attach to.
+   * Set this when the form in this component should contribute
+   * to the state of a parent form in the consumer control.
+   */
   @Input()
   public parentForm: FormGroup;
+  /**
+   * The optional thesaurus language entries.
+   */
   @Input()
   public langEntries: ThesaurusEntry[];
+  /**
+   * The optional thesaurus name's tag entries.
+   */
   @Input()
   public tagEntries: ThesaurusEntry[];
+  /**
+   * The optional thesaurus name part's type entries.
+   */
   @Input()
   public typeEntries: ThesaurusEntry[];
+  /**
+   * The person name edited by this component, wrapped
+   * in a subject stream. This component updates when
+   * the stream updates (unless no changes occurred),
+   * and updates the stream when user edits the name.
+   */
   @Input()
-  public get model$(): Observable<PersonName> {
+  public get model$(): BehaviorSubject<PersonName> {
     return this.model$;
   }
-  public set model$(value: Observable<PersonName>) {
+  public set model$(value: BehaviorSubject<PersonName>) {
+    this._modelSubject = value;
+
     // unsubscribe the previous observable if any
     if (this._modelSub) {
       this._modelSub.unsubscribe();
     }
-    // subscribe to the new observable, passing its
-    // values into the inner subject
-    if (value) {
-      this._modelSub = value.subscribe((m) => {
-        this._modelSubject.next(m);
+    // subscribe to the new observable
+    if (this._modelSubject) {
+      this._modelSub = this._modelSubject.subscribe((m) => {
+        this.setModel(m);
       });
     }
   }
 
   @Output()
-  public editorClose: EventEmitter<any>;
-  @Output()
-  public editorSave: EventEmitter<PersonName>;
+  public modelChange: EventEmitter<PersonName>;
 
   public form: FormGroup;
   public language: FormControl;
@@ -59,21 +79,12 @@ export class PersonNameComponent implements OnInit {
   public parts: FormArray;
 
   constructor(private _formBuilder: FormBuilder) {
-    // create a model subject to be connected to the input observable
-    this._modelSubject = new BehaviorSubject<PersonName>({
-      language: null,
-      parts: []
-    });
-    this._modelSubject.subscribe(m => {
-      this.setModel(m);
-    });
-
     // events
-    this.editorClose = new EventEmitter<any>();
-    this.editorSave = new EventEmitter<PersonName>();
+    this.modelChange = new EventEmitter<PersonName>();
   }
 
   ngOnInit(): void {
+    // create this form
     this.language = this._formBuilder.control(null, [
       Validators.required,
       Validators.maxLength(50),
@@ -86,12 +97,54 @@ export class PersonNameComponent implements OnInit {
       parts: this.parts,
     });
 
+    // add it as a child form to the parent, if any.
+    // This propagates this form's state into it.
     if (this.parentForm) {
       this.parentForm.addControl('personName', this.form);
     }
+
     // once we are initialized, set the model to the current
     // value, because if it was set meantime it would be lost
-    this.setModel(this._modelSubject.value);
+    this.setModel(this._modelSubject?.value);
+
+    // react on this form changes
+    this.form.valueChanges
+      .pipe(
+        debounceTime(300),
+        distinctUntilChanged((x, y) => {
+          return this.areModelsEqual(x, y);
+        })
+      )
+      .subscribe((_) => {
+        const m = this.getModel();
+        if (m) {
+          this.modelChange.emit(m);
+        }
+      });
+  }
+
+  private areModelsEqual(x: PersonName, y: PersonName): boolean {
+    if ((!x && y) || (!y && x)) {
+      return false;
+    }
+    if (!x && !y) {
+      return true;
+    }
+    if (x.language !== y.language || x.tag !== y.tag) {
+      return false;
+    }
+    if (x.parts?.length !== y.parts?.length) {
+      return false;
+    }
+    for (let i = 0; i < x.parts.length; i++) {
+      if (
+        x.parts[i]?.type !== y.parts[i]?.type ||
+        x.parts[i]?.value !== y.parts[i]?.value
+      ) {
+        return false;
+      }
+    }
+    return true;
   }
 
   private getPartGroup(part?: PersonNamePart): FormGroup {
@@ -166,7 +219,7 @@ export class PersonNameComponent implements OnInit {
       const g = this.parts.controls[i] as FormGroup;
       parts.push({
         type: g.controls.type.value,
-        value: g.controls.value.value,
+        value: g.controls.value.value?.trim(),
       });
     }
 
@@ -175,17 +228,5 @@ export class PersonNameComponent implements OnInit {
       tag: this.tag.value,
       parts,
     };
-  }
-
-  public cancel(): void {
-    this.editorClose.emit();
-  }
-
-  public save(): void {
-    if (this.form.invalid) {
-      return;
-    }
-    const model = this.getModel();
-    this.editorSave.emit(model);
   }
 }

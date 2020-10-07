@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { EnvService, Thesaurus } from '@myrmidon/cadmus-core';
 import { AuthService } from '@myrmidon/cadmus-api';
 import { PersonName } from 'dist/myrmidon/cadmus-itinera-core/lib/models';
-import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'cadmus-home',
@@ -53,7 +53,7 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  public onEditorSave(event: PersonName) {
-    console.log(JSON.stringify(event));
+  public onModelChange(person: PersonName) {
+    console.log(JSON.stringify(person));
   }
 }

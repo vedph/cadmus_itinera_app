@@ -1,4 +1,4 @@
-<form [formGroup]="form" (submit)="save()">
+<form [formGroup]="form">
   <div>
     <!-- language (bound) -->
     <ng-container *ngIf="!langEntries">
@@ -125,11 +125,9 @@
         <ng-container *ngIf="typeEntries">
           <mat-form-field style="width: 8em">
             <mat-select formControlName="type" placeholder="type">
-              <mat-option
-                *ngFor="let e of typeEntries"
-                [value]="e.id"
-                >{{ e.value }}</mat-option
-              >
+              <mat-option *ngFor="let e of typeEntries" [value]="e.id">{{
+                e.value
+              }}</mat-option>
             </mat-select>
             <mat-error
               *ngIf="
@@ -188,25 +186,5 @@
         </mat-form-field>
       </div>
     </div>
-  </div>
-  <div>
-    <button
-      type="button"
-      mat-icon-button
-      color="warn"
-      matTooltip="Discard changes"
-      (click)="cancel()"
-    >
-      <mat-icon>clear</mat-icon>
-    </button>
-    <button
-      type="submit"
-      [disabled]="form.invalid || form.pristine"
-      mat-icon-button
-      matTooltip="Save changes"
-      color="primary"
-    >
-      <mat-icon>check_circle</mat-icon>
-    </button>
   </div>
 </form>
