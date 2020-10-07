@@ -49,7 +49,7 @@ export class PersonPartComponent
 
   constructor(authService: AuthService, formBuilder: FormBuilder) {
     super(authService);
-    this.nameIndex = 0;
+    this.nameIndex = -1;
     // subjects
     this.externalIds$ = new BehaviorSubject<string[]>([]);
     this.name$ = new BehaviorSubject<PersonName>({
