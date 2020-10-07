@@ -103,10 +103,8 @@ export class ExternalIdsComponent implements OnInit {
   }
 
   public addId(id?: string): void {
-    // do not add if falsy or already exists
-    if (
-      !id ||
-      this.ids.controls.some((c: AbstractControl) => {
+    // do not add if already exists
+    if (this.ids.controls.some((c: AbstractControl) => {
         return c.value === id;
       })
     ) {

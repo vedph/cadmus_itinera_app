@@ -9,6 +9,7 @@
       "@myrmidon/cadmus-core": "@myrmidon/cadmus-core",
       "@myrmidon/cadmus-material": "@myrmidon/cadmus-material",
       "@myrmidon/cadmus-state": "@myrmidon/cadmus-state",
+      "@myrmidon/cadmus-ui-pg": "@myrmidon/cadmus-ui-pg",
       "@myrmidon/cadmus-itinera-part-lt-ui": "@myrmidon/cadmus-itinera-part-lt-ui"
     }
   }

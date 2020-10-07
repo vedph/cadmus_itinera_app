@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { AuthService } from '@myrmidon/cadmus-api';
-import { ThesaurusEntry } from '@myrmidon/cadmus-core';
+import { HistoricalDate, ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { ModelEditorComponentBase } from '@myrmidon/cadmus-ui';
 import { BehaviorSubject } from 'rxjs';
 import { PersonPart, PERSON_PART_TYPEID } from '../person-part';
@@ -40,6 +40,8 @@ export class PersonPartComponent
   public bio: FormControl;
 
   public externalIds$: BehaviorSubject<string[]>;
+  public birthDate: HistoricalDate;
+  public deathDate: HistoricalDate;
 
   constructor(authService: AuthService, formBuilder: FormBuilder) {
     super(authService);
@@ -75,11 +77,14 @@ export class PersonPartComponent
       return;
     }
     this.personId.setValue(model.personId);
+    this.externalIds$.next(model.externalIds || []);
+    // TODO names
     this.sex.setValue(model.sex);
+    this.birthDate = model.birthDate;
     this.birthPlace.setValue(model.birthPlace);
+    this.deathDate = model.deathDate;
     this.deathPlace.setValue(model.deathPlace);
     this.bio.setValue(model.bio);
-    // TODO
     this.form.markAsPristine();
   }
 
@@ -123,16 +128,19 @@ export class PersonPartComponent
         creatorId: null,
         timeModified: new Date(),
         userId: null,
-        // TODO
         personId: null,
-        sex: null,
-        externalIds: this._externalIds,
-        names: [],
+        names: []
       };
     }
-    part.personId = this.personId.value ? this.personId.value : null;
+    part.personId = this.personId.value;
+    part.externalIds = this._externalIds;
+    // TODO part.names
     part.sex = this.sex.value;
-    // TODO
+    part.birthDate = this.birthDate;
+    part.birthPlace = this.birthPlace.value?.trim() || null;
+    part.deathDate = this.deathDate;
+    part.deathPlace = this.deathPlace.value?.trim() || null;
+    part.bio = this.bio.value?.trim() || null;
     return part;
   }
 

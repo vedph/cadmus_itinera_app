@@ -9,6 +9,7 @@ import {
 import { PersonPartFeatureComponent } from './person-part-feature/person-part-feature.component';
 import { RouterModule } from '@angular/router';
 import { PendingChangesGuard } from '@myrmidon/cadmus-core';
+import { CadmusUiPgModule } from '@myrmidon/cadmus-ui-pg';
 
 // https://github.com/ng-packagr/ng-packagr/issues/778
 export const RouterModuleForChild = RouterModule.forChild([
@@ -29,6 +30,7 @@ export const RouterModuleForChild = RouterModule.forChild([
     RouterModuleForChild,
     // Cadmus
     CadmusMaterialModule,
+    CadmusUiPgModule,
     // Cadmus itinera
     CadmusItineraPartLtUiModule,
   ],

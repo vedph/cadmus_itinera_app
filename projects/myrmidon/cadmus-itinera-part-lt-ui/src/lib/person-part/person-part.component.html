@@ -32,24 +32,33 @@
 
             <!-- sex -->
             &nbsp;
-            <mat-form-field>
+            <mat-form-field style="width: 8em">
               <mat-select [formControl]="sex" placeholder="sex">
                 <mat-option [value]="null">-</mat-option>
-                <mat-option [value]="M">male</mat-option>
-                <mat-option [value]="F">female</mat-option>
+                <mat-option [value]="'M'">male</mat-option>
+                <mat-option [value]="'F'">female</mat-option>
               </mat-select>
             </mat-form-field>
           </div>
+
           <!-- name(s) -->
+          <h3>names</h3>
           TODO
 
           <!-- external IDs -->
-          <lib-external-ids
-            [model$]="externalIds$"
-            (modelChange)="onExternalIdsChange($event)"
-          >
-          </lib-external-ids>
-          TODO
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title> External IDs </mat-panel-title>
+              <mat-panel-description>
+                {{ externalIds$?.value.length || 0 }}
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <lib-external-ids
+              [model$]="externalIds$"
+              (modelChange)="onExternalIdsChange($event)"
+            >
+            </lib-external-ids>
+          </mat-expansion-panel>
         </mat-tab>
 
         <!-- BIRTH TAB -->
@@ -69,7 +78,9 @@
           </div>
 
           <!-- birth date -->
-          <cadmus-historical-date-editor></cadmus-historical-date-editor>
+          <cadmus-historical-date-editor
+            [(date)]="birthDate"
+          ></cadmus-historical-date-editor>
           TODO
         </mat-tab>
 
@@ -90,7 +101,9 @@
           </div>
 
           <!-- death date -->
-          <cadmus-historical-date-editor></cadmus-historical-date-editor>
+          <cadmus-historical-date-editor
+            [(date)]="deathDate"
+          ></cadmus-historical-date-editor>
           TODO
         </mat-tab>
 
