@@ -37,8 +37,8 @@ import { ITEM_BROWSER_KEYS } from './item-browser-keys';
 import { INDEX_LOOKUP_DEFINITIONS } from './index-lookup-definitions';
 
 import { CadmusItineraUiModule } from 'projects/myrmidon/cadmus-itinera-ui/src/public-api';
-import { CadmusItineraPartLtUiModule } from 'projects/myrmidon/cadmus-itinera-part-lt-ui/src/public-api';
-// import { CadmusItineraUiModule } from '@myrmidon/cadmus-itinera-ui';
+// when developing...
+// import { CadmusItineraPartLtUiModule } from 'projects/myrmidon/cadmus-itinera-part-lt-ui/src/public-api';
 
 @NgModule({
   declarations: [
@@ -167,8 +167,8 @@ import { CadmusItineraPartLtUiModule } from 'projects/myrmidon/cadmus-itinera-pa
     CadmusUiModule,
     // Cadmus Itinera
     CadmusItineraUiModule,
-    // temp!
-    CadmusItineraPartLtUiModule
+    // when developing...
+    // CadmusItineraPartLtUiModule
   ],
   providers: [
     EnvServiceProvider,
