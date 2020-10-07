@@ -11,6 +11,6 @@ export interface PersonNamePart {
  */
 export interface PersonName {
   language: string;
-  tag: string;
+  tag?: string;
   parts: PersonNamePart[];
 }
