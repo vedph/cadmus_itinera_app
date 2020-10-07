@@ -81,7 +81,13 @@
             <mat-expansion-panel-header>
               <mat-panel-title>name</mat-panel-title>
             </mat-expansion-panel-header>
-            <cadmus-person-name [model$]="name$" (modelChange)="onNameChange($event)">
+            <cadmus-person-name
+             [parentForm]="form"
+             [model$]="name$"
+             [langEntries]="langEntries"
+             [typeEntries]="typeEntries"
+             [tagEntries]="tagEntries"
+             (modelChange)="onNameChange($event)">
             </cadmus-person-name>
           </mat-expansion-panel>
 

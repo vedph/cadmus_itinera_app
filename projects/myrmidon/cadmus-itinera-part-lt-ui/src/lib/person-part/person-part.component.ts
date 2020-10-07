@@ -3,12 +3,13 @@ import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { AuthService } from '@myrmidon/cadmus-api';
 import { HistoricalDate, ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { PersonName } from '@myrmidon/cadmus-itinera-core';
-import { ModelEditorComponentBase } from '@myrmidon/cadmus-ui';
+import { ModelEditorComponentBase, DialogService } from '@myrmidon/cadmus-ui';
 import { BehaviorSubject } from 'rxjs';
 import { PersonPart, PERSON_PART_TYPEID } from '../person-part';
 
 /**
  * Person part.
+ * Thesauri (all optional): languages, person-name-types, person-name-tags.
  */
 @Component({
   selector: 'cadmus-person-part',
@@ -47,7 +48,8 @@ export class PersonPartComponent
   public names$: BehaviorSubject<PersonName[]>;
   public name$: BehaviorSubject<PersonName>;
 
-  constructor(authService: AuthService, formBuilder: FormBuilder) {
+  constructor(authService: AuthService, formBuilder: FormBuilder,
+    private _dialogService: DialogService) {
     super(authService);
     this.nameIndex = -1;
     // subjects
@@ -172,10 +174,16 @@ export class PersonPartComponent
   }
 
   public removeNameAt(index: number): void {
-    // TODO prompt
-    const updated: PersonName[] = this.names$.value;
-    updated.splice(index, 1);
-    this.names$.next(updated);
+    this._dialogService
+      .confirm('Confirm Deletion', 'Delete part?')
+      .subscribe((result) => {
+        if (!result) {
+          return;
+        }
+        const updated: PersonName[] = this.names$.value;
+        updated.splice(index, 1);
+        this.names$.next(updated);
+      });
   }
 
   public moveNameUp(index: number): void {

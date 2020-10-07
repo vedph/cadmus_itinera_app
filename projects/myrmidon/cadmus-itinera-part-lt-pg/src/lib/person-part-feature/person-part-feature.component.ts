@@ -40,7 +40,6 @@ export class PersonPartFeatureComponent
   }
 
   ngOnInit(): void {
-    // TODO: thesauri IDs
-    this.initEditor(null);
+    this.initEditor(['languages', 'person-name-types', 'person-name-tags']);
   }
 }
