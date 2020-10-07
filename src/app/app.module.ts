@@ -58,83 +58,6 @@ import { CadmusItineraUiModule } from 'projects/myrmidon/cadmus-itinera-ui/src/p
           loadChildren: () =>
             import('@myrmidon/cadmus-login').then((module) => module.CadmusLoginModule),
         },
-        // {
-        //   path: 'demo/categories-part',
-        //   component: FeatureCategoriesPartDemoComponent,
-        //   pathMatch: 'full',
-        // },
-        // {
-        //   path: 'demo/keywords-part',
-        //   component: FeatureKeywordsPartDemoComponent,
-        //   pathMatch: 'full',
-        // },
-        // {
-        //   path: 'demo/index-keywords-part',
-        //   component: FeatureIndexKeywordsPartDemoComponent,
-        //   pathMatch: 'full',
-        // },
-        // {
-        //   path: 'demo/note-part',
-        //   component: FeatureNotePartDemoComponent,
-        //   pathMatch: 'full',
-        // },
-        // {
-        //   path: 'demo/historical-date-part',
-        //   component: FeatureHistoricalDatePartDemoComponent,
-        //   pathMatch: 'full',
-        // },
-        // {
-        //   path: 'demo/bibliography-part',
-        //   component: FeatureBibliographyPartDemoComponent,
-        //   pathMatch: 'full',
-        // },
-        // {
-        //   path: 'demo/token-text-part',
-        //   component: FeatureTokenTextPartDemoComponent,
-        //   pathMatch: 'full',
-        // },
-        // {
-        //   path: 'demo/tiled-text-part',
-        //   component: FeatureTiledTextPartDemoComponent,
-        //   pathMatch: 'full',
-        // },
-        // {
-        //   path: 'demo/apparatus-fragment',
-        //   component: FeatureApparatusFragmentDemoComponent,
-        //   pathMatch: 'full',
-        // },
-        // {
-        //   path: 'demo/chronology-fragment',
-        //   component: FeatureChronologyFragmentDemoComponent,
-        //   pathMatch: 'full',
-        // },
-        // {
-        //   path: 'demo/comment-fragment',
-        //   component: FeatureCommentFragmentDemoComponent,
-        //   pathMatch: 'full',
-        // },
-        // {
-        //   path: 'demo/orthography-fragment',
-        //   component: FeatureOrthographyFragmentDemoComponent,
-        //   pathMatch: 'full',
-        // },
-        // {
-        //   path: 'demo/quotations-fragment',
-        //   component: FeatureQuotationsFragmentDemoComponent,
-        //   pathMatch: 'full',
-        // },
-        // {
-        //   path: 'demo/witnesses-fragment',
-        //   component: FeatureWitnessesFragmentDemoComponent,
-        //   pathMatch: 'full',
-        // },
-        // {
-        //   path: 'demo/layers',
-        //   loadChildren: () =>
-        //     import('cadmus-layer-demo').then(
-        //       (module) => module.CadmusLayerDemoModule
-        //     ),
-        // },
         {
           path: 'items',
           loadChildren: () =>
@@ -165,6 +88,14 @@ import { CadmusItineraUiModule } from 'projects/myrmidon/cadmus-itinera-ui/src/p
           loadChildren: () =>
             import('@myrmidon/cadmus-part-philology-pg').then(
               (module) => module.CadmusPartPhilologyPgModule
+            ),
+          canActivate: [AuthGuardService],
+        },
+        {
+          path: 'items/:iid/itinera-lt',
+          loadChildren: () =>
+            import('@myrmidon/cadmus-itinera-part-lt-pg').then(
+              (module) => module.CadmusItineraPartLtPgModule
             ),
           canActivate: [AuthGuardService],
         },

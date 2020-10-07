@@ -2,19 +2,36 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CadmusMaterialModule } from '@myrmidon/cadmus-material';
-import { CadmusItineraPartLtUiModule } from '@myrmidon/cadmus-itinera-part-lt-ui';
+import {
+  CadmusItineraPartLtUiModule,
+  PERSON_PART_TYPEID,
+} from '@myrmidon/cadmus-itinera-part-lt-ui';
+import { PersonPartFeatureComponent } from './person-part-feature/person-part-feature.component';
+import { RouterModule } from '@angular/router';
+import { PendingChangesGuard } from '@myrmidon/cadmus-core';
+
+// https://github.com/ng-packagr/ng-packagr/issues/778
+export const RouterModuleForChild = RouterModule.forChild([
+  {
+    path: `${PERSON_PART_TYPEID}/:pid`,
+    pathMatch: 'full',
+    component: PersonPartFeatureComponent,
+    canDeactivate: [PendingChangesGuard],
+  },
+]);
 
 @NgModule({
-  declarations: [],
+  declarations: [PersonPartFeatureComponent],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    RouterModuleForChild,
     // Cadmus
     CadmusMaterialModule,
     // Cadmus itinera
     CadmusItineraPartLtUiModule,
   ],
-  exports: [],
+  exports: [PersonPartFeatureComponent],
 })
 export class CadmusItineraPartLtPgModule {}
