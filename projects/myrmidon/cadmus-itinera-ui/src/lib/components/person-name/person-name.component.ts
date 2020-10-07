@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output, QueryList, ViewChildren } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -19,9 +19,12 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
   templateUrl: './person-name.component.html',
   styleUrls: ['./person-name.component.css'],
 })
-export class PersonNameComponent implements OnInit {
+export class PersonNameComponent implements OnInit, AfterViewInit, OnDestroy {
   private _modelSub: Subscription;
   private _modelSubject: BehaviorSubject<PersonName>;
+  private _partValueSub: Subscription;
+
+  @ViewChildren('partValue') partValues: QueryList<any>;
 
   /**
    * The optional parent form this component should attach to.
@@ -125,6 +128,20 @@ export class PersonNameComponent implements OnInit {
           this.modelChange.emit(m);
         }
       });
+  }
+
+  public ngAfterViewInit(): void {
+    this._partValueSub = this.partValues.changes
+      .pipe(debounceTime(300))
+      .subscribe((_) => {
+        if (this.partValues.length > 0) {
+          this.partValues.last.nativeElement.focus();
+        }
+      });
+  }
+
+  public ngOnDestroy(): void {
+    this._partValueSub.unsubscribe();
   }
 
   private areModelsEqual(x: PersonName, y: PersonName): boolean {
