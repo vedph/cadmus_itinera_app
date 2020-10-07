@@ -1,12 +1,20 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { CadmusItineraPartLtPgComponent } from './cadmus-itinera-part-lt-pg.component';
-
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CadmusMaterialModule } from '@myrmidon/cadmus-material';
+import { CadmusItineraPartLtUiModule } from '@myrmidon/cadmus-itinera-part-lt-ui';
 
 @NgModule({
-  declarations: [CadmusItineraPartLtPgComponent],
+  declarations: [],
   imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    // Cadmus
+    CadmusMaterialModule,
+    // Cadmus itinera
+    CadmusItineraPartLtUiModule,
   ],
-  exports: [CadmusItineraPartLtPgComponent]
+  exports: [],
 })
-export class CadmusItineraPartLtPgModule { }
+export class CadmusItineraPartLtPgModule {}

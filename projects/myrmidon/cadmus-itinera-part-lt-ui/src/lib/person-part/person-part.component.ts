@@ -1,8 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { AuthService } from '@myrmidon/cadmus-api';
 import { ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { ModelEditorComponentBase } from '@myrmidon/cadmus-ui';
+import { BehaviorSubject } from 'rxjs';
 import { PersonPart, PERSON_PART_TYPEID } from '../person-part';
 
 /**
@@ -16,6 +17,8 @@ import { PersonPart, PERSON_PART_TYPEID } from '../person-part';
 export class PersonPartComponent
   extends ModelEditorComponentBase<PersonPart>
   implements OnInit {
+  private _externalIds: string[];
+
   public langEntries: ThesaurusEntry[];
   public tagEntries: ThesaurusEntry[];
   public typeEntries: ThesaurusEntry[];
@@ -36,8 +39,13 @@ export class PersonPartComponent
 
   public bio: FormControl;
 
+  public externalIds$: BehaviorSubject<string[]>;
+
   constructor(authService: AuthService, formBuilder: FormBuilder) {
     super(authService);
+    // subjects
+    this.externalIds$ = new BehaviorSubject<string[]>([]);
+
     // form
     this.personId = formBuilder.control(null, [
       Validators.required,
@@ -53,7 +61,7 @@ export class PersonPartComponent
       personId: this.personId,
       sex: this.sex,
       birthPlace: this.birthPlace,
-      deathPlace: this.deathPlace
+      deathPlace: this.deathPlace,
     });
   }
 
@@ -66,7 +74,12 @@ export class PersonPartComponent
       this.form.reset();
       return;
     }
-    // this.tag.setValue(model.tag);
+    this.personId.setValue(model.personId);
+    this.sex.setValue(model.sex);
+    this.birthPlace.setValue(model.birthPlace);
+    this.deathPlace.setValue(model.deathPlace);
+    this.bio.setValue(model.bio);
+    // TODO
     this.form.markAsPristine();
   }
 
@@ -110,13 +123,20 @@ export class PersonPartComponent
         creatorId: null,
         timeModified: new Date(),
         userId: null,
-        // TODO:
+        // TODO
         personId: null,
+        sex: null,
+        externalIds: this._externalIds,
         names: [],
       };
     }
-    // part.tag = this.tagEntries ? this.tags.value : this.tag.value;
-    // part.text = this.text.value ? this.text.value.trim() : null;
+    part.personId = this.personId.value ? this.personId.value : null;
+    part.sex = this.sex.value;
+    // TODO
     return part;
+  }
+
+  public onExternalIdsChange(ids: string[]): void {
+    this._externalIds = ids || [];
   }
 }

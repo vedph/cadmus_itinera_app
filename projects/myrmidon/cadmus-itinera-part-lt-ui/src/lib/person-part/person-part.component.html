@@ -44,6 +44,11 @@
           TODO
 
           <!-- external IDs -->
+          <lib-external-ids
+            [model$]="externalIds$"
+            (modelChange)="onExternalIdsChange($event)"
+          >
+          </lib-external-ids>
           TODO
         </mat-tab>
 
@@ -64,6 +69,7 @@
           </div>
 
           <!-- birth date -->
+          <cadmus-historical-date-editor></cadmus-historical-date-editor>
           TODO
         </mat-tab>
 
@@ -84,6 +90,7 @@
           </div>
 
           <!-- death date -->
+          <cadmus-historical-date-editor></cadmus-historical-date-editor>
           TODO
         </mat-tab>
 

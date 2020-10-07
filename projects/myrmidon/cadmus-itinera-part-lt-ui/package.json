@@ -5,7 +5,8 @@
     "@angular/common": "^10.1.4",
     "@angular/core": "^10.1.4",
     "@myrmidon/cadmus-core": "^0.0.1",
-    "@myrmidon/cadmus-itinera-core": "^0.0.1"
+    "@myrmidon/cadmus-itinera-core": "^0.0.1",
+    "@myrmidon/cadmus-itinera-ui": "^0.0.1"
   },
   "dependencies": {
     "tslib": "^2.0.0"
