@@ -14,20 +14,14 @@
           <div>
             <mat-form-field>
               <input matInput [formControl]="personId" placeholder="ID" />
-              <mat-error
-                *ngIf="
+              <mat-error *ngIf="
                   personId.hasError('required') &&
                   (personId.dirty || personId.touched)
-                "
-                >enter person ID</mat-error
-              >
-              <mat-error
-                *ngIf="
+                ">enter person ID</mat-error>
+              <mat-error *ngIf="
                   personId.hasError('max-length') &&
                   (personId.dirty || personId.touched)
-                "
-                >person ID too long</mat-error
-              >
+                ">person ID too long</mat-error>
             </mat-form-field>
 
             <!-- sex -->
@@ -45,9 +39,32 @@
           <h3>names</h3>
           <div *ngIf="names?.length">
             <table>
+              <thead>
+                <th></th>
+                <th>lang.</th>
+                <th>tag</th>
+                <th>name</th>
+              </thead>
               <tbody>
-                <tr *ngFor="let name of names">
-                  <td>TODO: edit delete up down buttons</td>
+                <tr *ngFor="let name of names; let first=first; let last=last; let i=index" [ngClass]="{ 'sel-row' : nameIndex === i }">
+                  <td>
+                    <button mat-icon-button type="button" matTooltip="Edit this name" color="primary"
+                      (click)="editNameAt(i)">
+                      <mat-icon>edit</mat-icon>
+                    </button>
+                    <button mat-icon-button type="button" matTooltip="Remove this name" color="warn"
+                      (click)="removeNameAt(i)">
+                      <mat-icon>remove_circle</mat-icon>
+                    </button>
+                    <button [disabled]="first" mat-icon-button type="button" matTooltip="Move name up"
+                      (click)="moveNameUp(i)">
+                      <mat-icon>arrow_upward</mat-icon>
+                    </button>
+                    <button [disabled]="last" mat-icon-button type="button" matTooltip="Move name down"
+                      (click)="moveNameDown(i)">
+                      <mat-icon>arrow_downward</mat-icon>
+                    </button>
+                  </td>
                   <td>{{ name.language }}</td>
                   <td>{{ name.tag }}</td>
                   <td>{{ getFullName(name) }}</td>
@@ -56,28 +73,27 @@
             </table>
           </div>
           <div>
-            <button
-              type="button"
-              mat-raised-button
-              color="primary"
-              (click)="addName()"
-            >
+            <button type="button" mat-raised-button color="primary" (click)="addName()">
               add name
             </button>
           </div>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>name</mat-panel-title>
+            </mat-expansion-panel-header>
+            <cadmus-person-name [model$]="name$" (modelChange)="onNameChange($event)">
+            </cadmus-person-name>
+          </mat-expansion-panel>
 
           <!-- external IDs -->
           <mat-expansion-panel>
             <mat-expansion-panel-header>
-              <mat-panel-title> External IDs </mat-panel-title>
+              <mat-panel-title>external IDs </mat-panel-title>
               <mat-panel-description>
                 {{ externalIds$?.value.length || 0 }}
               </mat-panel-description>
             </mat-expansion-panel-header>
-            <lib-external-ids
-              [model$]="externalIds$"
-              (modelChange)="onExternalIdsChange($event)"
-            >
+            <lib-external-ids [model$]="externalIds$" (modelChange)="onExternalIdsChange($event)">
             </lib-external-ids>
           </mat-expansion-panel>
         </mat-tab>
@@ -88,21 +104,15 @@
           <div>
             <mat-form-field>
               <input matInput [formControl]="birthPlace" placeholder="place" />
-              <mat-error
-                *ngIf="
+              <mat-error *ngIf="
                   birthPlace.hasError('max-length') &&
                   (birthPlace.dirty || birthPlace.touched)
-                "
-                >birth place too long</mat-error
-              >
+                ">birth place too long</mat-error>
             </mat-form-field>
           </div>
 
           <!-- birth date -->
-          <cadmus-historical-date-editor
-            [(date)]="birthDate"
-          ></cadmus-historical-date-editor>
-          TODO
+          <cadmus-historical-date-editor [(date)]="birthDate"></cadmus-historical-date-editor>
         </mat-tab>
 
         <!-- DEATH TAB -->
@@ -111,45 +121,30 @@
           <div>
             <mat-form-field>
               <input matInput [formControl]="deathPlace" placeholder="place" />
-              <mat-error
-                *ngIf="
+              <mat-error *ngIf="
                   deathPlace.hasError('max-length') &&
                   (deathPlace.dirty || deathPlace.touched)
-                "
-                >death place too long</mat-error
-              >
+                ">death place too long</mat-error>
             </mat-form-field>
           </div>
 
           <!-- death date -->
-          <cadmus-historical-date-editor
-            [(date)]="deathDate"
-          ></cadmus-historical-date-editor>
-          TODO
+          <cadmus-historical-date-editor [(date)]="deathDate"></cadmus-historical-date-editor>
         </mat-tab>
 
         <!-- BIO TAB -->
         <mat-tab label="bio">
           <!-- bio -->
           <div>
-            <ngx-monaco-editor
-              [options]="editorOptions"
-              [formControl]="bio"
-            ></ngx-monaco-editor>
-            <mat-error
-              *ngIf="bio.hasError('max-length') && (bio.touched || bio.dirty)"
-              >bio too long</mat-error
-            >
+            <ngx-monaco-editor [options]="editorOptions" [formControl]="bio"></ngx-monaco-editor>
+            <mat-error *ngIf="bio.hasError('max-length') && (bio.touched || bio.dirty)">bio too long</mat-error>
           </div>
         </mat-tab>
       </mat-tab-group>
     </mat-card-content>
     <mat-card-actions>
-      <cadmus-close-save-buttons
-        [form]="form"
-        [noSave]="userLevel < 2"
-        (closeRequest)="close()"
-      ></cadmus-close-save-buttons>
+      <cadmus-close-save-buttons [form]="form" [noSave]="userLevel < 2" (closeRequest)="close()">
+      </cadmus-close-save-buttons>
     </mat-card-actions>
   </mat-card>
 </form>

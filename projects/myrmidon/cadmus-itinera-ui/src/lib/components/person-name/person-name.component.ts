@@ -8,14 +8,14 @@ import {
 } from '@angular/forms';
 import { ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { PersonName, PersonNamePart } from '@myrmidon/cadmus-itinera-core';
-import { BehaviorSubject, Subject, Subscription } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 /**
  * Person name in-place editor.
  */
 @Component({
-  selector: 'lib-person-name',
+  selector: 'cadmus-person-name',
   templateUrl: './person-name.component.html',
   styleUrls: ['./person-name.component.css'],
 })

@@ -15,12 +15,12 @@
     <p *ngIf="!logged">Please <a routerLink="/login">login</a> to start.</p>
   </div>
   <div>
-    <lib-person-name
+    <cadmus-person-name
       [typeEntries]="typeThesaurus?.entries"
       [langEntries]="langThesaurus?.entries"
       [model$]="person$"
       (modelChange)="onPersonChange($event)"
-    ></lib-person-name>
+    ></cadmus-person-name>
   </div>
 
   <div>

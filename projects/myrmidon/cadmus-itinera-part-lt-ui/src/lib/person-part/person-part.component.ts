@@ -20,6 +20,7 @@ export class PersonPartComponent
   implements OnInit {
   private _externalIds: string[];
 
+  public nameIndex: number;
   public langEntries: ThesaurusEntry[];
   public tagEntries: ThesaurusEntry[];
   public typeEntries: ThesaurusEntry[];
@@ -48,6 +49,7 @@ export class PersonPartComponent
 
   constructor(authService: AuthService, formBuilder: FormBuilder) {
     super(authService);
+    this.nameIndex = 0;
     // subjects
     this.externalIds$ = new BehaviorSubject<string[]>([]);
     this.name$ = new BehaviorSubject<PersonName>({
@@ -161,5 +163,48 @@ export class PersonPartComponent
       sb.push(name.parts[i].value);
     }
     return sb.join(' ');
+  }
+
+  public editNameAt(index: number): void {
+    this.name$.next(this.names[index]);
+    this.nameIndex = index;
+  }
+
+  public removeNameAt(index: number): void {
+    // TODO prompt
+    this.names.splice(index, 1);
+  }
+
+  public moveNameUp(index: number): void {
+    if (index < 1) {
+      return;
+    }
+    const item = this.names[index];
+    this.names.splice(index, 1);
+    this.names.splice(index - 1, 0, item);
+  }
+
+  public moveNameDown(index: number): void {
+    if (index + 1 >= this.names.length) {
+      return;
+    }
+    const item = this.names[index];
+    this.names.splice(index, 1);
+    this.names.splice(index + 1, 0, item);
+  }
+
+  public addName(): void {
+    this.names.push({
+      language: 'ita',
+      parts: []
+    });
+    this.editNameAt(this.names.length - 1);
+  }
+
+  public onNameChange(name: PersonName): void {
+    if (this.nameIndex < 0 || this.nameIndex >= this.names.length) {
+      return;
+    }
+    this.names.splice(this.nameIndex, 1, this.name$.value);
   }
 }
