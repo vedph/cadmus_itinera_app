@@ -92,7 +92,7 @@
         <!-- author -->
         &nbsp;
         <mat-form-field>
-          <input matInput formControlName="author" placeholder="author" />
+          <input #author matInput formControlName="author" placeholder="author" />
           <mat-error
             *ngIf="
               item['controls'].author.hasError('required') &&

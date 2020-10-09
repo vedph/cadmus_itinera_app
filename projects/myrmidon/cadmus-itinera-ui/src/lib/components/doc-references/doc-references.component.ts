@@ -1,7 +1,17 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+  QueryList,
+  ViewChildren,
+} from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { DocReference } from '@myrmidon/cadmus-itinera-core';
+import { Subscription } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 import { InplaceEditorBase } from '../inplace-editor-base';
 
 /**
@@ -14,8 +24,11 @@ import { InplaceEditorBase } from '../inplace-editor-base';
 })
 export class DocReferencesComponent
   extends InplaceEditorBase<DocReference[]>
-  implements OnInit {
+  implements OnInit, AfterViewInit, OnDestroy {
+  private _authorSubscription: Subscription;
   public references: FormArray;
+
+  @ViewChildren('author') authorQueryList: QueryList<any>;
 
   @Input()
   public tagEntries: ThesaurusEntry[];
@@ -31,6 +44,21 @@ export class DocReferencesComponent
     this.initEditor('references', {
       references: this.references,
     });
+  }
+
+  public ngAfterViewInit(): void {
+    this._authorSubscription = this.authorQueryList.changes
+      .pipe(debounceTime(300))
+      .subscribe((_) => {
+        if (this.authorQueryList.length > 0) {
+          this.authorQueryList.last.nativeElement.focus();
+        }
+      });
+  }
+
+  public ngOnDestroy(): void {
+    super.ngOnDestroy();
+    this._authorSubscription.unsubscribe();
   }
 
   private getReferenceGroup(reference?: DocReference): FormGroup {
