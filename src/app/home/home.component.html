@@ -19,6 +19,20 @@
     </div>
 
     <div gdArea="content">
+      <h4>Person Name</h4>
+      <cadmus-person-name
+        [model$]="personName$"
+        (modelChange)="onPersonNameChange($event)"
+      >
+      </cadmus-person-name>
+
+      <h4>External IDs</h4>
+      <cadmus-external-ids
+        [model$]="externalIds$"
+        (modelChange)="onExternalIdsChange($event)"
+      >
+      </cadmus-external-ids>
+
       <h4>References</h4>
       <cadmus-doc-references
         [model$]="references$"

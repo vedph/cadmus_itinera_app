@@ -1,4 +1,12 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output, QueryList, ViewChildren } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+  QueryList,
+  ViewChildren,
+} from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -8,8 +16,9 @@ import {
 } from '@angular/forms';
 import { ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { PersonName, PersonNamePart } from '@myrmidon/cadmus-itinera-core';
-import { BehaviorSubject, Subscription } from 'rxjs';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { InplaceEditorBase } from '@myrmidon/cadmus-itinera-ui';
+import { Subscription } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 /**
  * Person name in-place editor.
@@ -19,20 +28,13 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
   templateUrl: './person-name.component.html',
   styleUrls: ['./person-name.component.css'],
 })
-export class PersonNameComponent implements OnInit, AfterViewInit, OnDestroy {
-  private _modelSub: Subscription;
-  private _modelSubject: BehaviorSubject<PersonName>;
+export class PersonNameComponent
+  extends InplaceEditorBase<PersonName>
+  implements OnInit, AfterViewInit, OnDestroy {
   private _partValueSub: Subscription;
 
   @ViewChildren('partValue') partValues: QueryList<any>;
 
-  /**
-   * The optional parent form this component should attach to.
-   * Set this when the form in this component should contribute
-   * to the state of a parent form in the consumer control.
-   */
-  @Input()
-  public parentForm: FormGroup;
   /**
    * The optional thesaurus language entries.
    */
@@ -48,86 +50,28 @@ export class PersonNameComponent implements OnInit, AfterViewInit, OnDestroy {
    */
   @Input()
   public typeEntries: ThesaurusEntry[];
-  /**
-   * The person name edited by this component, wrapped
-   * in a subject stream. This component updates when
-   * the stream updates (unless no changes occurred).
-   */
-  @Input()
-  public get model$(): BehaviorSubject<PersonName> {
-    return this._modelSubject;
-  }
-  public set model$(value: BehaviorSubject<PersonName>) {
-    this._modelSubject = value;
 
-    // unsubscribe the previous observable if any
-    if (this._modelSub) {
-      this._modelSub.unsubscribe();
-    }
-    // subscribe to the new observable
-    if (this._modelSubject) {
-      this._modelSub = this._modelSubject.subscribe((m) => {
-        this.setModel(m);
-      });
-    }
-  }
-
-  /**
-   * Event emitted whenever the user has changed the model.
-   * The consumer component should subscribe to this to get
-   * the updated model.
-   */
-  @Output()
-  public modelChange: EventEmitter<PersonName>;
-
-  public form: FormGroup;
   public language: FormControl;
   public tag: FormControl;
   public parts: FormArray;
 
-  constructor(private _formBuilder: FormBuilder) {
-    // events
-    this.modelChange = new EventEmitter<PersonName>();
+  constructor(formBuilder: FormBuilder) {
+    super(formBuilder);
   }
 
   ngOnInit(): void {
     // create this form
-    this.language = this._formBuilder.control(null, [
+    this.language = this.formBuilder.control(null, [
       Validators.required,
       Validators.maxLength(50),
     ]);
-    this.tag = this._formBuilder.control(null, Validators.maxLength(50));
-    this.parts = this._formBuilder.array([], Validators.required);
-    this.form = this._formBuilder.group({
+    this.tag = this.formBuilder.control(null, Validators.maxLength(50));
+    this.parts = this.formBuilder.array([], Validators.required);
+    this.initEditor('personName', {
       language: this.language,
       tag: this.tag,
       parts: this.parts,
     });
-
-    // add it as a child form to the parent, if any.
-    // This propagates this form's state into it.
-    if (this.parentForm) {
-      this.parentForm.addControl('personName', this.form);
-    }
-
-    // once we are initialized, set the model to the current
-    // value, because if it was set meantime it would be lost
-    this.setModel(this._modelSubject?.value);
-
-    // react on this form changes
-    this.form.valueChanges
-      .pipe(
-        debounceTime(300),
-        distinctUntilChanged((x, y) => {
-          return this.areModelsEqual(x, y);
-        })
-      )
-      .subscribe((_) => {
-        const m = this.getModel();
-        if (m) {
-          this.modelChange.emit(m);
-        }
-      });
   }
 
   public ngAfterViewInit(): void {
@@ -141,40 +85,41 @@ export class PersonNameComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
+    super.ngOnDestroy();
     this._partValueSub.unsubscribe();
   }
 
-  private areModelsEqual(x: PersonName, y: PersonName): boolean {
-    if ((!x && y) || (!y && x)) {
-      return false;
-    }
-    if (!x && !y) {
-      return true;
-    }
-    if (x.language !== y.language || x.tag !== y.tag) {
-      return false;
-    }
-    if (x.parts?.length !== y.parts?.length) {
-      return false;
-    }
-    for (let i = 0; i < x.parts.length; i++) {
-      if (
-        x.parts[i]?.type !== y.parts[i]?.type ||
-        x.parts[i]?.value !== y.parts[i]?.value
-      ) {
-        return false;
-      }
-    }
-    return true;
-  }
+  // private areModelsEqual(x: PersonName, y: PersonName): boolean {
+  //   if ((!x && y) || (!y && x)) {
+  //     return false;
+  //   }
+  //   if (!x && !y) {
+  //     return true;
+  //   }
+  //   if (x.language !== y.language || x.tag !== y.tag) {
+  //     return false;
+  //   }
+  //   if (x.parts?.length !== y.parts?.length) {
+  //     return false;
+  //   }
+  //   for (let i = 0; i < x.parts.length; i++) {
+  //     if (
+  //       x.parts[i]?.type !== y.parts[i]?.type ||
+  //       x.parts[i]?.value !== y.parts[i]?.value
+  //     ) {
+  //       return false;
+  //     }
+  //   }
+  //   return true;
+  // }
 
   private getPartGroup(part?: PersonNamePart): FormGroup {
-    return this._formBuilder.group({
-      type: this._formBuilder.control(part?.type, [
+    return this.formBuilder.group({
+      type: this.formBuilder.control(part?.type, [
         Validators.required,
         Validators.maxLength(20),
       ]),
-      value: this._formBuilder.control(part?.value, [
+      value: this.formBuilder.control(part?.value, [
         Validators.required,
         Validators.maxLength(50),
       ]),
@@ -215,7 +160,7 @@ export class PersonNameComponent implements OnInit, AfterViewInit, OnDestroy {
     this.parts.clear();
   }
 
-  private setModel(model: PersonName): void {
+  protected setModel(model: PersonName): void {
     if (!this.language) {
       return;
     }
@@ -232,7 +177,7 @@ export class PersonNameComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  private getModel(): PersonName {
+  protected getModel(): PersonName {
     const parts: PersonNamePart[] = [];
 
     for (let i = 0; i < this.parts.length; i++) {

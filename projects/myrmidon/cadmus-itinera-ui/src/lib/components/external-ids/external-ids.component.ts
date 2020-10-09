@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  OnDestroy,
+  OnInit,
+  QueryList,
+  ViewChildren,
+} from '@angular/core';
 import {
   AbstractControl,
   FormArray,
@@ -6,7 +13,8 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { InplaceEditorBase } from '@myrmidon/cadmus-itinera-ui';
+import { Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
 /**
@@ -17,85 +25,44 @@ import { debounceTime } from 'rxjs/operators';
   templateUrl: './external-ids.component.html',
   styleUrls: ['./external-ids.component.css'],
 })
-export class ExternalIdsComponent implements OnInit {
-  private _modelSub: Subscription;
-  private _modelSubject: BehaviorSubject<string[]>;
+export class ExternalIdsComponent
+  extends InplaceEditorBase<string[]>
+  implements OnInit, AfterViewInit, OnDestroy {
+  private _idSubscription: Subscription;
 
-  /**
-   * The optional parent form this component should attach to.
-   * Set this when the form in this component should contribute
-   * to the state of a parent form in the consumer control.
-   */
-  @Input()
-  public parentForm: FormGroup;
+  @ViewChildren('id') idQueryList: QueryList<any>;
 
-  /**
-   * The IDs edited by this component, wrapped in a subject
-   * stream. This component updates when the stream updates.
-   */
-  @Input()
-  public get model$(): BehaviorSubject<string[]> {
-    return this._modelSubject;
-  }
-  public set model$(value: BehaviorSubject<string[]>) {
-    this._modelSubject = value;
-
-    // unsubscribe the previous observable if any
-    if (this._modelSub) {
-      this._modelSub.unsubscribe();
-    }
-    // subscribe to the new observable
-    if (this._modelSubject) {
-      this._modelSub = this._modelSubject.subscribe((m) => {
-        this.setModel(m);
-      });
-    }
-  }
-
-  /**
-   * Event emitted whenever the user has changed the model.
-   * The consumer component should subscribe to this to get
-   * the updated model.
-   */
-  @Output()
-  public modelChange: EventEmitter<string[]>;
-
-  public form: FormGroup;
   public ids: FormArray; // the list of IDs
 
-  constructor(private _formBuilder: FormBuilder) {
-    // events
-    this.modelChange = new EventEmitter<string[]>();
+  constructor(formBuilder: FormBuilder) {
+    super(formBuilder);
   }
 
   ngOnInit(): void {
-    this.ids = this._formBuilder.array([]);
-    this.form = this._formBuilder.group({
+    this.ids = this.formBuilder.array([]);
+    this.initEditor('externalIds', {
       ids: this.ids,
-    });
-
-    // add it as a child form to the parent, if any.
-    // This propagates this form's state into it.
-    if (this.parentForm) {
-      this.parentForm.addControl('ids', this.form);
-    }
-
-    // once we are initialized, set the model to the current
-    // value, because if it was set meantime it would be lost
-    this.setModel(this._modelSubject?.value);
-
-    // react on this form changes
-    this.form.valueChanges.pipe(debounceTime(300)).subscribe((_) => {
-      const m = this.getModel();
-      if (m) {
-        this.modelChange.emit(m);
-      }
     });
   }
 
+  public ngAfterViewInit(): void {
+    this._idSubscription = this.idQueryList.changes
+      .pipe(debounceTime(300))
+      .subscribe((_) => {
+        if (this.idQueryList.length > 0) {
+          this.idQueryList.last.nativeElement.focus();
+        }
+      });
+  }
+
+  public ngOnDestroy(): void {
+    super.ngOnDestroy();
+    this._idSubscription.unsubscribe();
+  }
+
   private getIdGroup(id?: string): FormGroup {
-    return this._formBuilder.group({
-      id: this._formBuilder.control(id, [
+    return this.formBuilder.group({
+      id: this.formBuilder.control(id, [
         Validators.required,
         Validators.maxLength(500),
       ]),
@@ -104,7 +71,8 @@ export class ExternalIdsComponent implements OnInit {
 
   public addId(id?: string): void {
     // do not add if already exists
-    if (this.ids.controls.some((c: AbstractControl) => {
+    if (
+      this.ids.controls.some((c: AbstractControl) => {
         return c.value === id;
       })
     ) {
@@ -144,17 +112,16 @@ export class ExternalIdsComponent implements OnInit {
   }
 
   public isValidUrl(url: string): boolean {
-    // return new RegExp('^(?:https?:\/\/)?www\.', 'gi').test(url);
+    return new RegExp('^(?:https?://)?www.', 'gi').test(url);
     // https://stackoverflow.com/questions/5717093/check-if-a-javascript-string-is-a-url
-    try {
-      const x = new URL(url);
-    } catch (_) {
-      return false;
-    }
-    return true;
+    // try {
+    // } catch (_) {
+    //   return false;
+    // }
+    // return true;
   }
 
-  private setModel(model: string[]): void {
+  protected setModel(model: string[]): void {
     if (!this.ids) {
       return;
     }
@@ -173,7 +140,7 @@ export class ExternalIdsComponent implements OnInit {
     window.open(url, '_blank');
   }
 
-  private getModel(): string[] {
+  protected getModel(): string[] {
     const ids: string[] = [];
     for (let i = 0; i < this.ids.length; i++) {
       const g = this.ids.controls[i] as FormGroup;
