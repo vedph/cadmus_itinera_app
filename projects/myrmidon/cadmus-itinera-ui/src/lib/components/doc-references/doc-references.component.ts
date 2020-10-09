@@ -4,6 +4,9 @@ import { ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { DocReference } from '@myrmidon/cadmus-itinera-core';
 import { InplaceEditorBase } from '../inplace-editor-base';
 
+/**
+ * In-place editor for a set of DocReference's.
+ */
 @Component({
   selector: 'cadmus-doc-references',
   templateUrl: './doc-references.component.html',

@@ -90,11 +90,47 @@
         </ng-container>
 
         <!-- author -->
-        TODO
+        &nbsp;
+        <mat-form-field>
+          <input matInput formControlName="author" placeholder="author" />
+          <mat-error
+            *ngIf="
+              item['controls'].author.hasError('required') &&
+              (item['controls'].author.dirty || item['controls'].author.touched)
+            "
+            >author required
+          </mat-error>
+          <mat-error
+            *ngIf="
+              item['controls'].author.hasError('max-length') &&
+              (item['controls'].author.dirty || item['controls'].author.touched)
+            "
+            >author too long
+          </mat-error>
+        </mat-form-field>
+
         <!-- work -->
-        TODO
+        &nbsp;
+        <mat-form-field>
+          <input matInput formControlName="work" placeholder="work" />
+          <mat-error
+            *ngIf="
+              item['controls'].work.hasError('required') &&
+              (item['controls'].work.dirty || item['controls'].work.touched)
+            "
+            >work required
+          </mat-error>
+          <mat-error
+            *ngIf="
+              item['controls'].work.hasError('max-length') &&
+              (item['controls'].work.dirty || item['controls'].work.touched)
+            "
+            >work too long
+          </mat-error>
+        </mat-form-field>
 
         <!-- location -->
+        &nbsp;
         <mat-form-field style="width: 6em">
           <input matInput formControlName="location" placeholder="location" />
           <mat-error
@@ -107,14 +143,10 @@
           </mat-error>
         </mat-form-field>
         <!-- row 2-->
-        <div style="margin-left:2em">
+        <div style="margin-left: 2em">
           <!-- note -->
-          <mat-form-field style="width: 430px">
-            <textarea
-              matInput
-              formControlName="note"
-              placeholder="note"
-            ></textarea>
+          <mat-form-field style="width: 700px">
+            <input matInput formControlName="note" placeholder="note" />
             <mat-error
               *ngIf="
                 item['controls'].note.hasError('max-length') &&
