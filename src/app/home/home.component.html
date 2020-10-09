@@ -1,21 +1,29 @@
-<h2>Cadmus - {{ title }}</h2>
-<div
-  gdAreas="image text"
-  gdGap="16px"
-  gdRows="auto"
-  gdAreas.lt-md="image | text"
-  gdRows.lt-md="auto auto"
-  gdAlignColumns="center"
->
-  <div gdArea="image">
-    <img src="./assets/img/cadmus-300.png" alt="Cadmus" />
-  </div>
-  <div gdArea="text">
-    <p>Welcome to the Itinera project editing dashboard.</p>
-    <p *ngIf="!logged">Please <a routerLink="/login">login</a> to start.</p>
-  </div>
+<div style="margin: 0 16px">
+  <h2>Cadmus - {{ title }}</h2>
+  <div
+    gdRows="auto 1fr"
+    gdColumns="auto 1fr"
+    gdAreas="image text | content content"
+    gdAlignColumns="center"
+    gdGap="16px"
+    gdRows.lt-md="auto auto 1fr"
+    gdColumns.lt-md="100%"
+    gdAreas.lt-md="image | text | content"
+  >
+    <div gdArea="image">
+      <img src="./assets/img/cadmus-300.png" alt="Cadmus" />
+    </div>
+    <div gdArea="text">
+      <p>Welcome to the Itinera project editing dashboard.</p>
+      <p *ngIf="!logged">Please <a routerLink="/login">login</a> to start.</p>
+    </div>
 
-  <div>
-    <cadmus-doc-references [model$]="model$" (modelChange)="onModelChange($event)"></cadmus-doc-references>
+    <div gdArea="content">
+      <h4>References</h4>
+      <cadmus-doc-references
+        [model$]="references$"
+        (modelChange)="onReferencesChange($event)"
+      ></cadmus-doc-references>
+    </div>
   </div>
 </div>

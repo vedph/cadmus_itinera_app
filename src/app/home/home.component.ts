@@ -13,13 +13,13 @@ export class HomeComponent {
   public title: string;
   public logged: boolean;
 
-  public model$: BehaviorSubject<DocReference[]>;
+  public references$: BehaviorSubject<DocReference[]>;
 
   constructor(env: EnvService, authService: AuthService) {
     this.title = env.name;
     this.logged = authService.currentUserValue !== null;
 
-    this.model$ = new BehaviorSubject<DocReference[]>(
+    this.references$ = new BehaviorSubject<DocReference[]>(
       [
         {
           tag: 'tag',
@@ -32,7 +32,7 @@ export class HomeComponent {
     );
   }
 
-  public onModelChange(model: DocReference[]): void {
+  public onReferencesChange(model: DocReference[]): void {
     console.log(JSON.stringify(model));
   }
 }
