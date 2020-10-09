@@ -1,15 +1,15 @@
 <form [formGroup]="form">
   <div formArrayName="references">
-    <!-- empty -->
-    <div *ngIf="!references?.length">
-      <br />
+    <!-- add -->
+    <div>
       <button
         type="button"
         mat-stroked-button
         color="primary"
         (click)="addReference()"
+        matTooltip="Add a new reference"
       >
-        add reference
+        <mat-icon>add_circle</mat-icon> add
       </button>
     </div>
     <!-- list -->
@@ -25,15 +25,6 @@
       <div [formGroupName]="i">
         <!-- child actions -->
         {{ i + 1 }}.
-        <button
-          mat-icon-button
-          type="button"
-          matTooltip="Add reference below"
-          color="primary"
-          (click)="addReferenceBelow(i)"
-        >
-          <mat-icon>add_circle</mat-icon>
-        </button>
         <button
           mat-icon-button
           type="button"
@@ -92,7 +83,12 @@
         <!-- author -->
         &nbsp;
         <mat-form-field>
-          <input #author matInput formControlName="author" placeholder="author" />
+          <input
+            #author
+            matInput
+            formControlName="author"
+            placeholder="author"
+          />
           <mat-error
             *ngIf="
               item['controls'].author.hasError('required') &&
@@ -145,7 +141,7 @@
         <!-- row 2-->
         <div style="margin-left: 2em">
           <!-- note -->
-          <mat-form-field style="width: 700px">
+          <mat-form-field style="width: 690px">
             <input matInput formControlName="note" placeholder="note" />
             <mat-error
               *ngIf="

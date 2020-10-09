@@ -60,15 +60,14 @@
 
   <!-- parts -->
   <div formArrayName="parts">
-    <div *ngIf="!parts?.length">
-      <br />
+    <div>
       <button
         type="button"
         mat-stroked-button
         color="primary"
-        (click)="addPart()"
+        (click)="addPart()" matTooltip="Add a new part to the name"
       >
-        add name part
+        <mat-icon>add_circle</mat-icon> add
       </button>
     </div>
     <div
@@ -83,15 +82,6 @@
       <div [formGroupName]="i">
         <!-- child actions -->
         {{ i + 1 }}.
-        <button
-          mat-icon-button
-          type="button"
-          matTooltip="Add part below"
-          color="primary"
-          (click)="addPartBelow(i)"
-        >
-          <mat-icon>add_circle</mat-icon>
-        </button>
         <button
           mat-icon-button
           type="button"

@@ -1,9 +1,14 @@
 <form [formGroup]="form">
   <div formArrayName="ids">
-    <div *ngIf="!ids?.length">
-      <br />
-      <button type="button" mat-stroked-button color="primary" (click)="addId()">
-        add ID
+    <div>
+      <button
+        type="button"
+        mat-stroked-button
+        color="primary"
+        (click)="addId()"
+        matTooltip="Add a new ID"
+      >
+        <mat-icon>add_circle</mat-icon> add
       </button>
     </div>
     <div
@@ -18,15 +23,6 @@
       <div [formGroupName]="i">
         <!-- child actions -->
         {{ i + 1 }}.
-        <button
-          mat-icon-button
-          type="button"
-          matTooltip="Add ID below"
-          color="primary"
-          (click)="addIdBelow(i)"
-        >
-          <mat-icon>add_circle</mat-icon>
-        </button>
         <button
           mat-icon-button
           type="button"
@@ -58,7 +54,8 @@
         <!-- child controls -->
         <!-- ID -->
         <mat-form-field>
-          <input #id
+          <input
+            #id
             matInput
             maxlength="500"
             formControlName="id"
@@ -68,7 +65,8 @@
           <mat-error>enter an ID</mat-error>
         </mat-form-field>
 
-        <button *ngIf="isValidUrl(item.value?.id)"
+        <button
+          *ngIf="isValidUrl(item.value?.id)"
           mat-icon-button
           type="button"
           matTooltip="Visit this URL"
