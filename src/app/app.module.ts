@@ -37,13 +37,15 @@ import { ITEM_BROWSER_KEYS } from './item-browser-keys';
 import { INDEX_LOOKUP_DEFINITIONS } from './index-lookup-definitions';
 
 import { CadmusItineraUiModule } from 'projects/myrmidon/cadmus-itinera-ui/src/public-api';
+import { SubEditorsDemoComponent } from './sub-editors-demo/sub-editors-demo.component';
 // when developing...
 // import { CadmusItineraPartLtUiModule } from 'projects/myrmidon/cadmus-itinera-part-lt-ui/src/public-api';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent
+    HomeComponent,
+    SubEditorsDemoComponent
   ],
   imports: [
     BrowserModule,
@@ -55,6 +57,7 @@ import { CadmusItineraUiModule } from 'projects/myrmidon/cadmus-itinera-ui/src/p
       [
         { path: '', redirectTo: 'home', pathMatch: 'full' },
         { path: 'home', component: HomeComponent },
+        { path: 'sub-demo', component: SubEditorsDemoComponent },
         {
           path: 'login',
           loadChildren: () =>
