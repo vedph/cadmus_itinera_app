@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ThesaurusEntry } from '@myrmidon/cadmus-core';
 import {
   DocReference,
   PersonName,
@@ -13,6 +14,8 @@ import { BehaviorSubject } from 'rxjs';
 export class SubEditorsDemoComponent implements OnInit {
   public personName$: BehaviorSubject<PersonName>;
   public lastPersonName: PersonName;
+  public langEntries: ThesaurusEntry[];
+  public namePartTypeEntries: ThesaurusEntry[];
 
   public externalIds$: BehaviorSubject<string[]>;
   public lastExternalIds: string[];
@@ -23,6 +26,26 @@ export class SubEditorsDemoComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
+    this.langEntries = [
+      { id: 'ita', value: 'Italian' },
+      { id: 'eng', value: 'English' },
+      { id: 'fra', value: 'French' },
+      { id: 'spa', value: 'Spanish' },
+      { id: 'ger', value: 'German' },
+      { id: 'lat', value: 'Latin' },
+      { id: 'grc', value: 'Greek' },
+      { id: 'gre', value: 'Modern Greek' },
+    ];
+    this.namePartTypeEntries = [
+      { id: 'first', value: 'first' },
+      { id: 'last', value: 'last' },
+      { id: 'name', value: 'name' },
+      { id: 'title', value: 'title' },
+      { id: 'praenomen', value: 'praenomen' },
+      { id: 'nomen', value: 'nomen' },
+      { id: 'cognomen', value: 'cognomen' },
+    ];
+
     this.personName$ = new BehaviorSubject<PersonName>({
       language: 'lat',
       tag: 'free',

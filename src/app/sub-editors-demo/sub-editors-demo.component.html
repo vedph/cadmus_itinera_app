@@ -9,6 +9,8 @@
       <mat-tab label="Person Name">
         <cadmus-person-name
           [model$]="personName$"
+          [langEntries]="langEntries"
+          [typeEntries]="namePartTypeEntries"
           (modelChange)="onPersonNameChange($event)"
         >
         </cadmus-person-name>

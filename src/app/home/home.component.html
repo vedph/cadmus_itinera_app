@@ -15,11 +15,29 @@
     </div>
     <div gdArea="text">
       <p>Welcome to the Itinera project editing dashboard.</p>
+      <p>This is currently under construction.</p>
       <p *ngIf="!logged">Please <a routerLink="/login">login</a> to start.</p>
     </div>
 
     <div gdArea="content">
-      See the <a routerLink='/sub-demo'>sub-components demo</a>.
+      <h4>Sub-Models</h4>
+      <p>
+        In our data design, several models share some sub-models. For instance,
+        whenever a structured person name occurs (as a correspondent in a
+        letter, as an actor in the history of a manuscript, etc.), this can be
+        of type
+        <code>PersonName</code>.
+      </p>
+      <p>
+        As data is modular, so is the editing system. In this case, we provide
+        an editor for each sub-model, which can be included into a higher-order
+        editor, thus composing its UI.
+      </p>
+      <p>
+        You can see the
+        <a routerLink="/sub-demo">sub-models editors page</a> for a live
+        demonstration.
+      </p>
     </div>
   </div>
 </div>
