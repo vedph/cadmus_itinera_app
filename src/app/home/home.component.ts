@@ -31,4 +31,8 @@ export class HomeComponent {
       ]
     );
   }
+
+  public onModelChange(model: DocReference[]): void {
+    console.log(JSON.stringify(model));
+  }
 }

@@ -16,6 +16,6 @@
   </div>
 
   <div>
-    <cadmus-doc-references [model$]="model$"></cadmus-doc-references>
+    <cadmus-doc-references [model$]="model$" (modelChange)="onModelChange($event)"></cadmus-doc-references>
   </div>
 </div>
