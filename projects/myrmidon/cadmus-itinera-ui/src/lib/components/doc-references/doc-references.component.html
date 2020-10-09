@@ -1,0 +1,130 @@
+<form [formGroup]="form">
+  <div formArrayName="references">
+    <!-- empty -->
+    <div *ngIf="!references?.length">
+      <br />
+      <button
+        type="button"
+        mat-stroked-button
+        color="primary"
+        (click)="addReference()"
+      >
+        add reference
+      </button>
+    </div>
+    <!-- list -->
+    <div
+      *ngFor="
+        let item of references.controls;
+        let i = index;
+        let first = first;
+        let last = last
+      "
+    >
+      <!-- child form -->
+      <div [formGroupName]="i">
+        <!-- child actions -->
+        {{ i + 1 }}.
+        <button
+          mat-icon-button
+          type="button"
+          matTooltip="Add reference below"
+          color="primary"
+          (click)="addReferenceBelow(i)"
+        >
+          <mat-icon>add_circle</mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          type="button"
+          matTooltip="Remove this reference"
+          color="warn"
+          (click)="removeReference(i)"
+        >
+          <mat-icon>remove_circle</mat-icon>
+        </button>
+        <button
+          [disabled]="first"
+          mat-icon-button
+          type="button"
+          matTooltip="Move reference up"
+          (click)="moveReferenceUp(i)"
+        >
+          <mat-icon>arrow_upward</mat-icon>
+        </button>
+        <button
+          [disabled]="last"
+          mat-icon-button
+          type="button"
+          matTooltip="Move reference down"
+          (click)="moveReferenceDown(i)"
+        >
+          <mat-icon>arrow_downward</mat-icon>
+        </button>
+
+        <!-- child controls -->
+        <!-- row 1 -->
+        <!-- tag (bound) -->
+        <ng-container *ngIf="tagEntries">
+          <mat-form-field style="width: 8em">
+            <mat-select formControlName="tag" placeholder="tag">
+              <mat-option *ngFor="let e of tagEntries" [value]="e.id">
+                {{ e.value }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </ng-container>
+
+        <!-- tag (free) -->
+        <ng-container *ngIf="!tagEntries">
+          <mat-form-field style="width: 8em">
+            <input matInput formControlName="tag" placeholder="tag" />
+            <mat-error
+              *ngIf="
+                item['controls'].tag.hasError('max-length') &&
+                (item['controls'].tag.dirty || item['controls'].tag.touched)
+              "
+              >tag too long
+            </mat-error>
+          </mat-form-field>
+        </ng-container>
+
+        <!-- author -->
+        TODO
+        <!-- work -->
+        TODO
+
+        <!-- location -->
+        <mat-form-field style="width: 6em">
+          <input matInput formControlName="location" placeholder="location" />
+          <mat-error
+            *ngIf="
+              item['controls'].location.hasError('max-length') &&
+              (item['controls'].location.dirty ||
+                item['controls'].location.touched)
+            "
+            >location too long
+          </mat-error>
+        </mat-form-field>
+        <!-- row 2-->
+        <div style="margin-left:2em">
+          <!-- note -->
+          <mat-form-field style="width: 430px">
+            <textarea
+              matInput
+              formControlName="note"
+              placeholder="note"
+            ></textarea>
+            <mat-error
+              *ngIf="
+                item['controls'].note.hasError('max-length') &&
+                (item['controls'].note.dirty || item['controls'].note.touched)
+              "
+              >note too long
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

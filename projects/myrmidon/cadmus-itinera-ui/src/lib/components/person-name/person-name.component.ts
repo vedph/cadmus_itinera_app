@@ -55,7 +55,7 @@ export class PersonNameComponent implements OnInit, AfterViewInit, OnDestroy {
    */
   @Input()
   public get model$(): BehaviorSubject<PersonName> {
-    return this.model$;
+    return this._modelSubject;
   }
   public set model$(value: BehaviorSubject<PersonName>) {
     this._modelSubject = value;

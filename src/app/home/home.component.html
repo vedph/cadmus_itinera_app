@@ -15,7 +15,7 @@
     <p *ngIf="!logged">Please <a routerLink="/login">login</a> to start.</p>
   </div>
 
-  <!-- <div>
-    <cadmus-person-part></cadmus-person-part>
-  </div> -->
+  <div>
+    <cadmus-doc-references [model$]="model$"></cadmus-doc-references>
+  </div>
 </div>

@@ -7,13 +7,13 @@ import {
   Validators,
 } from '@angular/forms';
 import { BehaviorSubject, Subscription } from 'rxjs';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { debounceTime } from 'rxjs/operators';
 
 /**
  * External IDs in-place editor.
  */
 @Component({
-  selector: 'lib-external-ids',
+  selector: 'cadmus-external-ids',
   templateUrl: './external-ids.component.html',
   styleUrls: ['./external-ids.component.css'],
 })
@@ -35,7 +35,7 @@ export class ExternalIdsComponent implements OnInit {
    */
   @Input()
   public get model$(): BehaviorSubject<string[]> {
-    return this.model$;
+    return this._modelSubject;
   }
   public set model$(value: BehaviorSubject<string[]>) {
     this._modelSubject = value;

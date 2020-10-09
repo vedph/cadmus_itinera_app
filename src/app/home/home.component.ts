@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { EnvService } from '@myrmidon/cadmus-core';
 import { AuthService } from '@myrmidon/cadmus-api';
+import { BehaviorSubject } from 'rxjs';
+import { DocReference } from 'projects/myrmidon/cadmus-itinera-core/src/lib/models';
 
 @Component({
   selector: 'cadmus-home',
@@ -11,8 +13,22 @@ export class HomeComponent {
   public title: string;
   public logged: boolean;
 
+  public model$: BehaviorSubject<DocReference[]>;
+
   constructor(env: EnvService, authService: AuthService) {
     this.title = env.name;
     this.logged = authService.currentUserValue !== null;
+
+    this.model$ = new BehaviorSubject<DocReference[]>(
+      [
+        {
+          tag: 'tag',
+          author: 'Chantraine',
+          work: 'EtGr',
+          location: '1.23',
+          note: 'wow, that\'s a note!'
+        }
+      ]
+    );
   }
 }
