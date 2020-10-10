@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ThesaurusEntry } from '@myrmidon/cadmus-core';
 import {
+  DecoratedId,
   DocReference,
   PersonName,
 } from 'projects/myrmidon/cadmus-itinera-core/src/lib/models';
@@ -22,6 +23,8 @@ export class SubEditorsDemoComponent implements OnInit {
 
   public references$: BehaviorSubject<DocReference[]>;
   public lastReferences: DocReference[];
+
+  public lastDecoratedIds: DecoratedId[];
 
   constructor() {}
 
@@ -82,5 +85,9 @@ export class SubEditorsDemoComponent implements OnInit {
 
   public onReferencesChange(model: DocReference[]): void {
     this.lastReferences = model;
+  }
+
+  public onIdsChange(model: DecoratedId[]): void {
+    this.lastDecoratedIds = model;
   }
 }

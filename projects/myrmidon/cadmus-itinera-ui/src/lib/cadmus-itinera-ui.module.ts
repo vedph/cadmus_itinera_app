@@ -5,12 +5,14 @@ import { CadmusMaterialModule } from '@myrmidon/cadmus-material';
 import { ExternalIdsComponent } from './components/external-ids/external-ids.component';
 import { PersonNameComponent } from './components/person-name/person-name.component';
 import { DocReferencesComponent } from './components/doc-references/doc-references.component';
+import { DecoratedIdsComponent } from './components/decorated-ids/decorated-ids.component';
 
 @NgModule({
   declarations: [
+    DecoratedIdsComponent,
+    DocReferencesComponent,
     ExternalIdsComponent,
     PersonNameComponent,
-    DocReferencesComponent,
   ],
   imports: [
     CommonModule,
@@ -18,6 +20,11 @@ import { DocReferencesComponent } from './components/doc-references/doc-referenc
     ReactiveFormsModule,
     CadmusMaterialModule,
   ],
-  exports: [ExternalIdsComponent, PersonNameComponent, DocReferencesComponent],
+  exports: [
+    DecoratedIdsComponent,
+    DocReferencesComponent,
+    ExternalIdsComponent,
+    PersonNameComponent,
+  ],
 })
 export class CadmusItineraUiModule {}
