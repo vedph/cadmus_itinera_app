@@ -16,7 +16,7 @@ import {
 } from '@angular/forms';
 import { ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { PersonName, PersonNamePart } from '@myrmidon/cadmus-itinera-core';
-import { InplaceEditorBase } from '@myrmidon/cadmus-itinera-ui';
+import { InplaceEditorBase } from '../inplace-editor-base';
 import { Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
@@ -31,9 +31,9 @@ import { debounceTime } from 'rxjs/operators';
 export class PersonNameComponent
   extends InplaceEditorBase<PersonName>
   implements OnInit, AfterViewInit, OnDestroy {
-  private _partValueSub: Subscription;
+  private _partValueSubscription: Subscription;
 
-  @ViewChildren('partValue') partValues: QueryList<any>;
+  @ViewChildren('partValue') partValueQueryList: QueryList<any>;
 
   /**
    * The optional thesaurus language entries.
@@ -59,7 +59,7 @@ export class PersonNameComponent
     super(formBuilder);
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     // create this form
     this.language = this.formBuilder.control(null, [
       Validators.required,
@@ -75,18 +75,18 @@ export class PersonNameComponent
   }
 
   public ngAfterViewInit(): void {
-    this._partValueSub = this.partValues.changes
+    this._partValueSubscription = this.partValueQueryList.changes
       .pipe(debounceTime(300))
       .subscribe((_) => {
-        if (this.partValues.length > 0) {
-          this.partValues.last.nativeElement.focus();
+        if (this.partValueQueryList.length > 0) {
+          this.partValueQueryList.last.nativeElement.focus();
         }
       });
   }
 
   public ngOnDestroy(): void {
     super.ngOnDestroy();
-    this._partValueSub.unsubscribe();
+    this._partValueSubscription.unsubscribe();
   }
 
   // private areModelsEqual(x: PersonName, y: PersonName): boolean {

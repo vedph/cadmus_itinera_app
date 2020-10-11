@@ -17,9 +17,9 @@ import { BehaviorSubject } from 'rxjs';
   templateUrl: './decorated-ids.component.html',
   styleUrls: ['./decorated-ids.component.css'],
 })
-export class DecoratedIdsComponent implements OnInit {
+export class DecoratedIdsComponent {
   private _ids: DecoratedId[];
-  private _editedIdIndex;
+  private _editedIdIndex: number;
 
   public editedId: DecoratedId;
   public form: FormGroup;
@@ -67,8 +67,6 @@ export class DecoratedIdsComponent implements OnInit {
       tag: this.tag,
     });
   }
-
-  ngOnInit(): void {}
 
   private setEditedId(id: DecoratedId): void {
     if (!id) {
