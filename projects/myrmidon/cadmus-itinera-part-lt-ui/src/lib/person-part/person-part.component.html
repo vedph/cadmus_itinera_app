@@ -99,8 +99,8 @@
                 {{ externalIds$?.value.length || 0 }}
               </mat-panel-description>
             </mat-expansion-panel-header>
-            <lib-external-ids [model$]="externalIds$" (modelChange)="onExternalIdsChange($event)">
-            </lib-external-ids>
+            <cadmus-external-ids [model$]="externalIds$" (modelChange)="onExternalIdsChange($event)">
+            </cadmus-external-ids>
           </mat-expansion-panel>
         </mat-tab>
 
