@@ -1,0 +1,49 @@
+<form [formGroup]="form" (submit)="save()">
+  <h4>name</h4>
+  <div>
+    <cadmus-person-name
+      [parentForm]="form"
+      [model$]="name$"
+      [langEntries]="langEntries"
+      [tagEntries]="tagEntries"
+      [typeEntries]="typeEntries"
+      (modelChange)="onNameChange($event)"
+    ></cadmus-person-name>
+  </div>
+
+  <br>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <h4>identification</h4>
+      </mat-panel-title>
+      <mat-panel-description>{{ this.ids?.length || 0 }}</mat-panel-description>
+    </mat-expansion-panel-header>
+    <cadmus-decorated-ids
+      [ids]="ids"
+      [tagEntries]="tagEntries"
+      (idsChange)="onIdsChange($event)"
+    ></cadmus-decorated-ids>
+  </mat-expansion-panel>
+
+  <br>
+  <div>
+    <button
+      type="button"
+      color="warn"
+      mat-icon-button
+      (click)="cancel()"
+      matTooltip="Close this person"
+    >
+      <mat-icon>clear</mat-icon>
+    </button>
+    <button
+      type="submit"
+      color="primary"
+      mat-stroked-button
+      matTooltip="Save this person"
+    >
+      <mat-icon>check_circle</mat-icon> save person
+    </button>
+  </div>
+</form>

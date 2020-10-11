@@ -7,9 +7,11 @@ import { PersonNameComponent } from './components/person-name/person-name.compon
 import { DocReferencesComponent } from './components/doc-references/doc-references.component';
 import { DecoratedIdsComponent } from './components/decorated-ids/decorated-ids.component';
 import { DecoratedCountsComponent } from './components/decorated-counts/decorated-counts.component';
+import { CitedPersonComponent } from './components/cited-person/cited-person.component';
 
 @NgModule({
   declarations: [
+    CitedPersonComponent,
     DecoratedCountsComponent,
     DecoratedIdsComponent,
     DocReferencesComponent,
@@ -23,6 +25,7 @@ import { DecoratedCountsComponent } from './components/decorated-counts/decorate
     CadmusMaterialModule,
   ],
   exports: [
+    CitedPersonComponent,
     DecoratedCountsComponent,
     DecoratedIdsComponent,
     DocReferencesComponent,

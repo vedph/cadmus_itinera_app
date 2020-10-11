@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ThesaurusEntry } from '@myrmidon/cadmus-core';
-import { DecoratedCount } from '@myrmidon/cadmus-itinera-core';
+import { CitedPerson, DecoratedCount } from '@myrmidon/cadmus-itinera-core';
 import {
   DecoratedId,
   DocReference,
@@ -29,6 +29,8 @@ export class SubEditorsDemoComponent implements OnInit {
 
   public decoratedCounts$: BehaviorSubject<DecoratedCount[]>;
   public lastDecoratedCounts: DecoratedCount[];
+
+  public lastCitedPerson: CitedPerson;
 
   constructor() {}
 
@@ -109,5 +111,9 @@ export class SubEditorsDemoComponent implements OnInit {
 
   public onDecoratedCountsChange(model: DecoratedCount[]): void {
     this.lastDecoratedCounts = model;
+  }
+
+  public onCitedPersonChange(model: CitedPerson): void {
+    this.lastCitedPerson = model;
   }
 }
