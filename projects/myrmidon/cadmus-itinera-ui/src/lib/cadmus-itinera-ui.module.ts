@@ -8,9 +8,12 @@ import { DocReferencesComponent } from './components/doc-references/doc-referenc
 import { DecoratedIdsComponent } from './components/decorated-ids/decorated-ids.component';
 import { DecoratedCountsComponent } from './components/decorated-counts/decorated-counts.component';
 import { CitedPersonComponent } from './components/cited-person/cited-person.component';
+import { ChronotopeComponent } from './components/chronotope/chronotope.component';
+import { CadmusUiModule } from '@myrmidon/cadmus-ui';
 
 @NgModule({
   declarations: [
+    ChronotopeComponent,
     CitedPersonComponent,
     DecoratedCountsComponent,
     DecoratedIdsComponent,
@@ -23,8 +26,10 @@ import { CitedPersonComponent } from './components/cited-person/cited-person.com
     FormsModule,
     ReactiveFormsModule,
     CadmusMaterialModule,
+    CadmusUiModule
   ],
   exports: [
+    ChronotopeComponent,
     CitedPersonComponent,
     DecoratedCountsComponent,
     DecoratedIdsComponent,

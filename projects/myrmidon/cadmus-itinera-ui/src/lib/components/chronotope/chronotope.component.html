@@ -1,0 +1,97 @@
+<form [formGroup]="form" (submit)="save()">
+  <div>
+    <!-- tag (bound) -->
+    <ng-container *ngIf="tagEntries">
+      <mat-form-field>
+        <mat-select [formControl]="tag" placeholder="tag">
+          <mat-option *ngFor="let e of tagEntries" [value]="e.id">{{
+            e.value
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </ng-container>
+
+    <!-- tag (free) -->
+    <ng-container *ngIf="!tagEntries">
+      <mat-form-field>
+        <input matInput [formControl]="tag" placeholder="tag" />
+        <mat-error
+          *ngIf="tag.hasError('max-length') && (tag.dirty || tag.touched)"
+          >tag too long</mat-error
+        >
+      </mat-form-field>
+    </ng-container>
+  </div>
+
+  <hr />
+  <!-- place -->
+  <div>
+    <mat-form-field>
+      <input matInput [formControl]="place" placeholder="place" />
+      <mat-error
+        *ngIf="place.hasError('required') && (place.dirty || place.touched)"
+        >place required</mat-error
+      >
+      <mat-error
+        *ngIf="place.hasError('max-length') && (place.dirty || place.touched)"
+        >place too long</mat-error
+      >
+    </mat-form-field>
+  </div>
+
+  <hr />
+  <!-- date -->
+  <div>
+    <cadmus-historical-date-editor
+      [(date)]="date"
+    ></cadmus-historical-date-editor>
+  </div>
+
+  <!-- text date -->
+  <div>
+    <mat-form-field>
+      <input matInput [formControl]="textDate" placeholder="text date" />
+      <mat-error
+        *ngIf="
+          textDate.hasError('max-length') &&
+          (textDate.dirty || textDate.touched)
+        "
+        >text date too long</mat-error
+      >
+    </mat-form-field>
+  </div>
+
+  <!-- sources -->
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>sources</mat-panel-title>
+      <mat-panel-description>{{ sources?.length || 0 }}</mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <cadmus-doc-references
+      [model$]="sources$"
+      (modelChange)="onSourcesChange($event)"
+    ></cadmus-doc-references>
+  </mat-expansion-panel>
+
+  <br />
+  <div>
+    <button
+      type="button"
+      color="warn"
+      mat-icon-button
+      (click)="cancel()"
+      matTooltip="Close this chronotope"
+    >
+      <mat-icon>clear</mat-icon>
+    </button>
+    <button
+      type="submit"
+      color="primary"
+      mat-flat-button
+      matTooltip="Save this chronotope"
+    >
+      <mat-icon>check_circle</mat-icon> save
+    </button>
+  </div>
+</form>

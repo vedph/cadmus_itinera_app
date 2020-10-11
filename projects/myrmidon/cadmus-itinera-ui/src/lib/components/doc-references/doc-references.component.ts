@@ -134,6 +134,7 @@ export class DocReferencesComponent
         tag: g.controls.tag.value?.trim(),
         author: g.controls.author.value?.trim(),
         work: g.controls.work.value?.trim(),
+        location: g.controls.location.value?.trim(),
         note: g.controls.note.value?.trim(),
       });
     }

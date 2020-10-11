@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ThesaurusEntry } from '@myrmidon/cadmus-core';
-import { CitedPerson, DecoratedCount } from '@myrmidon/cadmus-itinera-core';
+import { Chronotope, CitedPerson, DecoratedCount } from '@myrmidon/cadmus-itinera-core';
 import {
   DecoratedId,
   DocReference,
@@ -31,6 +31,8 @@ export class SubEditorsDemoComponent implements OnInit {
   public lastDecoratedCounts: DecoratedCount[];
 
   public lastCitedPerson: CitedPerson;
+
+  public lastChronotope: Chronotope;
 
   constructor() {}
 
@@ -115,5 +117,9 @@ export class SubEditorsDemoComponent implements OnInit {
 
   public onCitedPersonChange(model: CitedPerson): void {
     this.lastCitedPerson = model;
+  }
+
+  public onChronotopeChange(model: Chronotope): void {
+    this.lastChronotope = model;
   }
 }

@@ -70,6 +70,15 @@
           <pre>{{ lastCitedPerson | json }}</pre>
         </div>
       </mat-tab>
+
+      <mat-tab label="Chronotope">
+        <cadmus-chronotope
+          (chronotopeChange)="onChronotopeChange($event)"
+        ></cadmus-chronotope>
+        <div *ngIf="lastChronotope">
+          <pre>{{ lastChronotope | json }}</pre>
+        </div>
+      </mat-tab>
     </mat-tab-group>
   </mat-card-content>
 </mat-card>
