@@ -10,9 +10,9 @@ import {
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { DocReference } from '@myrmidon/cadmus-itinera-core';
+import { InplaceEditorBase } from '@myrmidon/cadmus-itinera-ui';
 import { Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-import { InplaceEditorBase } from '../inplace-editor-base';
 
 /**
  * In-place editor for a set of DocReference's.

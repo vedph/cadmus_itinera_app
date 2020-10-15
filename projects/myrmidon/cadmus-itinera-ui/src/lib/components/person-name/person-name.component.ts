@@ -16,7 +16,7 @@ import {
 } from '@angular/forms';
 import { ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { PersonName, PersonNamePart } from '@myrmidon/cadmus-itinera-core';
-import { InplaceEditorBase } from '../inplace-editor-base';
+import { InplaceEditorBase } from '@myrmidon/cadmus-itinera-ui';
 import { Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 

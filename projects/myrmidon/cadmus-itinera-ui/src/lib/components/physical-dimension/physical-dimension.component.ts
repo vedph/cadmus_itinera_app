@@ -16,6 +16,8 @@ import { debounceTime } from 'rxjs/operators';
 })
 export class PhysicalDimensionComponent implements OnInit {
   private _dimension: PhysicalDimension;
+  private _disabled: boolean;
+  private _changeFrozen: boolean;
 
   @Input()
   public parentForm: FormGroup;
@@ -34,8 +36,28 @@ export class PhysicalDimensionComponent implements OnInit {
     return this._dimension;
   }
   public set dimension(value: PhysicalDimension) {
+    if (
+      this._dimension?.value === value?.value &&
+      this.dimension?.unit === value?.unit &&
+      this.dimension?.tag === value?.tag
+    ) {
+      return;
+    }
     this._dimension = value;
     this.setModel(this._dimension);
+  }
+
+  @Input()
+  public get disabled(): boolean {
+    return this._disabled;
+  }
+  public set disabled(value: boolean) {
+    this._disabled = value;
+    if (value) {
+      this.form.disable();
+    } else {
+      this.form.enable();
+    }
   }
 
   @Output()
@@ -73,13 +95,16 @@ export class PhysicalDimensionComponent implements OnInit {
     }
     this.setModel(this._dimension);
     // on change emit event
-    this.form.valueChanges.pipe(debounceTime(300)).subscribe(_ => {
-      const model = this.getModel();
-      this.dimensionChange.emit(model);
+    this.form.valueChanges.pipe(debounceTime(300)).subscribe((_) => {
+      if (!this._changeFrozen) {
+        const model = this.getModel();
+        this.dimensionChange.emit(model);
+      }
     });
   }
 
   private setModel(model: PhysicalDimension): void {
+    this._changeFrozen = true;
     if (!model) {
       this.form.reset();
     } else {
@@ -88,13 +113,14 @@ export class PhysicalDimensionComponent implements OnInit {
       this.tag.setValue(model.tag);
       this.form.markAsPristine();
     }
+    this._changeFrozen = false;
   }
 
   private getModel(): PhysicalDimension {
     return {
       value: this.value.value || 0,
       unit: this.unit.value,
-      tag: this.tag.value
+      tag: this.tag.value,
     };
   }
 }

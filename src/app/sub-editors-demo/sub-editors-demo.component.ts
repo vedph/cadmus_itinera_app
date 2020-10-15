@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ThesaurusEntry } from '@myrmidon/cadmus-core';
-import { Chronotope, CitedPerson, DecoratedCount, PhysicalDimension } from '@myrmidon/cadmus-itinera-core';
+import { Chronotope, CitedPerson, DecoratedCount, PhysicalDimension, PhysicalSize } from '@myrmidon/cadmus-itinera-core';
 import {
   DecoratedId,
   DocReference,
@@ -35,6 +35,9 @@ export class SubEditorsDemoComponent implements OnInit {
   public lastChronotope: Chronotope;
 
   public dimension: PhysicalDimension;
+
+  public unitEntries: ThesaurusEntry[];
+  public size: PhysicalSize;
 
   constructor() {}
 
@@ -96,10 +99,15 @@ export class SubEditorsDemoComponent implements OnInit {
       },
     ]);
 
-    this.dimension = {
-      value: 3,
-      unit: 'cm',
-      tag: 'tag'
+    this.unitEntries = [
+      { id: 'mm', value: 'mm' },
+      { id: 'cm', value: 'cm' },
+      { id: 'mt', value: 'mt' },
+    ];
+    this.size = {
+      tag: 'A4',
+      w: { value: 21, unit: 'cm' },
+      h: { value: 29.7, unit: 'cm' }
     };
   }
 

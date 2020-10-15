@@ -88,6 +88,16 @@
           <pre>{{ dimension | json }}</pre>
         </div>
       </mat-tab>
+
+      <mat-tab label="Size">
+        <cadmus-physical-size
+          [unitEntries]="unitEntries"
+          [(size)]="size"
+        ></cadmus-physical-size>
+        <div *ngIf="size">
+          <pre>{{ size | json }}</pre>
+        </div>
+      </mat-tab>
     </mat-tab-group>
   </mat-card-content>
 </mat-card>

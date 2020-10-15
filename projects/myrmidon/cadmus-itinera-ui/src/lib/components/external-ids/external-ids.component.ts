@@ -13,7 +13,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { InplaceEditorBase } from '../inplace-editor-base';
+import { InplaceEditorBase } from '@myrmidon/cadmus-itinera-ui';
 import { Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 

@@ -1,0 +1,62 @@
+<form [formGroup]="form">
+  <div>
+    <!-- tag (bound) -->
+    <mat-form-field style="width: 6em" *ngIf="tagEntries?.length">
+      <mat-select [formControl]="tag" placeholder="tag">
+        <mat-option *ngFor="let e of tagEntries" [value]="e.id">{{
+          e.value
+        }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- tag (free) -->
+    <mat-form-field style="width: 5em" *ngIf="!tagEntries?.length">
+      <input matInput [formControl]="tag" placeholder="tag" />
+      <mat-error *ngIf="tag.errors?.maxLength && (tag.dirty || tag.touched)"
+        >tag too long</mat-error
+      >
+    </mat-form-field>
+
+    <!-- label -->
+    <span class="label" *ngIf="label">{{ label }}</span>
+  </div>
+
+  <!-- w -->
+  <div>
+    <mat-checkbox [formControl]="hasW"> </mat-checkbox>
+    <cadmus-physical-dimension
+      [dimension]="w"
+      label="w"
+      [unitEntries]="unitEntries"
+      [tagEntries]="dimTagEntries"
+      [disabled]="!hasW.value"
+      (dimensionChange)="onWChange($event)"
+    ></cadmus-physical-dimension>
+  </div>
+
+  <!-- h -->
+  <div>
+    <mat-checkbox [formControl]="hasH"></mat-checkbox>
+    <cadmus-physical-dimension
+      [dimension]="h"
+      label="h"
+      [unitEntries]="unitEntries"
+      [tagEntries]="dimTagEntries"
+      [disabled]="!hasH.value"
+      (dimensionChange)="onHChange($event)"
+    ></cadmus-physical-dimension>
+  </div>
+
+  <!-- d -->
+  <div>
+    <mat-checkbox [formControl]="hasD"> </mat-checkbox>
+    <cadmus-physical-dimension
+      [dimension]="d"
+      label="d"
+      [unitEntries]="unitEntries"
+      [tagEntries]="dimTagEntries"
+      [disabled]="!hasD.value"
+      (dimensionChange)="onDChange($event)"
+    ></cadmus-physical-dimension>
+  </div>
+</form>

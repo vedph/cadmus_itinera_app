@@ -11,6 +11,7 @@ import { CitedPersonComponent } from './components/cited-person/cited-person.com
 import { ChronotopeComponent } from './components/chronotope/chronotope.component';
 import { CadmusUiModule } from '@myrmidon/cadmus-ui';
 import { PhysicalDimensionComponent } from './components/physical-dimension/physical-dimension.component';
+import { PhysicalSizeComponent } from './components/physical-size/physical-size.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { PhysicalDimensionComponent } from './components/physical-dimension/phys
     ExternalIdsComponent,
     PersonNameComponent,
     PhysicalDimensionComponent,
+    PhysicalSizeComponent,
   ],
   imports: [
     CommonModule,
@@ -39,6 +41,7 @@ import { PhysicalDimensionComponent } from './components/physical-dimension/phys
     ExternalIdsComponent,
     PersonNameComponent,
     PhysicalDimensionComponent,
+    PhysicalSizeComponent
   ],
 })
 export class CadmusItineraUiModule {}

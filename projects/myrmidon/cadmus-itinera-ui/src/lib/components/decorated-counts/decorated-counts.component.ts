@@ -13,9 +13,9 @@ import {
   Validators,
 } from '@angular/forms';
 import { DecoratedCount } from '@myrmidon/cadmus-itinera-core';
+import { InplaceEditorBase } from '@myrmidon/cadmus-itinera-ui';
 import { Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-import { InplaceEditorBase } from '../inplace-editor-base';
 
 /**
  * Decorated counts in-place editor.
