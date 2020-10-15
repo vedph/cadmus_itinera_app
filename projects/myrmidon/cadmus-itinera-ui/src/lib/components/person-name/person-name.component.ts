@@ -16,7 +16,7 @@ import {
 } from '@angular/forms';
 import { ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { PersonName, PersonNamePart } from '@myrmidon/cadmus-itinera-core';
-import { InplaceEditorBase } from '@myrmidon/cadmus-itinera-ui';
+import { InplaceEditorComponentBase } from '@myrmidon/cadmus-ui';
 import { Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
@@ -29,7 +29,7 @@ import { debounceTime } from 'rxjs/operators';
   styleUrls: ['./person-name.component.css'],
 })
 export class PersonNameComponent
-  extends InplaceEditorBase<PersonName>
+  extends InplaceEditorComponentBase<PersonName>
   implements OnInit, AfterViewInit, OnDestroy {
   private _partValueSubscription: Subscription;
 

@@ -13,7 +13,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { InplaceEditorBase } from '@myrmidon/cadmus-itinera-ui';
+import { InplaceEditorComponentBase } from '@myrmidon/cadmus-ui';
 import { Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
@@ -26,7 +26,7 @@ import { debounceTime } from 'rxjs/operators';
   styleUrls: ['./external-ids.component.css'],
 })
 export class ExternalIdsComponent
-  extends InplaceEditorBase<string[]>
+  extends InplaceEditorComponentBase<string[]>
   implements OnInit, AfterViewInit, OnDestroy {
   private _idSubscription: Subscription;
 

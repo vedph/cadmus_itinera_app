@@ -13,7 +13,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { DecoratedCount } from '@myrmidon/cadmus-itinera-core';
-import { InplaceEditorBase } from '@myrmidon/cadmus-itinera-ui';
+import { InplaceEditorComponentBase } from '@myrmidon/cadmus-ui';
 import { Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
@@ -26,7 +26,7 @@ import { debounceTime } from 'rxjs/operators';
   styleUrls: ['./decorated-counts.component.css'],
 })
 export class DecoratedCountsComponent
-  extends InplaceEditorBase<DecoratedCount[]>
+  extends InplaceEditorComponentBase<DecoratedCount[]>
   implements OnInit, AfterViewInit, OnDestroy {
   private _idSubscription: Subscription;
 

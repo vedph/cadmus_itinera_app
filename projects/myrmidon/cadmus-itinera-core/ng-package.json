@@ -4,7 +4,8 @@
   "lib": {
     "entryFile": "src/public-api.ts",
     "umdModuleIds": {
-      "@myrmidon/cadmus-core": "@myrmidon/cadmus-core"
+      "@myrmidon/cadmus-core": "@myrmidon/cadmus-core",
+      "@myrmidon/cadmus-ui": "@myrmidon/cadmus-ui"
     }
   }
 }

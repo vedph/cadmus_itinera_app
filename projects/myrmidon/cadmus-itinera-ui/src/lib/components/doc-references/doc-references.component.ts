@@ -10,7 +10,7 @@ import {
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { DocReference } from '@myrmidon/cadmus-itinera-core';
-import { InplaceEditorBase } from '@myrmidon/cadmus-itinera-ui';
+import { InplaceEditorComponentBase } from '@myrmidon/cadmus-ui';
 import { Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
@@ -23,7 +23,7 @@ import { debounceTime } from 'rxjs/operators';
   styleUrls: ['./doc-references.component.css'],
 })
 export class DocReferencesComponent
-  extends InplaceEditorBase<DocReference[]>
+  extends InplaceEditorComponentBase<DocReference[]>
   implements OnInit, AfterViewInit, OnDestroy {
   private _authorSubscription: Subscription;
   public references: FormArray;

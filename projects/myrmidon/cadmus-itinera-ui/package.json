@@ -5,7 +5,8 @@
     "@angular/common": "^10.1.4",
     "@angular/core": "^10.1.4",
     "@angular/forms": "^10.1.4",
-    "@myrmidon/cadmus-material": "^0.0.1"
+    "@myrmidon/cadmus-material": "^0.0.1",
+    "@myrmidon/cadmus-ui": "^0.0.1"
   },
   "dependencies": {
     "tslib": "^2.0.0"
