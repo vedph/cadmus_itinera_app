@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ThesaurusEntry } from '@myrmidon/cadmus-core';
-import { Chronotope, CitedPerson, DecoratedCount } from '@myrmidon/cadmus-itinera-core';
+import { Chronotope, CitedPerson, DecoratedCount, PhysicalDimension } from '@myrmidon/cadmus-itinera-core';
 import {
   DecoratedId,
   DocReference,
@@ -33,6 +33,8 @@ export class SubEditorsDemoComponent implements OnInit {
   public lastCitedPerson: CitedPerson;
 
   public lastChronotope: Chronotope;
+
+  public dimension: PhysicalDimension;
 
   constructor() {}
 
@@ -93,6 +95,12 @@ export class SubEditorsDemoComponent implements OnInit {
         value: 2
       },
     ]);
+
+    this.dimension = {
+      value: 3,
+      unit: 'cm',
+      tag: 'tag'
+    };
   }
 
   public onPersonNameChange(model: PersonName): void {

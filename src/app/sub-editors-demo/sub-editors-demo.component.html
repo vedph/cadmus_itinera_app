@@ -79,6 +79,15 @@
           <pre>{{ lastChronotope | json }}</pre>
         </div>
       </mat-tab>
+
+      <mat-tab label="Dimension">
+        <cadmus-physical-dimension
+          [(dimension)]="dimension"
+        ></cadmus-physical-dimension>
+        <div *ngIf="dimension">
+          <pre>{{ dimension | json }}</pre>
+        </div>
+      </mat-tab>
     </mat-tab-group>
   </mat-card-content>
 </mat-card>

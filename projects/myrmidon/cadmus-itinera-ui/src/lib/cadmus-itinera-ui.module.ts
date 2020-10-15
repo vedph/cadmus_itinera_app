@@ -10,6 +10,7 @@ import { DecoratedCountsComponent } from './components/decorated-counts/decorate
 import { CitedPersonComponent } from './components/cited-person/cited-person.component';
 import { ChronotopeComponent } from './components/chronotope/chronotope.component';
 import { CadmusUiModule } from '@myrmidon/cadmus-ui';
+import { PhysicalDimensionComponent } from './components/physical-dimension/physical-dimension.component';
 
 @NgModule({
   declarations: [
@@ -20,13 +21,14 @@ import { CadmusUiModule } from '@myrmidon/cadmus-ui';
     DocReferencesComponent,
     ExternalIdsComponent,
     PersonNameComponent,
+    PhysicalDimensionComponent,
   ],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     CadmusMaterialModule,
-    CadmusUiModule
+    CadmusUiModule,
   ],
   exports: [
     ChronotopeComponent,
@@ -36,6 +38,7 @@ import { CadmusUiModule } from '@myrmidon/cadmus-ui';
     DocReferencesComponent,
     ExternalIdsComponent,
     PersonNameComponent,
+    PhysicalDimensionComponent,
   ],
 })
 export class CadmusItineraUiModule {}

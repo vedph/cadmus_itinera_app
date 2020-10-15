@@ -9,5 +9,6 @@ export * from './lib/components/decorated-counts/decorated-counts.component';
 export * from './lib/components/decorated-ids/decorated-ids.component';
 export * from './lib/components/doc-references/doc-references.component';
 export * from './lib/components/external-ids/external-ids.component';
+export * from './lib/components/physical-dimension/physical-dimension.component';
 export * from './lib/components/person-name/person-name.component';
 export * from './lib/cadmus-itinera-ui.module';
