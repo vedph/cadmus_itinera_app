@@ -7,6 +7,7 @@ import {
 } from '@angular/forms';
 import { ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { PhysicalDimension, PhysicalSize } from '@myrmidon/cadmus-itinera-core';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'cadmus-physical-size',
@@ -40,13 +41,16 @@ export class PhysicalSizeComponent implements OnInit {
 
   public form: FormGroup;
   public tag: FormControl;
-  public hasW: FormControl;
-  public hasH: FormControl;
-  public hasD: FormControl;
+  public wValue: FormControl;
+  public wUnit: FormControl;
+  public wTag: FormControl;
+  public hValue: FormControl;
+  public hUnit: FormControl;
+  public hTag: FormControl;
+  public dValue: FormControl;
+  public dUnit: FormControl;
+  public dTag: FormControl;
 
-  public w: PhysicalDimension;
-  public h: PhysicalDimension;
-  public d: PhysicalDimension;
   public label: string;
 
   constructor(formBuilder: FormBuilder) {
@@ -54,15 +58,30 @@ export class PhysicalSizeComponent implements OnInit {
     this.sizeChange = new EventEmitter<PhysicalSize>();
     // form
     this.tag = formBuilder.control(null, Validators.maxLength(50));
-    this.hasW = formBuilder.control(true);
-    this.hasH = formBuilder.control(false);
-    this.hasD = formBuilder.control(false);
+
+    this.wValue = formBuilder.control(0);
+    this.wUnit = formBuilder.control('cm', Validators.required);
+    this.wTag = formBuilder.control(null, Validators.maxLength(50));
+
+    this.hValue = formBuilder.control(0);
+    this.hUnit = formBuilder.control('cm', Validators.required);
+    this.hTag = formBuilder.control(null, Validators.maxLength(50));
+
+    this.dValue = formBuilder.control(0);
+    this.dUnit = formBuilder.control('cm', Validators.required);
+    this.dTag = formBuilder.control(null, Validators.maxLength(50));
 
     this.form = formBuilder.group({
       tag: this.tag,
-      hasW: this.hasW,
-      hasH: this.hasH,
-      hasD: this.hasD,
+      wValue: this.wValue,
+      wUnit: this.wUnit,
+      wTag: this.wTag,
+      hValue: this.hValue,
+      hUnit: this.hUnit,
+      hTag: this.hTag,
+      dValue: this.dValue,
+      dUnit: this.dUnit,
+      dTag: this.dTag,
     });
   }
 
@@ -70,20 +89,42 @@ export class PhysicalSizeComponent implements OnInit {
     if (this.parentForm) {
       this.parentForm.addControl('size', this.form);
     }
+
+    this.form.valueChanges.pipe(debounceTime(400)).subscribe((_) => {
+      const model = this.getModel();
+
+      if (this.validateModel(model)) {
+        this.updateLabel();
+        this.sizeChange.emit(model);
+      }
+    });
   }
 
-  private getDimensionLabel(
-    dimension: PhysicalDimension,
-    uniqueUnit: boolean
-  ): string {
-    if (!dimension) {
+  private getDimensionLabel(value: number, unit: string): string {
+    if (!value) {
       return '';
     }
-    let s = dimension.value.toString();
-    if (!uniqueUnit) {
-      s += ' ' + dimension.unit;
+    let s = value.toString();
+    if (unit) {
+      s += ' ' + unit;
     }
     return s;
+  }
+
+  private validateModel(model: PhysicalSize): boolean {
+    if (!model) {
+      return false;
+    }
+    return (
+      // at least 1 dim with unit
+      ((model.w?.value && !!model.w.unit) ||
+        (model.h?.value && !!model.h.unit) ||
+        (model.d?.value && !!model.d.unit)) &&
+      // no dim without unit
+      !(model.w?.value && !model.w.unit) &&
+      !(model.h?.value && !model.h.unit) &&
+      !(model.d?.value && !model.d.unit)
+    );
   }
 
   private updateLabel(): void {
@@ -91,34 +132,49 @@ export class PhysicalSizeComponent implements OnInit {
 
     // determine the unique unit if any
     let uniqueUnit: string = null;
-    if (this.hasW.value) {
-      uniqueUnit = this.w?.unit;
+    if (this.wValue.value) {
+      uniqueUnit = this.wUnit.value;
     }
 
-    if (this.hasH.value) {
+    if (this.hValue.value) {
       if (!uniqueUnit) {
-        uniqueUnit = this.h?.unit;
-      } else if (this.h && uniqueUnit !== this.h.unit) {
+        uniqueUnit = this.hUnit.value;
+      } else if (uniqueUnit !== this.hUnit.value) {
         uniqueUnit = null;
       }
     }
 
-    if (this.hasD.value) {
+    if (this.dValue.value) {
       if (!uniqueUnit) {
-        uniqueUnit = this.d?.unit;
-      } else if (this.d && uniqueUnit !== this.d.unit) {
+        uniqueUnit = this.dUnit.value;
+      } else if (uniqueUnit !== this.dUnit.value) {
         uniqueUnit = null;
       }
     }
 
-    if (this.hasW.value) {
-      sb.push(this.getDimensionLabel(this.w, uniqueUnit !== null));
+    if (this.wValue.value) {
+      sb.push(
+        this.getDimensionLabel(
+          this.wValue.value,
+          uniqueUnit ? null : this.wUnit.value
+        )
+      );
     }
-    if (this.hasH.value) {
-      sb.push(this.getDimensionLabel(this.h, uniqueUnit !== null));
+    if (this.hValue.value) {
+      sb.push(
+        this.getDimensionLabel(
+          this.hValue.value,
+          uniqueUnit ? null : this.hUnit.value
+        )
+      );
     }
-    if (this.hasD.value) {
-      sb.push(this.getDimensionLabel(this.d, uniqueUnit !== null));
+    if (this.dValue.value) {
+      sb.push(
+        this.getDimensionLabel(
+          this.dValue.value,
+          uniqueUnit ? null : this.dUnit.value
+        )
+      );
     }
 
     this.label = sb.join(' × ') + (uniqueUnit ? ' ' + uniqueUnit : '');
@@ -127,48 +183,71 @@ export class PhysicalSizeComponent implements OnInit {
   private setModel(model: PhysicalSize): void {
     if (!model) {
       this.form.reset();
-      this.w = this.h = this.d = null;
       this.label = null;
     } else {
       const defaultUnit = this.unitEntries?.length
         ? this.unitEntries[0].id
         : null;
       this.tag.setValue(model.tag);
-      this.w = model.w || { value: 0, unit: defaultUnit };
-      this.h = model.h || { value: 0, unit: defaultUnit };
-      this.d = model.d || { value: 0, unit: defaultUnit };
-      this.hasW.setValue(this.w?.value ? true : false);
-      this.hasH.setValue(this.h?.value ? true : false);
-      this.hasD.setValue(this.d?.value ? true : false);
+      if (model.w?.value) {
+        this.wValue.setValue(model.w.value);
+        this.wUnit.setValue(model.w.unit);
+        this.wTag.setValue(model.w.tag);
+      } else {
+        this.wValue.reset();
+        this.wUnit.reset();
+        this.wTag.reset();
+      }
+
+      if (model.h?.value) {
+        this.hValue.setValue(model.h.value);
+        this.hUnit.setValue(model.h.unit);
+        this.hTag.setValue(model.h.tag);
+      } else {
+        this.hValue.reset();
+        this.hUnit.reset();
+        this.hTag.reset();
+      }
+
+      if (model.d?.value) {
+        this.dValue.setValue(model.d.value);
+        this.dUnit.setValue(model.d.unit);
+        this.dTag.setValue(model.d.tag);
+      } else {
+        this.dValue.reset();
+        this.dUnit.reset();
+        this.dTag.reset();
+      }
+
       this.form.markAsPristine();
       this.updateLabel();
     }
   }
 
-  private getModel(): PhysicalSize {
+  private getDimension(
+    v: FormControl,
+    u: FormControl,
+    t: FormControl
+  ): PhysicalDimension {
     return {
-      tag: this.tag.value?.trim(),
-      w: this.hasW.value ? this.w : null,
-      h: this.hasH.value ? this.h : null,
-      d: this.hasD.value ? this.d : null,
+      value: v.value || 0,
+      unit: u.value,
+      tag: t.value?.trim(),
     };
   }
 
-  public onWChange(w: PhysicalDimension): void {
-    this.w = w;
-    this.updateLabel();
-    this.sizeChange.emit(this.getModel());
-  }
-
-  public onHChange(h: PhysicalDimension): void {
-    this.h = h;
-    this.updateLabel();
-    this.sizeChange.emit(this.getModel());
-  }
-
-  public onDChange(d: PhysicalDimension): void {
-    this.d = d;
-    this.updateLabel();
-    this.sizeChange.emit(this.getModel());
+  private getModel(): PhysicalSize {
+    return {
+      tag: this.tag.value?.trim(),
+      w: this.wValue.value
+        ? this.getDimension(this.wValue, this.wUnit, this.wTag)
+        : null,
+      h: this.hValue.value
+        ? this.getDimension(this.hValue, this.hUnit, this.hTag)
+        : null,
+      d: this.dValue.value
+        ? this.getDimension(this.dValue, this.dUnit, this.dTag)
+        : null,
+    };
   }
 }

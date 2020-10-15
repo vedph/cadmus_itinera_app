@@ -23,40 +23,133 @@
 
   <!-- w -->
   <div>
-    <mat-checkbox [formControl]="hasW"> </mat-checkbox>
-    <cadmus-physical-dimension
-      [dimension]="w"
-      label="w"
-      [unitEntries]="unitEntries"
-      [tagEntries]="dimTagEntries"
-      [disabled]="!hasW.value"
-      (dimensionChange)="onWChange($event)"
-    ></cadmus-physical-dimension>
+    <!-- value -->
+    <mat-form-field style="width: 5em">
+      <input
+        matInput
+        type="number"
+        min="0"
+        [formControl]="wValue"
+        placeholder="value"
+      />
+    </mat-form-field>
+    &nbsp;
+    <!-- unit -->
+    <mat-form-field style="width: 6em">
+      <mat-select [formControl]="wUnit" placeholder="unit">
+        <mat-option *ngFor="let e of unitEntries" [value]="e.id">{{
+          e.value
+        }}</mat-option>
+      </mat-select>
+      <mat-error
+        *ngIf="wUnit.errors?.required && (wUnit.dirty || wUnit.touched)"
+        >unit required</mat-error
+      >
+    </mat-form-field>
+    &nbsp;
+    <!-- tag (bound) -->
+    <mat-form-field style="width: 6em" *ngIf="dimTagEntries?.length">
+      <mat-select [formControl]="wTag" placeholder="tag">
+        <mat-option *ngFor="let e of dimTagEntries" [value]="e.id">{{
+          e.value
+        }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- tag (free) -->
+    <mat-form-field style="width: 5em" *ngIf="!dimTagEntries?.length">
+      <input matInput [formControl]="wTag" placeholder="tag" />
+      <mat-error *ngIf="wTag.errors?.maxLength && (wTag.dirty || wTag.touched)"
+        >tag too long</mat-error
+      >
+    </mat-form-field>
   </div>
 
   <!-- h -->
   <div>
-    <mat-checkbox [formControl]="hasH"></mat-checkbox>
-    <cadmus-physical-dimension
-      [dimension]="h"
-      label="h"
-      [unitEntries]="unitEntries"
-      [tagEntries]="dimTagEntries"
-      [disabled]="!hasH.value"
-      (dimensionChange)="onHChange($event)"
-    ></cadmus-physical-dimension>
+    <!-- value -->
+    <mat-form-field style="width: 5em">
+      <input
+        matInput
+        type="number"
+        min="0"
+        [formControl]="hValue"
+        placeholder="value"
+      />
+    </mat-form-field>
+    &nbsp;
+    <!-- unit -->
+    <mat-form-field style="width: 6em">
+      <mat-select [formControl]="hUnit" placeholder="unit">
+        <mat-option *ngFor="let e of unitEntries" [value]="e.id">{{
+          e.value
+        }}</mat-option>
+      </mat-select>
+      <mat-error
+        *ngIf="hUnit.errors?.required && (hUnit.dirty || hUnit.touched)"
+        >unit required</mat-error
+      >
+    </mat-form-field>
+    &nbsp;
+    <!-- tag (bound) -->
+    <mat-form-field style="width: 6em" *ngIf="dimTagEntries?.length">
+      <mat-select [formControl]="hTag" placeholder="tag">
+        <mat-option *ngFor="let e of dimTagEntries" [value]="e.id">{{
+          e.value
+        }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- tag (free) -->
+    <mat-form-field style="width: 5em" *ngIf="!dimTagEntries?.length">
+      <input matInput [formControl]="hTag" placeholder="tag" />
+      <mat-error *ngIf="hTag.errors?.maxLength && (hTag.dirty || hTag.touched)"
+        >tag too long</mat-error
+      >
+    </mat-form-field>
   </div>
 
   <!-- d -->
   <div>
-    <mat-checkbox [formControl]="hasD"> </mat-checkbox>
-    <cadmus-physical-dimension
-      [dimension]="d"
-      label="d"
-      [unitEntries]="unitEntries"
-      [tagEntries]="dimTagEntries"
-      [disabled]="!hasD.value"
-      (dimensionChange)="onDChange($event)"
-    ></cadmus-physical-dimension>
+    <!-- value -->
+    <mat-form-field style="width: 5em">
+      <input
+        matInput
+        type="number"
+        min="0"
+        [formControl]="dValue"
+        placeholder="value"
+      />
+    </mat-form-field>
+    &nbsp;
+    <!-- unit -->
+    <mat-form-field style="width: 6em">
+      <mat-select [formControl]="dUnit" placeholder="unit">
+        <mat-option *ngFor="let e of unitEntries" [value]="e.id">{{
+          e.value
+        }}</mat-option>
+      </mat-select>
+      <mat-error
+        *ngIf="dUnit.errors?.required && (dUnit.dirty || dUnit.touched)"
+        >unit required</mat-error
+      >
+    </mat-form-field>
+    &nbsp;
+    <!-- tag (bound) -->
+    <mat-form-field style="width: 6em" *ngIf="dimTagEntries?.length">
+      <mat-select [formControl]="dTag" placeholder="tag">
+        <mat-option *ngFor="let e of dimTagEntries" [value]="e.id">{{
+          e.value
+        }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- tag (free) -->
+    <mat-form-field style="width: 5em" *ngIf="!dimTagEntries?.length">
+      <input matInput [formControl]="dTag" placeholder="tag" />
+      <mat-error *ngIf="dTag.errors?.maxLength && (dTag.dirty || dTag.touched)"
+        >tag too long</mat-error
+      >
+    </mat-form-field>
   </div>
 </form>
