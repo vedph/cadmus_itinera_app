@@ -87,6 +87,39 @@ export interface MsLocation {
 }
 
 /**
+ * A manuscript's signature.
+ */
+export interface MsSignature {
+  tag?: string;
+  city: string;
+  library: string;
+  fund?: string;
+  location: string;
+}
+
+/**
+ * A manuscript's guard sheet.
+ */
+export interface MsGuardSheet {
+  isBack: boolean;
+  material: string;
+  location: string;
+  date?: HistoricalDate;
+  note?: string;
+}
+
+/**
+ * A section of a manuscript.
+ */
+export interface MsSection {
+  tag?: string;
+  label: string;
+  start: string;
+  end: string;
+  date?: HistoricalDate;
+}
+
+/**
  * A physical dimension value.
  */
 export interface PhysicalDimension {

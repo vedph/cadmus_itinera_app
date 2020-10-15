@@ -50,6 +50,7 @@ export class PhysicalSizeComponent implements OnInit {
   public dValue: FormControl;
   public dUnit: FormControl;
   public dTag: FormControl;
+  public note: FormControl;
 
   public label: string;
 
@@ -71,6 +72,8 @@ export class PhysicalSizeComponent implements OnInit {
     this.dUnit = formBuilder.control('cm', Validators.required);
     this.dTag = formBuilder.control(null, Validators.maxLength(50));
 
+    this.note = formBuilder.control(null, Validators.maxLength(100));
+
     this.form = formBuilder.group({
       tag: this.tag,
       wValue: this.wValue,
@@ -82,6 +85,7 @@ export class PhysicalSizeComponent implements OnInit {
       dValue: this.dValue,
       dUnit: this.dUnit,
       dTag: this.dTag,
+      note: this.note,
     });
   }
 
@@ -93,7 +97,7 @@ export class PhysicalSizeComponent implements OnInit {
     this.form.valueChanges.pipe(debounceTime(400)).subscribe((_) => {
       const model = this.getModel();
 
-      if (this.validateModel(model)) {
+      if (this.validateModel(model) && this.tag.valid && this.note.valid) {
         this.updateLabel();
         this.sizeChange.emit(model);
       }
@@ -189,6 +193,8 @@ export class PhysicalSizeComponent implements OnInit {
         ? this.unitEntries[0].id
         : null;
       this.tag.setValue(model.tag);
+      this.note.setValue(model.note);
+
       if (model.w?.value) {
         this.wValue.setValue(model.w.value);
         this.wUnit.setValue(model.w.unit);
@@ -239,6 +245,7 @@ export class PhysicalSizeComponent implements OnInit {
   private getModel(): PhysicalSize {
     return {
       tag: this.tag.value?.trim(),
+      note: this.note.value?.trim(),
       w: this.wValue.value
         ? this.getDimension(this.wValue, this.wUnit, this.wTag)
         : null,
