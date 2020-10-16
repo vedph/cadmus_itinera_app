@@ -105,6 +105,14 @@ import { SubEditorsDemoComponent } from './sub-editors-demo/sub-editors-demo.com
           canActivate: [AuthGuardService],
         },
         {
+          path: 'items/:iid/itinera-ms',
+          loadChildren: () =>
+            import('@myrmidon/cadmus-itinera-part-ms-pg').then(
+              (module) => module.CadmusItineraPartMsPgModule
+            ),
+          canActivate: [AuthGuardService],
+        },
+        {
           path: 'thesauri',
           loadChildren: () =>
             import('@myrmidon/cadmus-thesaurus-list').then(
