@@ -1,1 +1,179 @@
-<p>ms-signatures-part works!</p>
+<form [formGroup]="form" (submit)="save()">
+  <mat-card>
+    <mat-card-header>
+      <div mat-card-avatar>
+        <mat-icon>picture_in_picture</mat-icon>
+      </div>
+      <mat-card-title>MS Signatures Part</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div formArrayName="signatures">
+        <div>
+          <button
+            type="button"
+            mat-stroked-button
+            color="primary"
+            (click)="addSignature()"
+          >
+            <mat-icon>circle_add</mat-icon>
+            add signature
+          </button>
+        </div>
+        <div
+          *ngFor="
+            let item of signatures.controls;
+            let i = index;
+            let first = first;
+            let last = last
+          "
+        >
+          <!-- child form -->
+          <div [formGroupName]="i">
+            <!-- child actions -->
+            {{ i + 1 }}.
+            <button
+              mat-icon-button
+              type="button"
+              matTooltip="Remove this signature"
+              color="warn"
+              (click)="removeSignature(i)"
+            >
+              <mat-icon>remove_circle</mat-icon>
+            </button>
+            <button
+              [disabled]="first"
+              mat-icon-button
+              type="button"
+              matTooltip="Move signature up"
+              (click)="moveSignatureUp(i)"
+            >
+              <mat-icon>arrow_upward</mat-icon>
+            </button>
+            <button
+              [disabled]="last"
+              mat-icon-button
+              type="button"
+              matTooltip="Move signature down"
+              (click)="moveSignatureDown(i)"
+            >
+              <mat-icon>arrow_downward</mat-icon>
+            </button>
+
+            <!-- child controls -->
+            <!-- tag (bound) -->
+            <mat-form-field style="width: 6em" *ngIf="tagEntries?.length">
+              <mat-select formControlName="tag" placeholder="tag">
+                <mat-option *ngFor="let e of tagEntries" [value]="e.id">{{
+                  e.value
+                }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <!-- tag (free) -->
+            <mat-form-field style="width: 5em" *ngIf="!tagEntries?.length">
+              <input matInput formControlName="tag" placeholder="tag" />
+              <mat-error
+                *ngIf="
+                  item['controls'][i].tag.errors?.maxLength &&
+                  (item['controls'][i].tag.dirty ||
+                    item['controls'][i].tag.touched)
+                "
+                >tag too long
+              </mat-error>
+            </mat-form-field>
+
+            <!-- city -->
+            <mat-form-field style="width: 6em">
+              <input matInput formControlName="city" placeholder="city" />
+              <mat-error
+                *ngIf="
+                  item['controls'][i].city.errors?.required &&
+                  (item['controls'][i].city.dirty ||
+                    item['controls'][i].city.touched)
+                "
+                >city required
+              </mat-error>
+              <mat-error
+                *ngIf="
+                  item['controls'][i].city.errors?.maxLength &&
+                  (item['controls'][i].city.dirty ||
+                    item['controls'][i].city.touched)
+                "
+                >city too long
+              </mat-error>
+            </mat-form-field>
+
+            <!-- library -->
+            <mat-form-field style="width: 12em">
+              <input matInput formControlName="library" placeholder="library" />
+              <mat-error
+                *ngIf="
+                  item['controls'][i].library.errors?.required &&
+                  (item['controls'][i].library.dirty ||
+                    item['controls'][i].library.touched)
+                "
+                >library required
+              </mat-error>
+              <mat-error
+                *ngIf="
+                  item['controls'][i].library.errors?.maxLength &&
+                  (item['controls'][i].library.dirty ||
+                    item['controls'][i].library.touched)
+                "
+                >library too long
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div>
+            <!-- fund -->
+            <mat-form-field style="width: 8em">
+              <input matInput formControlName="fund" placeholder="fund" />
+              <mat-error
+                *ngIf="
+                  item['controls'][i].fund.errors?.maxLength &&
+                  (item['controls'][i].fund.dirty ||
+                    item['controls'][i].fund.touched)
+                "
+                >fund too long
+              </mat-error>
+            </mat-form-field>
+
+            <!-- location -->
+            <mat-form-field style="width: 6em">
+              <input
+                matInput
+                formControlName="location"
+                placeholder="location"
+              />
+              <mat-error
+                *ngIf="
+                  item['controls'][i].location.errors?.required &&
+                  (item['controls'][i].location.dirty ||
+                    item['controls'][i].location.touched)
+                "
+                >location required
+              </mat-error>
+              <mat-error
+                *ngIf="
+                  item['controls'][i].location.errors?.maxLength &&
+                  (item['controls'][i].location.dirty ||
+                    item['controls'][i].location.touched)
+                "
+                >location too long
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <cadmus-close-save-buttons
+        [form]="form"
+        [noSave]="userLevel < 2"
+        (closeRequest)="close()"
+      >
+      </cadmus-close-save-buttons>
+    </mat-card-actions>
+  </mat-card>
+</form>

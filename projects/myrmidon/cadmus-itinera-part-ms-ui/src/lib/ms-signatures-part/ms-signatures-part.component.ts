@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
-  FormControl,
   FormGroup,
   Validators,
 } from '@angular/forms';
@@ -37,7 +36,7 @@ export class MsSignaturesPartComponent
     // form
     this.signatures = _formBuilder.array([], Validators.min(1));
     this.form = _formBuilder.group({
-      signatures: this.signatures
+      signatures: this.signatures,
     });
   }
 
@@ -50,7 +49,10 @@ export class MsSignaturesPartComponent
       this.form.reset();
       return;
     }
-    // TODO
+    this.signatures.clear();
+    for (const signature of model.signatures) {
+      this.addSignature(signature);
+    }
     this.form.markAsPristine();
   }
 
@@ -83,17 +85,36 @@ export class MsSignaturesPartComponent
         signatures: [],
       };
     }
-    // TODO part.signatures = [];
+    part.signatures = [];
+    for (let i = 0; i < this.signatures.length; i++) {
+      const g = this.signatures.controls[i] as FormGroup;
+      part.signatures.push({
+        tag: g.controls.tag.value?.trim(),
+        city: g.controls.city.value?.trim(),
+        library: g.controls.library.value?.trim(),
+        fund: g.controls.fund.value?.trim(),
+        location: g.controls.location.value?.trim(),
+      });
+    }
     return part;
   }
 
   private getSignatureGroup(item?: MsSignature): FormGroup {
     return this._formBuilder.group({
-      tag: this._formBuilder.control(item?.tag),
-      city: this._formBuilder.control(item?.city),
-      library: this._formBuilder.control(item?.library),
-      fund: this._formBuilder.control(item?.fund),
-      location: this._formBuilder.control(item?.location)
+      tag: this._formBuilder.control(item?.tag, Validators.maxLength(50)),
+      city: this._formBuilder.control(item?.city, [
+        Validators.required,
+        Validators.maxLength(50),
+      ]),
+      library: this._formBuilder.control(item?.library, [
+        Validators.required,
+        Validators.maxLength(100),
+      ]),
+      fund: this._formBuilder.control(item?.fund, [Validators.maxLength(100)]),
+      location: this._formBuilder.control(item?.location, [
+        Validators.required,
+        Validators.maxLength(50),
+      ]),
     });
   }
 

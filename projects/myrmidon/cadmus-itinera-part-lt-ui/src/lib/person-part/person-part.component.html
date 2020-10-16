@@ -14,14 +14,20 @@
           <div>
             <mat-form-field>
               <input matInput [formControl]="personId" placeholder="ID" />
-              <mat-error *ngIf="
+              <mat-error
+                *ngIf="
                   personId.hasError('required') &&
                   (personId.dirty || personId.touched)
-                ">enter person ID</mat-error>
-              <mat-error *ngIf="
+                "
+                >enter person ID</mat-error
+              >
+              <mat-error
+                *ngIf="
                   personId.hasError('max-length') &&
                   (personId.dirty || personId.touched)
-                ">person ID too long</mat-error>
+                "
+                >person ID too long</mat-error
+              >
             </mat-form-field>
 
             <!-- sex -->
@@ -46,22 +52,50 @@
                 <th>name</th>
               </thead>
               <tbody>
-                <tr *ngFor="let name of names$ | async; let first=first; let last=last; let i=index" [ngClass]="{ 'sel-row' : nameIndex === i }">
+                <tr
+                  *ngFor="
+                    let name of names$ | async;
+                    let first = first;
+                    let last = last;
+                    let i = index
+                  "
+                  [ngClass]="{ 'sel-row': nameIndex === i }"
+                >
                   <td>
-                    <button mat-icon-button type="button" matTooltip="Edit this name" color="primary"
-                      (click)="editNameAt(i)">
+                    <button
+                      mat-icon-button
+                      type="button"
+                      matTooltip="Edit this name"
+                      color="primary"
+                      (click)="editNameAt(i)"
+                    >
                       <mat-icon>edit</mat-icon>
                     </button>
-                    <button mat-icon-button type="button" matTooltip="Remove this name" color="warn"
-                      (click)="removeNameAt(i)">
+                    <button
+                      mat-icon-button
+                      type="button"
+                      matTooltip="Remove this name"
+                      color="warn"
+                      (click)="removeNameAt(i)"
+                    >
                       <mat-icon>remove_circle</mat-icon>
                     </button>
-                    <button [disabled]="first" mat-icon-button type="button" matTooltip="Move name up"
-                      (click)="moveNameUp(i)">
+                    <button
+                      [disabled]="first"
+                      mat-icon-button
+                      type="button"
+                      matTooltip="Move name up"
+                      (click)="moveNameUp(i)"
+                    >
                       <mat-icon>arrow_upward</mat-icon>
                     </button>
-                    <button [disabled]="last" mat-icon-button type="button" matTooltip="Move name down"
-                      (click)="moveNameDown(i)">
+                    <button
+                      [disabled]="last"
+                      mat-icon-button
+                      type="button"
+                      matTooltip="Move name down"
+                      (click)="moveNameDown(i)"
+                    >
                       <mat-icon>arrow_downward</mat-icon>
                     </button>
                   </td>
@@ -73,7 +107,13 @@
             </table>
           </div>
           <div>
-            <button type="button" mat-icon-button color="primary" (click)="addName()" matTooltip="Add a new name">
+            <button
+              type="button"
+              mat-icon-button
+              color="primary"
+              (click)="addName()"
+              matTooltip="Add a new name"
+            >
               <mat-icon>add_circle</mat-icon>
             </button>
           </div>
@@ -82,12 +122,13 @@
               <mat-panel-title>name</mat-panel-title>
             </mat-expansion-panel-header>
             <cadmus-person-name
-             [parentForm]="form"
-             [model$]="name$"
-             [langEntries]="langEntries"
-             [typeEntries]="typeEntries"
-             [tagEntries]="tagEntries"
-             (modelChange)="onNameChange($event)">
+              [parentForm]="form"
+              [model$]="name$"
+              [langEntries]="langEntries"
+              [typeEntries]="typeEntries"
+              [tagEntries]="tagEntries"
+              (modelChange)="onNameChange($event)"
+            >
             </cadmus-person-name>
           </mat-expansion-panel>
 
@@ -99,7 +140,10 @@
                 {{ externalIds$?.value.length || 0 }}
               </mat-panel-description>
             </mat-expansion-panel-header>
-            <cadmus-external-ids [model$]="externalIds$" (modelChange)="onExternalIdsChange($event)">
+            <cadmus-external-ids
+              [model$]="externalIds$"
+              (modelChange)="onExternalIdsChange($event)"
+            >
             </cadmus-external-ids>
           </mat-expansion-panel>
         </mat-tab>
@@ -110,15 +154,20 @@
           <div>
             <mat-form-field>
               <input matInput [formControl]="birthPlace" placeholder="place" />
-              <mat-error *ngIf="
+              <mat-error
+                *ngIf="
                   birthPlace.hasError('max-length') &&
                   (birthPlace.dirty || birthPlace.touched)
-                ">birth place too long</mat-error>
+                "
+                >birth place too long</mat-error
+              >
             </mat-form-field>
           </div>
 
           <!-- birth date -->
-          <cadmus-historical-date-editor [(date)]="birthDate"></cadmus-historical-date-editor>
+          <cadmus-historical-date-editor
+            [(date)]="birthDate"
+          ></cadmus-historical-date-editor>
         </mat-tab>
 
         <!-- DEATH TAB -->
@@ -127,29 +176,44 @@
           <div>
             <mat-form-field>
               <input matInput [formControl]="deathPlace" placeholder="place" />
-              <mat-error *ngIf="
+              <mat-error
+                *ngIf="
                   deathPlace.hasError('max-length') &&
                   (deathPlace.dirty || deathPlace.touched)
-                ">death place too long</mat-error>
+                "
+                >death place too long</mat-error
+              >
             </mat-form-field>
           </div>
 
           <!-- death date -->
-          <cadmus-historical-date-editor [(date)]="deathDate"></cadmus-historical-date-editor>
+          <cadmus-historical-date-editor
+            [(date)]="deathDate"
+          ></cadmus-historical-date-editor>
         </mat-tab>
 
         <!-- BIO TAB -->
         <mat-tab label="bio">
           <!-- bio -->
           <div>
-            <ngx-monaco-editor [options]="editorOptions" [formControl]="bio"></ngx-monaco-editor>
-            <mat-error *ngIf="bio.hasError('max-length') && (bio.touched || bio.dirty)">bio too long</mat-error>
+            <ngx-monaco-editor
+              [options]="editorOptions"
+              [formControl]="bio"
+            ></ngx-monaco-editor>
+            <mat-error
+              *ngIf="bio.hasError('max-length') && (bio.touched || bio.dirty)"
+              >bio too long</mat-error
+            >
           </div>
         </mat-tab>
       </mat-tab-group>
     </mat-card-content>
     <mat-card-actions>
-      <cadmus-close-save-buttons [form]="form" [noSave]="userLevel < 2" (closeRequest)="close()">
+      <cadmus-close-save-buttons
+        [form]="form"
+        [noSave]="userLevel < 2"
+        (closeRequest)="close()"
+      >
       </cadmus-close-save-buttons>
     </mat-card-actions>
   </mat-card>

@@ -1,12 +1,8 @@
 import { NgModule } from '@angular/core';
-import { CadmusItineraPartMsPgComponent } from './cadmus-itinera-part-ms-pg.component';
-
-
 
 @NgModule({
-  declarations: [CadmusItineraPartMsPgComponent],
-  imports: [
-  ],
-  exports: [CadmusItineraPartMsPgComponent]
+  declarations: [],
+  imports: [],
+  exports: [],
 })
-export class CadmusItineraPartMsPgModule { }
+export class CadmusItineraPartMsPgModule {}
