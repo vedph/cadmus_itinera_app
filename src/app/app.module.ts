@@ -40,6 +40,8 @@ import { CadmusItineraUiModule } from 'projects/myrmidon/cadmus-itinera-ui/src/p
 import { SubEditorsDemoComponent } from './sub-editors-demo/sub-editors-demo.component';
 // when developing...
 // import { CadmusItineraPartLtUiModule } from 'projects/myrmidon/cadmus-itinera-part-lt-ui/src/public-api';
+// TODO: remove
+import { CadmusItineraPartMsUiModule } from 'projects/myrmidon/cadmus-itinera-part-ms-ui/src/public-api';
 
 @NgModule({
   declarations: [
@@ -180,6 +182,8 @@ import { SubEditorsDemoComponent } from './sub-editors-demo/sub-editors-demo.com
     CadmusItineraUiModule,
     // when developing...
     // CadmusItineraPartLtUiModule
+    // TODO remove
+    CadmusItineraPartMsUiModule
   ],
   providers: [
     EnvServiceProvider,

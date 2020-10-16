@@ -9,7 +9,7 @@ import { MsLocation } from '../models';
 })
 export class MsLocationService {
   private readonly _locRegexp = new RegExp(
-    '^\\s*(\\d+)([rv])\\s*(\\d+)?\\s*',
+    '^\\s*(\\d+)([rv])\\s*(\\d+)?\\s*$',
     'i'
   );
 

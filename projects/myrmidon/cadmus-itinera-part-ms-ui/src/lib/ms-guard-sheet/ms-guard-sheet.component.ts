@@ -9,7 +9,7 @@ import { HistoricalDate, ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { MsGuardSheet } from '@myrmidon/cadmus-itinera-core';
 
 @Component({
-  selector: 'lib-ms-guard-sheet',
+  selector: 'cadmus-ms-guard-sheet',
   templateUrl: './ms-guard-sheet.component.html',
   styleUrls: ['./ms-guard-sheet.component.css'],
 })
@@ -54,7 +54,7 @@ export class MsGuardSheetComponent implements OnInit {
     ]);
     this.location = formBuilder.control(null, [
       Validators.required,
-      Validators.pattern(new RegExp('^\\s*(\\d+)([rv])\\s*(\\d+)?\\s*', 'i')),
+      Validators.pattern(new RegExp('^\\s*(\\d+)([rv])\\s*(\\d+)?\\s*$', 'i')),
     ]);
     this.note = formBuilder.control(null, Validators.maxLength(300));
     this.form = formBuilder.group({

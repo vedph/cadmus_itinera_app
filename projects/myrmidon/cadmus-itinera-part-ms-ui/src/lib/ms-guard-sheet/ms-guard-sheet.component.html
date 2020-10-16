@@ -62,8 +62,13 @@
 
   <div>
     <!-- note -->
-    <mat-form-field style="width: 90%;">
-      <textarea matInput [formControl]="note" rows="2"></textarea>
+    <mat-form-field style="width: 90%;max-width: 800px;">
+      <textarea
+        placeholder="note"
+        matInput
+        [formControl]="note"
+        rows="2"
+      ></textarea>
       <mat-error *ngIf="note.errors?.maxLength && (note.dirty || note.touched)"
         >note too long</mat-error
       >
@@ -75,8 +80,8 @@
     <button
       type="button"
       color="warn"
-      mat-mat-icon-button
-      matTooltip="Discard changes"
+      mat-icon-button
+      matTooltip="Discard guard sheet changes"
     >
       <mat-icon>clear</mat-icon>
     </button>
@@ -84,7 +89,8 @@
       type="submit"
       color="primary"
       mat-icon-button
-      matTooltip="Accept changes"
+      matTooltip="Accept guard sheet changes"
+      [disabled]="form.invalid || form.pristine"
     >
       <mat-icon>check_circle</mat-icon>
     </button>
