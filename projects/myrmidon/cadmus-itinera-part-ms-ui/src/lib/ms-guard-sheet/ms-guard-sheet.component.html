@@ -1,1 +1,92 @@
-<p>ms-guard-sheet works!</p>
+<form [formGroup]="form" (submit)="save()">
+  <div>
+    <!-- back -->
+    <mat-form-field style="width: 6em">
+      <mat-select [formControl]="back" placeholder="type">
+        <mat-option [value]="false">front</mat-option>
+        <mat-option [value]="true">back</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    &nbsp;
+    <!-- material (bound) -->
+    <mat-form-field *ngIf="materialEntries?.length" style="width: 8em">
+      <mat-select [formControl]="material" placeholder="material">
+        <mat-option *ngFor="let e of materialEntries" [value]="e.id">{{
+          e.value
+        }}</mat-option>
+      </mat-select>
+      <mat-error
+        *ngIf="
+          material.errors?.required && (material.dirty || material.touched)
+        "
+        >material required</mat-error
+      >
+    </mat-form-field>
+
+    <!-- material (free) -->
+    <mat-form-field *ngIf="!materialEntries?.length" style="width: 6em">
+      <input matInput [formControl]="material" placeholder="material" />
+      <mat-error
+        *ngIf="
+          material.errors?.maxLength && (material.dirty || material.touched)
+        "
+        >material too long</mat-error
+      >
+    </mat-form-field>
+
+    <!-- location -->
+    &nbsp;
+    <mat-form-field>
+      <input matInput [formControl]="location" placeholder="location" />
+      <mat-error
+        *ngIf="
+          location.errors?.required && (location.dirty || location.touched)
+        "
+        >location required</mat-error
+      >
+      <mat-error
+        *ngIf="location.errors?.pattern && (location.dirty || location.touched)"
+        >invalid location</mat-error
+      >
+    </mat-form-field>
+  </div>
+
+  <div>
+    <!-- date -->
+    <cadmus-historical-date-editor
+      [date]="date"
+      (dateChange)="onDateChange($event)"
+    ></cadmus-historical-date-editor>
+  </div>
+
+  <div>
+    <!-- note -->
+    <mat-form-field style="width: 90%;">
+      <textarea matInput [formControl]="note" rows="2"></textarea>
+      <mat-error *ngIf="note.errors?.maxLength && (note.dirty || note.touched)"
+        >note too long</mat-error
+      >
+    </mat-form-field>
+  </div>
+
+  <!-- buttons -->
+  <div>
+    <button
+      type="button"
+      color="warn"
+      mat-mat-icon-button
+      matTooltip="Discard changes"
+    >
+      <mat-icon>clear</mat-icon>
+    </button>
+    <button
+      type="submit"
+      color="primary"
+      mat-icon-button
+      matTooltip="Accept changes"
+    >
+      <mat-icon>check_circle</mat-icon>
+    </button>
+  </div>
+</form>

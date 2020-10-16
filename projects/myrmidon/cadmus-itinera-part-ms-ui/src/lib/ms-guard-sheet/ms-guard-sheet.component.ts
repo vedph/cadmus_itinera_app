@@ -52,8 +52,10 @@ export class MsGuardSheetComponent implements OnInit {
       Validators.required,
       Validators.maxLength(50),
     ]);
-    // TODO custom validator for location
-    this.location = formBuilder.control(null, Validators.required);
+    this.location = formBuilder.control(null, [
+      Validators.required,
+      Validators.pattern(new RegExp('^\\s*(\\d+)([rv])\\s*(\\d+)?\\s*', 'i')),
+    ]);
     this.note = formBuilder.control(null, Validators.maxLength(300));
     this.form = formBuilder.group({
       back: this.back,
@@ -80,7 +82,13 @@ export class MsGuardSheetComponent implements OnInit {
   }
 
   private getModel(): MsGuardSheet {
-    // TODO
+    return {
+      isBack: this.back.value,
+      material: this.material.value?.trim(),
+      location: this.location.value?.trim(),
+      date: this.date,
+      note: this.note.value?.trim()
+    };
   }
 
   public onDateChange(date: HistoricalDate): void {
