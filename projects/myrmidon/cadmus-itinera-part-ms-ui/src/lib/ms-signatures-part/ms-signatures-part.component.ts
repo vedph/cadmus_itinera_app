@@ -1,10 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import {
-  FormArray,
-  FormBuilder,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { AfterViewInit, Component, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '@myrmidon/cadmus-api';
 import { ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { ModelEditorComponentBase } from '@myrmidon/cadmus-ui';
@@ -13,6 +8,8 @@ import {
   MSSIGNATURES_PART_TYPEID,
 } from '../ms-signatures-part';
 import { MsSignature } from '@myrmidon/cadmus-itinera-core';
+import { Subscription } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 /**
  * Manuscript's signatures part.
@@ -25,11 +22,15 @@ import { MsSignature } from '@myrmidon/cadmus-itinera-core';
 })
 export class MsSignaturesPartComponent
   extends ModelEditorComponentBase<MsSignaturesPart>
-  implements OnInit {
+  implements OnInit, AfterViewInit, OnDestroy {
+  private _citySubscription: Subscription;
+
   public tagEntries: ThesaurusEntry[];
 
   public form: FormGroup;
   public signatures: FormArray;
+
+  @ViewChildren('city') cityQueryList: QueryList<any>;
 
   constructor(authService: AuthService, private _formBuilder: FormBuilder) {
     super(authService);
@@ -42,6 +43,20 @@ export class MsSignaturesPartComponent
 
   public ngOnInit(): void {
     this.initEditor();
+  }
+
+  public ngAfterViewInit(): void {
+    this._citySubscription = this.cityQueryList.changes
+      .pipe(debounceTime(300))
+      .subscribe((_) => {
+        if (this.cityQueryList.length > 0) {
+          this.cityQueryList.last.nativeElement.focus();
+        }
+      });
+  }
+
+  public ngOnDestroy(): void {
+    this._citySubscription.unsubscribe();
   }
 
   private updateForm(model: MsSignaturesPart): void {

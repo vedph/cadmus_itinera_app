@@ -15,7 +15,7 @@
             color="primary"
             (click)="addSignature()"
           >
-            <mat-icon>circle_add</mat-icon>
+            <mat-icon>add_circle</mat-icon>
             add signature
           </button>
         </div>
@@ -82,8 +82,9 @@
             </mat-form-field>
 
             <!-- city -->
+            &nbsp;
             <mat-form-field style="width: 6em">
-              <input matInput formControlName="city" placeholder="city" />
+              <input matInput formControlName="city" placeholder="city" #city />
               <mat-error
                 *ngIf="
                   item['controls'].city.errors?.required &&
@@ -101,6 +102,7 @@
             </mat-form-field>
 
             <!-- library -->
+            &nbsp;
             <mat-form-field style="width: 12em">
               <input matInput formControlName="library" placeholder="library" />
               <mat-error
@@ -136,6 +138,7 @@
               </mat-form-field>
 
               <!-- location -->
+              &nbsp;
               <mat-form-field style="width: 6em">
                 <input
                   matInput
