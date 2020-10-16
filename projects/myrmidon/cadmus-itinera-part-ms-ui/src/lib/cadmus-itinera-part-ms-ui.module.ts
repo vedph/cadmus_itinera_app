@@ -7,9 +7,15 @@ import { CadmusMaterialModule } from '@myrmidon/cadmus-material';
 import { CadmusItineraUiModule } from '@myrmidon/cadmus-itinera-ui';
 import { CadmusUiModule } from '@myrmidon/cadmus-ui';
 import { MsSignaturesPartComponent } from './ms-signatures-part/ms-signatures-part.component';
+import { MsCompositionPartComponent } from './ms-composition-part/ms-composition-part.component';
+import { MsGuardSheetComponent } from './ms-guard-sheet/ms-guard-sheet.component';
 
 @NgModule({
-  declarations: [MsSignaturesPartComponent],
+  declarations: [
+    MsSignaturesPartComponent,
+    MsCompositionPartComponent,
+    MsGuardSheetComponent,
+  ],
   imports: [
     CommonModule,
     FormsModule,
@@ -22,6 +28,10 @@ import { MsSignaturesPartComponent } from './ms-signatures-part/ms-signatures-pa
     CadmusItineraCoreModule,
     CadmusItineraUiModule,
   ],
-  exports: [MsSignaturesPartComponent],
+  exports: [
+    MsSignaturesPartComponent,
+    MsCompositionPartComponent,
+    MsGuardSheetComponent,
+  ],
 })
 export class CadmusItineraPartMsUiModule {}
