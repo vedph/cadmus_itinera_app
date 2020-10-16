@@ -1,1 +1,10 @@
-<p>ms-signatures-part-feature works!</p>
+<cadmus-current-item-bar></cadmus-current-item-bar>
+<cadmus-ms-signatures-part
+  [itemId]="itemId"
+  [roleId]="roleId"
+  [json]="json$ | async"
+  (jsonChange)="save($event)"
+  [thesauri]="thesauri$ | async"
+  (editorClose)="close()"
+  (dirtyChange)="onDirtyChange($event)"
+></cadmus-ms-signatures-part>

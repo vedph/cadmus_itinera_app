@@ -74,9 +74,8 @@
               <input matInput formControlName="tag" placeholder="tag" />
               <mat-error
                 *ngIf="
-                  item['controls'][i].tag.errors?.maxLength &&
-                  (item['controls'][i].tag.dirty ||
-                    item['controls'][i].tag.touched)
+                  item['controls'].tag.errors?.maxLength &&
+                  (item['controls'].tag.dirty || item['controls'].tag.touched)
                 "
                 >tag too long
               </mat-error>
@@ -87,17 +86,15 @@
               <input matInput formControlName="city" placeholder="city" />
               <mat-error
                 *ngIf="
-                  item['controls'][i].city.errors?.required &&
-                  (item['controls'][i].city.dirty ||
-                    item['controls'][i].city.touched)
+                  item['controls'].city.errors?.required &&
+                  (item['controls'].city.dirty || item['controls'].city.touched)
                 "
                 >city required
               </mat-error>
               <mat-error
                 *ngIf="
-                  item['controls'][i].city.errors?.maxLength &&
-                  (item['controls'][i].city.dirty ||
-                    item['controls'][i].city.touched)
+                  item['controls'].city.errors?.maxLength &&
+                  (item['controls'].city.dirty || item['controls'].city.touched)
                 "
                 >city too long
               </mat-error>
@@ -108,61 +105,61 @@
               <input matInput formControlName="library" placeholder="library" />
               <mat-error
                 *ngIf="
-                  item['controls'][i].library.errors?.required &&
-                  (item['controls'][i].library.dirty ||
-                    item['controls'][i].library.touched)
+                  item['controls'].library.errors?.required &&
+                  (item['controls'].library.dirty ||
+                    item['controls'].library.touched)
                 "
                 >library required
               </mat-error>
               <mat-error
                 *ngIf="
-                  item['controls'][i].library.errors?.maxLength &&
-                  (item['controls'][i].library.dirty ||
-                    item['controls'][i].library.touched)
+                  item['controls'].library.errors?.maxLength &&
+                  (item['controls'].library.dirty ||
+                    item['controls'].library.touched)
                 "
                 >library too long
               </mat-error>
             </mat-form-field>
-          </div>
 
-          <div>
-            <!-- fund -->
-            <mat-form-field style="width: 8em">
-              <input matInput formControlName="fund" placeholder="fund" />
-              <mat-error
-                *ngIf="
-                  item['controls'][i].fund.errors?.maxLength &&
-                  (item['controls'][i].fund.dirty ||
-                    item['controls'][i].fund.touched)
-                "
-                >fund too long
-              </mat-error>
-            </mat-form-field>
+            <div class="fund-row">
+              <!-- fund -->
+              <mat-form-field style="width: 8em">
+                <input matInput formControlName="fund" placeholder="fund" />
+                <mat-error
+                  *ngIf="
+                    item['controls'].fund.errors?.maxLength &&
+                    (item['controls'].fund.dirty ||
+                      item['controls'].fund.touched)
+                  "
+                  >fund too long
+                </mat-error>
+              </mat-form-field>
 
-            <!-- location -->
-            <mat-form-field style="width: 6em">
-              <input
-                matInput
-                formControlName="location"
-                placeholder="location"
-              />
-              <mat-error
-                *ngIf="
-                  item['controls'][i].location.errors?.required &&
-                  (item['controls'][i].location.dirty ||
-                    item['controls'][i].location.touched)
-                "
-                >location required
-              </mat-error>
-              <mat-error
-                *ngIf="
-                  item['controls'][i].location.errors?.maxLength &&
-                  (item['controls'][i].location.dirty ||
-                    item['controls'][i].location.touched)
-                "
-                >location too long
-              </mat-error>
-            </mat-form-field>
+              <!-- location -->
+              <mat-form-field style="width: 6em">
+                <input
+                  matInput
+                  formControlName="location"
+                  placeholder="location"
+                />
+                <mat-error
+                  *ngIf="
+                    item['controls'].location.errors?.required &&
+                    (item['controls'].location.dirty ||
+                      item['controls'].location.touched)
+                  "
+                  >location required
+                </mat-error>
+                <mat-error
+                  *ngIf="
+                    item['controls'].location.errors?.maxLength &&
+                    (item['controls'].location.dirty ||
+                      item['controls'].location.touched)
+                  "
+                  >location too long
+                </mat-error>
+              </mat-form-field>
+            </div>
           </div>
         </div>
       </div>

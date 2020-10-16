@@ -19,7 +19,7 @@ import { MsSignature } from '@myrmidon/cadmus-itinera-core';
  * Thesauri (all optional): ms-signature-tags.
  */
 @Component({
-  selector: 'lib-ms-signatures-part',
+  selector: 'cadmus-ms-signatures-part',
   templateUrl: './ms-signatures-part.component.html',
   styleUrls: ['./ms-signatures-part.component.css'],
 })

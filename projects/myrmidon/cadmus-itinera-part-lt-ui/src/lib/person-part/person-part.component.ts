@@ -48,8 +48,11 @@ export class PersonPartComponent
   public names$: BehaviorSubject<PersonName[]>;
   public name$: BehaviorSubject<PersonName>;
 
-  constructor(authService: AuthService, formBuilder: FormBuilder,
-    private _dialogService: DialogService) {
+  constructor(
+    authService: AuthService,
+    formBuilder: FormBuilder,
+    private _dialogService: DialogService
+  ) {
     super(authService);
     this.nameIndex = -1;
     // subjects
