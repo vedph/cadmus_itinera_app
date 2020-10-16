@@ -9,12 +9,14 @@ import { CadmusUiModule } from '@myrmidon/cadmus-ui';
 import { MsSignaturesPartComponent } from './ms-signatures-part/ms-signatures-part.component';
 import { MsCompositionPartComponent } from './ms-composition-part/ms-composition-part.component';
 import { MsGuardSheetComponent } from './ms-guard-sheet/ms-guard-sheet.component';
+import { MsSectionComponent } from './ms-section/ms-section.component';
 
 @NgModule({
   declarations: [
     MsSignaturesPartComponent,
     MsCompositionPartComponent,
     MsGuardSheetComponent,
+    MsSectionComponent,
   ],
   imports: [
     CommonModule,
@@ -32,6 +34,7 @@ import { MsGuardSheetComponent } from './ms-guard-sheet/ms-guard-sheet.component
     MsSignaturesPartComponent,
     MsCompositionPartComponent,
     MsGuardSheetComponent,
+    MsSectionComponent
   ],
 })
 export class CadmusItineraPartMsUiModule {}
