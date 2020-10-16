@@ -9,6 +9,7 @@ import {
   MsCompositionPart,
   MSCOMPOSITION_PART_TYPEID,
 } from '../ms-composition-part';
+import { MsGuardSheet, MsSection } from '@myrmidon/cadmus-itinera-core';
 
 /**
  * Manuscript's composition.
@@ -23,19 +24,26 @@ export class MsCompositionPartComponent
   extends ModelEditorComponentBase<MsCompositionPart>
   implements OnInit {
 
-  // TODO: form controls
+  public sheetCount: FormControl;
+  public guardSheetCount: FormControl;
+
+  public guardSheets: MsGuardSheet[];
+  public editedGuardSheet: MsGuardSheet;
+
+  public sections: MsSection[];
+  public editedSection: MsSection;
 
   public tagEntries: ThesaurusEntry[];
 
   constructor(authService: AuthService, formBuilder: FormBuilder) {
     super(authService);
     // form
-    // TODO:
-    // this.form = formBuilder.group({
-    //   tag: this.tag,
-    //   tags: this.tags,
-    //   text: this.text,
-    // });
+    this.sheetCount = formBuilder.control(0, Validators.required);
+    this.guardSheetCount = formBuilder.control(0);
+    this.form = formBuilder.group({
+      sheetCount: this.sheetCount,
+      guardSheetCount: this.guardSheetCount
+    });
   }
 
   public ngOnInit(): void {
