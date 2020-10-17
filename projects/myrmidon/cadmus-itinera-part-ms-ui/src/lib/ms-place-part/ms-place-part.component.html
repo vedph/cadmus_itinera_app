@@ -1,0 +1,122 @@
+<form [formGroup]="form" (submit)="save()">
+  <mat-card>
+    <mat-card-header>
+      <div mat-card-avatar>
+        <mat-icon>picture_in_picture</mat-icon>
+      </div>
+      <mat-card-title>Manuscript's Place of Origin Part</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <!-- area (bound) -->
+      <div *ngIf="areaEntries?.length">
+        <mat-form-field>
+          <mat-select [formControl]="area" placeholder="area">
+            <mat-option *ngFor="let e of areaEntries" [value]="e.id">{{
+              e.value
+            }}</mat-option>
+          </mat-select>
+          <mat-error
+            *ngIf="area.errors?.required && (area.dirty || area.touched)"
+            >area required</mat-error
+          >
+        </mat-form-field>
+      </div>
+
+      <!-- area (free) -->
+      <div *ngIf="!areaEntries?.length">
+        <mat-form-field>
+          <input matInput [formControl]="area" placeholder="area" />
+          <mat-error
+            *ngIf="area.errors?.required && (area.dirty || area.touched)"
+            >area required</mat-error
+          >
+          <mat-error
+            *ngIf="area.errors?.maxLength && (area.dirty || area.touched)"
+            >area too long</mat-error
+          >
+        </mat-form-field>
+      </div>
+
+      <!-- address -->
+      <div>
+        <mat-form-field>
+          <input matInput [formControl]="address" placeholder="address" />
+          <mat-error
+            *ngIf="
+              address.errors?.maxLength && (address.dirty || address.touched)
+            "
+            >address too long</mat-error
+          >
+        </mat-form-field>
+      </div>
+
+      <!-- city -->
+      <div>
+        <mat-form-field>
+          <input matInput [formControl]="city" placeholder="city" />
+          <mat-error
+            *ngIf="city.errors?.maxLength && (city.dirty || city.touched)"
+            >city too long</mat-error
+          >
+        </mat-form-field>
+      </div>
+
+      <!-- site -->
+      <div>
+        <mat-form-field>
+          <input matInput [formControl]="site" placeholder="site" />
+          <mat-error
+            *ngIf="site.errors?.maxLength && (site.dirty || site.touched)"
+            >site too long</mat-error
+          >
+        </mat-form-field>
+      </div>
+
+      <!-- subscriber -->
+      <div>
+        <mat-form-field>
+          <input matInput [formControl]="subscriber" placeholder="subscriber" />
+          <mat-error
+            *ngIf="
+              subscriber.errors?.maxLength &&
+              (subscriber.dirty || subscriber.touched)
+            "
+            >subscriber too long</mat-error
+          >
+        </mat-form-field>
+
+        <!-- subscriptionLoc -->
+        &nbsp;
+        <mat-form-field style="width: 6em;">
+          <input
+            matInput
+            [formControl]="subscriptionLoc"
+            placeholder="subscr.loc."
+          />
+          <mat-error
+            *ngIf="
+              subscriptionLoc.errors?.pattern &&
+              (subscriptionLoc.dirty || subscriptionLoc.touched)
+            "
+            >invalid location</mat-error
+          >
+        </mat-form-field>
+      </div>
+
+      <!-- sources -->
+      <h4>sources</h4>
+      <cadmus-doc-references
+        [model$]="sources$"
+        [tagEntries]="tagEntries"
+        (modelChange)="onSourcesChange($event)"
+      ></cadmus-doc-references>
+    </mat-card-content>
+    <mat-card-actions>
+      <cadmus-close-save-buttons
+        [form]="form"
+        [noSave]="userLevel < 2"
+        (closeRequest)="close()"
+      ></cadmus-close-save-buttons>
+    </mat-card-actions>
+  </mat-card>
+</form>

@@ -10,13 +10,15 @@ import { MsSignaturesPartComponent } from './ms-signatures-part/ms-signatures-pa
 import { MsCompositionPartComponent } from './ms-composition-part/ms-composition-part.component';
 import { MsGuardSheetComponent } from './ms-guard-sheet/ms-guard-sheet.component';
 import { MsSectionComponent } from './ms-section/ms-section.component';
+import { MsPlacePartComponent } from './ms-place-part/ms-place-part.component';
 
 @NgModule({
   declarations: [
-    MsSignaturesPartComponent,
     MsCompositionPartComponent,
     MsGuardSheetComponent,
+    MsPlacePartComponent,
     MsSectionComponent,
+    MsSignaturesPartComponent,
   ],
   imports: [
     CommonModule,
@@ -31,10 +33,11 @@ import { MsSectionComponent } from './ms-section/ms-section.component';
     CadmusItineraUiModule,
   ],
   exports: [
-    MsSignaturesPartComponent,
     MsCompositionPartComponent,
     MsGuardSheetComponent,
-    MsSectionComponent
+    MsPlacePartComponent,
+    MsSectionComponent,
+    MsSignaturesPartComponent,
   ],
 })
 export class CadmusItineraPartMsUiModule {}

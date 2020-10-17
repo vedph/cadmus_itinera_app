@@ -9,9 +9,11 @@ import {
   CadmusItineraPartMsUiModule,
   MSCOMPOSITION_PART_TYPEID,
   MSSIGNATURES_PART_TYPEID,
+  MSPLACE_PART_TYPEID
 } from '@myrmidon/cadmus-itinera-part-ms-ui';
 import { MsSignaturesPartFeatureComponent } from './ms-signatures-part-feature/ms-signatures-part-feature.component';
 import { MsCompositionPartFeatureComponent } from './ms-composition-part-feature/ms-composition-part-feature.component';
+import { MsPlacePartFeatureComponent } from './ms-place-part-feature/ms-place-part-feature.component';
 
 // https://github.com/ng-packagr/ng-packagr/issues/778
 export const RouterModuleForChild = RouterModule.forChild([
@@ -27,12 +29,19 @@ export const RouterModuleForChild = RouterModule.forChild([
     component: MsCompositionPartFeatureComponent,
     canDeactivate: [PendingChangesGuard],
   },
+  {
+    path: `${MSPLACE_PART_TYPEID}/:pid`,
+    pathMatch: 'full',
+    component: MsPlacePartFeatureComponent,
+    canDeactivate: [PendingChangesGuard],
+  },
 ]);
 
 @NgModule({
   declarations: [
-    MsSignaturesPartFeatureComponent,
     MsCompositionPartFeatureComponent,
+    MsPlacePartFeatureComponent,
+    MsSignaturesPartFeatureComponent,
   ],
   imports: [
     CommonModule,
@@ -46,8 +55,9 @@ export const RouterModuleForChild = RouterModule.forChild([
     CadmusItineraPartMsUiModule,
   ],
   exports: [
-    MsSignaturesPartFeatureComponent,
     MsCompositionPartFeatureComponent,
+    MsPlacePartFeatureComponent,
+    MsSignaturesPartFeatureComponent,
   ],
 })
 export class CadmusItineraPartMsPgModule {}

@@ -36,7 +36,7 @@ export const MSPLACE_PART_SCHEMA = {
     'creatorId',
     'timeModified',
     'userId',
-    // TODO: add other required properties here...
+    'area'
   ],
   properties: {
     timeCreated: {
