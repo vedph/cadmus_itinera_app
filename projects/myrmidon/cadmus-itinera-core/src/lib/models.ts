@@ -81,9 +81,9 @@ export interface Chronotope {
  * Location of a sheet in a manuscript.
  */
 export interface MsLocation {
-  nr: number;
-  rv: string;
-  ln?: number;
+  n: number;
+  v: string;
+  l?: number;
 }
 
 /**
@@ -103,7 +103,7 @@ export interface MsSignature {
 export interface MsGuardSheet {
   isBack: boolean;
   material: string;
-  location: string;
+  location: MsLocation;
   date?: HistoricalDate;
   note?: string;
 }
@@ -114,8 +114,8 @@ export interface MsGuardSheet {
 export interface MsSection {
   tag?: string;
   label: string;
-  start: string;
-  end: string;
+  start: MsLocation;
+  end: MsLocation;
   date?: HistoricalDate;
 }
 

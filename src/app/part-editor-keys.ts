@@ -18,7 +18,7 @@ import {
 } from '@myrmidon/cadmus-part-philology-ui';
 import { PartEditorKeys } from '@myrmidon/cadmus-core';
 import { PERSON_PART_TYPEID } from '@myrmidon/cadmus-itinera-part-lt-ui';
-import { MSSIGNATURES_PART_TYPEID } from '@myrmidon/cadmus-itinera-part-ms-ui';
+import { MSCOMPOSITION_PART_TYPEID, MSSIGNATURES_PART_TYPEID } from '@myrmidon/cadmus-itinera-part-ms-ui';
 
 const GENERAL = 'general';
 const PHILOLOGY = 'philology';
@@ -63,6 +63,9 @@ export const PART_EDITOR_KEYS: PartEditorKeys = {
     part: ITINERA_LT
   },
   [MSSIGNATURES_PART_TYPEID]: {
+    part: ITINERA_MS
+  },
+  [MSCOMPOSITION_PART_TYPEID]: {
     part: ITINERA_MS
   },
   // layer parts

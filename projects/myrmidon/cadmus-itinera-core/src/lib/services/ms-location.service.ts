@@ -8,7 +8,7 @@ import { MsLocation } from '../models';
   providedIn: 'root',
 })
 export class MsLocationService {
-  private readonly _locRegexp = new RegExp(
+  public static readonly locRegexp = new RegExp(
     '^\\s*(\\d+)([rv])\\s*(\\d+)?\\s*$',
     'i'
   );
@@ -25,14 +25,14 @@ export class MsLocationService {
       return null;
     }
 
-    const m = this._locRegexp.exec(text);
+    const m = MsLocationService.locRegexp.exec(text);
     if (!m) {
       return null;
     }
     return {
-      nr: +m[1],
-      rv: m[2],
-      ln: m[3] ? +m[3] : 0,
+      n: +m[1],
+      v: m[2],
+      l: m[3] ? +m[3] : 0,
     };
   }
 
@@ -45,11 +45,12 @@ export class MsLocationService {
    * like "36r 12"
    */
   public locationToString(location: MsLocation | null): string | null {
-    if (!location) {
+    if (!location || location.n === null || location.n === undefined) {
       return null;
     }
     return (
-      `${location.nr}${location.rv}` + (location.ln ? ` ${location.ln}` : '')
+      `${location.n}${location.v ? 'v' : 'r'}` +
+      (location.l ? ` ${location.l}` : '')
     );
   }
 }

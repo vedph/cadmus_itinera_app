@@ -1,1 +1,227 @@
-<p>ms-composition-part works!</p>
+<form [formGroup]="form" (submit)="save()">
+  <mat-card>
+    <mat-card-header>
+      <div mat-card-avatar>
+        <mat-icon>picture_in_picture</mat-icon>
+      </div>
+      <mat-card-title>Manuscript's Composition Part</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-tab-group [(selectedIndex)]="tabIndex">
+        <mat-tab label="composition">
+          <div>
+            <!-- sheets count -->
+            <mat-form-field style="width: 5em">
+              <input
+                matInput
+                type="number"
+                min="0"
+                [formControl]="sheetCount"
+                placeholder="sheets count"
+              />
+              <mat-error
+                *ngIf="
+                  sheetCount.errors?.required &&
+                  (sheetCount.dirty || sheetCount.touched)
+                "
+                >required</mat-error
+              >
+            </mat-form-field>
+
+            <!-- guard sheets count -->
+            &nbsp;
+            <mat-form-field style="width: 5em">
+              <input
+                matInput
+                type="number"
+                min="0"
+                [formControl]="guardSheetCount"
+                placeholder="guard sheets count"
+              />
+            </mat-form-field>
+          </div>
+
+          <!-- guard sheets -->
+          <div>
+            <h4>guard sheets</h4>
+            &nbsp;
+            <button
+              type="button"
+              mat-icon-button
+              color="primary"
+              matTooltip="Add guard sheet"
+              (click)="addGuardSheet()"
+            >
+              <mat-icon>add_circle</mat-icon>
+            </button>
+          </div>
+          <table *ngIf="guardSheets?.length">
+            <thead>
+              <tr>
+                <th></th>
+                <th>type</th>
+                <th>material</th>
+                <th>location</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="
+                  let s of guardSheets;
+                  let i = index;
+                  let first = first;
+                  let last = last
+                "
+              >
+                <td>
+                  <button
+                    type="button"
+                    mat-icon-button
+                    color="primary"
+                    matTooltip="Edit this sheet"
+                    (click)="editGuardSheet(i)"
+                  >
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                  <button
+                    type="button"
+                    mat-icon-button
+                    matTooltip="Move this sheet up"
+                    [disabled]="first"
+                    (click)="moveGuardSheetUp(i)"
+                  >
+                    <mat-icon>arrow_upward</mat-icon>
+                  </button>
+                  <button
+                    type="button"
+                    mat-icon-button
+                    matTooltip="Move this sheet down"
+                    [disabled]="last"
+                    (click)="moveGuardSheetDown(i)"
+                  >
+                    <mat-icon>arrow_downward</mat-icon>
+                  </button>
+                  <button
+                    type="button"
+                    mat-icon-button
+                    color="warn"
+                    matTooltip="Delete this sheet"
+                    (click)="deleteGuardSheet(i)"
+                  >
+                    <mat-icon>remove_circle</mat-icon>
+                  </button>
+                </td>
+                <td>{{ s.isBack ? "back" : "front" }}</td>
+                <td>{{ s.material }}</td>
+                <td>{{ getLocationText(s.location) }}</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- sections -->
+          <div>
+            <h4>sections</h4>
+            &nbsp;
+            <button
+              type="button"
+              mat-icon-button
+              color="primary"
+              matTooltip="Add section"
+              (click)="addSection()"
+            >
+              <mat-icon>add_circle</mat-icon>
+            </button>
+          </div>
+          <table *ngIf="sections?.length">
+            <thead>
+              <tr>
+                <th></th>
+                <th>label</th>
+                <th>start</th>
+                <th>end</th>
+                <th>tag</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="
+                  let s of sections;
+                  let i = index;
+                  let first = first;
+                  let last = last
+                "
+              >
+                <td>
+                  <button
+                    type="button"
+                    mat-icon-button
+                    color="primary"
+                    matTooltip="Edit this section"
+                    (click)="editSection(i)"
+                  >
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                  <button
+                    type="button"
+                    mat-icon-button
+                    matTooltip="Move this section up"
+                    [disabled]="first"
+                    (click)="moveSectionUp(i)"
+                  >
+                    <mat-icon>arrow_upward</mat-icon>
+                  </button>
+                  <button
+                    type="button"
+                    mat-icon-button
+                    matTooltip="Move this section down"
+                    [disabled]="last"
+                    (click)="moveSectionDown(i)"
+                  >
+                    <mat-icon>arrow_downward</mat-icon>
+                  </button>
+                  <button
+                    type="button"
+                    mat-icon-button
+                    color="warn"
+                    matTooltip="Delete this section"
+                    (click)="deleteSection(i)"
+                  >
+                    <mat-icon>remove_circle</mat-icon>
+                  </button>
+                </td>
+                <td>{{ s.label }}</td>
+                <td>{{ getLocationText(s.start) }}</td>
+                <td>{{ getLocationText(s.end) }}</td>
+                <td>{{ s.tag }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </mat-tab>
+
+        <mat-tab label="guards" *ngIf="editedGuardSheet">
+          <cadmus-ms-guard-sheet
+            [model]="editedGuardSheet"
+            [materialEntries]="materialEntries"
+            (modelChange)="onGuardSheetSaved($event)"
+            (editorClose)="onGuardSheetClosed()"
+          ></cadmus-ms-guard-sheet>
+        </mat-tab>
+
+        <mat-tab label="sections" *ngIf="editedSection">
+          <cadmus-ms-section
+            [model]="editedSection"
+            (modelChange)="onSectionSaved($event)"
+            (editorClose)="onSectionClosed()"
+          ></cadmus-ms-section>
+        </mat-tab>
+      </mat-tab-group>
+    </mat-card-content>
+    <mat-card-actions>
+      <cadmus-close-save-buttons
+        [form]="form"
+        [noSave]="userLevel < 2"
+        (closeRequest)="close()"
+      ></cadmus-close-save-buttons>
+    </mat-card-actions>
+  </mat-card>
+</form>

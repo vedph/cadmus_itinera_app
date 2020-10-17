@@ -7,6 +7,7 @@ import {
 } from '@angular/forms';
 import { HistoricalDate, ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { MsGuardSheet } from '@myrmidon/cadmus-itinera-core';
+import { MsLocationService } from '@myrmidon/cadmus-itinera-core';
 
 @Component({
   selector: 'cadmus-ms-guard-sheet',
@@ -42,7 +43,10 @@ export class MsGuardSheetComponent implements OnInit {
 
   public date: HistoricalDate;
 
-  constructor(formBuilder: FormBuilder) {
+  constructor(
+    formBuilder: FormBuilder,
+    private _msLocationService: MsLocationService
+  ) {
     // event
     this.modelChange = new EventEmitter<MsGuardSheet>();
     this.editorClose = new EventEmitter<any>();
@@ -54,7 +58,7 @@ export class MsGuardSheetComponent implements OnInit {
     ]);
     this.location = formBuilder.control(null, [
       Validators.required,
-      Validators.pattern(new RegExp('^\\s*(\\d+)([rv])\\s*(\\d+)?\\s*$', 'i')),
+      Validators.pattern(MsLocationService.locRegexp),
     ]);
     this.note = formBuilder.control(null, Validators.maxLength(300));
     this.form = formBuilder.group({
@@ -76,7 +80,9 @@ export class MsGuardSheetComponent implements OnInit {
     this.date = model.date;
     this.back.setValue(model.isBack);
     this.material.setValue(model.material);
-    this.location.setValue(model.location);
+    this.location.setValue(
+      this._msLocationService.locationToString(model.location)
+    );
     this.note.setValue(model.note);
     this.form.markAsPristine();
   }
@@ -85,9 +91,9 @@ export class MsGuardSheetComponent implements OnInit {
     return {
       isBack: this.back.value,
       material: this.material.value?.trim(),
-      location: this.location.value?.trim(),
+      location: this._msLocationService.parseLocation(this.location.value),
       date: this.date,
-      note: this.note.value?.trim()
+      note: this.note.value?.trim(),
     };
   }
 

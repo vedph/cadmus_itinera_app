@@ -6,7 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { HistoricalDate } from '@myrmidon/cadmus-core';
-import { MsSection } from '@myrmidon/cadmus-itinera-core';
+import { MsLocationService, MsSection } from '@myrmidon/cadmus-itinera-core';
 
 @Component({
   selector: 'cadmus-ms-section',
@@ -38,7 +38,10 @@ export class MsSectionComponent implements OnInit {
   public end: FormControl;
   public date: HistoricalDate;
 
-  constructor(formBuilder: FormBuilder) {
+  constructor(
+    formBuilder: FormBuilder,
+    private _msLocationService: MsLocationService
+  ) {
     // event
     this.modelChange = new EventEmitter<MsSection>();
     this.editorClose = new EventEmitter<any>();
@@ -50,11 +53,11 @@ export class MsSectionComponent implements OnInit {
     ]);
     this.start = formBuilder.control(null, [
       Validators.required,
-      Validators.pattern(new RegExp('^\\s*(\\d+)([rv])\\s*(\\d+)?\\s*$', 'i')),
+      Validators.pattern(MsLocationService.locRegexp),
     ]);
     this.end = formBuilder.control(null, [
       Validators.required,
-      Validators.pattern(new RegExp('^\\s*(\\d+)([rv])\\s*(\\d+)?\\s*$', 'i')),
+      Validators.pattern(MsLocationService.locRegexp),
     ]);
     this.form = formBuilder.group({
       tag: this.tag,
@@ -75,8 +78,8 @@ export class MsSectionComponent implements OnInit {
     this.date = model.date;
     this.tag.setValue(model.tag);
     this.label.setValue(model.label);
-    this.start.setValue(model.start);
-    this.end.setValue(model.end);
+    this.start.setValue(this._msLocationService.locationToString(model.start));
+    this.end.setValue(this._msLocationService.locationToString(model.end));
   }
 
   private getModel(): MsSection {
@@ -84,8 +87,8 @@ export class MsSectionComponent implements OnInit {
       date: this.date,
       tag: this.tag.value?.trim(),
       label: this.label.value?.trim(),
-      start: this.start.value?.trim(),
-      end: this.end.value?.trim(),
+      start: this._msLocationService.parseLocation(this.start.value),
+      end: this._msLocationService.parseLocation(this.end.value),
     };
   }
 
