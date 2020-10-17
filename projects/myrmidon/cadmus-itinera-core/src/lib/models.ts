@@ -120,6 +120,18 @@ export interface MsSection {
 }
 
 /**
+ * A manuscript's quire.
+ */
+export interface MsQuire {
+  isMain?: boolean;
+  startNr: number;
+  endNr: number;
+  sheetCount: number;
+  sheetDelta?: number;
+  note?: string;
+}
+
+/**
  * A physical dimension value.
  */
 export interface PhysicalDimension {
