@@ -11,12 +11,14 @@ import { MsCompositionPartComponent } from './ms-composition-part/ms-composition
 import { MsGuardSheetComponent } from './ms-guard-sheet/ms-guard-sheet.component';
 import { MsSectionComponent } from './ms-section/ms-section.component';
 import { MsPlacePartComponent } from './ms-place-part/ms-place-part.component';
+import { MsQuiresPartComponent } from './ms-quires-part/ms-quires-part.component';
 
 @NgModule({
   declarations: [
     MsCompositionPartComponent,
     MsGuardSheetComponent,
     MsPlacePartComponent,
+    MsQuiresPartComponent,
     MsSectionComponent,
     MsSignaturesPartComponent,
   ],
@@ -36,6 +38,7 @@ import { MsPlacePartComponent } from './ms-place-part/ms-place-part.component';
     MsCompositionPartComponent,
     MsGuardSheetComponent,
     MsPlacePartComponent,
+    MsQuiresPartComponent,
     MsSectionComponent,
     MsSignaturesPartComponent,
   ],
