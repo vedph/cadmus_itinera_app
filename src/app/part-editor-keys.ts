@@ -22,6 +22,7 @@ import {
   MSCOMPOSITION_PART_TYPEID,
   MSSIGNATURES_PART_TYPEID,
   MSPLACE_PART_TYPEID,
+  MSQUIRES_PART_TYPEID,
 } from '@myrmidon/cadmus-itinera-part-ms-ui';
 
 const GENERAL = 'general';
@@ -74,6 +75,9 @@ export const PART_EDITOR_KEYS: PartEditorKeys = {
   },
   [MSPLACE_PART_TYPEID]: {
     part: ITINERA_MS,
+  },
+  [MSQUIRES_PART_TYPEID]: {
+    part: ITINERA_MS
   },
   // layer parts
   [TOKEN_TEXT_LAYER_PART_TYPEID]: {

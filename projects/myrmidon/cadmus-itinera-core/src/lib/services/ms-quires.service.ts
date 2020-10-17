@@ -15,9 +15,25 @@ export class MsQuiresService {
   // [5]=[delta]
   // [6]=[note]
   public static readonly quireRegexp = new RegExp(
-    '(\\*)?([0-9]+)(?:-([0-9]+))?\\^([0-9]+)(?:[~±]([0-9]+))?(?:\\s*\\{([^}]+)\\})?',
-    'gi'
+    '(\\*)?([0-9]+)(?:-([0-9]+))?\\^([0-9]+)(?:[~±]([0-9]+))?(?:\\s*\\{([^}]+)\\})?'
   );
+  private static readonly quiresRegexp = new RegExp(
+    '(\\*)?([0-9]+)(?:-([0-9]+))?\\^([0-9]+)(?:[~±]([0-9]+))?(?:\\s*\\{([^}]+)\\})?',
+    'g'
+  );
+
+  private getQuireFromMatch(match: RegExpExecArray): MsQuire {
+    return match
+      ? {
+          isMain: match[1] ? true : false,
+          startNr: +match[2],
+          endNr: match[3] ? +match[3] : +match[2],
+          sheetCount: +match[4],
+          sheetDelta: match[5] ? +match[5] : 0,
+          note: match[6],
+        }
+      : null;
+  }
 
   /**
    * Parse the text representing a quire.
@@ -29,16 +45,7 @@ export class MsQuiresService {
       return null;
     }
     const m = MsQuiresService.quireRegexp.exec(text);
-    return m
-      ? {
-          isMain: m[1] ? true : false,
-          startNr: +m[2],
-          endNr: m[3] ? +m[3] : +m[2],
-          sheetCount: +m[4],
-          sheetDelta: m[5] ? +m[5] : 0,
-          note: m[6],
-        }
-      : null;
+    return this.getQuireFromMatch(m);
   }
 
   /**
@@ -54,11 +61,9 @@ export class MsQuiresService {
       return [];
     }
     const quires: MsQuire[] = [];
-    for (const token of text.split(/\s+/)) {
-      const quire = this.parseQuire(token);
-      if (quire) {
-        quires.push(quire);
-      }
+    let match: RegExpExecArray;
+    while ((match = MsQuiresService.quiresRegexp.exec(text))) {
+      quires.push(this.getQuireFromMatch(match));
     }
     return quires;
   }

@@ -9,11 +9,13 @@ import {
   CadmusItineraPartMsUiModule,
   MSCOMPOSITION_PART_TYPEID,
   MSSIGNATURES_PART_TYPEID,
-  MSPLACE_PART_TYPEID
+  MSPLACE_PART_TYPEID,
+  MSQUIRES_PART_TYPEID
 } from '@myrmidon/cadmus-itinera-part-ms-ui';
 import { MsSignaturesPartFeatureComponent } from './ms-signatures-part-feature/ms-signatures-part-feature.component';
 import { MsCompositionPartFeatureComponent } from './ms-composition-part-feature/ms-composition-part-feature.component';
 import { MsPlacePartFeatureComponent } from './ms-place-part-feature/ms-place-part-feature.component';
+import { MsQuiresPartFeatureComponent } from './ms-quires-part-feature/ms-quires-part-feature.component';
 
 // https://github.com/ng-packagr/ng-packagr/issues/778
 export const RouterModuleForChild = RouterModule.forChild([
@@ -35,12 +37,19 @@ export const RouterModuleForChild = RouterModule.forChild([
     component: MsPlacePartFeatureComponent,
     canDeactivate: [PendingChangesGuard],
   },
+  {
+    path: `${MSQUIRES_PART_TYPEID}/:pid`,
+    pathMatch: 'full',
+    component: MsQuiresPartFeatureComponent,
+    canDeactivate: [PendingChangesGuard],
+  },
 ]);
 
 @NgModule({
   declarations: [
     MsCompositionPartFeatureComponent,
     MsPlacePartFeatureComponent,
+    MsQuiresPartFeatureComponent,
     MsSignaturesPartFeatureComponent,
   ],
   imports: [
@@ -57,6 +66,7 @@ export const RouterModuleForChild = RouterModule.forChild([
   exports: [
     MsCompositionPartFeatureComponent,
     MsPlacePartFeatureComponent,
+    MsQuiresPartFeatureComponent,
     MsSignaturesPartFeatureComponent,
   ],
 })

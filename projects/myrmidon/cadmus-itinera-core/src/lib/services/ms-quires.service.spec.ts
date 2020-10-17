@@ -170,4 +170,25 @@ describe('MsQuiresService', () => {
     expect(quire.sheetDelta).toBe(2);
     expect(quire.note).toBe('note');
   });
+
+  it('parseQuires should parse multiple quires', () => {
+    const quires = service.parseQuires('1-3^4~1 *4-7^4 {a note}');
+    expect(quires.length).toBe(2);
+
+    let quire = quires[0];
+    expect(quire.isMain).toBeFalse();
+    expect(quire.startNr).toBe(1);
+    expect(quire.endNr).toBe(3);
+    expect(quire.sheetCount).toBe(4);
+    expect(quire.sheetDelta).toBe(1);
+    expect(quire.note).toBeFalsy();
+
+    quire = quires[1];
+    expect(quire.isMain).toBeTrue();
+    expect(quire.startNr).toBe(4);
+    expect(quire.endNr).toBe(7);
+    expect(quire.sheetCount).toBe(4);
+    expect(quire.sheetDelta).toBe(0);
+    expect(quire.note).toBe('a note');
+  });
 });

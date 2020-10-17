@@ -9,7 +9,7 @@
     <mat-card-content>
       <!-- formula -->
       <div>
-        <mat-form-field>
+        <mat-form-field appearance="fill" style="width: 90%; max-width: 800px">
           <textarea
             matInput
             [formControl]="formula"
@@ -21,37 +21,34 @@
       <div>
         <button
           type="button"
-          mat-stroked-button
-          matTooltip="Apply formula"
+          mat-icon-button
+          matTooltip="Apply formula to set quires"
           color="primary"
           (click)="applyFormula()"
         >
-          <mat-icon>arrow_down</mat-icon>
-          apply
+          <mat-icon>arrow_downward</mat-icon>
         </button>
         <button
           type="button"
-          mat-stroked-button
-          matTooltip="Set formula"
+          mat-icon-button
+          matTooltip="Set quires from formula"
           (click)="setFormula()"
         >
-          <mat-icon>arrow_up</mat-icon>
-          set
+          <mat-icon>arrow_upward</mat-icon>
+        </button>
+        <button
+          type="button"
+          mat-icon-button
+          color="primary"
+          matTooltip="Add a new quire"
+          (click)="addQuire()"
+        >
+          <mat-icon>add_circle</mat-icon>
         </button>
       </div>
 
       <!-- quires -->
       <div formArrayName="quires">
-        <div>
-          <button
-            type="button"
-            mat-stroked-button
-            color="primary"
-            (click)="addQuire()"
-          >
-            add quire
-          </button>
-        </div>
         <div
           *ngFor="
             let item of quires.controls;
@@ -63,119 +60,122 @@
           <!-- child form -->
           <div [formGroupName]="i">
             <!-- child actions -->
-            {{ i + 1 }}.
-            <button
-              mat-icon-button
-              type="button"
-              matTooltip="Remove this quire"
-              color="warn"
-              (click)="removeQuire(i)"
-            >
-              <mat-icon>remove_circle</mat-icon>
-            </button>
-            <button
-              [disabled]="first"
-              mat-icon-button
-              type="button"
-              matTooltip="Move quire up"
-              (click)="moveQuireUp(i)"
-            >
-              <mat-icon>arrow_upward</mat-icon>
-            </button>
-            <button
-              [disabled]="last"
-              mat-icon-button
-              type="button"
-              matTooltip="Move quire down"
-              (click)="moveQuireDown(i)"
-            >
-              <mat-icon>arrow_downward</mat-icon>
-            </button>
+            <div>
+              {{ i + 1 }}.
+              <button
+                mat-icon-button
+                type="button"
+                matTooltip="Remove this quire"
+                color="warn"
+                (click)="removeQuire(i)"
+              >
+                <mat-icon>remove_circle</mat-icon>
+              </button>
+              <button
+                [disabled]="first"
+                mat-icon-button
+                type="button"
+                matTooltip="Move quire up"
+                (click)="moveQuireUp(i)"
+              >
+                <mat-icon>arrow_upward</mat-icon>
+              </button>
+              <button
+                [disabled]="last"
+                mat-icon-button
+                type="button"
+                matTooltip="Move quire down"
+                (click)="moveQuireDown(i)"
+              >
+                <mat-icon>arrow_downward</mat-icon>
+              </button>
 
-            <!-- child controls -->
-            <!-- isMain -->
-            <mat-checkbox formControlName="isMain">main</mat-checkbox>
-            <!-- startNr -->
-            &nbsp;
-            <mat-form-field style="width: 5em">
-              <input
-                matInput
-                type="number"
-                min="0"
-                formControlName="startNr"
-                placeholder="start"
-              />
-              <mat-error
-                *ngIf="
-                  item['controls'].startNr.errors.required &&
-                  (item['controls'].startNr.dirty ||
-                    item['controls'].startNr.touched)
-                "
-                >start required</mat-error
-              >
-            </mat-form-field>
-            <!-- endNr -->
-            &nbsp;
-            <mat-form-field style="width: 5em">
-              <input
-                matInput
-                type="number"
-                min="0"
-                formControlName="endNr"
-                placeholder="end"
-              />
-              <mat-error
-                *ngIf="
-                  item['controls'].endNr.errors.required &&
-                  (item['controls'].endNr.dirty ||
-                    item['controls'].endNr.touched)
-                "
-                >end required</mat-error
-              >
-            </mat-form-field>
-            <!-- sheetCount -->
-            &nbsp;
-            <mat-form-field style="width: 5em">
-              <input
-                matInput
-                type="number"
-                min="0"
-                formControlName="sheetCount"
-                placeholder="count"
-              />
-              <mat-error
-                *ngIf="
-                  item['controls'].sheetCount.errors.required &&
-                  (item['controls'].sheetCount.dirty ||
-                    item['controls'].sheetCount.touched)
-                "
-                >count required</mat-error
-              >
-            </mat-form-field>
-            <!-- deltaCount -->
-            &nbsp;
-            <mat-form-field style="width: 5em">
-              <input
-                matInput
-                type="number"
-                min="0"
-                formControlName="deltaCount"
-                placeholder="delta"
-              />
-            </mat-form-field>
-          </div>
-          <!-- note -->
-          <div>
-            <mat-form-field style="margin-left: 50px">
-              <input matInput formControlName="note" placeholder="note" />
-              <mat-error
-                *ngIf="
-                  item['controls'].note.errors.maxLength &&
-                  (item['controls'].note.dirty || item['controls'].note.touched)
-                "
-                >note too long</mat-error
-              >
-            </mat-form-field>
+              <!-- child controls -->
+              <!-- isMain -->
+              <mat-checkbox formControlName="isMain">main</mat-checkbox>
+              <!-- startNr -->
+              &nbsp;
+              <mat-form-field style="width: 5em">
+                <input
+                  matInput
+                  type="number"
+                  min="0"
+                  formControlName="startNr"
+                  placeholder="start"
+                />
+                <mat-error
+                  *ngIf="
+                    item['controls'].startNr.errors?.required &&
+                    (item['controls'].startNr.dirty ||
+                      item['controls'].startNr.touched)
+                  "
+                  >start required</mat-error
+                >
+              </mat-form-field>
+              <!-- endNr -->
+              &nbsp;
+              <mat-form-field style="width: 5em">
+                <input
+                  matInput
+                  type="number"
+                  min="0"
+                  formControlName="endNr"
+                  placeholder="end"
+                />
+                <mat-error
+                  *ngIf="
+                    item['controls'].endNr.errors?.required &&
+                    (item['controls'].endNr.dirty ||
+                      item['controls'].endNr.touched)
+                  "
+                  >end required</mat-error
+                >
+              </mat-form-field>
+              <!-- sheetCount -->
+              &nbsp;
+              <mat-form-field style="width: 5em">
+                <input
+                  matInput
+                  type="number"
+                  min="0"
+                  formControlName="sheetCount"
+                  placeholder="count"
+                />
+                <mat-error
+                  *ngIf="
+                    item['controls'].sheetCount.errors?.required &&
+                    (item['controls'].sheetCount.dirty ||
+                      item['controls'].sheetCount.touched)
+                  "
+                  >count required</mat-error
+                >
+              </mat-form-field>
+              <!-- sheetDelta -->
+              &nbsp;
+              <mat-form-field style="width: 5em">
+                <input
+                  matInput
+                  type="number"
+                  min="0"
+                  formControlName="sheetDelta"
+                  placeholder="delta"
+                />
+              </mat-form-field>
+            </div>
+            <!-- note -->
+            <div>
+              <mat-form-field style="margin-left: 120px">
+                <input matInput formControlName="note" placeholder="note" />
+                <mat-error
+                  *ngIf="
+                    item['controls'].note.errors?.maxLength &&
+                    (item['controls'].note.dirty ||
+                      item['controls'].note.touched)
+                  "
+                  >note too long</mat-error
+                >
+              </mat-form-field>
+            </div>
           </div>
         </div>
       </div>
