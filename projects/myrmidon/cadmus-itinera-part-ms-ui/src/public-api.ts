@@ -10,6 +10,8 @@ export * from './lib/ms-section/ms-section.component';
 export * from './lib/ms-place-part';
 export * from './lib/ms-place-part/ms-place-part.component';
 
+export * from './lib/ms-quires-part';
+
 export * from './lib/ms-signatures-part';
 export * from './lib/ms-signatures-part/ms-signatures-part.component';
 
