@@ -1,0 +1,96 @@
+<form [formGroup]="form" (submit)="save()">
+  <div>
+    <!-- subject (bound) -->
+    <mat-form-field style="width: 8em" *ngIf="subjectEntries?.length">
+      <mat-select [formControl]="subject" placeholder="subject">
+        <mat-option *ngFor="let e of subjectEntries" [value]="e.id">{{
+          e.value
+        }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <!-- subject (free) -->
+    <mat-form-field style="width: 7em" *ngIf="!subjectEntries?.length">
+      <input matInput [formControl]="subject" placeholder="subject" />
+      <mat-error
+        *ngIf="subject.errors?.required && (subject.dirty || subject.touched)"
+        >subject required</mat-error
+      >
+      <mat-error
+        *ngIf="subject.errors?.maxLength && (subject.dirty || subject.touched)"
+        >subject too long</mat-error
+      >
+    </mat-form-field>
+
+    <!-- rank -->
+    &nbsp;
+    <mat-form-field style="width: 5em">
+      <input
+        matInput
+        type="number"
+        [formControl]="rank"
+        placeholder="sim.rank"
+        min="0"
+      />
+    </mat-form-field>
+  </div>
+
+  <!-- description -->
+  <div>
+    <mat-form-field style="width: 90%; max-width: 800px">
+      <textarea
+        matInput
+        [formControl]="description"
+        placeholder="description"
+        rows="3"
+      ></textarea>
+    </mat-form-field>
+  </div>
+
+  <!-- place -->
+  <div>
+    <mat-form-field>
+      <input matInput [formControl]="place" placeholder="place" />
+      <mat-error
+        *ngIf="place.errors?.maxLength && (place.dirty || place.touched)"
+        >place too long</mat-error
+      >
+    </mat-form-field>
+  </div>
+
+  <!-- date -->
+  <h4>date</h4>
+  <cadmus-historical-date-editor
+    [date]="date"
+    (dateChange)="onDateChanged($event)"
+  ></cadmus-historical-date-editor>
+
+  <!-- ids -->
+  <br>
+  <h4>external IDs</h4>
+  <cadmus-external-ids
+    [model$]="ids$"
+    (modelChange)="onIdsChanged($event)"
+  ></cadmus-external-ids>
+
+  <!-- buttons -->
+  <div>
+    <button
+      type="button"
+      color="warn"
+      mat-icon-button
+      matTooltip="Discard watermark changes"
+      (click)="cancel()"
+    >
+      <mat-icon>clear</mat-icon>
+    </button>
+    <button
+      type="submit"
+      color="primary"
+      mat-icon-button
+      matTooltip="Accept watermark changes"
+      [disabled]="form.invalid || form.pristine"
+    >
+      <mat-icon>check_circle</mat-icon>
+    </button>
+  </div>
+</form>

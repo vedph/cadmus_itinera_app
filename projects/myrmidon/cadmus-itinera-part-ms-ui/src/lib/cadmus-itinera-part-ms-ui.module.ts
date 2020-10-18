@@ -13,6 +13,7 @@ import { MsSectionComponent } from './ms-section/ms-section.component';
 import { MsPlacePartComponent } from './ms-place-part/ms-place-part.component';
 import { MsQuiresPartComponent } from './ms-quires-part/ms-quires-part.component';
 import { MsCatchwordsPartComponent } from './ms-catchwords-part/ms-catchwords-part.component';
+import { MsWatermarkComponent } from './ms-watermark/ms-watermark.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { MsCatchwordsPartComponent } from './ms-catchwords-part/ms-catchwords-pa
     MsQuiresPartComponent,
     MsSectionComponent,
     MsSignaturesPartComponent,
+    MsWatermarkComponent,
   ],
   imports: [
     CommonModule,
@@ -44,6 +46,7 @@ import { MsCatchwordsPartComponent } from './ms-catchwords-part/ms-catchwords-pa
     MsQuiresPartComponent,
     MsSectionComponent,
     MsSignaturesPartComponent,
+    MsWatermarkComponent,
   ],
 })
 export class CadmusItineraPartMsUiModule {}
