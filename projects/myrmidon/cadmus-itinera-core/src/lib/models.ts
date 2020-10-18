@@ -132,6 +132,29 @@ export interface MsQuire {
 }
 
 /**
+ * A manuscript's catchword.
+ */
+export interface MsCatchword {
+  position: string;
+  isVertical?: boolean;
+  decoration?: string;
+  register?: string;
+  note?: string;
+}
+
+/**
+ * A manuscript's watermark.
+ */
+export interface MsWatermark {
+  subject: string;
+  similarityRank?: number;
+  description?: string;
+  place?: string;
+  date?: HistoricalDate;
+  externalIds?: string[];
+}
+
+/**
  * A physical dimension value.
  */
 export interface PhysicalDimension {

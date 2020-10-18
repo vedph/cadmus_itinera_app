@@ -10,12 +10,14 @@ import {
   MSCOMPOSITION_PART_TYPEID,
   MSSIGNATURES_PART_TYPEID,
   MSPLACE_PART_TYPEID,
-  MSQUIRES_PART_TYPEID
+  MSQUIRES_PART_TYPEID,
+  MSCATCHWORDS_PART_TYPEID,
 } from '@myrmidon/cadmus-itinera-part-ms-ui';
 import { MsSignaturesPartFeatureComponent } from './ms-signatures-part-feature/ms-signatures-part-feature.component';
 import { MsCompositionPartFeatureComponent } from './ms-composition-part-feature/ms-composition-part-feature.component';
 import { MsPlacePartFeatureComponent } from './ms-place-part-feature/ms-place-part-feature.component';
 import { MsQuiresPartFeatureComponent } from './ms-quires-part-feature/ms-quires-part-feature.component';
+import { MsCatchwordsPartFeatureComponent } from './ms-catchwords-part-feature/ms-catchwords-part-feature.component';
 
 // https://github.com/ng-packagr/ng-packagr/issues/778
 export const RouterModuleForChild = RouterModule.forChild([
@@ -43,10 +45,17 @@ export const RouterModuleForChild = RouterModule.forChild([
     component: MsQuiresPartFeatureComponent,
     canDeactivate: [PendingChangesGuard],
   },
+  {
+    path: `${MSCATCHWORDS_PART_TYPEID}/:pid`,
+    pathMatch: 'full',
+    component: MsCatchwordsPartFeatureComponent,
+    canDeactivate: [PendingChangesGuard],
+  },
 ]);
 
 @NgModule({
   declarations: [
+    MsCatchwordsPartFeatureComponent,
     MsCompositionPartFeatureComponent,
     MsPlacePartFeatureComponent,
     MsQuiresPartFeatureComponent,
@@ -64,6 +73,7 @@ export const RouterModuleForChild = RouterModule.forChild([
     CadmusItineraPartMsUiModule,
   ],
   exports: [
+    MsCatchwordsPartFeatureComponent,
     MsCompositionPartFeatureComponent,
     MsPlacePartFeatureComponent,
     MsQuiresPartFeatureComponent,

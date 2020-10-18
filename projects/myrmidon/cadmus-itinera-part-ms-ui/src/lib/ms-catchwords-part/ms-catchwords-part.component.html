@@ -1,0 +1,183 @@
+<form [formGroup]="form" (submit)="save()">
+  <mat-card>
+    <mat-card-header>
+      <div mat-card-avatar>
+        <mat-icon>picture_in_picture</mat-icon>
+      </div>
+      <mat-card-title>Catchwords Part</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div formArrayName="catchwords">
+        <div>
+          <button
+            type="button"
+            mat-stroked-button
+            color="primary"
+            (click)="addCatchword()"
+          >
+            <mat-icon>add_circle</mat-icon>
+            add catchword
+          </button>
+        </div>
+        <div
+          *ngFor="
+            let item of catchwords.controls;
+            let i = index;
+            let first = first;
+            let last = last
+          "
+        >
+          <!-- child form -->
+          <div [formGroupName]="i">
+            <div>
+              <!-- child actions -->
+              {{ i + 1 }}.
+              <button
+                mat-icon-button
+                type="button"
+                matTooltip="Remove this item"
+                color="warn"
+                (click)="removeCatchword(i)"
+              >
+                <mat-icon>remove_circle</mat-icon>
+              </button>
+              <button
+                [disabled]="first"
+                mat-icon-button
+                type="button"
+                matTooltip="Move catchword up"
+                (click)="moveCatchwordUp(i)"
+              >
+                <mat-icon>arrow_upward</mat-icon>
+              </button>
+              <button
+                [disabled]="last"
+                mat-icon-button
+                type="button"
+                matTooltip="Move catchword down"
+                (click)="moveCatchwordDown(i)"
+              >
+                <mat-icon>arrow_downward</mat-icon>
+              </button>
+
+              <!-- position (bound) -->
+              <mat-form-field *ngIf="posEntries?.length" style="width: 8em">
+                <mat-select formControlName="position" placeholder="position">
+                  <mat-option *ngFor="let e of posEntries" [value]="e.id">{{
+                    e.value
+                  }}</mat-option>
+                </mat-select>
+                <mat-error
+                  *ngIf="
+                    item['controls'].position.errors?.required &&
+                    (item['controls'].position.dirty ||
+                      item['controls'].position.touched)
+                  "
+                  >position required</mat-error
+                >
+              </mat-form-field>
+
+              <!-- position (free) -->
+              <mat-form-field *ngIf="!posEntries?.length" style="width: 6em">
+                <input
+                  matInput
+                  formControlName="position"
+                  placeholder="position"
+                />
+                <mat-error
+                  *ngIf="
+                    item['controls'].position.errors?.required &&
+                    (item['controls'].position.dirty ||
+                      item['controls'].position.touched)
+                  "
+                  >position required</mat-error
+                >
+                <mat-error
+                  *ngIf="
+                    item['controls'].position.maxLength?.required &&
+                    (item['controls'].position.dirty ||
+                      item['controls'].position.touched)
+                  "
+                  >position too long</mat-error
+                >
+              </mat-form-field>
+
+              <!-- vertical -->
+              &nbsp;
+              <mat-form-field style="width: 6em">
+                <mat-select
+                  formControlName="isVertical"
+                  placeholder="direction"
+                >
+                  <mat-option [value]="false">horizontal</mat-option>
+                  <mat-option [value]="true">vertical</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="additional-row">
+              <!-- decoration -->
+              <mat-form-field class="long-text">
+                <input
+                  matInput
+                  formControlName="decoration"
+                  placeholder="decoration"
+                />
+                <mat-error
+                  *ngIf="
+                    item['controls'].decoration.maxLength?.required &&
+                    (item['controls'].decoration.dirty ||
+                      item['controls'].decoration.touched)
+                  "
+                  >decoration too long</mat-error
+                >
+              </mat-form-field>
+            </div>
+            <div class="additional-row">
+              <!-- register -->
+              <mat-form-field class="long-text">
+                <input
+                  matInput
+                  formControlName="register"
+                  placeholder="register"
+                />
+                <mat-error
+                  *ngIf="
+                    item['controls'].register.maxLength?.required &&
+                    (item['controls'].register.dirty ||
+                      item['controls'].register.touched)
+                  "
+                  >register too long</mat-error
+                >
+              </mat-form-field>
+            </div>
+            <div class="additional-row">
+              <!-- note -->
+              <mat-form-field class="long-text">
+                <input
+                  matInput
+                  formControlName="note"
+                  placeholder="note"
+                />
+                <mat-error
+                  *ngIf="
+                    item['controls'].note.maxLength?.required &&
+                    (item['controls'].note.dirty ||
+                      item['controls'].note.touched)
+                  "
+                  >note too long</mat-error
+                >
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <cadmus-close-save-buttons
+        [form]="form"
+        [noSave]="userLevel < 2"
+        (closeRequest)="close()"
+      ></cadmus-close-save-buttons>
+    </mat-card-actions>
+  </mat-card>
+</form>

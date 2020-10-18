@@ -12,9 +12,11 @@ import { MsGuardSheetComponent } from './ms-guard-sheet/ms-guard-sheet.component
 import { MsSectionComponent } from './ms-section/ms-section.component';
 import { MsPlacePartComponent } from './ms-place-part/ms-place-part.component';
 import { MsQuiresPartComponent } from './ms-quires-part/ms-quires-part.component';
+import { MsCatchwordsPartComponent } from './ms-catchwords-part/ms-catchwords-part.component';
 
 @NgModule({
   declarations: [
+    MsCatchwordsPartComponent,
     MsCompositionPartComponent,
     MsGuardSheetComponent,
     MsPlacePartComponent,
@@ -35,6 +37,7 @@ import { MsQuiresPartComponent } from './ms-quires-part/ms-quires-part.component
     CadmusItineraUiModule,
   ],
   exports: [
+    MsCatchwordsPartComponent,
     MsCompositionPartComponent,
     MsGuardSheetComponent,
     MsPlacePartComponent,
