@@ -1,1 +1,103 @@
-<p>ms-watermarks-part works!</p>
+<form [formGroup]="form" (submit)="save()">
+  <mat-card>
+    <mat-card-header>
+      <div mat-card-avatar>
+        <mat-icon>picture_in_picture</mat-icon>
+      </div>
+      <mat-card-title>Manuscript's Watermarks Part</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-tab-group [(selectedIndex)]="tabIndex">
+        <mat-tab label="watermarks">
+          <div>
+            <button
+              type="button"
+              mat-icon-button
+              color="primary"
+              matTooltip="Add watermark"
+              (click)="addWatermark()"
+            >
+              <mat-icon>add_circle</mat-icon>
+            </button>
+          </div>
+          <table *ngIf="watermarks?.length">
+            <thead>
+              <tr>
+                <th></th>
+                <th>subject</th>
+                <th>rank</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="
+                  let w of watermarks;
+                  let i = index;
+                  let first = first;
+                  let last = last
+                "
+              >
+                <td>
+                  <button
+                    type="button"
+                    mat-icon-button
+                    color="primary"
+                    matTooltip="Edit this watermark"
+                    (click)="editWatermark(i)"
+                  >
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                  <button
+                    type="button"
+                    mat-icon-button
+                    matTooltip="Move this watermark up"
+                    [disabled]="first"
+                    (click)="moveWatermarkUp(i)"
+                  >
+                    <mat-icon>arrow_upward</mat-icon>
+                  </button>
+                  <button
+                    type="button"
+                    mat-icon-button
+                    matTooltip="Move this watermark down"
+                    [disabled]="last"
+                    (click)="moveWatermarkDown(i)"
+                  >
+                    <mat-icon>arrow_downward</mat-icon>
+                  </button>
+                  <button
+                    type="button"
+                    mat-icon-button
+                    color="warn"
+                    matTooltip="Delete this watermark"
+                    (click)="deleteWatermark(i)"
+                  >
+                    <mat-icon>remove_circle</mat-icon>
+                  </button>
+                </td>
+                <td>{{ w.subject }}</td>
+                <td>{{ w.similarityRank }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </mat-tab>
+
+        <mat-tab label="watermark" *ngIf="editedWatermark">
+          <cadmus-ms-watermark
+            [model]="editedWatermark"
+            [subjectEntries]="subjectEntries"
+            (modelChange)="onWatermarkSaved($event)"
+            (editorClose)="onWatermarkClosed()"
+          ></cadmus-ms-watermark>
+        </mat-tab>
+      </mat-tab-group>
+    </mat-card-content>
+    <mat-card-actions>
+      <cadmus-close-save-buttons
+        [form]="form"
+        [noSave]="userLevel < 2"
+        (closeRequest)="close()"
+      ></cadmus-close-save-buttons>
+    </mat-card-actions>
+  </mat-card>
+</form>

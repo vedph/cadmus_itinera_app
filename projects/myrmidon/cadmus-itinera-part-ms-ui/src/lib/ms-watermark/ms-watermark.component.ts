@@ -26,13 +26,14 @@ export class MsWatermarkComponent implements OnInit {
     this.setModel(this._model);
   }
 
+  @Input()
+  public subjectEntries: ThesaurusEntry[];
+
   @Output()
   public modelChange: EventEmitter<MsWatermark>;
 
   @Output()
   public editorClose: EventEmitter<any>;
-
-  public subjectEntries: ThesaurusEntry[];
 
   public form: FormGroup;
   public subject: FormControl;
