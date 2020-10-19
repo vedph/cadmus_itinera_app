@@ -19,6 +19,8 @@ export * from './lib/ms-quires-part/ms-quires-part.component';
 export * from './lib/ms-signatures-part';
 export * from './lib/ms-signatures-part/ms-signatures-part.component';
 
+export * from './lib/ms-watermarks-part';
 export * from './lib/ms-watermark/ms-watermark.component';
+export * from './lib/ms-watermarks-part/ms-watermarks-part.component';
 
 export * from './lib/cadmus-itinera-part-ms-ui.module';
