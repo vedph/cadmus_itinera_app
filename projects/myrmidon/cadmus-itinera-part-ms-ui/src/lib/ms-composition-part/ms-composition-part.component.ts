@@ -15,7 +15,7 @@ import { MsLocationService } from '@myrmidon/cadmus-itinera-core';
 
 /**
  * Manuscript's composition.
- * Thesauri: ms-material (optional).
+ * Thesauri: ms-materials (optional).
  */
 @Component({
   selector: 'cadmus-ms-composition-part',
@@ -83,7 +83,7 @@ export class MsCompositionPartComponent
   }
 
   protected onThesauriSet(): void {
-    const key = 'ms-material';
+    const key = 'ms-materials';
     if (this.thesauri && this.thesauri[key]) {
       this.materialEntries = this.thesauri[key].entries;
     } else {

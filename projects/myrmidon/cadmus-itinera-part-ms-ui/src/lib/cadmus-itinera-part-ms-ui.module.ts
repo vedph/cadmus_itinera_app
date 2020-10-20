@@ -17,9 +17,11 @@ import { MsWatermarkComponent } from './ms-watermark/ms-watermark.component';
 import { MsWatermarksPartComponent } from './ms-watermarks-part/ms-watermarks-part.component';
 import { MsNumberingsPartComponent } from './ms-numberings-part/ms-numberings-part.component';
 import { MsPoemRangesPartComponent } from './ms-poem-ranges-part/ms-poem-ranges-part.component';
+import { MsBindingPartComponent } from './ms-binding-part/ms-binding-part.component';
 
 @NgModule({
   declarations: [
+    MsBindingPartComponent,
     MsCatchwordsPartComponent,
     MsCompositionPartComponent,
     MsGuardSheetComponent,
@@ -45,6 +47,7 @@ import { MsPoemRangesPartComponent } from './ms-poem-ranges-part/ms-poem-ranges-
     CadmusItineraUiModule,
   ],
   exports: [
+    MsBindingPartComponent,
     MsCatchwordsPartComponent,
     MsCompositionPartComponent,
     MsGuardSheetComponent,

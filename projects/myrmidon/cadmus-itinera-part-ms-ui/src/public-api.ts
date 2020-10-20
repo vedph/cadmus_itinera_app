@@ -2,6 +2,9 @@
  * Public API Surface of cadmus-itinera-part-ms-ui
  */
 
+export * from './lib/ms-binding-part';
+export * from './lib/ms-binding-part/ms-binding-part.component';
+
 export * from './lib/ms-catchwords-part';
 export * from './lib/ms-catchwords-part/ms-catchwords-part.component';
 

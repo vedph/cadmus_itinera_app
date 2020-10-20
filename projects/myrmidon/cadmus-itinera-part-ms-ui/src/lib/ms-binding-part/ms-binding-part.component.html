@@ -1,0 +1,167 @@
+<form [formGroup]="form" (submit)="save()">
+  <mat-card>
+    <mat-card-header>
+      <div mat-card-avatar>
+        <mat-icon>picture_in_picture</mat-icon>
+      </div>
+      <mat-card-title>Manuscript's Binding Part</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <!-- century -->
+      <div>
+        <mat-form-field style="width: 5em">
+          <input
+            type="number"
+            min="0"
+            [formControl]="century"
+            placeholder="century"
+          />
+          <mat-error
+            *ngIf="
+              century.errors?.required && (century.dirty || century.touched)
+            "
+            >century required</mat-error
+          >
+          <mat-error
+            *ngIf="century.errors?.min && (century.dirty || century.touched)"
+            >century too low</mat-error
+          >
+          <mat-error
+            *ngIf="century.errors?.max && (century.dirty || century.touched)"
+            >century too high</mat-error
+          >
+        </mat-form-field>
+      </div>
+
+      <div>
+        <ng-container *ngIf="materialEntries?.length">
+          <!-- cover material (bound) -->
+          <mat-form-field style="width: 8em">
+            <mat-select
+              [formControl]="coverMaterial"
+              placeholder="cover material"
+            >
+              <mat-option *ngFor="let e of materialEntries" [value]="e.id">{{
+                e.value
+              }}</mat-option>
+            </mat-select>
+            <mat-error
+              *ngIf="
+                coverMaterial.errors?.required &&
+                (coverMaterial.dirty || coverMaterial.touched)
+              "
+              >cover material required</mat-error
+            >
+          </mat-form-field>
+
+          <!-- support material (bound) -->
+          &nbsp;
+          <mat-form-field style="width: 8em">
+            <mat-select
+              [formControl]="supportMaterial"
+              placeholder="support material"
+            >
+              <mat-option *ngFor="let e of materialEntries" [value]="e.id">{{
+                e.value
+              }}</mat-option>
+            </mat-select>
+            <mat-error
+              *ngIf="
+                supportMaterial.errors?.required &&
+                (supportMaterial.dirty || supportMaterial.touched)
+              "
+              >support material required</mat-error
+            >
+          </mat-form-field>
+        </ng-container>
+
+        <ng-container *ngIf="!materialEntries?.length">
+          <!-- cover material (free) -->
+          <div>
+            <mat-form-field style="width: 8em">
+              <input
+                matInput
+                [formControl]="coverMaterial"
+                placeholder="cover material"
+              />
+              <mat-error
+                *ngIf="
+                  coverMaterial.errors?.required &&
+                  (coverMaterial.dirty || coverMaterial.touched)
+                "
+                >cover material required</mat-error
+              >
+              <mat-error
+                *ngIf="
+                  coverMaterial.errors?.maxLength &&
+                  (coverMaterial.dirty || coverMaterial.touched)
+                "
+                >cover material too long</mat-error
+              >
+            </mat-form-field>
+          </div>
+
+          <!-- support material (free) -->
+          &nbsp;
+          <div>
+            <mat-form-field style="width: 8em">
+              <input
+                matInput
+                [formControl]="supportMaterial"
+                placeholder="support material"
+              />
+              <mat-error
+                *ngIf="
+                  supportMaterial.errors?.required &&
+                  (supportMaterial.dirty || supportMaterial.touched)
+                "
+                >support material required</mat-error
+              >
+              <mat-error
+                *ngIf="
+                  supportMaterial.errors?.maxLength &&
+                  (supportMaterial.dirty || supportMaterial.touched)
+                "
+                >support material too long</mat-error
+              >
+            </mat-form-field>
+          </div>
+        </ng-container>
+      </div>
+
+      <div>
+        <!-- description -->
+        <div>
+          <ngx-monaco-editor
+            [options]="editorOptions"
+            formControlName="text"
+          ></ngx-monaco-editor>
+          <mat-error
+            *ngIf="
+              description.errors?.required &&
+              (description.touched || description.dirty)
+            "
+            >description required</mat-error
+          >
+        </div>
+      </div>
+
+      <div>
+        <!-- size -->
+        <cadmus-physical-size
+          [(size)]="size"
+          [tagEntries]="sizeTagEntries"
+          [dimTagEntries]="dimTagEntries"
+          [unitEntries]="unitEntries"
+        ></cadmus-physical-size>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <cadmus-close-save-buttons
+        [form]="form"
+        [noSave]="userLevel < 2"
+        (closeRequest)="close()"
+      ></cadmus-close-save-buttons>
+    </mat-card-actions>
+  </mat-card>
+</form>
