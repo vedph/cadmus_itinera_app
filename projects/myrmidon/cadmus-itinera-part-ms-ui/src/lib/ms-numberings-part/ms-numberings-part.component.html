@@ -101,8 +101,8 @@
 
               <!-- century-->
               &nbsp;
-              <mat-form-field>
-                <input matInput formControlName="century" type="number" />
+              <mat-form-field style="width: 5em;">
+                <input matInput #century formControlName="century" type="number" />
                 <mat-error
                   *ngIf="
                     item['controls'].century.errors?.required &&

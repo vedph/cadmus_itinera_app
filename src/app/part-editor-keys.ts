@@ -24,7 +24,8 @@ import {
   MSPLACE_PART_TYPEID,
   MSQUIRES_PART_TYPEID,
   MSCATCHWORDS_PART_TYPEID,
-  MSWATERMARKS_PART_TYPEID
+  MSWATERMARKS_PART_TYPEID,
+  MSNUMBERINGS_PART_TYPEID
 } from '@myrmidon/cadmus-itinera-part-ms-ui';
 
 const GENERAL = 'general';
@@ -85,6 +86,9 @@ export const PART_EDITOR_KEYS: PartEditorKeys = {
     part: ITINERA_MS
   },
   [MSWATERMARKS_PART_TYPEID]: {
+    part: ITINERA_MS
+  },
+  [MSNUMBERINGS_PART_TYPEID]: {
     part: ITINERA_MS
   },
   // layer parts

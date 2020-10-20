@@ -1,4 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  OnDestroy,
+  OnInit,
+  QueryList,
+  ViewChildren,
+} from '@angular/core';
 import {
   FormControl,
   FormBuilder,
@@ -15,6 +22,8 @@ import {
   MSNUMBERINGS_PART_TYPEID,
 } from '../ms-numberings-part';
 import { MsNumbering } from '@myrmidon/cadmus-itinera-core';
+import { Subscription } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 /**
  * Manuscript's numbering(s) part.
@@ -27,7 +36,11 @@ import { MsNumbering } from '@myrmidon/cadmus-itinera-core';
 })
 export class MsNumberingsPartComponent
   extends ModelEditorComponentBase<MsNumberingsPart>
-  implements OnInit {
+  implements OnInit, AfterViewInit, OnDestroy {
+  private _centurySubscription: Subscription;
+
+  @ViewChildren('century') centuryQueryList: QueryList<any>;
+
   public numberings: FormArray;
   public count: FormControl;
 
@@ -47,6 +60,20 @@ export class MsNumberingsPartComponent
 
   public ngOnInit(): void {
     this.initEditor();
+  }
+
+  public ngAfterViewInit(): void {
+    this._centurySubscription = this.centuryQueryList.changes
+      .pipe(debounceTime(300))
+      .subscribe((_) => {
+        if (this.centuryQueryList.length > 0) {
+          this.centuryQueryList.last.nativeElement.focus();
+        }
+      });
+  }
+
+  public ngOnDestroy(): void {
+    this._centurySubscription.unsubscribe();
   }
 
   private updateForm(model: MsNumberingsPart): void {
@@ -129,7 +156,7 @@ export class MsNumberingsPartComponent
 
   private getNumberingGroup(numbering?: MsNumbering): FormGroup {
     return this._formBuilder.group({
-      isMain: this._formBuilder.control(numbering.isMain || false),
+      isMain: this._formBuilder.control(numbering?.isMain || false),
       era: this._formBuilder.control(numbering?.era, [
         Validators.required,
         Validators.maxLength(50),
@@ -142,17 +169,17 @@ export class MsNumberingsPartComponent
         Validators.required,
         Validators.maxLength(50),
       ]),
-      century: this._formBuilder.control(numbering.century || 0, [
+      century: this._formBuilder.control(numbering?.century || 0, [
         Validators.required,
         Validators.min(0),
         Validators.max(21),
       ]),
       position: this._formBuilder.control(
-        numbering.position,
+        numbering?.position,
         Validators.maxLength(50)
       ),
       issues: this._formBuilder.control(
-        numbering.issues,
+        numbering?.issues,
         Validators.maxLength(300)
       ),
     });

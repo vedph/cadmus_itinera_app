@@ -12,7 +12,8 @@ import {
   MSPLACE_PART_TYPEID,
   MSQUIRES_PART_TYPEID,
   MSCATCHWORDS_PART_TYPEID,
-  MSWATERMARKS_PART_TYPEID
+  MSWATERMARKS_PART_TYPEID,
+  MSNUMBERINGS_PART_TYPEID
 } from '@myrmidon/cadmus-itinera-part-ms-ui';
 import { MsSignaturesPartFeatureComponent } from './ms-signatures-part-feature/ms-signatures-part-feature.component';
 import { MsCompositionPartFeatureComponent } from './ms-composition-part-feature/ms-composition-part-feature.component';
@@ -20,6 +21,7 @@ import { MsPlacePartFeatureComponent } from './ms-place-part-feature/ms-place-pa
 import { MsQuiresPartFeatureComponent } from './ms-quires-part-feature/ms-quires-part-feature.component';
 import { MsCatchwordsPartFeatureComponent } from './ms-catchwords-part-feature/ms-catchwords-part-feature.component';
 import { MsWatermarksPartFeatureComponent } from './ms-watermarks-part-feature/ms-watermarks-part-feature.component';
+import { MsNumberingsPartFeatureComponent } from './ms-numberings-part-feature/ms-numberings-part-feature.component';
 
 // https://github.com/ng-packagr/ng-packagr/issues/778
 export const RouterModuleForChild = RouterModule.forChild([
@@ -59,12 +61,19 @@ export const RouterModuleForChild = RouterModule.forChild([
     component: MsWatermarksPartFeatureComponent,
     canDeactivate: [PendingChangesGuard],
   },
+  {
+    path: `${MSNUMBERINGS_PART_TYPEID}/:pid`,
+    pathMatch: 'full',
+    component: MsNumberingsPartFeatureComponent,
+    canDeactivate: [PendingChangesGuard],
+  },
 ]);
 
 @NgModule({
   declarations: [
     MsCatchwordsPartFeatureComponent,
     MsCompositionPartFeatureComponent,
+    MsNumberingsPartFeatureComponent,
     MsPlacePartFeatureComponent,
     MsQuiresPartFeatureComponent,
     MsSignaturesPartFeatureComponent,
@@ -84,6 +93,7 @@ export const RouterModuleForChild = RouterModule.forChild([
   exports: [
     MsCatchwordsPartFeatureComponent,
     MsCompositionPartFeatureComponent,
+    MsNumberingsPartFeatureComponent,
     MsPlacePartFeatureComponent,
     MsQuiresPartFeatureComponent,
     MsSignaturesPartFeatureComponent,
