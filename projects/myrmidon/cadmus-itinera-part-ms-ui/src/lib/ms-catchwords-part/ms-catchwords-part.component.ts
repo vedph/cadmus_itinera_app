@@ -1,13 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  FormControl,
-  FormBuilder,
-  Validators,
-  FormArray,
-  FormGroup,
-} from '@angular/forms';
+import { FormBuilder, Validators, FormArray, FormGroup } from '@angular/forms';
 
-import { ModelEditorComponentBase, DialogService } from '@myrmidon/cadmus-ui';
+import { ModelEditorComponentBase } from '@myrmidon/cadmus-ui';
 import { AuthService } from '@myrmidon/cadmus-api';
 import { ThesaurusEntry } from '@myrmidon/cadmus-core';
 import {
@@ -106,10 +100,19 @@ export class MsCatchwordsPartComponent
         catchword?.position,
         Validators.required
       ),
-      isVertical: this._formBuilder.control(false),
-      decoration: this._formBuilder.control(null, Validators.maxLength(500)),
-      register: this._formBuilder.control(null, Validators.maxLength(500)),
-      note: this._formBuilder.control(null, Validators.maxLength(500)),
+      isVertical: this._formBuilder.control(catchword.isVertical || false),
+      decoration: this._formBuilder.control(
+        catchword?.decoration,
+        Validators.maxLength(500)
+      ),
+      register: this._formBuilder.control(
+        catchword?.register,
+        Validators.maxLength(500)
+      ),
+      note: this._formBuilder.control(
+        catchword?.note,
+        Validators.maxLength(500)
+      ),
     });
   }
 
