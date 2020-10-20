@@ -1,0 +1,11 @@
+.long-text {
+  width: 90%;
+  max-width: 800px;
+}
+.expanded {
+  border: 1px solid #c0c0c0;
+  border-radius: 4px;
+  padding: 6px;
+  width: 90%;
+  max-width: 800px;
+}

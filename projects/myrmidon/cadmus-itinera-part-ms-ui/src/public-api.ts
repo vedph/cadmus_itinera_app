@@ -16,6 +16,9 @@ export * from './lib/ms-numberings-part/ms-numberings-part.component';
 export * from './lib/ms-place-part';
 export * from './lib/ms-place-part/ms-place-part.component';
 
+export * from './lib/ms-poem-ranges-part';
+export * from './lib/ms-poem-ranges-part/ms-poem-ranges-part.component';
+
 export * from './lib/ms-quires-part';
 export * from './lib/ms-quires-part/ms-quires-part.component';
 

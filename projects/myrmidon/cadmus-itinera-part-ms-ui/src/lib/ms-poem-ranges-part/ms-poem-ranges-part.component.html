@@ -1,0 +1,81 @@
+<form [formGroup]="form" (submit)="save()">
+  <mat-card>
+    <mat-card-header>
+      <div mat-card-avatar>
+        <mat-icon>picture_in_picture</mat-icon>
+      </div>
+      <mat-card-title
+        matBadgeOverlap="false"
+        [matBadge]="count?.value || 0"
+        [matBadgeColor]="count?.value ? 'primary' : 'warn'"
+        >Manuscript's Poem Ranges Part</mat-card-title
+      >
+    </mat-card-header>
+    <mat-card-content>
+      <!-- tag (bound) -->
+      <div *ngIf="tagEntries?.length">
+        <mat-form-field style="width: 8em">
+          <mat-select [formControl]="tag" placeholder="tag">
+            <mat-option *ngFor="let e of tagEntries" [value]="e.id">{{
+              e.value
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <!-- tag (free) -->
+      <div *ngIf="!tagEntries?.length">
+        <mat-form-field style="width: 6em">
+          <input matInput [formControl]="tag" placeholder="tag" />
+          <mat-error *ngIf="tag.errors?.maxLength && (tag.dirty || tag.touched)"
+            >tag too long</mat-error
+          >
+        </mat-form-field>
+      </div>
+
+      <!-- ranges -->
+      <div>
+        <mat-form-field class="long-text">
+          <textarea
+            rows="3"
+            matInput
+            [formControl]="ranges"
+            placeholder="ranges"
+          ></textarea>
+          <mat-error
+            *ngIf="ranges.errors?.required && (ranges.dirty || ranges.touched)"
+            >ranges required</mat-error
+          >
+          <mat-error
+            *ngIf="ranges.errors?.maxLength && (ranges.dirty || ranges.touched)"
+            >ranges too long</mat-error
+          >
+        </mat-form-field>
+      </div>
+      <div class="expanded" *ngIf="expanded">{{ expanded }}</div>
+
+      <!-- note -->
+      <div>
+        <mat-form-field class="long-text">
+          <textarea
+            rows="2"
+            matInput
+            [formControl]="note"
+            placeholder="note"
+          ></textarea>
+          <mat-error
+            *ngIf="note.errors?.maxLength && (note.dirty || note.touched)"
+            >note too long</mat-error
+          >
+        </mat-form-field>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <cadmus-close-save-buttons
+        [form]="form"
+        [noSave]="userLevel < 2"
+        (closeRequest)="close()"
+      ></cadmus-close-save-buttons>
+    </mat-card-actions>
+  </mat-card>
+</form>
