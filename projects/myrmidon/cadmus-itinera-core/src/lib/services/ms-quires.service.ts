@@ -14,15 +14,15 @@ export class MsQuiresService {
   // [4]=count
   // [5]=[delta]
   // [6]=[note]
-  public static readonly quireRegexp = new RegExp(
+  public static readonly quireRegExp = new RegExp(
     '(\\*)?([0-9]+)(?:-([0-9]+))?\\^([0-9]+)(?:[~±]([0-9]+))?(?:\\s*\\{([^}]+)\\})?'
   );
-  private static readonly quiresRegexp = new RegExp(
+  private static readonly _quiresRegExp = new RegExp(
     '(\\*)?([0-9]+)(?:-([0-9]+))?\\^([0-9]+)(?:[~±]([0-9]+))?(?:\\s*\\{([^}]+)\\})?',
     'g'
   );
 
-  private getQuireFromMatch(match: RegExpExecArray): MsQuire {
+  private getQuireFromMatch(match: RegExpExecArray): MsQuire | null {
     return match
       ? {
           isMain: match[1] ? true : false,
@@ -44,7 +44,7 @@ export class MsQuiresService {
     if (!text) {
       return null;
     }
-    const m = MsQuiresService.quireRegexp.exec(text);
+    const m = MsQuiresService.quireRegExp.exec(text);
     return this.getQuireFromMatch(m);
   }
 
@@ -62,7 +62,7 @@ export class MsQuiresService {
     }
     const quires: MsQuire[] = [];
     let match: RegExpExecArray;
-    while ((match = MsQuiresService.quiresRegexp.exec(text))) {
+    while ((match = MsQuiresService._quiresRegExp.exec(text))) {
       quires.push(this.getQuireFromMatch(match));
     }
     return quires;
