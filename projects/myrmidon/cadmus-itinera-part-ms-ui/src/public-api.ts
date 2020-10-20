@@ -10,6 +10,9 @@ export * from './lib/ms-composition-part/ms-composition-part.component';
 export * from './lib/ms-guard-sheet/ms-guard-sheet.component';
 export * from './lib/ms-section/ms-section.component';
 
+export * from './lib/ms-numberings-part';
+export * from './lib/ms-numberings-part/ms-numberings-part.component';
+
 export * from './lib/ms-place-part';
 export * from './lib/ms-place-part/ms-place-part.component';
 

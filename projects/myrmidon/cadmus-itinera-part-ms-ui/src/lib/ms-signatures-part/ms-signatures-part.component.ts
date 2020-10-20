@@ -35,7 +35,7 @@ export class MsSignaturesPartComponent
   constructor(authService: AuthService, private _formBuilder: FormBuilder) {
     super(authService);
     // form
-    this.signatures = _formBuilder.array([], Validators.min(1));
+    this.signatures = _formBuilder.array([], Validators.required);
     this.form = _formBuilder.group({
       signatures: this.signatures,
     });

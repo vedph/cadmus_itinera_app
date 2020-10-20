@@ -15,12 +15,14 @@ import { MsQuiresPartComponent } from './ms-quires-part/ms-quires-part.component
 import { MsCatchwordsPartComponent } from './ms-catchwords-part/ms-catchwords-part.component';
 import { MsWatermarkComponent } from './ms-watermark/ms-watermark.component';
 import { MsWatermarksPartComponent } from './ms-watermarks-part/ms-watermarks-part.component';
+import { MsNumberingsPartComponent } from './ms-numberings-part/ms-numberings-part.component';
 
 @NgModule({
   declarations: [
     MsCatchwordsPartComponent,
     MsCompositionPartComponent,
     MsGuardSheetComponent,
+    MsNumberingsPartComponent,
     MsPlacePartComponent,
     MsQuiresPartComponent,
     MsSectionComponent,
@@ -44,6 +46,7 @@ import { MsWatermarksPartComponent } from './ms-watermarks-part/ms-watermarks-pa
     MsCatchwordsPartComponent,
     MsCompositionPartComponent,
     MsGuardSheetComponent,
+    MsNumberingsPartComponent,
     MsPlacePartComponent,
     MsQuiresPartComponent,
     MsSectionComponent,

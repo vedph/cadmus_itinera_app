@@ -4,7 +4,7 @@
       <div mat-card-avatar>
         <mat-icon>picture_in_picture</mat-icon>
       </div>
-      <mat-card-title>Catchwords Part</mat-card-title>
+      <mat-card-title>Manuscript's Catchwords Part</mat-card-title>
     </mat-card-header>
     <mat-card-content>
       <div formArrayName="catchwords">
@@ -94,7 +94,7 @@
                 >
                 <mat-error
                   *ngIf="
-                    item['controls'].position.maxLength?.required &&
+                    item['controls'].position.errors?.maxLength &&
                     (item['controls'].position.dirty ||
                       item['controls'].position.touched)
                   "
@@ -124,7 +124,7 @@
                 />
                 <mat-error
                   *ngIf="
-                    item['controls'].decoration.maxLength?.required &&
+                    item['controls'].decoration.errors?.maxLength &&
                     (item['controls'].decoration.dirty ||
                       item['controls'].decoration.touched)
                   "
@@ -142,7 +142,7 @@
                 />
                 <mat-error
                   *ngIf="
-                    item['controls'].register.maxLength?.required &&
+                    item['controls'].register.errors?.maxLength &&
                     (item['controls'].register.dirty ||
                       item['controls'].register.touched)
                   "
@@ -160,7 +160,7 @@
                 />
                 <mat-error
                   *ngIf="
-                    item['controls'].note.maxLength?.required &&
+                    item['controls'].note.errors?.maxLength &&
                     (item['controls'].note.dirty ||
                       item['controls'].note.touched)
                   "

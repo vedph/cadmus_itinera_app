@@ -155,6 +155,27 @@ export interface MsWatermark {
 }
 
 /**
+ * A manuscript's numbering.
+ */
+export interface MsNumbering {
+  isMain?: boolean;
+  era: string;
+  system: string;
+  technique: string;
+  century: number;
+  position?: string;
+  issues?: string;
+}
+
+/**
+ * A range of alphanumerics.
+ */
+export interface AlnumRange {
+  a: string;
+  b?: string;
+}
+
+/**
  * A physical dimension value.
  */
 export interface PhysicalDimension {
