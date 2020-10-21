@@ -68,7 +68,6 @@ export const MSCATCHWORDS_PART_SCHEMA = {
     },
     catchwords: {
       type: 'array',
-      additionalItems: true,
       items: {
         anyOf: [
           {

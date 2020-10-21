@@ -1,0 +1,31 @@
+<form [formGroup]="form" (submit)="save()">
+  <mat-card>
+    <mat-card-header>
+      <div mat-card-avatar>
+        <mat-icon>picture_in_picture</mat-icon>
+      </div>
+      <mat-card-title>Manuscript's Material Description</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <!-- material (bound) -->
+      <!-- material (free) -->
+
+      <!-- format (bound) -->
+      <!-- format (free) -->
+
+      <!-- state (bound) -->
+      <!-- state (free) -->
+
+      <!-- state note -->
+
+      <!-- palimpsests -->
+    </mat-card-content>
+    <mat-card-actions>
+      <cadmus-close-save-buttons
+        [form]="form"
+        [noSave]="userLevel < 2"
+        (closeRequest)="close()"
+      ></cadmus-close-save-buttons>
+    </mat-card-actions>
+  </mat-card>
+</form>

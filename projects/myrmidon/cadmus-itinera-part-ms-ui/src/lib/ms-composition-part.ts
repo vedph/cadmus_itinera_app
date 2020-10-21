@@ -77,7 +77,6 @@ export const MSCOMPOSITION_PART_SCHEMA = {
     },
     guardSheets: {
       type: 'array',
-      additionalItems: true,
       items: {
         anyOf: [
           {
@@ -169,7 +168,6 @@ export const MSCOMPOSITION_PART_SCHEMA = {
     },
     sections: {
       type: 'array',
-      additionalItems: true,
       items: {
         anyOf: [
           {

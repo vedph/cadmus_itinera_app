@@ -68,7 +68,6 @@ export const MSNUMBERINGS_PART_SCHEMA = {
     },
     numberings: {
       type: 'array',
-      additionalItems: true,
       items: {
         anyOf: [
           {

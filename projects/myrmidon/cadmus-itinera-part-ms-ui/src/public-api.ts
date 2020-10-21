@@ -13,6 +13,10 @@ export * from './lib/ms-composition-part/ms-composition-part.component';
 export * from './lib/ms-guard-sheet/ms-guard-sheet.component';
 export * from './lib/ms-section/ms-section.component';
 
+export * from './lib/ms-material-dsc-part';
+export * from './lib/ms-material-dsc-part/ms-material-dsc-part.component';
+export * from './lib/ms-palimpsest/ms-palimpsest.component';
+
 export * from './lib/ms-numberings-part';
 export * from './lib/ms-numberings-part/ms-numberings-part.component';
 

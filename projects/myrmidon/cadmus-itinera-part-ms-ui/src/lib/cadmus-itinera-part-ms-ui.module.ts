@@ -18,6 +18,8 @@ import { MsWatermarksPartComponent } from './ms-watermarks-part/ms-watermarks-pa
 import { MsNumberingsPartComponent } from './ms-numberings-part/ms-numberings-part.component';
 import { MsPoemRangesPartComponent } from './ms-poem-ranges-part/ms-poem-ranges-part.component';
 import { MsBindingPartComponent } from './ms-binding-part/ms-binding-part.component';
+import { MsMaterialDscPartComponent } from './ms-material-dsc-part/ms-material-dsc-part.component';
+import { MsPalimpsestComponent } from './ms-palimpsest/ms-palimpsest.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,9 @@ import { MsBindingPartComponent } from './ms-binding-part/ms-binding-part.compon
     MsCatchwordsPartComponent,
     MsCompositionPartComponent,
     MsGuardSheetComponent,
+    MsMaterialDscPartComponent,
     MsNumberingsPartComponent,
+    MsPalimpsestComponent,
     MsPlacePartComponent,
     MsPoemRangesPartComponent,
     MsQuiresPartComponent,
@@ -51,7 +55,9 @@ import { MsBindingPartComponent } from './ms-binding-part/ms-binding-part.compon
     MsCatchwordsPartComponent,
     MsCompositionPartComponent,
     MsGuardSheetComponent,
+    MsMaterialDscPartComponent,
     MsNumberingsPartComponent,
+    MsPalimpsestComponent,
     MsPlacePartComponent,
     MsPoemRangesPartComponent,
     MsQuiresPartComponent,

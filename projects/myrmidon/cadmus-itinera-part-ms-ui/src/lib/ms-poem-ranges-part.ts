@@ -73,7 +73,6 @@ export const MSPOEM_RANGES_PART_SCHEMA = {
     },
     ranges: {
       type: 'array',
-      additionalItems: true,
       items: {
         anyOf: [
           {

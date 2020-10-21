@@ -101,7 +101,6 @@ export const MSPLACE_PART_SCHEMA = {
     },
     sources: {
       type: 'array',
-      additionalItems: true,
       items: {
         anyOf: [
           {

@@ -1,0 +1,58 @@
+<form [formGroup]="form" (submit)="save()">
+  <!-- location -->
+  <div>
+    <mat-form-field style="width: 8em">
+      <input matInput [formControl]="location" placeholder="location" />
+      <mat-error
+        *ngIf="
+          location.errors?.required && (location.dirty || location.touched)
+        "
+        >location required</mat-error
+      >
+      <mat-error
+        *ngIf="location.errors?.pattern && (location.dirty || location.touched)"
+        >invalid location</mat-error
+      >
+    </mat-form-field>
+  </div>
+
+  <!-- date -->
+  <cadmus-historical-date-editor
+    [(date)]="date"
+  ></cadmus-historical-date-editor>
+
+  <!-- note -->
+  <div>
+    <mat-form-field class="long-text">
+      <textarea matInput [formControl]="note" placeholder="note"></textarea>
+      <mat-error *ngIf="note.errors?.required && (note.dirty || note.touched)"
+        >note required</mat-error
+      >
+      <mat-error *ngIf="note.errors?.pattern && (note.dirty || note.touched)"
+        >invalid note</mat-error
+      >
+    </mat-form-field>
+  </div>
+
+  <!-- buttons -->
+  <div>
+    <button
+      type="button"
+      color="warn"
+      mat-icon-button
+      matTooltip="Discard palimpsest changes"
+      (click)="cancel()"
+    >
+      <mat-icon>clear</mat-icon>
+    </button>
+    <button
+      type="submit"
+      color="primary"
+      mat-icon-button
+      matTooltip="Accept palimpsest changes"
+      [disabled]="form.invalid || form.pristine"
+    >
+      <mat-icon>check_circle</mat-icon>
+    </button>
+  </div>
+</form>

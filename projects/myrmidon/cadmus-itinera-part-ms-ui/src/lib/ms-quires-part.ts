@@ -65,7 +65,6 @@ export const MSQUIRES_PART_SCHEMA = {
     },
     quires: {
       type: 'array',
-      additionalItems: true,
       items: {
         anyOf: [
           {

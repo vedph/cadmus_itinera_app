@@ -168,6 +168,46 @@ export interface MsNumbering {
 }
 
 /**
+ * A palimpsest sheet of a manuscript.
+ */
+export interface MsPalimpsest {
+  location: MsLocation;
+  date?: HistoricalDate;
+  note?: string;
+}
+
+/**
+ * A unit of content inside a MsContent.
+ */
+export interface MsContentUnit {
+  label: string;
+  incipit?: string;
+  explicit?: string;
+}
+
+/**
+ * A content section of a manuscript.
+ */
+export interface MsContent {
+  author?: string;
+  claimedAuthor?: string;
+  work: string;
+  start?: MsLocation;
+  end?: MsLocation;
+  state?: string;
+  note?: string;
+  units?: MsContentUnit[];
+}
+
+/**
+ * A content locus relevant for manuscript's analysis.
+ */
+export interface MsContentLocus {
+  citation: string;
+  text: string;
+}
+
+/**
  * A range of alphanumerics.
  */
 export interface AlnumRange {

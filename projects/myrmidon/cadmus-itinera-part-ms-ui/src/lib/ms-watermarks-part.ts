@@ -68,7 +68,6 @@ export const MSWATERMARKS_PART_SCHEMA = {
     },
     watermarks: {
       type: 'array',
-      additionalItems: true,
       items: {
         anyOf: [
           {
