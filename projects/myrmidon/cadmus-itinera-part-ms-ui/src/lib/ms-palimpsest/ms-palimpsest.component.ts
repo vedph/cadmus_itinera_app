@@ -50,6 +50,10 @@ export class MsPalimpsestComponent implements OnInit {
       Validators.pattern(MsLocationService.locRegexp),
     ]);
     this.note = formBuilder.control(null, Validators.maxLength(500));
+    this.form = formBuilder.group({
+      location: this.location,
+      note: this.note
+    });
   }
 
   ngOnInit(): void {}

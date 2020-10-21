@@ -27,7 +27,8 @@ import {
   MSWATERMARKS_PART_TYPEID,
   MSNUMBERINGS_PART_TYPEID,
   MSPOEM_RANGES_PART_TYPEID,
-  MSBINDING_PART_TYPEID
+  MSBINDING_PART_TYPEID,
+  MSMATERIAL_DSC_PART_TYPEID,
 } from '@myrmidon/cadmus-itinera-part-ms-ui';
 
 const GENERAL = 'general';
@@ -82,22 +83,25 @@ export const PART_EDITOR_KEYS: PartEditorKeys = {
     part: ITINERA_MS,
   },
   [MSQUIRES_PART_TYPEID]: {
-    part: ITINERA_MS
+    part: ITINERA_MS,
   },
   [MSCATCHWORDS_PART_TYPEID]: {
-    part: ITINERA_MS
+    part: ITINERA_MS,
   },
   [MSWATERMARKS_PART_TYPEID]: {
-    part: ITINERA_MS
+    part: ITINERA_MS,
   },
   [MSNUMBERINGS_PART_TYPEID]: {
-    part: ITINERA_MS
+    part: ITINERA_MS,
   },
   [MSPOEM_RANGES_PART_TYPEID]: {
-    part: ITINERA_MS
+    part: ITINERA_MS,
   },
   [MSBINDING_PART_TYPEID]: {
-    part: ITINERA_MS
+    part: ITINERA_MS,
+  },
+  [MSMATERIAL_DSC_PART_TYPEID]: {
+    part: ITINERA_MS,
   },
   // layer parts
   [TOKEN_TEXT_LAYER_PART_TYPEID]: {

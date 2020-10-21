@@ -15,7 +15,7 @@ export interface MsMaterialDscPart extends Part {
 /**
  * The type ID used to identify the MsMaterialDscPart type.
  */
-export const MSMATERIALDSC_PART_TYPEID = 'it.vedph.itinera.ms-material-dsc';
+export const MSMATERIAL_DSC_PART_TYPEID = 'it.vedph.itinera.ms-material-dsc';
 
 /**
  * JSON schema for the MsMaterialDsc part. This is used in the editor demo.
@@ -25,7 +25,7 @@ export const MSMATERIALDSC_PART_SCHEMA = {
   $schema: 'http://json-schema.org/draft-07/schema#',
   $id:
     'www.vedph.it/cadmus/parts/__PROJECT__/__LIB__' +
-    MSMATERIALDSC_PART_TYPEID +
+    MSMATERIAL_DSC_PART_TYPEID +
     '.json',
   type: 'object',
   title: 'MsMaterialDscPart',

@@ -6,7 +6,7 @@ import { AuthService } from '@myrmidon/cadmus-api';
 import { ThesaurusEntry } from '@myrmidon/cadmus-core';
 import {
   MsMaterialDscPart,
-  MSMATERIALDSC_PART_TYPEID,
+  MSMATERIAL_DSC_PART_TYPEID,
 } from '../ms-material-dsc-part';
 import { MsLocation, MsLocationService, MsPalimpsest } from '@myrmidon/cadmus-itinera-core';
 import { take } from 'rxjs/operators';
@@ -120,7 +120,7 @@ export class MsMaterialDscPartComponent
       part = {
         itemId: this.itemId,
         id: null,
-        typeId: MSMATERIALDSC_PART_TYPEID,
+        typeId: MSMATERIAL_DSC_PART_TYPEID,
         roleId: this.roleId,
         timeCreated: new Date(),
         creatorId: null,
