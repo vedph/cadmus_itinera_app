@@ -8,7 +8,7 @@ import {
   MsMaterialDscPart,
   MSMATERIALDSC_PART_TYPEID,
 } from '../ms-material-dsc-part';
-import { MsPalimpsest } from '@myrmidon/cadmus-itinera-core';
+import { MsLocation, MsLocationService, MsPalimpsest } from '@myrmidon/cadmus-itinera-core';
 import { take } from 'rxjs/operators';
 
 /**
@@ -42,7 +42,8 @@ export class MsMaterialDscPartComponent
   constructor(
     authService: AuthService,
     formBuilder: FormBuilder,
-    private _dialogService: DialogService
+    private _dialogService: DialogService,
+    private _msLocationService: MsLocationService
   ) {
     super(authService);
     this._editedIndex = -1;
@@ -204,5 +205,9 @@ export class MsMaterialDscPartComponent
     sheets.splice(index, 1);
     sheets.splice(index + 1, 0, sheet);
     this.palimpsests = sheets;
+  }
+
+  public locationToString(location: MsLocation): string {
+    return this._msLocationService.locationToString(location);
   }
 }

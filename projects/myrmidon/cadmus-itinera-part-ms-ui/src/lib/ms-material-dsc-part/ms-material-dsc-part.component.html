@@ -7,18 +7,208 @@
       <mat-card-title>Manuscript's Material Description</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <!-- material (bound) -->
-      <!-- material (free) -->
+      <mat-tab-group [(selectedIndex)]="tabIndex">
+        <mat-tab label="description">
+          <!-- material (bound) -->
+          <div>
+            <mat-form-field *ngIf="materialEntries?.length" style="width: 8em">
+              <mat-select [formControl]="material" placeholder="material">
+                <mat-option *ngFor="let e of materialEntries" [value]="e.id">{{
+                  e.value
+                }}</mat-option>
+              </mat-select>
+              <mat-error
+                *ngIf="
+                  material.errors?.required &&
+                  (material.dirty || material.touched)
+                "
+                >material required</mat-error
+              >
+            </mat-form-field>
 
-      <!-- format (bound) -->
-      <!-- format (free) -->
+            <!-- material (free) -->
+            <mat-form-field *ngIf="!materialEntries?.length" style="width: 6em">
+              <input matInput [formControl]="material" placeholder="material" />
+              <mat-error
+                *ngIf="
+                  material.errors?.required &&
+                  (material.dirty || material.touched)
+                "
+                >material required</mat-error
+              >
+              <mat-error
+                *ngIf="
+                  material.errors?.maxLength &&
+                  (material.dirty || material.touched)
+                "
+                >material too long</mat-error
+              >
+            </mat-form-field>
 
-      <!-- state (bound) -->
-      <!-- state (free) -->
+            <!-- format (bound) -->
+            &nbsp;
+            <mat-form-field *ngIf="formatEntries?.length" style="width: 8em">
+              <mat-select [formControl]="format" placeholder="format">
+                <mat-option *ngFor="let e of formatEntries" [value]="e.id">{{
+                  e.value
+                }}</mat-option>
+              </mat-select>
+              <mat-error
+                *ngIf="
+                  format.errors?.required && (format.dirty || format.touched)
+                "
+                >format required</mat-error
+              >
+            </mat-form-field>
 
-      <!-- state note -->
+            <!-- format (free) -->
+            <mat-form-field *ngIf="!formatEntries?.length" style="width: 6em">
+              <input matInput [formControl]="format" placeholder="format" />
+              <mat-error
+                *ngIf="
+                  format.errors?.required && (format.dirty || format.touched)
+                "
+                >format required</mat-error
+              >
+              <mat-error
+                *ngIf="
+                  format.errors?.maxLength && (format.dirty || format.touched)
+                "
+                >format too long</mat-error
+              >
+            </mat-form-field>
 
-      <!-- palimpsests -->
+            <!-- state (bound) -->
+            &nbsp;
+            <mat-form-field *ngIf="stateEntries?.length" style="width: 8em">
+              <mat-select [formControl]="state" placeholder="state">
+                <mat-option *ngFor="let e of stateEntries" [value]="e.id">{{
+                  e.value
+                }}</mat-option>
+              </mat-select>
+              <mat-error
+                *ngIf="state.errors?.required && (state.dirty || state.touched)"
+                >state required</mat-error
+              >
+            </mat-form-field>
+
+            <!-- state (free) -->
+            <mat-form-field *ngIf="!stateEntries?.length" style="width: 6em">
+              <input matInput [formControl]="state" placeholder="state" />
+              <mat-error
+                *ngIf="state.errors?.required && (state.dirty || state.touched)"
+                >state required</mat-error
+              >
+              <mat-error
+                *ngIf="
+                  state.errors?.maxLength && (state.dirty || state.touched)
+                "
+                >state too long</mat-error
+              >
+            </mat-form-field>
+          </div>
+
+          <div>
+            <!-- state note -->
+            <mat-form-field class="long-text">
+              <textarea
+                rows="2"
+                matInput
+                [formControl]="stateNote"
+                placeholder="state note"
+              ></textarea>
+              <mat-error
+                *ngIf="
+                  stateNote.errors?.maxLength &&
+                  (stateNote.dirty || stateNote.touched)
+                "
+                >note too long</mat-error
+              >
+            </mat-form-field>
+          </div>
+
+          <!-- palimpsests -->
+          <h4>palimpsests</h4>
+          <div>
+            <button
+              type="button"
+              mat-icon-button
+              color="primary"
+              matTooltip="Add palimpsest"
+              (click)="addPalimpsest()"
+            >
+              <mat-icon>add_circle</mat-icon>
+            </button>
+          </div>
+          <table *ngIf="palimpsests?.length">
+            <thead>
+              <tr>
+                <th></th>
+                <th>location</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="
+                  let p of palimpsests;
+                  let i = index;
+                  let first = first;
+                  let last = last
+                "
+              >
+                <td>
+                  <button
+                    type="button"
+                    mat-icon-button
+                    color="primary"
+                    matTooltip="Edit this palimpsest"
+                    (click)="editPalimpsest(i)"
+                  >
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                  <button
+                    type="button"
+                    mat-icon-button
+                    matTooltip="Move this palimpsest up"
+                    [disabled]="first"
+                    (click)="movePalimpsestUp(i)"
+                  >
+                    <mat-icon>arrow_upward</mat-icon>
+                  </button>
+                  <button
+                    type="button"
+                    mat-icon-button
+                    matTooltip="Move this palimpsest down"
+                    [disabled]="last"
+                    (click)="movePalimpsestDown(i)"
+                  >
+                    <mat-icon>arrow_downward</mat-icon>
+                  </button>
+                  <button
+                    type="button"
+                    mat-icon-button
+                    color="warn"
+                    matTooltip="Delete this palimpsest"
+                    (click)="deletePalimpsest(i)"
+                  >
+                    <mat-icon>remove_circle</mat-icon>
+                  </button>
+                </td>
+                <td>{{ locationToString(p.location) }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </mat-tab>
+
+        <mat-tab label="palimpsest" *ngIf="editedPalimpsest">
+          <cadmus-ms-palimpsest
+            [model]="editedPalimpsest"
+            (modelChange)="onPalimpsestSaved($event)"
+            (editorClose)="onPalimpsestClosed()"
+          >
+          </cadmus-ms-palimpsest>
+        </mat-tab>
+      </mat-tab-group>
     </mat-card-content>
     <mat-card-actions>
       <cadmus-close-save-buttons

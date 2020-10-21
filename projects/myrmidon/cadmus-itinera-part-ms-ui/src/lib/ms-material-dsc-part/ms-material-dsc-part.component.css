@@ -1,0 +1,9 @@
+.long-text {
+  width: 90%;
+  max-width: 800px;
+}
+th {
+  text-align: left;
+  font-weight: normal;
+  color: silver;
+}
