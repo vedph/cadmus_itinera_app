@@ -21,6 +21,7 @@ import { MsBindingPartComponent } from './ms-binding-part/ms-binding-part.compon
 import { MsMaterialDscPartComponent } from './ms-material-dsc-part/ms-material-dsc-part.component';
 import { MsPalimpsestComponent } from './ms-palimpsest/ms-palimpsest.component';
 import { MsContentComponent } from './ms-content/ms-content.component';
+import { MsContentsPartComponent } from './ms-contents-part/ms-contents-part.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { MsContentComponent } from './ms-content/ms-content.component';
     MsCatchwordsPartComponent,
     MsCompositionPartComponent,
     MsContentComponent,
+    MsContentsPartComponent,
     MsGuardSheetComponent,
     MsMaterialDscPartComponent,
     MsNumberingsPartComponent,
@@ -57,6 +59,7 @@ import { MsContentComponent } from './ms-content/ms-content.component';
     MsCatchwordsPartComponent,
     MsCompositionPartComponent,
     MsContentComponent,
+    MsContentsPartComponent,
     MsGuardSheetComponent,
     MsMaterialDscPartComponent,
     MsNumberingsPartComponent,

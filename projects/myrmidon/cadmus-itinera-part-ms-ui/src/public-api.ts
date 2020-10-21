@@ -7,6 +7,7 @@ export * from './lib/ms-binding-part/ms-binding-part.component';
 
 export * from './lib/ms-contents-part';
 export * from './lib/ms-content/ms-content.component';
+export * from './lib/ms-contents-part/ms-contents-part.component';
 
 export * from './lib/ms-catchwords-part';
 export * from './lib/ms-catchwords-part/ms-catchwords-part.component';
