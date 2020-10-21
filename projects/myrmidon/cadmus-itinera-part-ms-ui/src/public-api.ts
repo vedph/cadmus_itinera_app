@@ -5,6 +5,8 @@
 export * from './lib/ms-binding-part';
 export * from './lib/ms-binding-part/ms-binding-part.component';
 
+export * from './lib/ms-contents-part';
+
 export * from './lib/ms-catchwords-part';
 export * from './lib/ms-catchwords-part/ms-catchwords-part.component';
 
