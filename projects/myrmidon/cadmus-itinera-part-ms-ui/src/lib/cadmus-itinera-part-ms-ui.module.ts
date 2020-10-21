@@ -20,12 +20,14 @@ import { MsPoemRangesPartComponent } from './ms-poem-ranges-part/ms-poem-ranges-
 import { MsBindingPartComponent } from './ms-binding-part/ms-binding-part.component';
 import { MsMaterialDscPartComponent } from './ms-material-dsc-part/ms-material-dsc-part.component';
 import { MsPalimpsestComponent } from './ms-palimpsest/ms-palimpsest.component';
+import { MsContentComponent } from './ms-content/ms-content.component';
 
 @NgModule({
   declarations: [
     MsBindingPartComponent,
     MsCatchwordsPartComponent,
     MsCompositionPartComponent,
+    MsContentComponent,
     MsGuardSheetComponent,
     MsMaterialDscPartComponent,
     MsNumberingsPartComponent,
@@ -54,6 +56,7 @@ import { MsPalimpsestComponent } from './ms-palimpsest/ms-palimpsest.component';
     MsBindingPartComponent,
     MsCatchwordsPartComponent,
     MsCompositionPartComponent,
+    MsContentComponent,
     MsGuardSheetComponent,
     MsMaterialDscPartComponent,
     MsNumberingsPartComponent,
