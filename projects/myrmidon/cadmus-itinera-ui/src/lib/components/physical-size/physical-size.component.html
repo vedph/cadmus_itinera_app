@@ -153,9 +153,14 @@
     </mat-form-field>
 
     <!-- note -->
-    <mat-form-field>
-      <input matInput [formControl]="note" placeholder="note">
-      <mat-error *ngIf="note.errors?.maxLength && (note.dirty || note.touched)">note too long</mat-error>
-    </mat-form-field>
+    <div>
+      <mat-form-field>
+        <input matInput [formControl]="note" placeholder="note" />
+        <mat-error
+          *ngIf="note.errors?.maxLength && (note.dirty || note.touched)"
+          >note too long</mat-error
+        >
+      </mat-form-field>
+    </div>
   </div>
 </form>

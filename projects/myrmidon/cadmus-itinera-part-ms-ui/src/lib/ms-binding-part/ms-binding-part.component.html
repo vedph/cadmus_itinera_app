@@ -11,6 +11,8 @@
       <div>
         <mat-form-field style="width: 5em">
           <input
+            autofocus
+            matInput
             type="number"
             min="0"
             [formControl]="century"
@@ -77,64 +79,61 @@
 
         <ng-container *ngIf="!materialEntries?.length">
           <!-- cover material (free) -->
-          <div>
-            <mat-form-field style="width: 8em">
-              <input
-                matInput
-                [formControl]="coverMaterial"
-                placeholder="cover material"
-              />
-              <mat-error
-                *ngIf="
-                  coverMaterial.errors?.required &&
-                  (coverMaterial.dirty || coverMaterial.touched)
-                "
-                >cover material required</mat-error
-              >
-              <mat-error
-                *ngIf="
-                  coverMaterial.errors?.maxLength &&
-                  (coverMaterial.dirty || coverMaterial.touched)
-                "
-                >cover material too long</mat-error
-              >
-            </mat-form-field>
-          </div>
+          <mat-form-field style="width: 8em">
+            <input
+              matInput
+              [formControl]="coverMaterial"
+              placeholder="cover material"
+            />
+            <mat-error
+              *ngIf="
+                coverMaterial.errors?.required &&
+                (coverMaterial.dirty || coverMaterial.touched)
+              "
+              >cover material required</mat-error
+            >
+            <mat-error
+              *ngIf="
+                coverMaterial.errors?.maxLength &&
+                (coverMaterial.dirty || coverMaterial.touched)
+              "
+              >cover material too long</mat-error
+            >
+          </mat-form-field>
 
           <!-- support material (free) -->
           &nbsp;
-          <div>
-            <mat-form-field style="width: 8em">
-              <input
-                matInput
-                [formControl]="supportMaterial"
-                placeholder="support material"
-              />
-              <mat-error
-                *ngIf="
-                  supportMaterial.errors?.required &&
-                  (supportMaterial.dirty || supportMaterial.touched)
-                "
-                >support material required</mat-error
-              >
-              <mat-error
-                *ngIf="
-                  supportMaterial.errors?.maxLength &&
-                  (supportMaterial.dirty || supportMaterial.touched)
-                "
-                >support material too long</mat-error
-              >
-            </mat-form-field>
-          </div>
+          <mat-form-field style="width: 8em">
+            <input
+              matInput
+              [formControl]="supportMaterial"
+              placeholder="support material"
+            />
+            <mat-error
+              *ngIf="
+                supportMaterial.errors?.required &&
+                (supportMaterial.dirty || supportMaterial.touched)
+              "
+              >support material required</mat-error
+            >
+            <mat-error
+              *ngIf="
+                supportMaterial.errors?.maxLength &&
+                (supportMaterial.dirty || supportMaterial.touched)
+              "
+              >support material too long</mat-error
+            >
+          </mat-form-field>
         </ng-container>
       </div>
 
       <div>
         <!-- description -->
         <div>
+          <h4>description</h4>
           <ngx-monaco-editor
             [options]="editorOptions"
-            formControlName="text"
+            formControlName="description"
           ></ngx-monaco-editor>
           <mat-error
             *ngIf="
@@ -148,6 +147,7 @@
 
       <div>
         <!-- size -->
+        <h4>size</h4>
         <cadmus-physical-size
           [(size)]="size"
           [tagEntries]="sizeTagEntries"

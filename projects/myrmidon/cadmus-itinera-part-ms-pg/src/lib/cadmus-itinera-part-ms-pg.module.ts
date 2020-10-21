@@ -14,7 +14,8 @@ import {
   MSCATCHWORDS_PART_TYPEID,
   MSWATERMARKS_PART_TYPEID,
   MSNUMBERINGS_PART_TYPEID,
-  MSPOEM_RANGES_PART_TYPEID
+  MSPOEM_RANGES_PART_TYPEID,
+  MSBINDING_PART_TYPEID
 } from '@myrmidon/cadmus-itinera-part-ms-ui';
 import { MsSignaturesPartFeatureComponent } from './ms-signatures-part-feature/ms-signatures-part-feature.component';
 import { MsCompositionPartFeatureComponent } from './ms-composition-part-feature/ms-composition-part-feature.component';
@@ -24,6 +25,7 @@ import { MsCatchwordsPartFeatureComponent } from './ms-catchwords-part-feature/m
 import { MsWatermarksPartFeatureComponent } from './ms-watermarks-part-feature/ms-watermarks-part-feature.component';
 import { MsNumberingsPartFeatureComponent } from './ms-numberings-part-feature/ms-numberings-part-feature.component';
 import { MsPoemRangesPartFeatureComponent } from './ms-poem-ranges-part-feature/ms-poem-ranges-part-feature.component';
+import { MsBindingPartFeatureComponent } from './ms-binding-part-feature/ms-binding-part-feature.component';
 
 // https://github.com/ng-packagr/ng-packagr/issues/778
 export const RouterModuleForChild = RouterModule.forChild([
@@ -75,10 +77,17 @@ export const RouterModuleForChild = RouterModule.forChild([
     component: MsPoemRangesPartFeatureComponent,
     canDeactivate: [PendingChangesGuard],
   },
+  {
+    path: `${MSBINDING_PART_TYPEID}/:pid`,
+    pathMatch: 'full',
+    component: MsBindingPartFeatureComponent,
+    canDeactivate: [PendingChangesGuard],
+  },
 ]);
 
 @NgModule({
   declarations: [
+    MsBindingPartFeatureComponent,
     MsCatchwordsPartFeatureComponent,
     MsCompositionPartFeatureComponent,
     MsNumberingsPartFeatureComponent,
@@ -100,6 +109,7 @@ export const RouterModuleForChild = RouterModule.forChild([
     CadmusItineraPartMsUiModule,
   ],
   exports: [
+    MsBindingPartFeatureComponent,
     MsCatchwordsPartFeatureComponent,
     MsCompositionPartFeatureComponent,
     MsNumberingsPartFeatureComponent,

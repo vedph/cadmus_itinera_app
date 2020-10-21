@@ -108,7 +108,7 @@ export class PhysicalSizeComponent implements OnInit {
     if (!value) {
       return '';
     }
-    let s = value.toString();
+    let s = value.toFixed(2);
     if (unit) {
       s += ' ' + unit;
     }
