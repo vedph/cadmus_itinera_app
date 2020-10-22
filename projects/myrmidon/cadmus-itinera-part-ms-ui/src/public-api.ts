@@ -5,10 +5,6 @@
 export * from './lib/ms-binding-part';
 export * from './lib/ms-binding-part/ms-binding-part.component';
 
-export * from './lib/ms-contents-part';
-export * from './lib/ms-content/ms-content.component';
-export * from './lib/ms-contents-part/ms-contents-part.component';
-
 export * from './lib/ms-catchwords-part';
 export * from './lib/ms-catchwords-part/ms-catchwords-part.component';
 
@@ -16,6 +12,12 @@ export * from './lib/ms-composition-part';
 export * from './lib/ms-composition-part/ms-composition-part.component';
 export * from './lib/ms-guard-sheet/ms-guard-sheet.component';
 export * from './lib/ms-section/ms-section.component';
+
+export * from './lib/ms-contents-part';
+export * from './lib/ms-content/ms-content.component';
+export * from './lib/ms-contents-part/ms-contents-part.component';
+
+export * from './lib/ms-content-loci-part';
 
 export * from './lib/ms-material-dsc-part';
 export * from './lib/ms-material-dsc-part/ms-material-dsc-part.component';
