@@ -16,8 +16,10 @@ export * from './lib/ms-section/ms-section.component';
 export * from './lib/ms-contents-part';
 export * from './lib/ms-content/ms-content.component';
 export * from './lib/ms-contents-part/ms-contents-part.component';
+export * from './lib/ms-content-locus/ms-content-locus.component';
 
 export * from './lib/ms-content-loci-part';
+export * from './lib/ms-content-loci-part/ms-content-loci-part.component';
 
 export * from './lib/ms-material-dsc-part';
 export * from './lib/ms-material-dsc-part/ms-material-dsc-part.component';

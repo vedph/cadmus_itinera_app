@@ -22,6 +22,8 @@ import { MsMaterialDscPartComponent } from './ms-material-dsc-part/ms-material-d
 import { MsPalimpsestComponent } from './ms-palimpsest/ms-palimpsest.component';
 import { MsContentComponent } from './ms-content/ms-content.component';
 import { MsContentsPartComponent } from './ms-contents-part/ms-contents-part.component';
+import { MsContentLociPartComponent } from './ms-content-loci-part/ms-content-loci-part.component';
+import { MsContentLocusComponent } from './ms-content-locus/ms-content-locus.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +31,8 @@ import { MsContentsPartComponent } from './ms-contents-part/ms-contents-part.com
     MsCatchwordsPartComponent,
     MsCompositionPartComponent,
     MsContentComponent,
+    MsContentLociPartComponent,
+    MsContentLocusComponent,
     MsContentsPartComponent,
     MsGuardSheetComponent,
     MsMaterialDscPartComponent,
@@ -59,6 +63,8 @@ import { MsContentsPartComponent } from './ms-contents-part/ms-contents-part.com
     MsCatchwordsPartComponent,
     MsCompositionPartComponent,
     MsContentComponent,
+    MsContentLociPartComponent,
+    MsContentLocusComponent,
     MsContentsPartComponent,
     MsGuardSheetComponent,
     MsMaterialDscPartComponent,

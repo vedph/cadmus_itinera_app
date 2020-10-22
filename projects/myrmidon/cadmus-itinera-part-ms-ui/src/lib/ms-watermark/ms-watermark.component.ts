@@ -82,6 +82,7 @@ export class MsWatermarkComponent implements OnInit {
     this.place.setValue(model.place);
     this.date = model.date;
     this.ids$.next(model.externalIds);
+    this.form.markAsPristine();
   }
 
   private getModel(): MsWatermark {

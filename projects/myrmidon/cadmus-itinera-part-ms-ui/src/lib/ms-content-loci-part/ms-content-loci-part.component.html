@@ -1,0 +1,105 @@
+<form [formGroup]="form" (submit)="save()">
+  <mat-card>
+    <mat-card-header>
+      <div mat-card-avatar>
+        <mat-icon>picture_in_picture</mat-icon>
+      </div>
+      <mat-card-title>Manuscript's Loci Critici Part</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <button
+        type="button"
+        mat-stroked-button
+        color="primary"
+        (click)="addLocus()"
+      >
+        <mat-icon>add_circle</mat-icon> add locus
+      </button>
+
+      <!-- loci -->
+      <table *ngIf="loci?.length">
+        <thead>
+          <tr>
+            <th></th>
+            <th>citation</th>
+            <th>length</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="
+              let l of loci;
+              let i = index;
+              let first = first;
+              let last = last
+            "
+            [class.selected]="l === editedLocus"
+          >
+            <td>
+              <button
+                type="button"
+                mat-icon-button
+                color="primary"
+                matTooltip="Edit this locus"
+                (click)="editLocus(i)"
+              >
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button
+                type="button"
+                mat-icon-button
+                matTooltip="Move this locus up"
+                [disabled]="first"
+                (click)="moveLocusUp(i)"
+              >
+                <mat-icon>arrow_upward</mat-icon>
+              </button>
+              <button
+                type="button"
+                mat-icon-button
+                matTooltip="Move this locus down"
+                [disabled]="last"
+                (click)="moveLocusDown(i)"
+              >
+                <mat-icon>arrow_downward</mat-icon>
+              </button>
+              <button
+                type="button"
+                mat-icon-button
+                color="warn"
+                matTooltip="Delete this locus"
+                (click)="deleteLocus(i)"
+              >
+                <mat-icon>remove_circle</mat-icon>
+              </button>
+            </td>
+            <td>{{ l.citation }}</td>
+            <td>{{ l.text?.length || 0 }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- locus -->
+      <mat-expansion-panel [(expanded)]="editorOpen">
+        <mat-expansion-panel-header>
+          <mat-panel-title>locus</mat-panel-title>
+          <mat-panel-description *ngIf="editedLocus">{{
+            editedLocus.citation
+          }}</mat-panel-description>
+        </mat-expansion-panel-header>
+        <cadmus-ms-content-locus
+          [model]="editedLocus"
+          (modelChange)="onLocusSaved($event)"
+          (editorClose)="onLocusClosed()"
+        ></cadmus-ms-content-locus>
+      </mat-expansion-panel>
+    </mat-card-content>
+    <mat-card-actions>
+      <cadmus-close-save-buttons
+        [form]="form"
+        [noSave]="userLevel < 2"
+        (closeRequest)="close()"
+      ></cadmus-close-save-buttons>
+    </mat-card-actions>
+  </mat-card>
+</form>

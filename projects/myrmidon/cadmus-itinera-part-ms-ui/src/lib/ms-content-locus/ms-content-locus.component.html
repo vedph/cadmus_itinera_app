@@ -1,0 +1,61 @@
+<form [formGroup]="form" (submit)="save()">
+  <!-- citation -->
+  <div>
+    <mat-form-field style="width: 10em;">
+      <input matInput [formControl]="citation" placeholder="citation" />
+      <mat-error
+        *ngIf="
+          citation.errors?.required && (citation.dirty || citation.touched)
+        "
+        >citation required</mat-error
+      >
+      <mat-error
+        *ngIf="
+          citation.errors?.maxLength && (citation.dirty || citation.touched)
+        "
+        >citation too long</mat-error
+      >
+    </mat-form-field>
+  </div>
+
+  <!-- text -->
+  <h4>text</h4>
+  <div>
+    <mat-form-field class="long-text">
+      <textarea
+        matInput
+        [formControl]="text"
+        rows="4"
+        placeholder="text"
+      ></textarea>
+      <mat-error *ngIf="text.errors?.required && (text.dirty || text.touched)"
+        >text required</mat-error
+      >
+      <mat-error *ngIf="text.errors?.maxLength && (text.dirty || text.touched)"
+        >text too long</mat-error
+      >
+    </mat-form-field>
+  </div>
+
+  <!-- buttons -->
+  <div>
+    <button
+      type="button"
+      color="warn"
+      mat-icon-button
+      matTooltip="Discard locus changes"
+      (click)="cancel()"
+    >
+      <mat-icon>clear</mat-icon>
+    </button>
+    <button
+      type="submit"
+      color="primary"
+      mat-icon-button
+      matTooltip="Accept locus changes"
+      [disabled]="form.invalid || form.pristine"
+    >
+      <mat-icon>check_circle</mat-icon>
+    </button>
+  </div>
+</form>

@@ -11,7 +11,7 @@ export interface MsContentLociPart extends Part {
 /**
  * The type ID used to identify the MsContentLociPart type.
  */
-export const MSCONTENTLOCI_PART_TYPEID =
+export const MSCONTENT_LOCI_PART_TYPEID =
   'it.vedph.itinera.ms-content-loci';
 
 /**
@@ -22,7 +22,7 @@ export const MSCONTENTLOCI_PART_SCHEMA = {
   $schema: 'http://json-schema.org/draft-07/schema#',
   $id:
     'www.vedph.it/cadmus/parts/itinera/ms/' +
-    MSCONTENTLOCI_PART_TYPEID +
+    MSCONTENT_LOCI_PART_TYPEID +
     '.json',
   type: 'object',
   title: 'MsContentLociPart',
