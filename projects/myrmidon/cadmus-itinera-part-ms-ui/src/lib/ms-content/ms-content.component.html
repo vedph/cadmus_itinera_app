@@ -71,7 +71,7 @@
 
   <div>
     <!-- note -->
-    <mat-form-field>
+    <mat-form-field class="long-text">
       <textarea
         matInput
         [formControl]="note"
@@ -94,6 +94,7 @@
           color="primary"
           (click)="addUnit()"
         >
+          <mat-icon>add_circle</mat-icon>
           add unit
         </button>
       </div>
