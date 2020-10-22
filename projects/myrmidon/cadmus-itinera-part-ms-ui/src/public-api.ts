@@ -21,6 +21,8 @@ export * from './lib/ms-content-locus/ms-content-locus.component';
 export * from './lib/ms-content-loci-part';
 export * from './lib/ms-content-loci-part/ms-content-loci-part.component';
 
+export * from './lib/ms-dimensions-part';
+
 export * from './lib/ms-material-dsc-part';
 export * from './lib/ms-material-dsc-part/ms-material-dsc-part.component';
 export * from './lib/ms-palimpsest/ms-palimpsest.component';
