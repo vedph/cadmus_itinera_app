@@ -29,6 +29,7 @@ import {
   MSPOEM_RANGES_PART_TYPEID,
   MSBINDING_PART_TYPEID,
   MSMATERIAL_DSC_PART_TYPEID,
+  MSCONTENTS_PART_TYPEID,
 } from '@myrmidon/cadmus-itinera-part-ms-ui';
 
 const GENERAL = 'general';
@@ -101,6 +102,9 @@ export const PART_EDITOR_KEYS: PartEditorKeys = {
     part: ITINERA_MS,
   },
   [MSMATERIAL_DSC_PART_TYPEID]: {
+    part: ITINERA_MS,
+  },
+  [MSCONTENTS_PART_TYPEID]: {
     part: ITINERA_MS,
   },
   // layer parts
