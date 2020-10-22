@@ -33,7 +33,7 @@
               let first = first;
               let last = last
             "
-            [class.selected]="l === editedLocus"
+            [class.selected]="i === editedIndex"
           >
             <td>
               <button
@@ -87,7 +87,7 @@
             editedLocus.citation
           }}</mat-panel-description>
         </mat-expansion-panel-header>
-        <cadmus-ms-content-locus
+        <cadmus-ms-content-locus *ngIf="editedLocus"
           [model]="editedLocus"
           (modelChange)="onLocusSaved($event)"
           (editorClose)="onLocusClosed()"

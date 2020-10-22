@@ -26,6 +26,7 @@ export class MsContentLociPartComponent
 
   public loci: MsContentLocus[];
   public editedLocus: MsContentLocus;
+  public editedIndex: number;
   public editorOpen: boolean;
 
   constructor(
@@ -88,24 +89,28 @@ export class MsContentLociPartComponent
       text: null,
     };
     this.loci = [...this.loci, locus];
-    this.count.setValue(this.loci?.length || 0);
+    this.count.setValue(this.loci.length);
+    this.count.markAsDirty();
     this.editLocus(this.loci.length - 1);
   }
 
   public editLocus(index: number): void {
     if (index < 0) {
       this.editedLocus = null;
+      this.editedIndex = -1;
       this.editorOpen = false;
     } else {
       this.editedLocus = this.loci[index];
+      this.editedIndex = index;
       this.editorOpen = true;
     }
   }
 
   public onLocusSaved(locus: MsContentLocus): void {
-    this.loci = this.loci.map((l) =>
-      locus === this.editedLocus ? locus : l
+    this.loci = this.loci.map((l, i) =>
+      i === this.editedIndex ? locus : l
     );
+    this.count.markAsDirty();
     this.editLocus(-1);
   }
 
@@ -123,7 +128,8 @@ export class MsContentLociPartComponent
           const loci = [...this.loci];
           loci.splice(index, 1);
           this.loci = loci;
-          this.count.setValue(this.loci?.length || 0);
+          this.count.setValue(this.loci.length);
+          this.count.markAsDirty();
         }
       });
   }
@@ -137,6 +143,9 @@ export class MsContentLociPartComponent
     loci.splice(index, 1);
     loci.splice(index - 1, 0, locus);
     this.loci = loci;
+    if (index === this.editedIndex) {
+      this.editedIndex--;
+    }
   }
 
   public moveLocusDown(index: number): void {
@@ -148,5 +157,8 @@ export class MsContentLociPartComponent
     loci.splice(index, 1);
     loci.splice(index + 1, 0, locus);
     this.loci = loci;
+    if (index === this.editedIndex) {
+      this.editedIndex++;
+    }
   }
 }

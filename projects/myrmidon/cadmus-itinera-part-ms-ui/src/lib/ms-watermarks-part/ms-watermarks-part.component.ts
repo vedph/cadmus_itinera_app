@@ -101,7 +101,8 @@ export class MsWatermarksPartComponent
       subject: null,
     };
     this.watermarks = [...this.watermarks, sheet];
-    this.count.setValue(this.watermarks?.length || 0);
+    this.count.setValue(this.watermarks.length);
+    this.count.markAsDirty();
     this.editWatermark(this.watermarks.length - 1);
   }
 
@@ -124,6 +125,7 @@ export class MsWatermarksPartComponent
       i === this._editedIndex ? sheet : s
     );
     this.editWatermark(-1);
+    this.count.markAsDirty();
   }
 
   public onWatermarkClosed(): void {
@@ -139,7 +141,8 @@ export class MsWatermarksPartComponent
           const sheets = [...this.watermarks];
           sheets.splice(index, 1);
           this.watermarks = sheets;
-          this.count.setValue(this.watermarks?.length || 0);
+          this.count.setValue(this.watermarks.length);
+          this.count.markAsDirty();
         }
       });
   }

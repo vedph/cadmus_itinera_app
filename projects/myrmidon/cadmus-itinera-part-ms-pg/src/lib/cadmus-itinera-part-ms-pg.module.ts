@@ -17,7 +17,8 @@ import {
   MSPOEM_RANGES_PART_TYPEID,
   MSBINDING_PART_TYPEID,
   MSMATERIAL_DSC_PART_TYPEID,
-  MSCONTENTS_PART_TYPEID
+  MSCONTENTS_PART_TYPEID,
+  MSCONTENT_LOCI_PART_TYPEID
 } from '@myrmidon/cadmus-itinera-part-ms-ui';
 import { MsSignaturesPartFeatureComponent } from './ms-signatures-part-feature/ms-signatures-part-feature.component';
 import { MsCompositionPartFeatureComponent } from './ms-composition-part-feature/ms-composition-part-feature.component';
@@ -30,6 +31,7 @@ import { MsPoemRangesPartFeatureComponent } from './ms-poem-ranges-part-feature/
 import { MsBindingPartFeatureComponent } from './ms-binding-part-feature/ms-binding-part-feature.component';
 import { MsMaterialDscPartFeatureComponent } from './ms-material-dsc-part-feature/ms-material-dsc-part-feature.component';
 import { MsContentsPartFeatureComponent } from './ms-contents-part-feature/ms-contents-part-feature.component';
+import { MsContentLociPartFeatureComponent } from './ms-content-loci-part-feature/ms-content-loci-part-feature.component';
 
 // https://github.com/ng-packagr/ng-packagr/issues/778
 export const RouterModuleForChild = RouterModule.forChild([
@@ -99,6 +101,12 @@ export const RouterModuleForChild = RouterModule.forChild([
     component: MsContentsPartFeatureComponent,
     canDeactivate: [PendingChangesGuard],
   },
+  {
+    path: `${MSCONTENT_LOCI_PART_TYPEID}/:pid`,
+    pathMatch: 'full',
+    component: MsContentLociPartFeatureComponent,
+    canDeactivate: [PendingChangesGuard],
+  },
 ]);
 
 @NgModule({
@@ -106,6 +114,7 @@ export const RouterModuleForChild = RouterModule.forChild([
     MsBindingPartFeatureComponent,
     MsCatchwordsPartFeatureComponent,
     MsCompositionPartFeatureComponent,
+    MsContentLociPartFeatureComponent,
     MsContentsPartFeatureComponent,
     MsMaterialDscPartFeatureComponent,
     MsNumberingsPartFeatureComponent,
@@ -130,6 +139,7 @@ export const RouterModuleForChild = RouterModule.forChild([
     MsBindingPartFeatureComponent,
     MsCatchwordsPartFeatureComponent,
     MsCompositionPartFeatureComponent,
+    MsContentLociPartFeatureComponent,
     MsContentsPartFeatureComponent,
     MsMaterialDscPartFeatureComponent,
     MsNumberingsPartFeatureComponent,

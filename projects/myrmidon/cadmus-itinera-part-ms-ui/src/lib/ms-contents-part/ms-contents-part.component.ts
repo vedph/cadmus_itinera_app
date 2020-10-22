@@ -98,7 +98,8 @@ export class MsContentsPartComponent
       work: null,
     };
     this.contents = [...this.contents, content];
-    this.count.setValue(this.contents?.length || 0);
+    this.count.setValue(this.contents.length);
+    this.count.markAsDirty();
     this.editContent(this.contents.length - 1);
   }
 
@@ -121,6 +122,7 @@ export class MsContentsPartComponent
       i === this._editedIndex ? sheet : s
     );
     this.editContent(-1);
+    this.count.markAsDirty();
   }
 
   public onContentClosed(): void {
@@ -136,7 +138,8 @@ export class MsContentsPartComponent
           const sheets = [...this.contents];
           sheets.splice(index, 1);
           this.contents = sheets;
-          this.count.setValue(this.contents?.length || 0);
+          this.count.setValue(this.contents.length);
+          this.count.markAsDirty();
         }
       });
   }

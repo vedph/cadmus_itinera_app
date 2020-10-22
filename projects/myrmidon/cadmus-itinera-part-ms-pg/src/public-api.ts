@@ -5,6 +5,7 @@
 export * from './lib/ms-binding-part-feature/ms-binding-part-feature.component';
 export * from './lib/ms-catchwords-part-feature/ms-catchwords-part-feature.component';
 export * from './lib/ms-composition-part-feature/ms-composition-part-feature.component';
+export * from './lib/ms-content-loci-part-feature/ms-content-loci-part-feature.component';
 export * from './lib/ms-contents-part-feature/ms-contents-part-feature.component';
 export * from './lib/ms-material-dsc-part-feature/ms-material-dsc-part-feature.component';
 export * from './lib/ms-numberings-part-feature/ms-numberings-part-feature.component';
