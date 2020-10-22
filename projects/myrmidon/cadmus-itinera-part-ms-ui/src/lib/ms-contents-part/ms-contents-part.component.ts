@@ -13,7 +13,7 @@ import { take } from 'rxjs/operators';
  * Thesauri: ms-content-states (optional).
  */
 @Component({
-  selector: 'lib-ms-contents-part',
+  selector: 'cadmus-ms-contents-part',
   templateUrl: './ms-contents-part.component.html',
   styleUrls: ['./ms-contents-part.component.css'],
 })
