@@ -30,7 +30,8 @@ import {
   MSBINDING_PART_TYPEID,
   MSMATERIAL_DSC_PART_TYPEID,
   MSCONTENTS_PART_TYPEID,
-  MSCONTENT_LOCI_PART_TYPEID
+  MSCONTENT_LOCI_PART_TYPEID,
+  MSDIMENSIONS_PART_TYPEID
 } from '@myrmidon/cadmus-itinera-part-ms-ui';
 
 const GENERAL = 'general';
@@ -109,6 +110,9 @@ export const PART_EDITOR_KEYS: PartEditorKeys = {
     part: ITINERA_MS,
   },
   [MSCONTENT_LOCI_PART_TYPEID]: {
+    part: ITINERA_MS,
+  },
+  [MSDIMENSIONS_PART_TYPEID]: {
     part: ITINERA_MS,
   },
   // layer parts

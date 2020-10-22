@@ -18,7 +18,8 @@ import {
   MSBINDING_PART_TYPEID,
   MSMATERIAL_DSC_PART_TYPEID,
   MSCONTENTS_PART_TYPEID,
-  MSCONTENT_LOCI_PART_TYPEID
+  MSCONTENT_LOCI_PART_TYPEID,
+  MSDIMENSIONS_PART_TYPEID
 } from '@myrmidon/cadmus-itinera-part-ms-ui';
 import { MsSignaturesPartFeatureComponent } from './ms-signatures-part-feature/ms-signatures-part-feature.component';
 import { MsCompositionPartFeatureComponent } from './ms-composition-part-feature/ms-composition-part-feature.component';
@@ -32,6 +33,7 @@ import { MsBindingPartFeatureComponent } from './ms-binding-part-feature/ms-bind
 import { MsMaterialDscPartFeatureComponent } from './ms-material-dsc-part-feature/ms-material-dsc-part-feature.component';
 import { MsContentsPartFeatureComponent } from './ms-contents-part-feature/ms-contents-part-feature.component';
 import { MsContentLociPartFeatureComponent } from './ms-content-loci-part-feature/ms-content-loci-part-feature.component';
+import { MsDimensionsPartFeatureComponent } from './ms-dimensions-part-feature/ms-dimensions-part-feature.component';
 
 // https://github.com/ng-packagr/ng-packagr/issues/778
 export const RouterModuleForChild = RouterModule.forChild([
@@ -107,6 +109,12 @@ export const RouterModuleForChild = RouterModule.forChild([
     component: MsContentLociPartFeatureComponent,
     canDeactivate: [PendingChangesGuard],
   },
+  {
+    path: `${MSDIMENSIONS_PART_TYPEID}/:pid`,
+    pathMatch: 'full',
+    component: MsDimensionsPartFeatureComponent,
+    canDeactivate: [PendingChangesGuard],
+  },
 ]);
 
 @NgModule({
@@ -116,6 +124,7 @@ export const RouterModuleForChild = RouterModule.forChild([
     MsCompositionPartFeatureComponent,
     MsContentLociPartFeatureComponent,
     MsContentsPartFeatureComponent,
+    MsDimensionsPartFeatureComponent,
     MsMaterialDscPartFeatureComponent,
     MsNumberingsPartFeatureComponent,
     MsPlacePartFeatureComponent,
@@ -141,6 +150,7 @@ export const RouterModuleForChild = RouterModule.forChild([
     MsCompositionPartFeatureComponent,
     MsContentLociPartFeatureComponent,
     MsContentsPartFeatureComponent,
+    MsDimensionsPartFeatureComponent,
     MsMaterialDscPartFeatureComponent,
     MsNumberingsPartFeatureComponent,
     MsPlacePartFeatureComponent,

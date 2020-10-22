@@ -24,6 +24,7 @@ import { MsContentComponent } from './ms-content/ms-content.component';
 import { MsContentsPartComponent } from './ms-contents-part/ms-contents-part.component';
 import { MsContentLociPartComponent } from './ms-content-loci-part/ms-content-loci-part.component';
 import { MsContentLocusComponent } from './ms-content-locus/ms-content-locus.component';
+import { MsDimensionsPartComponent } from './ms-dimensions-part/ms-dimensions-part.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { MsContentLocusComponent } from './ms-content-locus/ms-content-locus.com
     MsContentLociPartComponent,
     MsContentLocusComponent,
     MsContentsPartComponent,
+    MsDimensionsPartComponent,
     MsGuardSheetComponent,
     MsMaterialDscPartComponent,
     MsNumberingsPartComponent,
@@ -66,6 +68,7 @@ import { MsContentLocusComponent } from './ms-content-locus/ms-content-locus.com
     MsContentLociPartComponent,
     MsContentLocusComponent,
     MsContentsPartComponent,
+    MsDimensionsPartComponent,
     MsGuardSheetComponent,
     MsMaterialDscPartComponent,
     MsNumberingsPartComponent,

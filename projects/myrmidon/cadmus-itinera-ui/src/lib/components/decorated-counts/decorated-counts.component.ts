@@ -1,6 +1,7 @@
 import {
   AfterViewInit,
   Component,
+  Input,
   OnDestroy,
   OnInit,
   QueryList,
@@ -12,6 +13,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { DecoratedCount } from '@myrmidon/cadmus-itinera-core';
 import { InplaceEditorComponentBase } from '@myrmidon/cadmus-ui';
 import { Subscription } from 'rxjs';
@@ -31,6 +33,9 @@ export class DecoratedCountsComponent
   private _idSubscription: Subscription;
 
   @ViewChildren('id') idQueryList: QueryList<any>;
+
+  @Input()
+  public idEntries: ThesaurusEntry[];
 
   public counts: FormArray;
 

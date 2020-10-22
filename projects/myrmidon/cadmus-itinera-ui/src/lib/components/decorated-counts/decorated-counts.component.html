@@ -55,8 +55,27 @@
 
         <!-- child controls -->
         <!-- row 1 -->
-        <!-- id -->
-        <ng-container>
+        <!-- id (bound) -->
+        <ng-container *ngIf="idEntries?.length">
+          <mat-form-field style="width: 8em">
+            <mat-select #id matInput formControlName="id" placeholder="ID">
+              <mat-option *ngFor="let e of idEntries" [value]="e.id">{{
+                e.value
+              }}</mat-option>
+            </mat-select>
+            <input />
+            <mat-error
+              *ngIf="
+                item['controls'].id.hasError('required') &&
+                (item['controls'].id.dirty || item['controls'].id.touched)
+              "
+              >ID required
+            </mat-error>
+          </mat-form-field>
+        </ng-container>
+
+        <!-- id (free) -->
+        <ng-container *ngIf="!idEntries?.length">
           <mat-form-field style="width: 8em">
             <input #id matInput formControlName="id" placeholder="ID" />
             <mat-error
@@ -78,7 +97,7 @@
 
         <!-- value -->
         &nbsp;
-        <mat-form-field style="width: 4em;">
+        <mat-form-field style="width: 4em">
           <input
             type="number"
             matInput
