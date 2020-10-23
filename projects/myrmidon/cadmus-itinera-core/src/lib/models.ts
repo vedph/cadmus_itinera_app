@@ -240,6 +240,45 @@ export interface MsHandInstance {
 }
 
 /**
+ * A manuscript's guide letter.
+ */
+export interface MsGuideLetter {
+  position: string;
+  morphology?: string;
+}
+
+/**
+ * The artist of a manuscript's decoration.
+ */
+export interface MsDecorationArtist {
+  type: string;
+  id: string;
+  name: string;
+  note?: string;
+  sources?: DocReference[];
+}
+
+/**
+ * A decoration in a manuscript.
+ */
+export interface MsDecoration {
+  type: string;
+  subject: string;
+  colors: string[];
+  layout: string;
+  tool: string;
+  start?: MsLocation;
+  end?: MsLocation;
+  position?: string;
+  size?: PhysicalSize;
+  description?: string;
+  textRelation?: string;
+  guideLetters?: MsGuideLetter[];
+  imageId?: string;
+  artist?: MsDecorationArtist;
+}
+
+/**
  * A range of alphanumerics.
  */
 export interface AlnumRange {
