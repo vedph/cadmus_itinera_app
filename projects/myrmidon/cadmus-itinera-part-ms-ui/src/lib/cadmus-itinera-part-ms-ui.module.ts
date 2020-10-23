@@ -27,6 +27,8 @@ import { MsContentLocusComponent } from './ms-content-locus/ms-content-locus.com
 import { MsDimensionsPartComponent } from './ms-dimensions-part/ms-dimensions-part.component';
 import { MsHandsPartComponent } from './ms-hands-part/ms-hands-part.component';
 import { MsHandComponent } from './ms-hand/ms-hand.component';
+import { MsDecorationComponent } from './ms-decoration/ms-decoration.component';
+import { MsDecorationArtistComponent } from './ms-decoration-artist/ms-decoration-artist.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +39,8 @@ import { MsHandComponent } from './ms-hand/ms-hand.component';
     MsContentLociPartComponent,
     MsContentLocusComponent,
     MsContentsPartComponent,
+    MsDecorationArtistComponent,
+    MsDecorationComponent,
     MsDimensionsPartComponent,
     MsGuardSheetComponent,
     MsHandComponent,
@@ -72,6 +76,8 @@ import { MsHandComponent } from './ms-hand/ms-hand.component';
     MsContentLociPartComponent,
     MsContentLocusComponent,
     MsContentsPartComponent,
+    MsDecorationArtistComponent,
+    MsDecorationComponent,
     MsDimensionsPartComponent,
     MsGuardSheetComponent,
     MsHandComponent,

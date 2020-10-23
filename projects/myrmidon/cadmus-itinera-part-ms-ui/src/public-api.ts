@@ -22,6 +22,8 @@ export * from './lib/ms-content-loci-part';
 export * from './lib/ms-content-loci-part/ms-content-loci-part.component';
 
 export * from './lib/ms-decorations-part';
+export * from './lib/ms-decoration/ms-decoration.component';
+export * from './lib/ms-decoration-artist/ms-decoration-artist.component';
 
 export * from './lib/ms-dimensions-part';
 export * from './lib/ms-dimensions-part/ms-dimensions-part.component';
