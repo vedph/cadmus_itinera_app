@@ -19,7 +19,8 @@ import {
   MSMATERIAL_DSC_PART_TYPEID,
   MSCONTENTS_PART_TYPEID,
   MSCONTENT_LOCI_PART_TYPEID,
-  MSDIMENSIONS_PART_TYPEID
+  MSDIMENSIONS_PART_TYPEID,
+  MSHANDS_PART_TYPEID
 } from '@myrmidon/cadmus-itinera-part-ms-ui';
 import { MsSignaturesPartFeatureComponent } from './ms-signatures-part-feature/ms-signatures-part-feature.component';
 import { MsCompositionPartFeatureComponent } from './ms-composition-part-feature/ms-composition-part-feature.component';
@@ -34,6 +35,7 @@ import { MsMaterialDscPartFeatureComponent } from './ms-material-dsc-part-featur
 import { MsContentsPartFeatureComponent } from './ms-contents-part-feature/ms-contents-part-feature.component';
 import { MsContentLociPartFeatureComponent } from './ms-content-loci-part-feature/ms-content-loci-part-feature.component';
 import { MsDimensionsPartFeatureComponent } from './ms-dimensions-part-feature/ms-dimensions-part-feature.component';
+import { MsHandsPartFeatureComponent } from './ms-hands-part-feature/ms-hands-part-feature.component';
 
 // https://github.com/ng-packagr/ng-packagr/issues/778
 export const RouterModuleForChild = RouterModule.forChild([
@@ -115,6 +117,12 @@ export const RouterModuleForChild = RouterModule.forChild([
     component: MsDimensionsPartFeatureComponent,
     canDeactivate: [PendingChangesGuard],
   },
+  {
+    path: `${MSHANDS_PART_TYPEID}/:pid`,
+    pathMatch: 'full',
+    component: MsHandsPartFeatureComponent,
+    canDeactivate: [PendingChangesGuard],
+  },
 ]);
 
 @NgModule({
@@ -125,6 +133,7 @@ export const RouterModuleForChild = RouterModule.forChild([
     MsContentLociPartFeatureComponent,
     MsContentsPartFeatureComponent,
     MsDimensionsPartFeatureComponent,
+    MsHandsPartFeatureComponent,
     MsMaterialDscPartFeatureComponent,
     MsNumberingsPartFeatureComponent,
     MsPlacePartFeatureComponent,
@@ -151,6 +160,7 @@ export const RouterModuleForChild = RouterModule.forChild([
     MsContentLociPartFeatureComponent,
     MsContentsPartFeatureComponent,
     MsDimensionsPartFeatureComponent,
+    MsHandsPartFeatureComponent,
     MsMaterialDscPartFeatureComponent,
     MsNumberingsPartFeatureComponent,
     MsPlacePartFeatureComponent,
