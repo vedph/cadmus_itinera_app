@@ -121,13 +121,18 @@ export class MsHandComponent implements OnInit {
     });
   }
 
+  private toggleSubscription(enabled: boolean): void {
+    if (enabled) {
+      this.subForm.enable();
+    } else {
+      this.subForm.disable();
+    }
+  }
+
   ngOnInit(): void {
+    this.toggleSubscription(false);
     this.subPresent.valueChanges.subscribe((present) => {
-      if (present) {
-        this.subForm.enable();
-      } else {
-        this.subForm.disable();
-      }
+      this.toggleSubscription(present);
     });
   }
 

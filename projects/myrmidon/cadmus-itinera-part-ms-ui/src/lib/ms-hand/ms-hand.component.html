@@ -76,6 +76,21 @@
       </div>
       <div>
         <!-- extentNote -->
+        <mat-form-field class="long-text">
+          <textarea
+            rows="2"
+            matInput
+            [formControl]="extentNote"
+            placeholder="extent note"
+          ></textarea>
+          <mat-error
+            *ngIf="
+              extentNote.errors?.maxLength &&
+              (extentNote.dirty || extentNote.touched)
+            "
+            >extent note too long</mat-error
+          >
+        </mat-form-field>
       </div>
     </mat-tab>
 
@@ -92,6 +107,7 @@
             add rubrication
           </button>
         </div>
+        <br>
         <div
           *ngFor="
             let item of rubrications.controls;
@@ -133,109 +149,99 @@
             </button>
 
             <!-- child controls -->
-            <mat-form-field>
-              <div>
-                <!-- location -->
-                <mat-form-field style="width: 5em">
-                  <input
-                    matInput
-                    formControlName="location"
-                    placeholder="location"
-                  />
-                  <mat-error
-                    *ngIf="
-                      item['controls'].location.errors?.required &&
-                      (item['controls'].location.dirty ||
-                        item['controls'].location.touched)
-                    "
-                    >location required</mat-error
-                  >
-                  <mat-error
-                    *ngIf="
-                      item['controls'].location.pattern?.required &&
-                      (item['controls'].location.dirty ||
-                        item['controls'].location.touched)
-                    "
-                    >invalid location</mat-error
-                  >
-                </mat-form-field>
-
-                <!-- type (bound) -->
-                &nbsp;
-                <mat-form-field *ngIf="rubrEntries?.length">
-                  <mat-select formControlName="type" placeholder="type">
-                    <mat-option *ngFor="let e of rubrEntries" [value]="e.id">{{
-                      e.value
-                    }}</mat-option>
-                  </mat-select>
-                  <mat-error
-                    *ngIf="
-                      item['controls'].type.errors?.required &&
-                      (item['controls'].type.dirty ||
-                        item['controls'].type.touched)
-                    "
-                    >type required</mat-error
-                  >
-                </mat-form-field>
-
-                <!-- type (free) -->
-                <mat-form-field *ngIf="!rubrEntries?.length">
-                  <input matInput formControlName="type" placeholder="type" />
-                  <mat-error
-                    *ngIf="
-                      item['controls'].type.errors?.required &&
-                      (item['controls'].type.dirty ||
-                        item['controls'].type.touched)
-                    "
-                    >type required</mat-error
-                  >
-                  <mat-error
-                    *ngIf="
-                      item['controls'].type.errors?.maxLength &&
-                      (item['controls'].type.dirty ||
-                        item['controls'].type.touched)
-                    "
-                    >type too long</mat-error
-                  >
-                </mat-form-field>
-              </div>
-              <div class="additional-row">
-                <!-- description -->
-                <mat-form-field class="long-text">
-                  <input
-                    matInput
-                    formControlName="description"
-                    placeholder="description"
-                  />
-                  <mat-error
-                    *ngIf="
-                      item['controls'].description.errors?.maxLength &&
-                      (item['controls'].description.dirty ||
-                        item['controls'].description.touched)
-                    "
-                    >description too long</mat-error
-                  >
-                </mat-form-field>
-              </div>
-              <div>
-                <!-- issues -->
-                <mat-form-field class="long-text">
-                  <input
-                    matInput
-                    formControlName="issues"
-                    placeholder="issues"
-                  />
-                  <mat-error
-                    *ngIf="
-                      item['controls'].issues.errors?.maxLength &&
-                      (item['controls'].issues.dirty ||
-                        item['controls'].issues.touched)
-                    "
-                    >issues too long</mat-error
-                  >
-                </mat-form-field>
-              </div>
+            <!-- location -->
+            <mat-form-field style="width: 5em">
+              <input
+                matInput
+                formControlName="location"
+                placeholder="location"
+              />
+              <mat-error
+                *ngIf="
+                  item['controls'].location.errors?.required &&
+                  (item['controls'].location.dirty ||
+                    item['controls'].location.touched)
+                "
+                >location required</mat-error
+              >
+              <mat-error
+                *ngIf="
+                  item['controls'].location.pattern?.required &&
+                  (item['controls'].location.dirty ||
+                    item['controls'].location.touched)
+                "
+                >invalid location</mat-error
+              >
             </mat-form-field>
+
+            <!-- type (bound) -->
+            &nbsp;
+            <mat-form-field *ngIf="rubrEntries?.length">
+              <mat-select formControlName="type" placeholder="type">
+                <mat-option *ngFor="let e of rubrEntries" [value]="e.id">{{
+                  e.value
+                }}</mat-option>
+              </mat-select>
+              <mat-error
+                *ngIf="
+                  item['controls'].type.errors?.required &&
+                  (item['controls'].type.dirty || item['controls'].type.touched)
+                "
+                >type required</mat-error
+              >
+            </mat-form-field>
+
+            <!-- type (free) -->
+            <mat-form-field *ngIf="!rubrEntries?.length">
+              <input matInput formControlName="type" placeholder="type" />
+              <mat-error
+                *ngIf="
+                  item['controls'].type.errors?.required &&
+                  (item['controls'].type.dirty || item['controls'].type.touched)
+                "
+                >type required</mat-error
+              >
+              <mat-error
+                *ngIf="
+                  item['controls'].type.errors?.maxLength &&
+                  (item['controls'].type.dirty || item['controls'].type.touched)
+                "
+                >type too long</mat-error
+              >
+            </mat-form-field>
+
+            <div class="additional-row">
+              <!-- description -->
+              <mat-form-field class="long-text">
+                <input
+                  matInput
+                  formControlName="description"
+                  placeholder="description"
+                />
+                <mat-error
+                  *ngIf="
+                    item['controls'].description.errors?.maxLength &&
+                    (item['controls'].description.dirty ||
+                      item['controls'].description.touched)
+                  "
+                  >description too long</mat-error
+                >
+              </mat-form-field>
+            </div>
+            <div>
+              <!-- issues -->
+              <mat-form-field class="long-text">
+                <input matInput formControlName="issues" placeholder="issues" />
+                <mat-error
+                  *ngIf="
+                    item['controls'].issues.errors?.maxLength &&
+                    (item['controls'].issues.dirty ||
+                      item['controls'].issues.touched)
+                  "
+                  >issues too long</mat-error
+                >
+              </mat-form-field>
+            </div>
           </div>
         </div>
       </div>
@@ -313,6 +319,7 @@
           <!-- text -->
           <mat-form-field class="long-text">
             <textarea
+              matInput
               rows="3"
               [formControl]="subText"
               placeholder="text"
