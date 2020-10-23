@@ -25,6 +25,8 @@ import { MsContentsPartComponent } from './ms-contents-part/ms-contents-part.com
 import { MsContentLociPartComponent } from './ms-content-loci-part/ms-content-loci-part.component';
 import { MsContentLocusComponent } from './ms-content-locus/ms-content-locus.component';
 import { MsDimensionsPartComponent } from './ms-dimensions-part/ms-dimensions-part.component';
+import { MsHandsPartComponent } from './ms-hands-part/ms-hands-part.component';
+import { MsHandComponent } from './ms-hand/ms-hand.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +39,8 @@ import { MsDimensionsPartComponent } from './ms-dimensions-part/ms-dimensions-pa
     MsContentsPartComponent,
     MsDimensionsPartComponent,
     MsGuardSheetComponent,
+    MsHandComponent,
+    MsHandsPartComponent,
     MsMaterialDscPartComponent,
     MsNumberingsPartComponent,
     MsPalimpsestComponent,
@@ -70,6 +74,8 @@ import { MsDimensionsPartComponent } from './ms-dimensions-part/ms-dimensions-pa
     MsContentsPartComponent,
     MsDimensionsPartComponent,
     MsGuardSheetComponent,
+    MsHandComponent,
+    MsHandsPartComponent,
     MsMaterialDscPartComponent,
     MsNumberingsPartComponent,
     MsPalimpsestComponent,

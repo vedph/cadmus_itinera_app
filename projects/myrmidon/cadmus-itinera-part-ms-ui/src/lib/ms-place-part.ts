@@ -86,7 +86,7 @@ export const MSPLACE_PART_SCHEMA = {
     },
     subscriptionLoc: {
       type: 'object',
-      required: ['n', 'v'],
+      required: ['n'],
       properties: {
         n: {
           type: 'integer',

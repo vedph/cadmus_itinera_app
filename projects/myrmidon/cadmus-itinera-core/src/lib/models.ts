@@ -82,7 +82,7 @@ export interface Chronotope {
  */
 export interface MsLocation {
   n: number;
-  v: string;
+  v?: boolean;
   l?: number;
 }
 
@@ -205,6 +205,38 @@ export interface MsContent {
 export interface MsContentLocus {
   citation: string;
   text: string;
+}
+
+/**
+ * A manuscript's rubrication.
+ */
+export interface MsRubrication {
+  location: MsLocation;
+  type: string;
+  description?: string;
+  issues?: string;
+}
+
+/**
+ * A manuscript's subscription.
+ */
+export interface MsSubscription {
+  location: MsLocation;
+  language: string;
+  text?: string;
+}
+
+/**
+ * A manuscript's hand instance.
+ */
+export interface MsHandInstance {
+  id: string;
+  idReason: string;
+  start?: MsLocation;
+  end?: MsLocation;
+  extentNote?: string;
+  rubrications?: MsRubrication[];
+  subscription?: MsSubscription;
 }
 
 /**

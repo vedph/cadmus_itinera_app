@@ -74,13 +74,13 @@ export const MSDIMENSIONS_PART_SCHEMA = {
     },
     sample: {
       type: 'object',
-      required: ['n', 'r'],
+      required: ['n'],
       properties: {
         n: {
           type: 'integer',
         },
-        r: {
-          type: 'string',
+        v: {
+          type: 'boolean',
         },
         l: {
           type: 'integer',

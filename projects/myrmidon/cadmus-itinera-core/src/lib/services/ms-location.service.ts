@@ -31,7 +31,7 @@ export class MsLocationService {
     }
     return {
       n: +m[1],
-      v: m[2],
+      v: m[2] === 'v',
       l: m[3] ? +m[3] : 0,
     };
   }
