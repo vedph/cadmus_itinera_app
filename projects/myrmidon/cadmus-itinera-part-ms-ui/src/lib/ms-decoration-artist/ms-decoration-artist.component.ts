@@ -67,6 +67,12 @@ export class MsDecorationArtistComponent implements OnInit {
       Validators.maxLength(100),
     ]);
     this.note = formBuilder.control(null, [Validators.maxLength(500)]);
+    this.form = formBuilder.group({
+      type: this.type,
+      id: this.id,
+      name: this.name,
+      note: this.note
+    });
   }
 
   ngOnInit(): void {

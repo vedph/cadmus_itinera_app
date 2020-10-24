@@ -159,7 +159,7 @@
         <!-- layout (free) -->
         &nbsp;
         <mat-form-field *ngIf="!layoutEntries?.length" style="width: 8em">
-          <input [formControl]="layout" placeholder="layout" />
+          <input matInput [formControl]="layout" placeholder="layout" />
           <mat-error
             *ngIf="layout.errors?.required && (layout.dirty || layout.touched)"
             >layout required</mat-error
@@ -186,7 +186,7 @@
         <!-- tool (free) -->
         &nbsp;
         <mat-form-field *ngIf="!toolEntries?.length" style="width: 8em">
-          <input [formControl]="tool" placeholder="tool" />
+          <input matInput [formControl]="tool" placeholder="tool" />
           <mat-error
             *ngIf="tool.errors?.required && (tool.dirty || tool.touched)"
             >tool required</mat-error
@@ -235,7 +235,7 @@
         <!-- position (free) -->
         &nbsp;
         <mat-form-field *ngIf="!posEntries?.length" style="width: 8em">
-          <input [formControl]="position" placeholder="position" />
+          <input matInput [formControl]="position" placeholder="position" />
           <mat-error
             *ngIf="
               position.errors?.required && (position.dirty || position.touched)
@@ -275,9 +275,43 @@
       </cadmus-physical-size>
     </mat-tab>
 
-    <mat-tab label="guides">
-      <!-- guides -->
-      <div formArrayName="guides">
+    <mat-tab label="description">
+      <!-- description -->
+      <ngx-monaco-editor
+        [options]="editorOptions"
+        [formControl]="description"
+      ></ngx-monaco-editor>
+      <mat-error
+        *ngIf="
+          description.errors?.maxLength &&
+          (description.touched || description.dirty)
+        "
+        >description too long</mat-error
+      >
+
+      <!-- textRelation -->
+      <h4>text relation</h4>
+      <div>
+        <mat-form-field class="long-text">
+          <textarea
+            rows="3"
+            matInput
+            [formControl]="textRelation"
+          ></textarea>
+          <mat-error
+            *ngIf="
+              textRelation.errors?.maxLength &&
+              (textRelation.dirty || textRelation.touched)
+            "
+            >text too long</mat-error
+          >
+        </mat-form-field>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="guide letters">
+      <!-- letters -->
+      <div formArrayName="letters">
         <div>
           <button
             type="button"
@@ -349,7 +383,7 @@
             <!-- position (free) -->
             &nbsp;
             <mat-form-field *ngIf="!guidePosEntries?.length" style="width: 8em">
-              <input formControlName="position" placeholder="position" />
+              <input matInput formControlName="position" placeholder="position" />
               <mat-error
                 *ngIf="
                   position.errors?.required &&
@@ -398,6 +432,7 @@
   </mat-tab-group>
 
   <!-- buttons -->
+  <hr>
   <div>
     <button
       type="button"

@@ -12,12 +12,11 @@
           <div>
             <button
               type="button"
-              mat-icon-button
+              mat-stroked-button
               color="primary"
-              matTooltip="Add decoration"
               (click)="addDecoration()"
             >
-              <mat-icon>add_circle</mat-icon>
+              <mat-icon>add_circle</mat-icon> add decoration
             </button>
           </div>
           <table *ngIf="decorations?.length">

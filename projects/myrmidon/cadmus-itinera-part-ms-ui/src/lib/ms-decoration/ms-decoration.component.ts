@@ -75,6 +75,14 @@ export class MsDecorationComponent implements OnInit {
   public size: PhysicalSize;
   public artist: MsDecorationArtist;
 
+  public editorOptions = {
+    theme: 'vs-light',
+    language: 'markdown',
+    wordWrap: 'on',
+    // https://github.com/atularen/ngx-monaco-editor/issues/19
+    automaticLayout: true,
+  };
+
   constructor(
     private _formBuilder: FormBuilder,
     private _msLocationService: MsLocationService
@@ -126,7 +134,7 @@ export class MsDecorationComponent implements OnInit {
       position: this.position,
       description: this.description,
       textRelation: this.textRelation,
-      guideLetters: this.letters,
+      letters: this.letters,
       imageId: this.imageId,
     });
   }
@@ -206,8 +214,16 @@ export class MsDecorationComponent implements OnInit {
     }
 
     // size, artist
-    model.size = this.size;
-    model.artist = this.artist;
+    if (this.size.w?.value || this.size.h?.value || this.size.d?.value) {
+      model.size = this.size;
+    } else {
+      model.size = undefined;
+    }
+    if (this.artist?.id) {
+      model.artist = this.artist;
+    } else {
+      model.artist = undefined;
+    }
 
     return model;
   }
