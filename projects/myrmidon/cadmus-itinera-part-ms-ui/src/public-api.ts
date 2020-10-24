@@ -33,6 +33,8 @@ export * from './lib/ms-hands-part';
 export * from './lib/ms-hands-part/ms-hands-part.component';
 export * from './lib/ms-hand/ms-hand.component';
 
+export * from './lib/ms-history-part';
+
 export * from './lib/ms-material-dsc-part';
 export * from './lib/ms-material-dsc-part/ms-material-dsc-part.component';
 export * from './lib/ms-palimpsest/ms-palimpsest.component';

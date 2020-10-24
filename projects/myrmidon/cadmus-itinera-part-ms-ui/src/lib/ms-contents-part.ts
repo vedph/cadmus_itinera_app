@@ -83,7 +83,7 @@ export const MSCONTENTS_PART_SCHEMA = {
               },
               start: {
                 type: 'object',
-                required: ['n', 'v'],
+                required: ['n'],
                 properties: {
                   n: {
                     type: 'integer',
@@ -98,7 +98,7 @@ export const MSCONTENTS_PART_SCHEMA = {
               },
               end: {
                 type: 'object',
-                required: ['n', 'v'],
+                required: ['n'],
                 properties: {
                   n: {
                     type: 'integer',

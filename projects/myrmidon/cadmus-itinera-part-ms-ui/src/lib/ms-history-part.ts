@@ -1,33 +1,37 @@
 import { Part } from '@myrmidon/cadmus-core';
-import { MsGuardSheet, MsSection } from '@myrmidon/cadmus-itinera-core';
+import {
+  GeoAddress,
+  MsHistoryPerson,
+  MsAnnotation,
+  MsRestoration,
+} from '@myrmidon/cadmus-itinera-core';
 
 /**
- * The MsComposition part model.
+ * The manuscript's history part model.
  */
-export interface MsCompositionPart extends Part {
-  sheetCount: number;
-  guardSheetCount?: number;
-  guardSheets?: MsGuardSheet[];
-  sections?: MsSection[];
+export interface MsHistoryPart extends Part {
+  provenances: GeoAddress[];
+  history: string;
+  persons?: MsHistoryPerson[];
+  annotations?: MsAnnotation[];
+  restorations?: MsRestoration[];
 }
 
 /**
- * The type ID used to identify the MsCompositionPart type.
+ * The type ID used to identify the MsHistoryPart type.
  */
-export const MSCOMPOSITION_PART_TYPEID = 'it.vedph.itinera.ms-composition';
+export const MSHISTORY_PART_TYPEID = 'it.vedph.itinera.ms-history';
 
 /**
- * JSON schema for the MsComposition part. This is used in the editor demo.
+ * JSON schema for the MsHistory part. This is used in the editor demo.
  * You can use the JSON schema tool at https://jsonschema.net/.
  */
-export const MSCOMPOSITION_PART_SCHEMA = {
+export const MSHISTORY_PART_SCHEMA = {
   $schema: 'http://json-schema.org/draft-07/schema#',
   $id:
-    'www.vedph.it/cadmus/parts/itinera/ms/' +
-    MSCOMPOSITION_PART_TYPEID +
-    '.json',
+    'www.vedph.it/cadmus/parts/itinera/ms/' + MSHISTORY_PART_TYPEID + '.json',
   type: 'object',
-  title: 'MsCompositionPart',
+  title: 'MsHistoryPart',
   required: [
     'id',
     'itemId',
@@ -36,7 +40,8 @@ export const MSCOMPOSITION_PART_SCHEMA = {
     'creatorId',
     'timeModified',
     'userId',
-    'sheetCount',
+    'provenances',
+    'history',
   ],
   properties: {
     timeCreated: {
@@ -69,27 +74,280 @@ export const MSCOMPOSITION_PART_SCHEMA = {
       type: ['string', 'null'],
       pattern: '^([a-z][-0-9a-z._]*)?$',
     },
-    sheeCount: {
-      type: 'integer',
-    },
-    guardSheetCount: {
-      type: 'integer',
-    },
-    guardSheets: {
+    provenances: {
       type: 'array',
       items: {
         anyOf: [
           {
             type: 'object',
-            required: ['isBack', 'material', 'location'],
+            required: ['area'],
             properties: {
-              isBack: {
-                type: 'boolean',
-              },
-              material: {
+              area: {
                 type: 'string',
               },
-              location: {
+              address: {
+                type: 'string',
+              },
+            },
+          },
+        ],
+      },
+    },
+    history: {
+      type: 'string',
+    },
+    persons: {
+      type: 'array',
+      items: {
+        anyOf: [
+          {
+            type: 'object',
+            required: ['name'],
+            properties: {
+              id: {
+                type: 'string',
+              },
+              role: {
+                type: 'string',
+              },
+              name: {
+                type: 'object',
+                required: ['language', 'parts'],
+                properties: {
+                  language: {
+                    type: 'string',
+                  },
+                  tag: {
+                    type: 'string',
+                  },
+                  parts: {
+                    type: 'array',
+                    items: {
+                      anyOf: [
+                        {
+                          type: 'object',
+                          required: ['type', 'value'],
+                          properties: {
+                            type: {
+                              type: 'string',
+                            },
+                            value: {
+                              type: 'string',
+                            },
+                          },
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              date: {
+                type: 'object',
+                required: ['a'],
+                properties: {
+                  a: {
+                    type: 'object',
+                    required: ['value'],
+                    properties: {
+                      value: {
+                        type: 'integer',
+                      },
+                      isCentury: {
+                        type: 'boolean',
+                      },
+                      isSpan: {
+                        type: 'boolean',
+                      },
+                      isApproximate: {
+                        type: 'boolean',
+                      },
+                      isDubious: {
+                        type: 'boolean',
+                      },
+                      day: {
+                        type: 'integer',
+                      },
+                      month: {
+                        type: 'integer',
+                      },
+                      hint: {
+                        type: ['string', 'null'],
+                      },
+                    },
+                  },
+                  b: {
+                    type: 'object',
+                    required: ['value'],
+                    properties: {
+                      value: {
+                        type: 'integer',
+                      },
+                      isCentury: {
+                        type: 'boolean',
+                      },
+                      isSpan: {
+                        type: 'boolean',
+                      },
+                      isApproximate: {
+                        type: 'boolean',
+                      },
+                      isDubious: {
+                        type: 'boolean',
+                      },
+                      day: {
+                        type: 'integer',
+                      },
+                      month: {
+                        type: 'integer',
+                      },
+                      hint: {
+                        type: ['string', 'null'],
+                      },
+                    },
+                  },
+                },
+              },
+              note: {
+                type: 'string',
+              },
+              externalIds: {
+                type: 'array',
+                items: {
+                  anyOf: [
+                    {
+                      type: 'string',
+                    },
+                  ],
+                },
+              },
+              sources: {
+                type: 'array',
+                items: {
+                  anyOf: [
+                    {
+                      type: 'object',
+                      required: ['author', 'work'],
+                      properties: {
+                        tag: {
+                          type: 'string',
+                        },
+                        author: {
+                          type: 'string',
+                        },
+                        work: {
+                          type: 'string',
+                        },
+                        location: {
+                          type: 'string',
+                        },
+                        note: {
+                          type: 'string',
+                        },
+                      },
+                    },
+                  ],
+                },
+              },
+            },
+          },
+        ],
+      },
+    },
+    annotations: {
+      type: 'array',
+      items: {
+        anyOf: [
+          {
+            type: 'object',
+            required: ['language', 'type', 'text'],
+            properties: {
+              language: {
+                type: 'string',
+              },
+              type: {
+                type: 'string',
+              },
+              text: {
+                type: 'string',
+              },
+              start: {
+                type: 'object',
+                required: ['n'],
+                properties: {
+                  n: {
+                    type: 'integer',
+                  },
+                  v: {
+                    type: 'string',
+                  },
+                  l: {
+                    type: 'integer',
+                  },
+                },
+              },
+              end: {
+                type: 'object',
+                required: ['n'],
+                properties: {
+                  n: {
+                    type: 'integer',
+                  },
+                  v: {
+                    type: 'string',
+                  },
+                  l: {
+                    type: 'integer',
+                  },
+                },
+              },
+              personId: {
+                type: 'string',
+              },
+              sources: {
+                type: 'array',
+                items: {
+                  anyOf: [
+                    {
+                      type: 'object',
+                      required: ['author', 'work'],
+                      properties: {
+                        tag: {
+                          type: 'string',
+                        },
+                        author: {
+                          type: 'string',
+                        },
+                        work: {
+                          type: 'string',
+                        },
+                        location: {
+                          type: 'string',
+                        },
+                        note: {
+                          type: 'string',
+                        },
+                      },
+                    },
+                  ],
+                },
+              },
+            },
+          },
+        ],
+      },
+    },
+    restorations: {
+      type: 'array',
+      items: {
+        anyOf: [
+          {
+            type: 'object',
+            required: ['type'],
+            properties: {
+              type: {
+                type: 'string',
+              },
+              place: {
                 type: 'string',
               },
               date: {
@@ -161,119 +419,35 @@ export const MSCOMPOSITION_PART_SCHEMA = {
               note: {
                 type: 'string',
               },
-            },
-          },
-        ],
-      },
-    },
-    sections: {
-      type: 'array',
-      items: {
-        anyOf: [
-          {
-            type: 'object',
-            required: ['label', 'start', 'end', 'date'],
-            properties: {
-              tag: {
+              personId: {
                 type: 'string',
               },
-              label: {
-                type: 'string',
-              },
-              start: {
-                type: 'object',
-                required: ['n'],
-                properties: {
-                  n: {
-                    type: 'integer',
-                  },
-                  v: {
-                    type: 'string',
-                  },
-                  l: {
-                    type: 'integer',
-                  },
-                },
-              },
-              end: {
-                type: 'object',
-                required: ['n'],
-                properties: {
-                  n: {
-                    type: 'integer',
-                  },
-                  v: {
-                    type: 'string',
-                  },
-                  l: {
-                    type: 'integer',
-                  },
-                },
-              },
-              date: {
-                type: 'object',
-                required: ['a'],
-                properties: {
-                  a: {
-                    type: 'object',
-                    required: ['value'],
-                    properties: {
-                      value: {
-                        type: 'integer',
-                      },
-                      isCentury: {
-                        type: 'boolean',
-                      },
-                      isSpan: {
-                        type: 'boolean',
-                      },
-                      isApproximate: {
-                        type: 'boolean',
-                      },
-                      isDubious: {
-                        type: 'boolean',
-                      },
-                      day: {
-                        type: 'integer',
-                      },
-                      month: {
-                        type: 'integer',
-                      },
-                      hint: {
-                        type: ['string', 'null'],
+              sources: {
+                type: 'array',
+                items: {
+                  anyOf: [
+                    {
+                      type: 'object',
+                      required: ['author', 'work'],
+                      properties: {
+                        tag: {
+                          type: 'string',
+                        },
+                        author: {
+                          type: 'string',
+                        },
+                        work: {
+                          type: 'string',
+                        },
+                        location: {
+                          type: 'string',
+                        },
+                        note: {
+                          type: 'string',
+                        },
                       },
                     },
-                  },
-                  b: {
-                    type: 'object',
-                    required: ['value'],
-                    properties: {
-                      value: {
-                        type: 'integer',
-                      },
-                      isCentury: {
-                        type: 'boolean',
-                      },
-                      isSpan: {
-                        type: 'boolean',
-                      },
-                      isApproximate: {
-                        type: 'boolean',
-                      },
-                      isDubious: {
-                        type: 'boolean',
-                      },
-                      day: {
-                        type: 'integer',
-                      },
-                      month: {
-                        type: 'integer',
-                      },
-                      hint: {
-                        type: ['string', 'null'],
-                      },
-                    },
-                  },
+                  ],
                 },
               },
             },
