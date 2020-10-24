@@ -279,6 +279,56 @@ export interface MsDecoration {
 }
 
 /**
+ * A geographical location, expressed as an area plus an
+ * optional "address", which contains any number of topographic
+ * names separated by commas, from the widest to the narrowest.
+ */
+export interface GeoAddress {
+  area: string;
+  address?: string;
+}
+
+/**
+ * An annotation in a manuscript, used in the manuscript's history.
+ */
+export interface MsAnnotation {
+  language: string;
+  type: string;
+  text: string;
+  start?: MsLocation;
+  end?: MsLocation;
+  personId?: string;
+  sources?: DocReference[];
+}
+
+/**
+ * A restoration in a manuscript, used in the manuscript's history.
+ */
+export interface MsRestoration {
+  type: string;
+  place?: string;
+  date?: HistoricalDate;
+  note?: string;
+  personId?: string;
+  sources?: DocReference[];
+}
+
+/**
+ * A person in the history of a manuscript.
+ */
+export interface MsHistoryPerson {
+  id?: string;
+  role?: string;
+  name: PersonName;
+  date?: HistoricalDate;
+  note?: string;
+  externalIds?: string[];
+  sources?: DocReference[];
+  annotation?: MsAnnotation[];
+  restorations?: MsRestoration[];
+}
+
+/**
  * A range of alphanumerics.
  */
 export interface AlnumRange {
