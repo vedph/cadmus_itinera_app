@@ -61,32 +61,37 @@ export class PhysicalSizeComponent implements OnInit {
     this.tag = formBuilder.control(null, Validators.maxLength(50));
 
     this.wValue = formBuilder.control(0);
-    this.wUnit = formBuilder.control('cm', Validators.required);
+    this.wUnit = formBuilder.control('cm');
     this.wTag = formBuilder.control(null, Validators.maxLength(50));
 
     this.hValue = formBuilder.control(0);
-    this.hUnit = formBuilder.control('cm', Validators.required);
+    this.hUnit = formBuilder.control('cm');
     this.hTag = formBuilder.control(null, Validators.maxLength(50));
 
     this.dValue = formBuilder.control(0);
-    this.dUnit = formBuilder.control('cm', Validators.required);
+    this.dUnit = formBuilder.control('cm');
     this.dTag = formBuilder.control(null, Validators.maxLength(50));
 
     this.note = formBuilder.control(null, Validators.maxLength(100));
 
-    this.form = formBuilder.group({
-      tag: this.tag,
-      wValue: this.wValue,
-      wUnit: this.wUnit,
-      wTag: this.wTag,
-      hValue: this.hValue,
-      hUnit: this.hUnit,
-      hTag: this.hTag,
-      dValue: this.dValue,
-      dUnit: this.dUnit,
-      dTag: this.dTag,
-      note: this.note,
-    });
+    this.form = formBuilder.group(
+      {
+        tag: this.tag,
+        wValue: this.wValue,
+        wUnit: this.wUnit,
+        wTag: this.wTag,
+        hValue: this.hValue,
+        hUnit: this.hUnit,
+        hTag: this.hTag,
+        dValue: this.dValue,
+        dUnit: this.dUnit,
+        dTag: this.dTag,
+        note: this.note,
+      },
+      {
+        validators: this.validateUnit,
+      }
+    );
   }
 
   ngOnInit(): void {
@@ -102,6 +107,30 @@ export class PhysicalSizeComponent implements OnInit {
         this.sizeChange.emit(model);
       }
     });
+  }
+
+  private validateUnit(form: FormGroup): { [key: string]: any } | null {
+    const w = form.get('wValue')?.value || 0;
+    const h = form.get('hValue')?.value || 0;
+    const d = form.get('dValue')?.value || 0;
+
+    if (w && !form.get('wUnit')?.value) {
+      return {
+        unit: true,
+      };
+    }
+    if (h && !form.get('hUnit')?.value) {
+      return {
+        unit: true,
+      };
+    }
+    if (d && !form.get('dUnit')?.value) {
+      return {
+        unit: true,
+      };
+    }
+
+    return null;
   }
 
   private getDimensionLabel(value: number, unit: string): string {

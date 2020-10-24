@@ -1,9 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
+  AbstractControl,
   FormArray,
   FormBuilder,
   FormControl,
   FormGroup,
+  ValidationErrors,
   Validators,
 } from '@angular/forms';
 import { ThesaurusEntry } from '@myrmidon/cadmus-core';
@@ -70,11 +72,16 @@ export class MsDecorationComponent implements OnInit {
   public textRelation: FormControl;
   public letters: FormArray;
   public imageId: FormControl;
+  public sizePresent: FormControl;
+  public artistPresent: FormControl;
+  public sizeForm: FormGroup;
+  public artistForm: FormGroup;
   public form: FormGroup;
 
   public size: PhysicalSize;
   public artist: MsDecorationArtist;
 
+  public tabIndex: number;
   public editorOptions = {
     theme: 'vs-light',
     language: 'markdown',
@@ -87,6 +94,7 @@ export class MsDecorationComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private _msLocationService: MsLocationService
   ) {
+    this.tabIndex = 0;
     // events
     this.modelChange = new EventEmitter<MsDecoration>();
     this.editorClose = new EventEmitter<any>();
@@ -123,6 +131,14 @@ export class MsDecorationComponent implements OnInit {
     ]);
     this.letters = _formBuilder.array([]);
     this.imageId = _formBuilder.control(null, [Validators.maxLength(100)]);
+    this.sizePresent = _formBuilder.control(false);
+    this.artistPresent = _formBuilder.control(false);
+
+    // children forms
+    this.sizeForm = _formBuilder.group({});
+    this.artistForm = _formBuilder.group({});
+
+    // root form
     this.form = _formBuilder.group({
       type: this.type,
       subject: this.subject,
@@ -136,10 +152,30 @@ export class MsDecorationComponent implements OnInit {
       textRelation: this.textRelation,
       letters: this.letters,
       imageId: this.imageId,
+      sizePresent: this.sizePresent,
+      artistPresent: this.artistPresent,
+      sizeForm: this.sizeForm,
+      artistForm: this.artistForm,
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.sizePresent.valueChanges.subscribe((on) => {
+      if (on) {
+        this.sizeForm.enable();
+      } else {
+        this.sizeForm.disable();
+      }
+    });
+
+    this.artistPresent.valueChanges.subscribe((on) => {
+      if (on) {
+        this.artistForm.enable();
+      } else {
+        this.artistForm.disable();
+      }
+    });
+  }
 
   private setModel(model: MsDecoration): void {
     if (!model) {
@@ -170,8 +206,21 @@ export class MsDecorationComponent implements OnInit {
     }
 
     // size, artist
-    this.size = model.size;
-    this.artist = model.artist;
+    if (model.size) {
+      this.sizePresent.setValue(true);
+      this.size = model.size;
+    } else {
+      this.sizePresent.setValue(false);
+    }
+
+    if (model.artist) {
+      this.artistPresent.setValue(true);
+      this.artist = model.artist;
+    } else {
+      this.artistPresent.setValue(false);
+    }
+
+    this.form.markAsPristine();
   }
 
   private getModel(): MsDecoration {
@@ -208,21 +257,17 @@ export class MsDecorationComponent implements OnInit {
         const g = this.letters.controls[i] as FormGroup;
         model.guideLetters.push({
           position: g.controls.position.value?.trim(),
-          morphology: g.controls.morphology.value?.trim()
+          morphology: g.controls.morphology.value?.trim(),
         });
       }
     }
 
     // size, artist
-    if (this.size.w?.value || this.size.h?.value || this.size.d?.value) {
+    if (this.sizePresent.value) {
       model.size = this.size;
-    } else {
-      model.size = undefined;
     }
-    if (this.artist?.id) {
+    if (this.artistPresent.value) {
       model.artist = this.artist;
-    } else {
-      model.artist = undefined;
     }
 
     return model;

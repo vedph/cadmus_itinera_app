@@ -1,5 +1,5 @@
 <form [formGroup]="form" (submit)="save()">
-  <mat-tab-group>
+  <mat-tab-group [(selectedIndex)]="tabIndex">
     <mat-tab label="general">
       <div>
         <!-- type (bound) -->
@@ -266,13 +266,17 @@
 
     <mat-tab label="size">
       <!-- size -->
-      <cadmus-physical-size
-        [(size)]="size"
-        [unitEntries]="unitEntries"
-        [tagEntries]="sizeTagEntries"
-        [dimTagEntries]="dimTagEntries"
-      >
-      </cadmus-physical-size>
+      <mat-checkbox [formControl]="sizePresent">size</mat-checkbox>
+      <form [formGroup]="sizeForm">
+        <cadmus-physical-size
+          [parentForm]="sizeForm"
+          [(size)]="size"
+          [unitEntries]="unitEntries"
+          [tagEntries]="sizeTagEntries"
+          [dimTagEntries]="dimTagEntries"
+        >
+        </cadmus-physical-size>
+      </form>
     </mat-tab>
 
     <mat-tab label="description">
@@ -292,12 +296,8 @@
       <!-- textRelation -->
       <h4>text relation</h4>
       <div>
-        <mat-form-field class="long-text">
-          <textarea
-            rows="3"
-            matInput
-            [formControl]="textRelation"
-          ></textarea>
+        <mat-form-field style="margin-left:64px" class="long-text">
+          <textarea rows="3" matInput [formControl]="textRelation"></textarea>
           <mat-error
             *ngIf="
               textRelation.errors?.maxLength &&
@@ -383,7 +383,11 @@
             <!-- position (free) -->
             &nbsp;
             <mat-form-field *ngIf="!guidePosEntries?.length" style="width: 8em">
-              <input matInput formControlName="position" placeholder="position" />
+              <input
+                matInput
+                formControlName="position"
+                placeholder="position"
+              />
               <mat-error
                 *ngIf="
                   position.errors?.required &&
@@ -424,15 +428,19 @@
 
     <mat-tab label="artist">
       <!-- artist -->
-      <cadmus-ms-decoration-artist
-        [(artist)]="artist"
-        [typeEntries]="artTypeEntries"
-      ></cadmus-ms-decoration-artist>
+      <mat-checkbox [formControl]="artistPresent">artist</mat-checkbox>
+      <form [formGroup]="artistForm">
+        <cadmus-ms-decoration-artist
+          [parentForm]="artistForm"
+          [(artist)]="artist"
+          [typeEntries]="artTypeEntries"
+        ></cadmus-ms-decoration-artist>
+      </form>
     </mat-tab>
   </mat-tab-group>
 
   <!-- buttons -->
-  <hr>
+  <hr />
   <div>
     <button
       type="button"

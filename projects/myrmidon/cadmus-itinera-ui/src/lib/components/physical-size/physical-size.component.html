@@ -18,7 +18,9 @@
     </mat-form-field>
 
     <!-- label -->
-    <span class="label" *ngIf="label">{{ label }}</span>
+    <span [ngClass]="form.valid ? 'label-ok' : 'label-err'" *ngIf="label">{{
+      label
+    }}</span>
   </div>
 
   <!-- w -->
@@ -163,4 +165,7 @@
       </mat-form-field>
     </div>
   </div>
+  <mat-error *ngIf="form.errors?.unit && (form.dirty || form.touched)"
+    >unit not set</mat-error
+  >
 </form>
