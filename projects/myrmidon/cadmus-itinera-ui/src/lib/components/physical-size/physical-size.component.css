@@ -1,12 +1,6 @@
-.label-ok {
+.label {
   margin: 0 8px;
   padding: 4px;
-  background: #BDEDB6;
-  border-radius: 8px;
-}
-.label-err {
-  margin: 0 8px;
-  padding: 4px;
-  background: #FF6961;
+  background: #C3E2F6;
   border-radius: 8px;
 }
