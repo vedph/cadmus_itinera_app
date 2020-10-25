@@ -31,9 +31,11 @@ import { MsDecorationComponent } from './ms-decoration/ms-decoration.component';
 import { MsDecorationArtistComponent } from './ms-decoration-artist/ms-decoration-artist.component';
 import { MsDecorationsPartComponent } from './ms-decorations-part/ms-decorations-part.component';
 import { MsHistoryPersonComponent } from './ms-history-person/ms-history-person.component';
+import { MsAnnotationComponent } from './ms-annotation/ms-annotation.component';
 
 @NgModule({
   declarations: [
+    MsAnnotationComponent,
     MsBindingPartComponent,
     MsCatchwordsPartComponent,
     MsCompositionPartComponent,
@@ -73,6 +75,7 @@ import { MsHistoryPersonComponent } from './ms-history-person/ms-history-person.
     CadmusItineraUiModule,
   ],
   exports: [
+    MsAnnotationComponent,
     MsBindingPartComponent,
     MsCatchwordsPartComponent,
     MsCompositionPartComponent,

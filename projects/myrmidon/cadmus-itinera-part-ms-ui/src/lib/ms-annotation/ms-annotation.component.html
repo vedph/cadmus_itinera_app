@@ -1,0 +1,130 @@
+<form [formGroup]="form" (submit)="save()">
+  <div>
+    <!-- language (bound) -->
+    <mat-form-field *ngIf="langEntries?.length" style="width: 8em">
+      <mat-select [formControl]="language" placeholder="language">
+        <mat-option *ngFor="let e of langEntries" [value]="e.id">{{
+          e.value
+        }}</mat-option>
+      </mat-select>
+      <mat-error
+        *ngIf="
+          language.errors?.required && (language.dirty || language.touched)
+        "
+        >language required</mat-error
+      >
+    </mat-form-field>
+
+    <!-- language (free) -->
+    <mat-form-field style="width: 8em">
+      <input matInput [formControl]="language" placeholder="language" />
+      <mat-error
+        *ngIf="
+          language.errors?.required && (language.dirty || language.touched)
+        "
+        >language required</mat-error
+      >
+      <mat-error
+        *ngIf="
+          language.errors?.maxLength && (language.dirty || language.touched)
+        "
+        >language too long</mat-error
+      >
+    </mat-form-field>
+    &nbsp;
+
+    <!-- type (bound) -->
+    <mat-form-field *ngIf="typeEntries?.length" style="width: 8em">
+      <mat-select [formControl]="type" placeholder="type">
+        <mat-option *ngFor="let e of typeEntries" [value]="e.id">{{
+          e.value
+        }}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="type.errors?.required && (type.dirty || type.touched)"
+        >type required</mat-error
+      >
+    </mat-form-field>
+
+    <!-- type (free) -->
+    <mat-form-field style="width: 8em">
+      <input matInput [formControl]="type" placeholder="type" />
+      <mat-error *ngIf="type.errors?.required && (type.dirty || type.touched)"
+        >type required</mat-error
+      >
+      <mat-error *ngIf="type.errors?.maxLength && (type.dirty || type.touched)"
+        >type too long</mat-error
+      >
+    </mat-form-field>
+  </div>
+  <div>
+    <!-- start -->
+    <mat-form-field style="width: 5em">
+      <input matInput [formControl]="start" placeholder="start" />
+      <mat-error *ngIf="start.errors?.pattern && (start.dirty || start.touched)"
+        >invalid start</mat-error
+      >
+    </mat-form-field>
+
+    <!-- end -->
+    &nbsp;-&nbsp;
+    <mat-form-field style="width: 5em">
+      <input matInput [formControl]="end" placeholder="end" />
+      <mat-error *ngIf="end.errors?.pattern && (end.dirty || end.touched)"
+        >invalid end</mat-error
+      >
+    </mat-form-field>
+  </div>
+  <div>
+    <!-- text -->
+    <mat-form-field style="width: 90%; max-width: 800px">
+      <textarea
+        rows="2"
+        matInput
+        [formControl]="text"
+        placeholder="text"
+      ></textarea>
+      <mat-error *ngIf="text.errors?.maxLength && (text.dirty || text.touched)"
+        >text too long</mat-error
+      >
+    </mat-form-field>
+  </div>
+  <div>
+    <!-- personId -->
+    <mat-form-field>
+      <input matInput [formControl]="personId" placeholder="person ID" />
+      <mat-error
+        *ngIf="
+          personId.errors?.maxLength && (personId.dirty || personId.touched)
+        "
+        >ID too long</mat-error
+      >
+    </mat-form-field>
+  </div>
+  <!-- sources -->
+  <cadmus-doc-references
+    [model$]="sources$"
+    (modelChange)="onSourcesChanged($event)"
+  ></cadmus-doc-references>
+
+  <!-- buttons -->
+  <div>
+    <button
+      type="button"
+      color="warn"
+      mat-icon-button
+      matTooltip="Discard annotation changes"
+      (click)="cancel()"
+    >
+      <mat-icon>clear</mat-icon>
+    </button>
+    <button
+      type="submit"
+      color="primary"
+      mat-icon-button
+      matTooltip="Accept annotation changes"
+      [disabled]="form.invalid || form.pristine"
+    >
+      <mat-icon>check_circle</mat-icon>
+    </button>
+  </div>
+</form>
