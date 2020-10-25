@@ -36,6 +36,7 @@ export * from './lib/ms-hand/ms-hand.component';
 export * from './lib/ms-history-part';
 export * from './lib/ms-annotation/ms-annotation.component';
 export * from './lib/ms-history-person/ms-history-person.component';
+export * from './lib/ms-restoration/ms-restoration.component';
 
 export * from './lib/ms-material-dsc-part';
 export * from './lib/ms-material-dsc-part/ms-material-dsc-part.component';

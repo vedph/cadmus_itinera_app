@@ -1,0 +1,89 @@
+<form [formGroup]="form" (submit)="save()">
+  <div>
+    <!-- type (bound) -->
+    <mat-form-field *ngIf="typeEntries?.length" style="width: 8em">
+      <mat-select [formControl]="type" placeholder="type">
+        <mat-option *ngFor="let e of typeEntries" [value]="e.id">{{
+          e.value
+        }}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="type.errors?.required && (type.dirty || type.touched)"
+        >type required</mat-error
+      >
+    </mat-form-field>
+
+    <!-- type (free) -->
+    <mat-form-field style="width: 8em">
+      <input matInput [formControl]="type" placeholder="type" />
+      <mat-error *ngIf="type.errors?.required && (type.dirty || type.touched)"
+        >type required</mat-error
+      >
+      <mat-error *ngIf="type.errors?.maxLength && (type.dirty || type.touched)"
+        >type too long</mat-error
+      >
+    </mat-form-field>
+
+    <!-- place -->
+    &nbsp;
+    <mat-form-field>
+      <input matInput [formControl]="place" placeholder="place" />
+      <mat-error
+        *ngIf="place.errors?.maxLength && (place.dirty || place.touched)"
+        >place too long</mat-error
+      >
+    </mat-form-field>
+  </div>
+  <div>
+    <!-- personId -->
+    <mat-form-field>
+      <input matInput [formControl]="personId" placeholder="person ID" />
+      <mat-error
+        *ngIf="
+          personId.errors?.maxLength && (personId.dirty || personId.touched)
+        "
+        >ID too long</mat-error
+      >
+    </mat-form-field>
+  </div>
+  <div>
+    <!-- note -->
+    <mat-form-field style="width: 90%; max-width: 800px">
+      <textarea
+        rows="2"
+        matInput
+        [formControl]="note"
+        placeholder="note"
+      ></textarea>
+      <mat-error *ngIf="note.errors?.maxLength && (note.dirty || note.touched)"
+        >note too long</mat-error
+      >
+    </mat-form-field>
+  </div>
+  <!-- sources -->
+  <cadmus-doc-references
+    [model$]="sources$"
+    (modelChange)="onSourcesChanged($event)"
+  ></cadmus-doc-references>
+
+  <!-- buttons -->
+  <div>
+    <button
+      type="button"
+      color="warn"
+      mat-icon-button
+      matTooltip="Discard restoration changes"
+      (click)="cancel()"
+    >
+      <mat-icon>clear</mat-icon>
+    </button>
+    <button
+      type="submit"
+      color="primary"
+      mat-icon-button
+      matTooltip="Accept restoration changes"
+      [disabled]="form.invalid || form.pristine"
+    >
+      <mat-icon>check_circle</mat-icon>
+    </button>
+  </div>
+</form>

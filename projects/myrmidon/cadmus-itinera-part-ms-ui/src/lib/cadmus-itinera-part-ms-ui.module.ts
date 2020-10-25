@@ -32,6 +32,7 @@ import { MsDecorationArtistComponent } from './ms-decoration-artist/ms-decoratio
 import { MsDecorationsPartComponent } from './ms-decorations-part/ms-decorations-part.component';
 import { MsHistoryPersonComponent } from './ms-history-person/ms-history-person.component';
 import { MsAnnotationComponent } from './ms-annotation/ms-annotation.component';
+import { MsRestorationComponent } from './ms-restoration/ms-restoration.component';
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import { MsAnnotationComponent } from './ms-annotation/ms-annotation.component';
     MsPlacePartComponent,
     MsPoemRangesPartComponent,
     MsQuiresPartComponent,
+    MsRestorationComponent,
     MsSectionComponent,
     MsSignaturesPartComponent,
     MsWatermarkComponent,
@@ -97,6 +99,7 @@ import { MsAnnotationComponent } from './ms-annotation/ms-annotation.component';
     MsPlacePartComponent,
     MsPoemRangesPartComponent,
     MsQuiresPartComponent,
+    MsRestorationComponent,
     MsSectionComponent,
     MsSignaturesPartComponent,
     MsWatermarkComponent,
