@@ -30,6 +30,7 @@ import { MsHandComponent } from './ms-hand/ms-hand.component';
 import { MsDecorationComponent } from './ms-decoration/ms-decoration.component';
 import { MsDecorationArtistComponent } from './ms-decoration-artist/ms-decoration-artist.component';
 import { MsDecorationsPartComponent } from './ms-decorations-part/ms-decorations-part.component';
+import { MsHistoryPersonComponent } from './ms-history-person/ms-history-person.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { MsDecorationsPartComponent } from './ms-decorations-part/ms-decorations
     MsGuardSheetComponent,
     MsHandComponent,
     MsHandsPartComponent,
+    MsHistoryPersonComponent,
     MsMaterialDscPartComponent,
     MsNumberingsPartComponent,
     MsPalimpsestComponent,
@@ -85,6 +87,7 @@ import { MsDecorationsPartComponent } from './ms-decorations-part/ms-decorations
     MsGuardSheetComponent,
     MsHandComponent,
     MsHandsPartComponent,
+    MsHistoryPersonComponent,
     MsMaterialDscPartComponent,
     MsNumberingsPartComponent,
     MsPalimpsestComponent,

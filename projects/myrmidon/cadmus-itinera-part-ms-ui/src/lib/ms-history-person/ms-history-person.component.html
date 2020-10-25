@@ -1,0 +1,89 @@
+<form [formGroup]="form" (submit)="save()">
+  <div>
+    <!-- id -->
+    <mat-form-field>
+      <input matInput [formControl]="id" placeholder="ID" />
+      <mat-error *ngIf="id.errors?.maxLength && (id.dirty || id.touched)"
+        >ID too long</mat-error
+      >
+    </mat-form-field>
+
+    &nbsp;
+    <!-- role (bound) -->
+    <mat-form-field *ngIf="roleEntries?.length" style="width: 8em">
+      <mat-select [formControl]="role" placeholder="role">
+        <mat-option *ngFor="let e of roleEntries" [value]="e.id">{{
+          e.value
+        }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- role (free) -->
+    <mat-form-field *ngIf="!roleEntries?.length" style="width: 8em">
+      <input matInput [formControl]="role" placeholder="role" />
+      <mat-error *ngIf="role.errors?.maxLength && (role.dirty || role.touched)"
+        >role too long</mat-error
+      >
+    </mat-form-field>
+  </div>
+
+  <!-- name -->
+  <h4>name</h4>
+  <cadmus-person-name
+    [model$]="name$"
+    [langEntries]="langEntries"
+    [tagEntries]="tagEntries"
+    (modelChange)="onNameChanged($event)"
+  ></cadmus-person-name>
+
+  <!-- date -->
+  <h4>date</h4>
+  <cadmus-historical-date-editor
+    [(date)]="date"
+  ></cadmus-historical-date-editor>
+
+  <!-- ids -->
+  <br />
+  <h4>external IDs</h4>
+  <cadmus-external-ids
+    [model$]="ids$"
+    (modelChange)="onIdsChanged($event)"
+  ></cadmus-external-ids>
+
+  <!-- note -->
+  <div>
+    <mat-form-field>
+      <textarea
+        rows="2"
+        matInput
+        [formControl]="note"
+        placeholder="note"
+      ></textarea>
+      <mat-error *ngIf="note.errors?.maxLength && (note.dirty || note.touched)"
+        >note too long</mat-error
+      >
+    </mat-form-field>
+  </div>
+
+  <!-- buttons -->
+  <div>
+    <button
+      type="button"
+      color="warn"
+      mat-icon-button
+      matTooltip="Discard person changes"
+      (click)="cancel()"
+    >
+      <mat-icon>clear</mat-icon>
+    </button>
+    <button
+      type="submit"
+      color="primary"
+      mat-icon-button
+      matTooltip="Accept person changes"
+      [disabled]="form.invalid || form.pristine || !name"
+    >
+      <mat-icon>check_circle</mat-icon>
+    </button>
+  </div>
+</form>
