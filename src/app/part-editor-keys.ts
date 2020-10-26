@@ -33,7 +33,8 @@ import {
   MSCONTENT_LOCI_PART_TYPEID,
   MSDIMENSIONS_PART_TYPEID,
   MSHANDS_PART_TYPEID,
-  MSDECORATIONS_PART_TYPEID
+  MSDECORATIONS_PART_TYPEID,
+  MSHISTORY_PART_TYPEID
 } from '@myrmidon/cadmus-itinera-part-ms-ui';
 
 const GENERAL = 'general';
@@ -121,6 +122,9 @@ export const PART_EDITOR_KEYS: PartEditorKeys = {
     part: ITINERA_MS,
   },
   [MSDECORATIONS_PART_TYPEID]: {
+    part: ITINERA_MS,
+  },
+  [MSHISTORY_PART_TYPEID]: {
     part: ITINERA_MS,
   },
   // layer parts

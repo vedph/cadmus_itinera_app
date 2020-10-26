@@ -21,7 +21,8 @@ import {
   MSCONTENT_LOCI_PART_TYPEID,
   MSDIMENSIONS_PART_TYPEID,
   MSHANDS_PART_TYPEID,
-  MSDECORATIONS_PART_TYPEID
+  MSDECORATIONS_PART_TYPEID,
+  MSHISTORY_PART_TYPEID
 } from '@myrmidon/cadmus-itinera-part-ms-ui';
 import { MsSignaturesPartFeatureComponent } from './ms-signatures-part-feature/ms-signatures-part-feature.component';
 import { MsCompositionPartFeatureComponent } from './ms-composition-part-feature/ms-composition-part-feature.component';
@@ -38,6 +39,7 @@ import { MsContentLociPartFeatureComponent } from './ms-content-loci-part-featur
 import { MsDimensionsPartFeatureComponent } from './ms-dimensions-part-feature/ms-dimensions-part-feature.component';
 import { MsHandsPartFeatureComponent } from './ms-hands-part-feature/ms-hands-part-feature.component';
 import { MsDecorationsPartFeatureComponent } from './ms-decorations-part-feature/ms-decorations-part-feature.component';
+import { MsHistoryPartFeatureComponent } from './ms-history-part-feature/ms-history-part-feature.component';
 
 // https://github.com/ng-packagr/ng-packagr/issues/778
 export const RouterModuleForChild = RouterModule.forChild([
@@ -131,6 +133,12 @@ export const RouterModuleForChild = RouterModule.forChild([
     component: MsDecorationsPartFeatureComponent,
     canDeactivate: [PendingChangesGuard],
   },
+  {
+    path: `${MSHISTORY_PART_TYPEID}/:pid`,
+    pathMatch: 'full',
+    component: MsHistoryPartFeatureComponent,
+    canDeactivate: [PendingChangesGuard],
+  },
 ]);
 
 @NgModule({
@@ -143,6 +151,7 @@ export const RouterModuleForChild = RouterModule.forChild([
     MsDecorationsPartFeatureComponent,
     MsDimensionsPartFeatureComponent,
     MsHandsPartFeatureComponent,
+    MsHistoryPartFeatureComponent,
     MsMaterialDscPartFeatureComponent,
     MsNumberingsPartFeatureComponent,
     MsPlacePartFeatureComponent,
@@ -171,6 +180,7 @@ export const RouterModuleForChild = RouterModule.forChild([
     MsDecorationsPartFeatureComponent,
     MsDimensionsPartFeatureComponent,
     MsHandsPartFeatureComponent,
+    MsHistoryPartFeatureComponent,
     MsMaterialDscPartFeatureComponent,
     MsNumberingsPartFeatureComponent,
     MsPlacePartFeatureComponent,
