@@ -7,9 +7,13 @@ import { CadmusMaterialModule } from '@myrmidon/cadmus-material';
 import { CadmusItineraUiModule } from '@myrmidon/cadmus-itinera-ui';
 import { PersonPartComponent } from './person-part/person-part.component';
 import { CadmusUiModule } from '@myrmidon/cadmus-ui';
+import { PersonEventsPartComponent } from './person-events-part/person-events-part.component';
 
 @NgModule({
-  declarations: [PersonPartComponent],
+  declarations: [
+    PersonPartComponent,
+    PersonEventsPartComponent
+  ],
   imports: [
     CommonModule,
     FormsModule,
@@ -22,6 +26,9 @@ import { CadmusUiModule } from '@myrmidon/cadmus-ui';
     CadmusItineraCoreModule,
     CadmusItineraUiModule
   ],
-  exports: [PersonPartComponent],
+  exports: [
+    PersonPartComponent,
+    PersonEventsPartComponent
+  ],
 })
 export class CadmusItineraPartLtUiModule {}

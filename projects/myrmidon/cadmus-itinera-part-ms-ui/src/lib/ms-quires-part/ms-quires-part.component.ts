@@ -9,7 +9,7 @@ import {
 
 import { ModelEditorComponentBase } from '@myrmidon/cadmus-ui';
 import { AuthService } from '@myrmidon/cadmus-api';
-import { MsQuiresPart, MSQUIRES_PART_TYPEID } from '../../public-api';
+import { MsQuiresPart, MSQUIRES_PART_TYPEID } from '../ms-quires-part';
 import { MsQuire, MsQuiresService } from '@myrmidon/cadmus-itinera-core';
 
 @Component({
