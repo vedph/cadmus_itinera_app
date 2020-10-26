@@ -78,6 +78,33 @@ export interface Chronotope {
 }
 
 /**
+ * A biographic event.
+ */
+export interface BioEvent {
+  type: string;
+  date?: HistoricalDate;
+  places?: string[];
+  description?: string;
+  sources: DocReference[];
+  participants?: DecoratedId[];
+  work?: string;
+  rank?: number;
+  isWorkLost?: boolean;
+  externalIds?: string[];
+}
+
+/**
+ * A literary dedication.
+ */
+export interface LitDedication {
+  title: string;
+  date?: HistoricalDate;
+  dateSent?: HistoricalDate;
+  isByAuthor?: boolean;
+  sources?: DocReference[];
+}
+
+/**
  * Location of a sheet in a manuscript.
  */
 export interface MsLocation {
