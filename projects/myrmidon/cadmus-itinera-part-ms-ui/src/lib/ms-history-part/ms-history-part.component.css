@@ -1,0 +1,8 @@
+.selected {
+  background-color: #e0f5ff;
+}
+th {
+  text-align: left;
+  font-weight: normal;
+  color: silver;
+}

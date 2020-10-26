@@ -1,1 +1,440 @@
-<p>ms-history-part works!</p>
+<form [formGroup]="form" (submit)="save()">
+  <mat-card>
+    <mat-card-header>
+      <div mat-card-avatar>
+        <mat-icon>picture_in_picture</mat-icon>
+      </div>
+      <mat-card-title>Manuscript's History Part</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-tab-group>
+        <!-- provenances -->
+        <mat-tab label="provenances">
+          <div formArrayName="provenances">
+            <div>
+              <button
+                type="button"
+                mat-stroked-button
+                color="primary"
+                (click)="addProvenance()"
+              >
+                <mat-icon>add_circle</mat-icon>
+                add provenance
+              </button>
+            </div>
+            <div
+              *ngFor="
+                let item of provenances.controls;
+                let i = index;
+                let first = first;
+                let last = last
+              "
+            >
+              <!-- child form -->
+              <div [formGroupName]="i">
+                <!-- child actions -->
+                {{ i + 1 }}.
+                <button
+                  mat-icon-button
+                  type="button"
+                  matTooltip="Remove this provenance"
+                  color="warn"
+                  (click)="removeProvenance(i)"
+                >
+                  <mat-icon>remove_circle</mat-icon>
+                </button>
+                <button
+                  [disabled]="first"
+                  mat-icon-button
+                  type="button"
+                  matTooltip="Move provenance up"
+                  (click)="moveProvenanceUp(i)"
+                >
+                  <mat-icon>arrow_upward</mat-icon>
+                </button>
+                <button
+                  [disabled]="last"
+                  mat-icon-button
+                  type="button"
+                  matTooltip="Move provenance down"
+                  (click)="moveProvenanceDown(i)"
+                >
+                  <mat-icon>arrow_downward</mat-icon>
+                </button>
+
+                <!-- child controls -->
+                <!-- area (bound) -->
+                <mat-form-field *ngIf="areaEntries?.length" style="width: 8em">
+                  <mat-select formControlName="area" placeholder="area">
+                    <mat-option *ngFor="let e of areaEntries" [value]="e.id">{{
+                      e.value
+                    }}</mat-option>
+                  </mat-select>
+                  <mat-error
+                    *ngIf="
+                      item['controls'].area.errors?.required &&
+                      (item['controls'].area.dirty ||
+                        item['controls'].area.touched)
+                    "
+                    >area required</mat-error
+                  >
+                </mat-form-field>
+
+                <!-- area (free) -->
+                <mat-form-field>
+                  <input matInput formControlName="area" placeholder="area" />
+                  <mat-error
+                    *ngIf="
+                      item['controls'].area.errors?.required &&
+                      (item['controls'].area.dirty ||
+                        item['controls'].area.touched)
+                    "
+                    >area required</mat-error
+                  >
+                  <mat-error
+                    *ngIf="
+                      item['controls'].area.errors?.maxLength &&
+                      (item['controls'].area.dirty ||
+                        item['controls'].area.touched)
+                    "
+                    >area too long</mat-error
+                  >
+                </mat-form-field>
+
+                &nbsp;
+                <!-- address -->
+                <mat-form-field>
+                  <input
+                    matInput
+                    formControlName="address"
+                    placeholder="address"
+                  />
+                  <mat-error
+                    *ngIf="
+                      item['controls'].address.errors?.required &&
+                      (item['controls'].address.dirty ||
+                        item['controls'].address.touched)
+                    "
+                    >address required</mat-error
+                  >
+                  <mat-error
+                    *ngIf="
+                      item['controls'].address.errors?.maxLength &&
+                      (item['controls'].address.dirty ||
+                        item['controls'].address.touched)
+                    "
+                    >address too long</mat-error
+                  >
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </mat-tab>
+
+        <!-- history -->
+        <mat-tab label="history">
+          <div>
+            <ngx-monaco-editor
+              [options]="editorOptions"
+              [formControl]="history"
+            ></ngx-monaco-editor>
+            <mat-error
+              *ngIf="
+                history.errors?.maxLength && (history.touched || history.dirty)
+              "
+              >history too long</mat-error
+            >
+          </div>
+        </mat-tab>
+
+        <!-- persons -->
+        <mat-tab label="persons">
+          <div>
+            <button
+              type="button"
+              mat-icon-button
+              color="primary"
+              (click)="addPerson()"
+            >
+              <mat-icon>add_circle</mat-icon> add person
+            </button>
+          </div>
+          <table *ngIf="persons?.length">
+            <thead>
+              <tr>
+                <th></th>
+                <th>name</th>
+                <th>ID</th>
+                <th>role</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="
+                  let p of persons;
+                  let i = index;
+                  let first = first;
+                  let last = last
+                "
+                [class.selected]="i === personIndex"
+              >
+                <td>
+                  <button
+                    type="button"
+                    mat-icon-button
+                    color="primary"
+                    matTooltip="Edit this person"
+                    (click)="editPerson(i)"
+                  >
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                  <button
+                    type="button"
+                    mat-icon-button
+                    matTooltip="Move this person up"
+                    [disabled]="first"
+                    (click)="movePersonUp(i)"
+                  >
+                    <mat-icon>arrow_upward</mat-icon>
+                  </button>
+                  <button
+                    type="button"
+                    mat-icon-button
+                    matTooltip="Move this person down"
+                    [disabled]="last"
+                    (click)="movePersonDown(i)"
+                  >
+                    <mat-icon>arrow_downward</mat-icon>
+                  </button>
+                  <button
+                    type="button"
+                    mat-icon-button
+                    color="warn"
+                    matTooltip="Delete this person"
+                    (click)="deletePerson(i)"
+                  >
+                    <mat-icon>remove_circle</mat-icon>
+                  </button>
+                </td>
+                <td>{{ getFullName(p.name) }}</td>
+                <td>{{ p.id }}</td>
+                <td>{{ p.role }}</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <mat-expansion-panel [(expanded)]="personEditorOpen">
+            <mat-expansion-panel-header>
+              <mat-panel-title>person</mat-panel-title>
+              <mat-panel-description *ngIf="editedPerson">
+                {{ getFullName(editedPerson.name) }}
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <cadmus-ms-history-person
+              *ngIf="editedPerson"
+              [model]="editedPerson"
+              [roleEntries]="roleEntries"
+              [langEntries]="langEntries"
+              [tagEntries]="tagEntries"
+              (modelChange)="onPersonSaved($event)"
+            >
+              (editorClose)="onPersonClosed()"
+            </cadmus-ms-history-person>
+          </mat-expansion-panel>
+        </mat-tab>
+
+        <!-- annotations -->
+        <mat-tab label="annotations">
+          <div>
+            <button
+              type="button"
+              mat-icon-button
+              color="primary"
+              (click)="addAnnotation()"
+            >
+              <mat-icon>add_circle</mat-icon> add annotation
+            </button>
+          </div>
+          <table *ngIf="annotations?.length">
+            <thead>
+              <tr>
+                <th></th>
+                <th>lang.</th>
+                <th>type</th>
+                <th>start</th>
+                <th>end</th>
+                <th>PID</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="
+                  let a of annotations;
+                  let i = index;
+                  let first = first;
+                  let last = last
+                "
+                [class.selected]="i === annotationIndex"
+              >
+                <td>
+                  <button
+                    type="button"
+                    mat-icon-button
+                    color="primary"
+                    matTooltip="Edit this annotation"
+                    (click)="editAnnotation(i)"
+                  >
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                  <button
+                    type="button"
+                    mat-icon-button
+                    matTooltip="Move this annotation up"
+                    [disabled]="first"
+                    (click)="moveAnnotationUp(i)"
+                  >
+                    <mat-icon>arrow_upward</mat-icon>
+                  </button>
+                  <button
+                    type="button"
+                    mat-icon-button
+                    matTooltip="Move this annotation down"
+                    [disabled]="last"
+                    (click)="moveAnnotationDown(i)"
+                  >
+                    <mat-icon>arrow_downward</mat-icon>
+                  </button>
+                  <button
+                    type="button"
+                    mat-icon-button
+                    color="warn"
+                    matTooltip="Delete this annotation"
+                    (click)="deleteAnnotation(i)"
+                  >
+                    <mat-icon>remove_circle</mat-icon>
+                  </button>
+                </td>
+                <td>{{ a.language }}</td>
+                <td>{{ a.type }}</td>
+                <td>{{ locationToString(a.start) }}</td>
+                <td>{{ locationToString(a.end) }}</td>
+                <td>{{ a.personId }}</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <mat-expansion-panel [(expanded)]="annotationEditorOpen">
+            <mat-expansion-panel-header>
+              <mat-panel-title>annotation</mat-panel-title>
+            </mat-expansion-panel-header>
+            <cadmus-ms-annotation
+              *ngIf="editedAnnotation"
+              [model]="editedAnnotation"
+              [langEntries]="langEntries"
+              [typeEntries]="annTypeEntries"
+              (modelChange)="onAnnotationSaved($event)"
+            >
+              (editorClose)="onAnnotationClosed()"
+            </cadmus-ms-annotation>
+          </mat-expansion-panel>
+        </mat-tab>
+
+        <!-- restorations -->
+        <mat-tab label="restorations">
+          <div>
+            <button
+              type="button"
+              mat-icon-button
+              color="primary"
+              (click)="addRestoration()"
+            >
+              <mat-icon>add_circle</mat-icon> add restoration
+            </button>
+          </div>
+          <table *ngIf="restorations?.length">
+            <thead>
+              <tr>
+                <th></th>
+                <th>type</th>
+                <td>PID</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="
+                  let r of restorations;
+                  let i = index;
+                  let first = first;
+                  let last = last
+                "
+                [class.selected]="i === restorationIndex"
+              >
+                <td>
+                  <button
+                    type="button"
+                    mat-icon-button
+                    color="primary"
+                    matTooltip="Edit this restoration"
+                    (click)="editRestoration(i)"
+                  >
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                  <button
+                    type="button"
+                    mat-icon-button
+                    matTooltip="Move this restoration up"
+                    [disabled]="first"
+                    (click)="moveRestorationUp(i)"
+                  >
+                    <mat-icon>arrow_upward</mat-icon>
+                  </button>
+                  <button
+                    type="button"
+                    mat-icon-button
+                    matTooltip="Move this restoration down"
+                    [disabled]="last"
+                    (click)="moveRestorationDown(i)"
+                  >
+                    <mat-icon>arrow_downward</mat-icon>
+                  </button>
+                  <button
+                    type="button"
+                    mat-icon-button
+                    color="warn"
+                    matTooltip="Delete this restoration"
+                    (click)="deleteRestoration(i)"
+                  >
+                    <mat-icon>remove_circle</mat-icon>
+                  </button>
+                </td>
+                <td>{{ r.type }}</td>
+                <td>{{ r.personId }}</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <mat-expansion-panel [(expanded)]="restorationEditorOpen">
+            <mat-expansion-panel-header>
+              <mat-panel-title>restoration</mat-panel-title>
+            </mat-expansion-panel-header>
+            <cadmus-ms-restoration
+              *ngIf="editedRestoration"
+              [model]="editedRestoration"
+              [typeEntries]="rstTypeEntries"
+              (modelChange)="onRestorationSaved($event)"
+            >
+              (editorClose)="onRestorationClosed()"
+            </cadmus-ms-restoration>
+          </mat-expansion-panel>
+        </mat-tab>
+      </mat-tab-group>
+    </mat-card-content>
+    <mat-card-actions>
+      <cadmus-close-save-buttons
+        [form]="form"
+        [noSave]="userLevel < 2"
+        (closeRequest)="close()"
+      ></cadmus-close-save-buttons>
+    </mat-card-actions>
+  </mat-card>
+</form>

@@ -10,16 +10,17 @@ import {
 import { ModelEditorComponentBase, DialogService } from '@myrmidon/cadmus-ui';
 import { AuthService } from '@myrmidon/cadmus-api';
 import { ThesaurusEntry } from '@myrmidon/cadmus-core';
-import {
-  MsHistoryPart,
-  MSHISTORY_PART_TYPEID,
-} from '../ms-history-part';
+import { MsHistoryPart, MSHISTORY_PART_TYPEID } from '../ms-history-part';
 import {
   GeoAddress,
   MsAnnotation,
   MsHistoryPerson,
+  MsLocation,
+  MsLocationService,
   MsRestoration,
+  PersonName,
 } from '@myrmidon/cadmus-itinera-core';
+import { take } from 'rxjs/operators';
 
 /**
  * Manuscript's history part editor.
@@ -42,6 +43,16 @@ export class MsHistoryPartComponent
   public annotations: MsAnnotation[];
   public restorations: MsRestoration[];
 
+  public personIndex: number;
+  public editedPerson: MsHistoryPerson;
+  public personEditorOpen: boolean;
+  public annotationIndex: number;
+  public editedAnnotation: MsAnnotation;
+  public annotationEditorOpen: boolean;
+  public restorationIndex: number;
+  public editedRestoration: MsRestoration;
+  public restorationEditorOpen: boolean;
+
   public editorOptions = {
     theme: 'vs-light',
     language: 'markdown',
@@ -62,11 +73,19 @@ export class MsHistoryPartComponent
   // restorations
   public rstTypeEntries: ThesaurusEntry[];
 
-  constructor(authService: AuthService, private _formBuilder: FormBuilder) {
+  constructor(
+    authService: AuthService,
+    private _formBuilder: FormBuilder,
+    private _dialogService: DialogService,
+    private _msLocationService: MsLocationService
+  ) {
     super(authService);
     this.persons = [];
     this.annotations = [];
     this.restorations = [];
+    this.personIndex = -1;
+    this.annotationIndex = -1;
+    this.restorationIndex = -1;
     // form
     this.provenances = _formBuilder.array([], Validators.required);
     this.history = _formBuilder.control(null, [
@@ -84,6 +103,13 @@ export class MsHistoryPartComponent
   }
 
   private updateForm(model: MsHistoryPart): void {
+    this.personIndex = -1;
+    this.annotationIndex = -1;
+    this.restorationIndex = -1;
+    this.editedPerson = null;
+    this.editedAnnotation = null;
+    this.editedRestoration = null;
+
     if (!model) {
       this.persons = [];
       this.annotations = [];
@@ -219,11 +245,217 @@ export class MsHistoryPartComponent
   }
 
   // persons
-  // TODO
+  public getFullName(name: PersonName): string {
+    const sb: string[] = [];
+    for (let i = 0; i < name.parts?.length || 0; i++) {
+      sb.push(name.parts[i].value);
+    }
+    return sb.join(' ');
+  }
+
+  public addPerson(): void {
+    const person: MsHistoryPerson = {
+      name: null,
+    };
+    this.persons = [...this.persons, person];
+    this.editPerson(this.persons.length - 1);
+  }
+
+  public editPerson(index: number): void {
+    if (index < 0) {
+      this.personEditorOpen = false;
+      this.personIndex = -1;
+      this.editedPerson = null;
+    } else {
+      this.personEditorOpen = true;
+      this.personIndex = index;
+      this.editedPerson = this.persons[index];
+    }
+  }
+
+  public onPersonSaved(person: MsHistoryPerson): void {
+    this.persons = this.persons.map((s, i) =>
+      i === this.personIndex ? person : s
+    );
+    this.editPerson(-1);
+  }
+
+  public onPersonClosed(): void {
+    this.editPerson(-1);
+  }
+
+  public deletePerson(index: number): void {
+    this._dialogService
+      .confirm('Confirmation', 'Delete person?')
+      .pipe(take(1))
+      .subscribe((yes) => {
+        if (yes) {
+          const persons = [...this.persons];
+          persons.splice(index, 1);
+          this.persons = persons;
+        }
+      });
+  }
+
+  public movePersonUp(index: number): void {
+    if (index < 1) {
+      return;
+    }
+    const item = this.persons[index];
+    const persons = [...this.persons];
+    persons.splice(index, 1);
+    persons.splice(index - 1, 0, item);
+    this.persons = persons;
+  }
+
+  public movePersonDown(index: number): void {
+    if (index + 1 >= this.persons.length) {
+      return;
+    }
+    const item = this.persons[index];
+    const items = [...this.persons];
+    items.splice(index, 1);
+    items.splice(index + 1, 0, item);
+    this.persons = items;
+  }
 
   // annotations
-  // TODO
+  public locationToString(location: MsLocation): string {
+    return this._msLocationService.locationToString(location);
+  }
+
+  public addAnnotation(): void {
+    const annotation: MsAnnotation = {
+      language: null,
+      type: null,
+      text: null,
+    };
+    this.annotations = [...this.annotations, annotation];
+    this.editAnnotation(this.annotations.length - 1);
+  }
+
+  public editAnnotation(index: number): void {
+    if (index < 0) {
+      this.annotationEditorOpen = false;
+      this.annotationIndex = -1;
+      this.editedAnnotation = null;
+    } else {
+      this.annotationEditorOpen = true;
+      this.annotationIndex = index;
+      this.editedAnnotation = this.annotations[index];
+    }
+  }
+
+  public onAnnotationSaved(annotation: MsAnnotation): void {
+    this.annotations = this.annotations.map((s, i) =>
+      i === this.annotationIndex ? annotation : s
+    );
+    this.editAnnotation(-1);
+  }
+
+  public onAnnotationClosed(): void {
+    this.editAnnotation(-1);
+  }
+
+  public deleteAnnotation(index: number): void {
+    this._dialogService
+      .confirm('Confirmation', 'Delete annotation?')
+      .pipe(take(1))
+      .subscribe((yes) => {
+        if (yes) {
+          const annotations = [...this.annotations];
+          annotations.splice(index, 1);
+          this.annotations = annotations;
+        }
+      });
+  }
+
+  public moveAnnotationUp(index: number): void {
+    if (index < 1) {
+      return;
+    }
+    const annotation = this.annotations[index];
+    const annotations = [...this.annotations];
+    annotations.splice(index, 1);
+    annotations.splice(index - 1, 0, annotation);
+    this.annotations = annotations;
+  }
+
+  public moveAnnotationDown(index: number): void {
+    if (index + 1 >= this.annotations.length) {
+      return;
+    }
+    const annotation = this.annotations[index];
+    const annotations = [...this.annotations];
+    annotations.splice(index, 1);
+    annotations.splice(index + 1, 0, annotation);
+    this.annotations = annotations;
+  }
 
   // restorations
-  // TODO
+  public addRestoration(): void {
+    const restoration: MsRestoration = {
+      type: null,
+    };
+    this.restorations = [...this.restorations, restoration];
+    this.editRestoration(this.restorations.length - 1);
+  }
+
+  public editRestoration(index: number): void {
+    if (index < 0) {
+      this.restorationEditorOpen = false;
+      this.restorationIndex = -1;
+      this.editedRestoration = null;
+    } else {
+      this.restorationEditorOpen = true;
+      this.restorationIndex = index;
+      this.editedRestoration = this.restorations[index];
+    }
+  }
+
+  public onRestorationSaved(restoration: MsRestoration): void {
+    this.restorations = this.restorations.map((s, i) =>
+      i === this.restorationIndex ? restoration : s
+    );
+    this.editRestoration(-1);
+  }
+
+  public onRestorationClosed(): void {
+    this.editRestoration(-1);
+  }
+
+  public deleteRestoration(index: number): void {
+    this._dialogService
+      .confirm('Confirmation', 'Delete restoration?')
+      .pipe(take(1))
+      .subscribe((yes) => {
+        if (yes) {
+          const restorations = [...this.restorations];
+          restorations.splice(index, 1);
+          this.restorations = restorations;
+        }
+      });
+  }
+
+  public moveRestorationUp(index: number): void {
+    if (index < 1) {
+      return;
+    }
+    const restoration = this.restorations[index];
+    const restorations = [...this.restorations];
+    restorations.splice(index, 1);
+    restorations.splice(index - 1, 0, restoration);
+    this.restorations = restorations;
+  }
+
+  public moveRestorationDown(index: number): void {
+    if (index + 1 >= this.restorations.length) {
+      return;
+    }
+    const restoration = this.restorations[index];
+    const restorations = [...this.restorations];
+    restorations.splice(index, 1);
+    restorations.splice(index + 1, 0, restoration);
+    this.restorations = restorations;
+  }
 }
