@@ -15,9 +15,10 @@
       If when you edit a part you get bumped to the homepage, this just means
       that that part's editor is not yet ready.
     </p>
-    <p *ngIf="!logged">
-      <mat-icon>login</mat-icon>&nbsp;
-      Please <a routerLink="/login">login</a> to start.
+    <p *ngIf="!logged" style="margin-bottom: 8px">
+      <a mat-mini-fab color="primary" routerLink="/login"
+        ><mat-icon>login</mat-icon></a
+      ><span style="margin-left: 8px">please login</span>
     </p>
 
     <h2>Sub-Models</h2>

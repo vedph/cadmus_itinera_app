@@ -9,7 +9,19 @@
    as right clicking on the file name and selecting Download link as won't
    work as expected, producing corrupt files).
  */
-@import "assets/icons/material-icons.css";
+/* @import "assets/icons/material-icons.css"; */
+/* Note: as of 2020, https://google.github.io/material-design-icons/#icon-font-for-the-web
+   is out of date and no non-TTF fonts are found in the Material
+   Design Icons repository.
+   See https://github.com/google/material-design-icons/issues/1092.
+   We thus comment the import because its icons are no more up to date.
+*/
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
