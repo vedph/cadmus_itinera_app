@@ -237,8 +237,7 @@
               [langEntries]="langEntries"
               [tagEntries]="tagEntries"
               (modelChange)="onPersonSaved($event)"
-            >
-              (editorClose)="onPersonClosed()"
+              (editorClose)="onPersonClosed()">
             </cadmus-ms-history-person>
           </mat-expansion-panel>
         </mat-tab>
@@ -333,8 +332,7 @@
               [langEntries]="langEntries"
               [typeEntries]="annTypeEntries"
               (modelChange)="onAnnotationSaved($event)"
-            >
-              (editorClose)="onAnnotationClosed()"
+              (editorClose)="onAnnotationClosed()">
             </cadmus-ms-annotation>
           </mat-expansion-panel>
         </mat-tab>
@@ -356,7 +354,7 @@
               <tr>
                 <th></th>
                 <th>type</th>
-                <td>PID</td>
+                <th>PID</th>
               </tr>
             </thead>
             <tbody>
@@ -422,8 +420,7 @@
               [model]="editedRestoration"
               [typeEntries]="rstTypeEntries"
               (modelChange)="onRestorationSaved($event)"
-            >
-              (editorClose)="onRestorationClosed()"
+              (editorClose)="onRestorationClosed()">
             </cadmus-ms-restoration>
           </mat-expansion-panel>
         </mat-tab>

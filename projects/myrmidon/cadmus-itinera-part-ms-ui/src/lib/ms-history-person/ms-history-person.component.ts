@@ -115,13 +115,16 @@ export class MsHistoryPersonComponent implements OnInit {
 
   public onNameChanged(name: PersonName): void {
     this.name = name;
+    this.form.markAsDirty();
   }
 
   public onIdsChanged(ids: string[]): void {
     this._ids = ids;
+    this.form.markAsDirty();
   }
 
   public onSourcesChanged(sources: DocReference[]): void {
     this._sources = sources;
+    this.form.markAsDirty();
   }
 }

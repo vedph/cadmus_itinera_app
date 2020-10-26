@@ -121,6 +121,7 @@ export class MsAnnotationComponent implements OnInit {
 
   public onSourcesChanged(sources: DocReference[]): void {
     this._sources = sources;
+    this.form.markAsDirty();
   }
 
   public cancel(): void {
