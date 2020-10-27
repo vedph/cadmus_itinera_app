@@ -5,7 +5,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { HistoricalDate, ThesaurusEntry } from '@myrmidon/cadmus-core';
+import { HistoricalDate, HistoricalDateModel, ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { MsGuardSheet } from '@myrmidon/cadmus-itinera-core';
 import { MsLocationService } from '@myrmidon/cadmus-itinera-core';
 
@@ -41,7 +41,7 @@ export class MsGuardSheetComponent implements OnInit {
   public location: FormControl;
   public note: FormControl;
 
-  public date: HistoricalDate;
+  public date: HistoricalDateModel;
 
   constructor(
     formBuilder: FormBuilder,
@@ -97,7 +97,7 @@ export class MsGuardSheetComponent implements OnInit {
     };
   }
 
-  public onDateChange(date: HistoricalDate): void {
+  public onDateChange(date: HistoricalDateModel): void {
     this.date = date;
   }
 

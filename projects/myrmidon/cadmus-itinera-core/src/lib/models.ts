@@ -1,4 +1,4 @@
-import { HistoricalDate } from '@myrmidon/cadmus-core';
+import { HistoricalDateModel } from '@myrmidon/cadmus-core';
 
 /**
  * A part of a PersonName.
@@ -72,7 +72,7 @@ export interface CitedPlace {
 export interface Chronotope {
   tag?: string;
   place: string;
-  date: HistoricalDate;
+  date: HistoricalDateModel;
   textDate?: string;
   sources?: DocReference[];
 }
@@ -82,7 +82,7 @@ export interface Chronotope {
  */
 export interface BioEvent {
   type: string;
-  date?: HistoricalDate;
+  date?: HistoricalDateModel;
   places?: string[];
   description?: string;
   sources: DocReference[];
@@ -98,8 +98,8 @@ export interface BioEvent {
  */
 export interface LitDedication {
   title: string;
-  date?: HistoricalDate;
-  dateSent?: HistoricalDate;
+  date?: HistoricalDateModel;
+  dateSent?: HistoricalDateModel;
   isByAuthor?: boolean;
   sources?: DocReference[];
 }
@@ -131,7 +131,7 @@ export interface MsGuardSheet {
   isBack: boolean;
   material: string;
   location: MsLocation;
-  date?: HistoricalDate;
+  date?: HistoricalDateModel;
   note?: string;
 }
 
@@ -143,7 +143,7 @@ export interface MsSection {
   label: string;
   start: MsLocation;
   end: MsLocation;
-  date?: HistoricalDate;
+  date?: HistoricalDateModel;
 }
 
 /**
@@ -177,7 +177,7 @@ export interface MsWatermark {
   similarityRank?: number;
   description?: string;
   place?: string;
-  date?: HistoricalDate;
+  date?: HistoricalDateModel;
   externalIds?: string[];
 }
 
@@ -199,7 +199,7 @@ export interface MsNumbering {
  */
 export interface MsPalimpsest {
   location: MsLocation;
-  date?: HistoricalDate;
+  date?: HistoricalDateModel;
   note?: string;
 }
 
@@ -334,7 +334,7 @@ export interface MsAnnotation {
 export interface MsRestoration {
   type: string;
   place?: string;
-  date?: HistoricalDate;
+  date?: HistoricalDateModel;
   note?: string;
   personId?: string;
   sources?: DocReference[];
@@ -347,7 +347,7 @@ export interface MsHistoryPerson {
   id?: string;
   role?: string;
   name: PersonName;
-  date?: HistoricalDate;
+  date?: HistoricalDateModel;
   note?: string;
   externalIds?: string[];
   sources?: DocReference[];

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { AuthService } from '@myrmidon/cadmus-api';
-import { HistoricalDate, ThesaurusEntry } from '@myrmidon/cadmus-core';
+import { HistoricalDate, HistoricalDateModel, ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { PersonName } from '@myrmidon/cadmus-itinera-core';
 import { ModelEditorComponentBase, DialogService } from '@myrmidon/cadmus-ui';
 import { BehaviorSubject } from 'rxjs';
@@ -43,8 +43,8 @@ export class PersonPartComponent
   public bio: FormControl;
 
   public externalIds$: BehaviorSubject<string[]>;
-  public birthDate: HistoricalDate;
-  public deathDate: HistoricalDate;
+  public birthDate: HistoricalDateModel;
+  public deathDate: HistoricalDateModel;
   public names$: BehaviorSubject<PersonName[]>;
   public name$: BehaviorSubject<PersonName>;
 

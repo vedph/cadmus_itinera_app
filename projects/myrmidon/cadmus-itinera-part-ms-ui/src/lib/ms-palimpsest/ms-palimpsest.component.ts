@@ -5,7 +5,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { HistoricalDate } from '@myrmidon/cadmus-core';
+import { HistoricalDate, HistoricalDateModel } from '@myrmidon/cadmus-core';
 import { MsPalimpsest, MsLocationService } from '@myrmidon/cadmus-itinera-core';
 
 @Component({
@@ -35,7 +35,7 @@ export class MsPalimpsestComponent implements OnInit {
   public location: FormControl;
   public note: FormControl;
 
-  public date: HistoricalDate;
+  public date: HistoricalDateModel;
 
   constructor(
     formBuilder: FormBuilder,

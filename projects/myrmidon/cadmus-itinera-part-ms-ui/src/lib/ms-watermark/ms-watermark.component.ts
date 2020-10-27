@@ -5,7 +5,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { HistoricalDate, ThesaurusEntry } from '@myrmidon/cadmus-core';
+import { HistoricalDate, HistoricalDateModel, ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { MsWatermark } from '@myrmidon/cadmus-itinera-core';
 import { BehaviorSubject } from 'rxjs';
 
@@ -41,7 +41,7 @@ export class MsWatermarkComponent implements OnInit {
   public description: FormControl;
   public place: FormControl;
 
-  public date: HistoricalDate;
+  public date: HistoricalDateModel;
   public ids$: BehaviorSubject<string[]>;
   public ids: string[];
 
@@ -96,7 +96,7 @@ export class MsWatermarkComponent implements OnInit {
     };
   }
 
-  public onDateChanged(date: HistoricalDate): void {
+  public onDateChanged(date: HistoricalDateModel): void {
     this.date = date;
   }
 

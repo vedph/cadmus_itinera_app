@@ -1,4 +1,4 @@
-import { HistoricalDate, Part } from '@myrmidon/cadmus-core';
+import { HistoricalDateModel, Part } from '@myrmidon/cadmus-core';
 import { PersonName } from '@myrmidon/cadmus-itinera-core';
 
 /**
@@ -9,9 +9,9 @@ export interface PersonPart extends Part {
   externalIds?: string[];
   names: PersonName[];
   sex?: string;
-  birthDate?: HistoricalDate;
+  birthDate?: HistoricalDateModel;
   birthPlace?: string;
-  deathDate?: HistoricalDate;
+  deathDate?: HistoricalDateModel;
   deathPlace?: string;
   bio?: string;
 }

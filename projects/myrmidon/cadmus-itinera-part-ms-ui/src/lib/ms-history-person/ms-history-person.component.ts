@@ -5,7 +5,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { HistoricalDate, ThesaurusEntry } from '@myrmidon/cadmus-core';
+import { HistoricalDate, HistoricalDateModel, ThesaurusEntry } from '@myrmidon/cadmus-core';
 import {
   DocReference,
   MsHistoryPerson,
@@ -52,7 +52,7 @@ export class MsHistoryPersonComponent implements OnInit {
   public note: FormControl;
   public form: FormGroup;
 
-  public date: HistoricalDate;
+  public date: HistoricalDateModel;
   public name$: BehaviorSubject<PersonName>;
   public ids$: BehaviorSubject<string[]>;
   public sources$: BehaviorSubject<DocReference[]>;

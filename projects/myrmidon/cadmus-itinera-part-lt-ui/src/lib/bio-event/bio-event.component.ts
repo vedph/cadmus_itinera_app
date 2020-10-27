@@ -5,7 +5,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { HistoricalDate, ThesaurusEntry } from '@myrmidon/cadmus-core';
+import { HistoricalDateModel, ThesaurusEntry } from '@myrmidon/cadmus-core';
 import {
   BioEvent,
   DecoratedId,
@@ -59,7 +59,7 @@ export class BioEventComponent implements OnInit {
   public description: FormControl;
   public form: FormGroup;
 
-  public date: HistoricalDate;
+  public date: HistoricalDateModel;
   public participants: DecoratedId[];
 
   public ids$: BehaviorSubject<string[]>;

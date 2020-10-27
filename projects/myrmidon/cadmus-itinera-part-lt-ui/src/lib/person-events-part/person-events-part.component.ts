@@ -3,9 +3,22 @@ import { FormControl, FormBuilder, Validators } from '@angular/forms';
 
 import { ModelEditorComponentBase, DialogService } from '@myrmidon/cadmus-ui';
 import { AuthService } from '@myrmidon/cadmus-api';
-import { ThesaurusEntry } from '@myrmidon/cadmus-core';
-import { PersonEventsPart, PERSON_EVENTS_PART_TYPEID } from '../person-events-part';
+import {
+  HistoricalDate,
+  HistoricalDateModel,
+  ThesaurusEntry,
+} from '@myrmidon/cadmus-core';
+import {
+  PersonEventsPart,
+  PERSON_EVENTS_PART_TYPEID,
+} from '../person-events-part';
+import { BioEvent } from '@myrmidon/cadmus-itinera-core';
+import { take } from 'rxjs/operators';
 
+/**
+ * Person events part editor.
+ * Thesauri: bio-event-types, event-participant-tags (all optional).
+ */
 @Component({
   selector: 'cadmus-person-events-part',
   templateUrl: './person-events-part.component.html',
@@ -14,15 +27,32 @@ import { PersonEventsPart, PERSON_EVENTS_PART_TYPEID } from '../person-events-pa
 export class PersonEventsPartComponent
   extends ModelEditorComponentBase<PersonEventsPart>
   implements OnInit {
-  // TODO form controls (form: FormGroup is inherited)
+  private _editedIndex: number;
 
-  // TODO thesauri entries, e.g.:
-  // public tagEntries: ThesaurusEntry[];
+  public tabIndex: number;
+  public editedBioEvent: BioEvent;
 
-  constructor(authService: AuthService, formBuilder: FormBuilder) {
+  public typeEntries: ThesaurusEntry[];
+  public partTagEntries: ThesaurusEntry[];
+
+  public events: BioEvent[];
+
+  public count: FormControl;
+
+  constructor(
+    authService: AuthService,
+    formBuilder: FormBuilder,
+    private _dialogService: DialogService
+  ) {
     super(authService);
+    this.tabIndex = 0;
+    this._editedIndex = -1;
+    this.events = [];
     // form
-    // TODO build controls and set this.form
+    this.count = formBuilder.control(0, Validators.min(1));
+    this.form = formBuilder.group({
+      count: this.count,
+    });
   }
 
   public ngOnInit(): void {
@@ -34,7 +64,8 @@ export class PersonEventsPartComponent
       this.form.reset();
       return;
     }
-    // TODO set controls values from model
+    this.count.setValue(model.events?.length || 0);
+    this.events = model.events || [];
     this.form.markAsPristine();
   }
 
@@ -43,14 +74,19 @@ export class PersonEventsPartComponent
   }
 
   protected onThesauriSet(): void {
-    // TODO set entries from this.thesauri, e.g.:
-    // const key = 'note-tags';
-    // if (this.thesauri && this.thesauri[key]) {
-    // this.tagEntries = this.thesauri[key].entries;
-    // } else {
-    //   this.tagEntries = null;
-    // }
-    // if not using any thesauri, just remove this function
+    let key = 'bio-event-types';
+    if (this.thesauri && this.thesauri[key]) {
+    this.typeEntries = this.thesauri[key].entries;
+    } else {
+      this.typeEntries = null;
+    }
+
+    key = 'event-participant-tags';
+    if (this.thesauri && this.thesauri[key]) {
+    this.partTagEntries = this.thesauri[key].entries;
+    } else {
+      this.partTagEntries = null;
+    }
   }
 
   protected getModelFromForm(): PersonEventsPart {
@@ -65,10 +101,92 @@ export class PersonEventsPartComponent
         creatorId: null,
         timeModified: new Date(),
         userId: null,
-        events: []
+        events: [],
       };
     }
-    // TODO set part.properties from form controls
+    part.events = this.events;
     return part;
+  }
+
+  public addBioEvent(): void {
+    const event: BioEvent = {
+      type: null,
+      sources: null,
+    };
+    this.events = [...this.events, event];
+    this.count.setValue(this.events.length);
+    this.count.markAsDirty();
+    this.editBioEvent(this.events.length - 1);
+  }
+
+  public editBioEvent(index: number): void {
+    if (index < 0) {
+      this._editedIndex = -1;
+      this.tabIndex = 0;
+      this.editedBioEvent = null;
+    } else {
+      this._editedIndex = index;
+      this.editedBioEvent = this.events[index];
+      setTimeout(() => {
+        this.tabIndex = 1;
+      }, 300);
+    }
+  }
+
+  public onBioEventSaved(item: BioEvent): void {
+    this.events = this.events.map((s, i) =>
+      i === this._editedIndex ? item : s
+    );
+    this.editBioEvent(-1);
+    this.count.markAsDirty();
+  }
+
+  public onBioEventClosed(): void {
+    this.editBioEvent(-1);
+  }
+
+  public deleteBioEvent(index: number): void {
+    this._dialogService
+      .confirm('Confirmation', 'Delete event?')
+      .pipe(take(1))
+      .subscribe((yes) => {
+        if (yes) {
+          const items = [...this.events];
+          items.splice(index, 1);
+          this.events = items;
+          this.count.setValue(this.events.length);
+          this.count.markAsDirty();
+        }
+      });
+  }
+
+  public moveBioEventUp(index: number): void {
+    if (index < 1) {
+      return;
+    }
+    const item = this.events[index];
+    const items = [...this.events];
+    items.splice(index, 1);
+    items.splice(index - 1, 0, item);
+    this.events = items;
+  }
+
+  public moveBioEventDown(index: number): void {
+    if (index + 1 >= this.events.length) {
+      return;
+    }
+    const item = this.events[index];
+    const items = [...this.events];
+    items.splice(index, 1);
+    items.splice(index + 1, 0, item);
+    this.events = items;
+  }
+
+  public dateToString(date: HistoricalDateModel | null): string {
+    return date ? new HistoricalDate(date).toString() : '';
+  }
+
+  public placesToString(places: string[] | null): string {
+    return places ? places.join('; ') : '';
   }
 }

@@ -5,7 +5,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { HistoricalDate } from '@myrmidon/cadmus-core';
+import { HistoricalDate, HistoricalDateModel } from '@myrmidon/cadmus-core';
 import { MsLocationService, MsSection } from '@myrmidon/cadmus-itinera-core';
 
 @Component({
@@ -36,7 +36,7 @@ export class MsSectionComponent implements OnInit {
   public label: FormControl;
   public start: FormControl;
   public end: FormControl;
-  public date: HistoricalDate;
+  public date: HistoricalDateModel;
 
   constructor(
     formBuilder: FormBuilder,
@@ -92,7 +92,7 @@ export class MsSectionComponent implements OnInit {
     };
   }
 
-  public onDateChange(date: HistoricalDate): void {
+  public onDateChange(date: HistoricalDateModel): void {
     this.date = date;
   }
 

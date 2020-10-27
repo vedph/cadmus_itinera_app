@@ -5,7 +5,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { HistoricalDate, ThesaurusEntry } from '@myrmidon/cadmus-core';
+import { HistoricalDate, HistoricalDateModel, ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { Chronotope, DocReference } from '@myrmidon/cadmus-itinera-core';
 import { BehaviorSubject } from 'rxjs';
 
@@ -36,7 +36,7 @@ export class ChronotopeComponent implements OnInit {
   public editorClose: EventEmitter<any>;
 
   // date
-  public date: HistoricalDate;
+  public date: HistoricalDateModel;
 
   // sources
   public sources$: BehaviorSubject<DocReference[]>;
