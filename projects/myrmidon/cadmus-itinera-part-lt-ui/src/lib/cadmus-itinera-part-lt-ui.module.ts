@@ -8,11 +8,13 @@ import { CadmusItineraUiModule } from '@myrmidon/cadmus-itinera-ui';
 import { PersonPartComponent } from './person-part/person-part.component';
 import { CadmusUiModule } from '@myrmidon/cadmus-ui';
 import { PersonEventsPartComponent } from './person-events-part/person-events-part.component';
+import { BioEventComponent } from './bio-event/bio-event.component';
 
 @NgModule({
   declarations: [
+    BioEventComponent,
     PersonPartComponent,
-    PersonEventsPartComponent
+    PersonEventsPartComponent,
   ],
   imports: [
     CommonModule,
@@ -27,6 +29,7 @@ import { PersonEventsPartComponent } from './person-events-part/person-events-pa
     CadmusItineraUiModule
   ],
   exports: [
+    BioEventComponent,
     PersonPartComponent,
     PersonEventsPartComponent
   ],

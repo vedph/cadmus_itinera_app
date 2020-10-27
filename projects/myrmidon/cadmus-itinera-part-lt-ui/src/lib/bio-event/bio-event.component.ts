@@ -1,0 +1,168 @@
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
+import { HistoricalDate, ThesaurusEntry } from '@myrmidon/cadmus-core';
+import {
+  BioEvent,
+  DecoratedId,
+  DocReference,
+} from '@myrmidon/cadmus-itinera-core';
+import { BehaviorSubject } from 'rxjs';
+
+@Component({
+  selector: 'lib-bio-event',
+  templateUrl: './bio-event.component.html',
+  styleUrls: ['./bio-event.component.css'],
+})
+export class BioEventComponent implements OnInit {
+  private _model: BioEvent;
+  private _ids: string[];
+  private _sources: DocReference[];
+
+  @Input()
+  public get model(): BioEvent {
+    return this._model;
+  }
+  public set model(value: BioEvent) {
+    this._model = value;
+    this.setModel(this._model);
+  }
+
+  @Input()
+  public typeEntries: ThesaurusEntry[];
+  @Input()
+  public idTagEntries: ThesaurusEntry[];
+
+  @Output()
+  public modelChange: EventEmitter<BioEvent>;
+
+  @Output()
+  public editorClose: EventEmitter<any>;
+
+  public editorOptions = {
+    theme: 'vs-light',
+    language: 'markdown',
+    wordWrap: 'on',
+    // https://github.com/atularen/ngx-monaco-editor/issues/19
+    automaticLayout: true,
+  };
+
+  public type: FormControl;
+  public rank: FormControl;
+  public work: FormControl;
+  public lost: FormControl;
+  public places: FormControl;
+  public description: FormControl;
+  public form: FormGroup;
+
+  public date: HistoricalDate;
+  public participants: DecoratedId[];
+
+  public ids$: BehaviorSubject<string[]>;
+  public sources$: BehaviorSubject<DocReference[]>;
+
+  constructor(formBuilder: FormBuilder) {
+    this._ids = [];
+    this._sources = [];
+    this.participants = [];
+    this.ids$ = new BehaviorSubject<string[]>([]);
+    this.sources$ = new BehaviorSubject<DocReference[]>([]);
+    // events
+    this.modelChange = new EventEmitter<BioEvent>();
+    this.editorClose = new EventEmitter();
+    // form
+    this.type = formBuilder.control(null, [
+      Validators.required,
+      Validators.maxLength(50),
+    ]);
+    this.rank = formBuilder.control(0);
+    this.work = formBuilder.control(null, Validators.maxLength(100));
+    this.lost = formBuilder.control(false);
+    this.places = formBuilder.control(null, Validators.maxLength(500));
+    this.description = formBuilder.control(null, Validators.maxLength(500));
+    this.form = formBuilder.group({
+      type: this.type,
+      rank: this.rank,
+      work: this.work,
+      lost: this.lost,
+      places: this.places,
+      description: this.description,
+    });
+  }
+
+  ngOnInit(): void {}
+
+  private setModel(model: BioEvent): void {
+    if (!model) {
+      this.form.reset();
+      return;
+    }
+    this.ids$.next(model.externalIds || []);
+    this.sources$.next(model.sources || []);
+    this.participants = model.participants || [];
+
+    this.type.setValue(model.type);
+    this.rank.setValue(model.rank);
+    this.work.setValue(model.work);
+    this.lost.setValue(model.isWorkLost);
+    this.places.setValue(model.places?.join('; '));
+    this.description.setValue(model.description);
+    this.form.markAsPristine();
+  }
+
+  private parsePlaces(text: string | null): string[] | undefined {
+    if (!text) {
+      return undefined;
+    }
+    const places: string[] = [];
+    for (let place of text.split(';')) {
+      place = place.trim();
+      if (!places.find((p) => p === place)) {
+        places.push(place);
+      }
+    }
+    return places.length ? places : undefined;
+  }
+
+  private getModel(): BioEvent {
+    return {
+      type: this.type.value?.trim(),
+      date: this.date,
+      places: this.parsePlaces(this.places.value),
+      description: this.description.value?.trim(),
+      sources: this._sources?.length ? this._sources : undefined,
+      participants: this.participants?.length ? this.participants : undefined,
+      work: this.work.value?.trim(),
+      rank: this.rank.value,
+      isWorkLost: this.lost.value,
+      externalIds: this._ids,
+    };
+  }
+
+  public onIdsChanged(ids: string[]): void {
+    this._ids = ids;
+  }
+
+  public onSourcesChanged(sources: DocReference[]): void {
+    this._sources = sources;
+  }
+
+  public onParticipantsChanged(participants: DecoratedId[]): void {
+    this.participants = participants;
+  }
+
+  public cancel(): void {
+    this.editorClose.emit();
+  }
+
+  public save(): void {
+    if (this.form.invalid) {
+      return;
+    }
+    this.modelChange.emit(this.getModel());
+  }
+}
