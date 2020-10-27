@@ -104,6 +104,7 @@ export class BioEventComponent implements OnInit {
     this.ids$.next(model.externalIds || []);
     this.sources$.next(model.sources || []);
     this.participants = model.participants || [];
+    this.date = model.date;
 
     this.type.setValue(model.type);
     this.rank.setValue(model.rank);
@@ -145,14 +146,17 @@ export class BioEventComponent implements OnInit {
 
   public onIdsChanged(ids: string[]): void {
     this._ids = ids;
+    this.form.markAsDirty();
   }
 
   public onSourcesChanged(sources: DocReference[]): void {
     this._sources = sources;
+    this.form.markAsDirty();
   }
 
   public onParticipantsChanged(participants: DecoratedId[]): void {
     this.participants = participants;
+    this.form.markAsDirty();
   }
 
   public cancel(): void {

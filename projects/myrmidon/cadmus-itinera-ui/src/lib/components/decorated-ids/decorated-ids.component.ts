@@ -123,6 +123,7 @@ export class DecoratedIdsComponent {
 
   public onReferencesChange(references: DocReference[]): void {
     this.editedId.sources = references?.length ? references : null;
+    this.form.markAsDirty();
   }
 
   public closeEditedId(): void {

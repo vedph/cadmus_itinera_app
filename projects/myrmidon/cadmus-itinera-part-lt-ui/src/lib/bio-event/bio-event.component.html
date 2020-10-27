@@ -57,9 +57,12 @@
       </div>
 
       <!-- date -->
-      <cadmus-historical-date-editor
-        [(date)]="date"
-      ></cadmus-historical-date-editor>
+      <div>
+        <cadmus-historical-date-editor
+          [(date)]="date"
+        ></cadmus-historical-date-editor>
+        <br>
+      </div>
 
       <div>
         <!-- places -->
@@ -112,7 +115,7 @@
       <!-- participants -->
       <cadmus-decorated-ids
         [ids]="participants"
-        [tagEntries]="idTagEntries"
+        [tagEntries]="partTagEntries"
         (idsChange)="onParticipantsChanged($event)"
       ></cadmus-decorated-ids>
     </mat-tab>
