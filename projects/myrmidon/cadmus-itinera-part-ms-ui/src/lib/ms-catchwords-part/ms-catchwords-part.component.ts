@@ -100,7 +100,7 @@ export class MsCatchwordsPartComponent
         catchword?.position,
         Validators.required
       ),
-      isVertical: this._formBuilder.control(catchword.isVertical || false),
+      isVertical: this._formBuilder.control(catchword?.isVertical || false),
       decoration: this._formBuilder.control(
         catchword?.decoration,
         Validators.maxLength(500)
