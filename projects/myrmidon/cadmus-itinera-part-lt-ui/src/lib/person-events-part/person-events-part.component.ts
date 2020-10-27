@@ -30,7 +30,7 @@ export class PersonEventsPartComponent
   private _editedIndex: number;
 
   public tabIndex: number;
-  public editedBioEvent: BioEvent;
+  public editedEvent: BioEvent;
 
   public typeEntries: ThesaurusEntry[];
   public partTagEntries: ThesaurusEntry[];
@@ -108,7 +108,7 @@ export class PersonEventsPartComponent
     return part;
   }
 
-  public addBioEvent(): void {
+  public addEvent(): void {
     const event: BioEvent = {
       type: null,
       sources: null,
@@ -116,36 +116,36 @@ export class PersonEventsPartComponent
     this.events = [...this.events, event];
     this.count.setValue(this.events.length);
     this.count.markAsDirty();
-    this.editBioEvent(this.events.length - 1);
+    this.editEvent(this.events.length - 1);
   }
 
-  public editBioEvent(index: number): void {
+  public editEvent(index: number): void {
     if (index < 0) {
       this._editedIndex = -1;
       this.tabIndex = 0;
-      this.editedBioEvent = null;
+      this.editedEvent = null;
     } else {
       this._editedIndex = index;
-      this.editedBioEvent = this.events[index];
+      this.editedEvent = this.events[index];
       setTimeout(() => {
         this.tabIndex = 1;
       }, 300);
     }
   }
 
-  public onBioEventSaved(item: BioEvent): void {
+  public onEventSaved(item: BioEvent): void {
     this.events = this.events.map((s, i) =>
       i === this._editedIndex ? item : s
     );
-    this.editBioEvent(-1);
+    this.editEvent(-1);
     this.count.markAsDirty();
   }
 
-  public onBioEventClosed(): void {
-    this.editBioEvent(-1);
+  public onEventClosed(): void {
+    this.editEvent(-1);
   }
 
-  public deleteBioEvent(index: number): void {
+  public deleteEvent(index: number): void {
     this._dialogService
       .confirm('Confirmation', 'Delete event?')
       .pipe(take(1))
@@ -160,7 +160,7 @@ export class PersonEventsPartComponent
       });
   }
 
-  public moveBioEventUp(index: number): void {
+  public moveEventUp(index: number): void {
     if (index < 1) {
       return;
     }
@@ -171,7 +171,7 @@ export class PersonEventsPartComponent
     this.events = items;
   }
 
-  public moveBioEventDown(index: number): void {
+  public moveEventDown(index: number): void {
     if (index + 1 >= this.events.length) {
       return;
     }

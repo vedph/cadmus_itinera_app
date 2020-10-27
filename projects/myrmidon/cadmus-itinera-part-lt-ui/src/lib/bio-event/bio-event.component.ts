@@ -14,7 +14,7 @@ import {
 import { BehaviorSubject } from 'rxjs';
 
 @Component({
-  selector: 'lib-bio-event',
+  selector: 'cadmus-bio-event',
   templateUrl: './bio-event.component.html',
   styleUrls: ['./bio-event.component.css'],
 })
@@ -35,7 +35,7 @@ export class BioEventComponent implements OnInit {
   @Input()
   public typeEntries: ThesaurusEntry[];
   @Input()
-  public idTagEntries: ThesaurusEntry[];
+  public partTagEntries: ThesaurusEntry[];
 
   @Output()
   public modelChange: EventEmitter<BioEvent>;
