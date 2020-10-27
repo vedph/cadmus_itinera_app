@@ -118,6 +118,7 @@ export class DocReferencesComponent
     if (!value) {
       this.form.reset();
     } else {
+      this.references.clear();
       for (const r of value) {
         this.addReference(r);
       }

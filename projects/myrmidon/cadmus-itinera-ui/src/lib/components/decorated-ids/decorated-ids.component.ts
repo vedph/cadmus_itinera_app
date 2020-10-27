@@ -19,15 +19,16 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class DecoratedIdsComponent {
   private _ids: DecoratedId[];
-  private _editedIdIndex: number;
 
+  public editedIndex: number;
   public editedId: DecoratedId;
+  public editorOpen: boolean;
+
   public form: FormGroup;
   public id: FormControl;
   public rank: FormControl;
   public tag: FormControl;
-  public references$: BehaviorSubject<DocReference[]>;
-  public tabIndex: number;
+  public sources$: BehaviorSubject<DocReference[]>;
 
   @Input()
   public get ids(): DecoratedId[] {
@@ -35,7 +36,7 @@ export class DecoratedIdsComponent {
   }
   public set ids(value: DecoratedId[]) {
     this._ids = value || [];
-    this.setEditedId(null);
+    this.editId(-1);
   }
 
   @Input()
@@ -50,9 +51,9 @@ export class DecoratedIdsComponent {
   constructor(formBuilder: FormBuilder) {
     this.idsChange = new EventEmitter<DecoratedId[]>();
     this.editorClose = new EventEmitter<any>();
-    this.references$ = new BehaviorSubject<DocReference[]>([]);
-    this.tabIndex = 0;
-    this._editedIdIndex = -1;
+    this.sources$ = new BehaviorSubject<DocReference[]>([]);
+    this.editedIndex = -1;
+    this.editorOpen = false;
 
     this.ids = [];
     this.id = formBuilder.control(null, [
@@ -68,17 +69,25 @@ export class DecoratedIdsComponent {
     });
   }
 
-  private setEditedId(id: DecoratedId): void {
-    if (!id) {
+  public editId(index: number): void {
+    this.editedIndex = index;
+
+    if (index === -1) {
+      this.editedId = null;
+      this.sources$.next([]);
       this.form?.reset();
+      this.form?.disable();
+      this.editorOpen = false;
     } else {
-      this.id.setValue(id.id);
-      this.rank.setValue(id.rank);
-      this.tag.setValue(id.tag);
-      this.references$.next(id.sources || []);
+      this.form.enable();
+      this.editedId = this.ids[index];
+      this.sources$.next(this.editedId.sources || []);
+      this.id.setValue(this.editedId.id);
+      this.rank.setValue(this.editedId.rank);
+      this.tag.setValue(this.editedId.tag);
       this.form.markAsPristine();
+      this.editorOpen = true;
     }
-    this.editedId = id;
   }
 
   private getEditedId(): DecoratedId {
@@ -94,42 +103,31 @@ export class DecoratedIdsComponent {
   }
 
   public editNewId(): void {
-    this._editedIdIndex = -1;
-    this.setEditedId({
+    this.ids.push({
       id: null,
-      tag: null,
-      rank: 0,
-      sources: null,
     });
-    setTimeout(() => {
-      this.tabIndex = 1;
-    }, 300);
-  }
-
-  public editId(index: number): void {
-    this._editedIdIndex = index;
-    this.setEditedId(this.ids[index]);
-    setTimeout(() => {
-      this.tabIndex = 1;
-    }, 300);
+    this.editId(this.ids.length - 1);
   }
 
   public deleteId(index: number): void {
-    if (this._editedIdIndex === index) {
+    if (this.editedIndex === index) {
       this.closeEditedId();
     }
-    this.ids = [...this.ids.slice(index, 1)];
+    const newIds = [...this.ids];
+    newIds.splice(index, 1);
+    this.ids = newIds;
   }
 
-  public onReferencesChange(references: DocReference[]): void {
-    this.editedId.sources = references?.length ? references : null;
+  public onSourcesChange(sources: DocReference[]): void {
+    if (!this.editedId) {
+      return;
+    }
+    this.editedId.sources = sources?.length ? sources : null;
     this.form.markAsDirty();
   }
 
   public closeEditedId(): void {
-    this._editedIdIndex = -1;
-    this.setEditedId(null);
-    this.tabIndex = 0;
+    this.editId(-1);
   }
 
   public saveEditedId(): void {
@@ -138,15 +136,11 @@ export class DecoratedIdsComponent {
     }
     const id = this.getEditedId();
 
-    if (this._editedIdIndex === -1) {
-      this.ids = [...this.ids, id];
-    } else {
-      this.ids = [
-        ...this.ids.slice(0, this._editedIdIndex),
-        id,
-        ...this.ids.slice(this._editedIdIndex + 1),
-      ];
-    }
+    this.ids = [
+      ...this.ids.slice(0, this.editedIndex),
+      id,
+      ...this.ids.slice(this.editedIndex + 1),
+    ];
     this.closeEditedId();
   }
 
@@ -155,10 +149,10 @@ export class DecoratedIdsComponent {
   }
 
   public save(): void {
-    // if editing and valid, save; else move to editor
+    // if editing and valid, save; else show editor
     if (this.editedId) {
       if (this.form.invalid) {
-        this.tabIndex = 1;
+        this.editorOpen = true;
         return;
       }
       this.saveEditedId();
