@@ -87,5 +87,6 @@ export class DocReferencesPartComponent
   public onReferencesChanged(references: DocReference[]): void {
     this._references = references;
     this.count.setValue(references?.length || 0);
+    this.count.markAsDirty();
   }
 }

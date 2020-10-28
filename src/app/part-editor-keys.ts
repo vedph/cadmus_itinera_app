@@ -17,7 +17,11 @@ import {
   QUOTATIONS_FRAGMENT_TYPEID,
 } from '@myrmidon/cadmus-part-philology-ui';
 import { PartEditorKeys } from '@myrmidon/cadmus-core';
-import { PERSON_EVENTS_PART_TYPEID, PERSON_PART_TYPEID } from '@myrmidon/cadmus-itinera-part-lt-ui';
+import {
+  DOC_REFERENCES_PART_TYPEID,
+  PERSON_EVENTS_PART_TYPEID,
+  PERSON_PART_TYPEID,
+} from '@myrmidon/cadmus-itinera-part-lt-ui';
 import {
   MSCOMPOSITION_PART_TYPEID,
   MSSIGNATURES_PART_TYPEID,
@@ -34,7 +38,7 @@ import {
   MSDIMENSIONS_PART_TYPEID,
   MSHANDS_PART_TYPEID,
   MSDECORATIONS_PART_TYPEID,
-  MSHISTORY_PART_TYPEID
+  MSHISTORY_PART_TYPEID,
 } from '@myrmidon/cadmus-itinera-part-ms-ui';
 
 const GENERAL = 'general';
@@ -80,6 +84,9 @@ export const PART_EDITOR_KEYS: PartEditorKeys = {
     part: ITINERA_LT,
   },
   [PERSON_EVENTS_PART_TYPEID]: {
+    part: ITINERA_LT,
+  },
+  [DOC_REFERENCES_PART_TYPEID]: {
     part: ITINERA_LT,
   },
   [MSSIGNATURES_PART_TYPEID]: {
