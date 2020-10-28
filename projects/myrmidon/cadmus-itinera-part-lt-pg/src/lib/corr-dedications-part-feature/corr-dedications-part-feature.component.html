@@ -1,1 +1,10 @@
-<p>corr-dedications-part-feature works!</p>
+<cadmus-current-item-bar></cadmus-current-item-bar>
+<cadmus-corr-dedications-part
+  [itemId]="itemId"
+  [roleId]="roleId"
+  [json]="json$ | async"
+  (jsonChange)="save($event)"
+  [thesauri]="thesauri$ | async"
+  (editorClose)="close()"
+  (dirtyChange)="onDirtyChange($event)"
+></cadmus-corr-dedications-part>

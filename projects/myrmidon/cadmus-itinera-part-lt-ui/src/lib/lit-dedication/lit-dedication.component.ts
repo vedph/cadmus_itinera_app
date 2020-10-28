@@ -5,11 +5,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import {
-  HistoricalDate,
-  HistoricalDateModel,
-  ThesaurusEntry,
-} from '@myrmidon/cadmus-core';
+import { HistoricalDateModel, ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { DocReference, LitDedication } from '@myrmidon/cadmus-itinera-core';
 import { BehaviorSubject } from 'rxjs';
 
@@ -42,6 +38,8 @@ export class LitDedicationComponent implements OnInit {
 
   public title: FormControl;
   public byAuthor: FormControl;
+  public hasDate: FormControl;
+  public hasDateSent: FormControl;
   public form: FormGroup;
 
   public date: HistoricalDateModel;
@@ -60,9 +58,13 @@ export class LitDedicationComponent implements OnInit {
       Validators.maxLength(100),
     ]);
     this.byAuthor = formBuilder.control(false);
+    this.hasDate = formBuilder.control(false);
+    this.hasDateSent = formBuilder.control(false);
     this.form = formBuilder.group({
       title: this.title,
       byAuthor: this.byAuthor,
+      hasDate: this.hasDate,
+      hasDateSent: this.hasDateSent,
     });
   }
 
@@ -81,6 +83,8 @@ export class LitDedicationComponent implements OnInit {
     this.dateSent = model.dateSent;
     this.title.setValue(model.title);
     this.byAuthor.setValue(model.isByAuthor ? true : false);
+    this.hasDate.setValue(model.date ? true : false);
+    this.hasDateSent.setValue(model.dateSent ? true : false);
 
     this.form.markAsPristine();
   }
@@ -88,8 +92,8 @@ export class LitDedicationComponent implements OnInit {
   private getModel(): LitDedication {
     return {
       title: this.title.value?.trim(),
-      date: this.date,
-      dateSent: this.dateSent,
+      date: this.hasDate.value ? this.date : undefined,
+      dateSent: this.hasDateSent.value ? this.dateSent : undefined,
       isByAuthor: this.byAuthor.value,
       sources: this._sources?.length ? this._sources : undefined,
     };

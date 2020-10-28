@@ -19,16 +19,22 @@
   </div>
   <div>
     <!-- date -->
-    <h4>date</h4>
+    <div>
+      <mat-checkbox [formControl]="hasDate">date</mat-checkbox>
+    </div>
     <cadmus-historical-date-editor [(date)]="date">
     </cadmus-historical-date-editor>
   </div>
+  <br />
   <div>
     <!-- dateSent -->
-    <h4>date sent</h4>
+    <div>
+      <mat-checkbox [formControl]="hasDateSent">date sent</mat-checkbox>
+    </div>
     <cadmus-historical-date-editor [(date)]="dateSent">
     </cadmus-historical-date-editor>
   </div>
+  <br />
   <!-- sources -->
   <div>
     <cadmus-doc-references
