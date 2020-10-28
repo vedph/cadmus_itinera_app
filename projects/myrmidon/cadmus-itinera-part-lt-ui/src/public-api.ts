@@ -3,6 +3,7 @@
  */
 
 export * from './lib/doc-references-part';
+export * from './lib/doc-references-part/doc-references-part.component';
 
 export * from './lib/person-events-part';
 export * from './lib/person-events-part/person-events-part.component';

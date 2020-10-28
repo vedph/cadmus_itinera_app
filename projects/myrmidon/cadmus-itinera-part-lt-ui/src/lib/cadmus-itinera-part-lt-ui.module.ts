@@ -9,10 +9,12 @@ import { PersonPartComponent } from './person-part/person-part.component';
 import { CadmusUiModule } from '@myrmidon/cadmus-ui';
 import { PersonEventsPartComponent } from './person-events-part/person-events-part.component';
 import { BioEventComponent } from './bio-event/bio-event.component';
+import { DocReferencesPartComponent } from './doc-references-part/doc-references-part.component';
 
 @NgModule({
   declarations: [
     BioEventComponent,
+    DocReferencesPartComponent,
     PersonPartComponent,
     PersonEventsPartComponent,
   ],
@@ -30,6 +32,7 @@ import { BioEventComponent } from './bio-event/bio-event.component';
   ],
   exports: [
     BioEventComponent,
+    DocReferencesPartComponent,
     PersonPartComponent,
     PersonEventsPartComponent
   ],
