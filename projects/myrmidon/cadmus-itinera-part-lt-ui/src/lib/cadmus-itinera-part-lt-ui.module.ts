@@ -10,11 +10,15 @@ import { CadmusUiModule } from '@myrmidon/cadmus-ui';
 import { PersonEventsPartComponent } from './person-events-part/person-events-part.component';
 import { BioEventComponent } from './bio-event/bio-event.component';
 import { DocReferencesPartComponent } from './doc-references-part/doc-references-part.component';
+import { LitDedicationComponent } from './lit-dedication/lit-dedication.component';
+import { CorrDedicationsPartComponent } from './corr-dedications-part/corr-dedications-part.component';
 
 @NgModule({
   declarations: [
     BioEventComponent,
+    CorrDedicationsPartComponent,
     DocReferencesPartComponent,
+    LitDedicationComponent,
     PersonPartComponent,
     PersonEventsPartComponent,
   ],
@@ -32,7 +36,9 @@ import { DocReferencesPartComponent } from './doc-references-part/doc-references
   ],
   exports: [
     BioEventComponent,
+    CorrDedicationsPartComponent,
     DocReferencesPartComponent,
+    LitDedicationComponent,
     PersonPartComponent,
     PersonEventsPartComponent
   ],

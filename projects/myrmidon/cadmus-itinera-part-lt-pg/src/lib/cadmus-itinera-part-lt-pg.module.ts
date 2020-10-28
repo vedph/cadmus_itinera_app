@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CadmusMaterialModule } from '@myrmidon/cadmus-material';
 import {
   CadmusItineraPartLtUiModule,
+  CORR_DEDICATIONS_PART_TYPEID,
   DOC_REFERENCES_PART_TYPEID,
   PERSON_EVENTS_PART_TYPEID,
   PERSON_PART_TYPEID,
@@ -14,6 +15,7 @@ import { PendingChangesGuard } from '@myrmidon/cadmus-core';
 import { CadmusUiPgModule } from '@myrmidon/cadmus-ui-pg';
 import { PersonEventsPartFeatureComponent } from './person-events-part-feature/person-events-part-feature.component';
 import { DocReferencesPartFeatureComponent } from './doc-references-part-feature/doc-references-part-feature.component';
+import { CorrDedicationsPartFeatureComponent } from './corr-dedications-part-feature/corr-dedications-part-feature.component';
 
 // https://github.com/ng-packagr/ng-packagr/issues/778
 export const RouterModuleForChild = RouterModule.forChild([
@@ -35,10 +37,17 @@ export const RouterModuleForChild = RouterModule.forChild([
     component: DocReferencesPartFeatureComponent,
     canDeactivate: [PendingChangesGuard],
   },
+  {
+    path: `${CORR_DEDICATIONS_PART_TYPEID}/:pid`,
+    pathMatch: 'full',
+    component: CorrDedicationsPartFeatureComponent,
+    canDeactivate: [PendingChangesGuard],
+  },
 ]);
 
 @NgModule({
   declarations: [
+    CorrDedicationsPartFeatureComponent,
     DocReferencesPartFeatureComponent,
     PersonEventsPartFeatureComponent,
     PersonPartFeatureComponent,
@@ -55,6 +64,7 @@ export const RouterModuleForChild = RouterModule.forChild([
     CadmusItineraPartLtUiModule,
   ],
   exports: [
+    CorrDedicationsPartFeatureComponent,
     DocReferencesPartFeatureComponent,
     PersonEventsPartFeatureComponent,
     PersonPartFeatureComponent,

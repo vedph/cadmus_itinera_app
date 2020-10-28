@@ -1,0 +1,62 @@
+<form [formGroup]="form" (submit)="save()">
+  <div>
+    <!-- title -->
+    <mat-form-field>
+      <input matInput [formControl]="title" placeholder="title" />
+      <mat-error
+        *ngIf="title.errors?.required && (title.dirty || title.touched)"
+        >title required</mat-error
+      >
+      <mat-error
+        *ngIf="title.errors?.maxLength && (title.dirty || title.touched)"
+        >title too long</mat-error
+      >
+    </mat-form-field>
+
+    <!-- byAuth -->
+    &nbsp;
+    <mat-checkbox [formControl]="byAuthor">by author</mat-checkbox>
+  </div>
+  <div>
+    <!-- date -->
+    <h4>date</h4>
+    <cadmus-historical-date-editor [(date)]="date">
+    </cadmus-historical-date-editor>
+  </div>
+  <div>
+    <!-- dateSent -->
+    <h4>date sent</h4>
+    <cadmus-historical-date-editor [(date)]="dateSent">
+    </cadmus-historical-date-editor>
+  </div>
+  <!-- sources -->
+  <div>
+    <cadmus-doc-references
+      [model$]="sources$"
+      [tagEntries]="tagEntries"
+      (modelChange)="onSourcesChanged($event)"
+    ></cadmus-doc-references>
+  </div>
+
+  <!-- buttons -->
+  <div>
+    <button
+      type="button"
+      color="warn"
+      mat-icon-button
+      matTooltip="Discard dedication changes"
+      (click)="cancel()"
+    >
+      <mat-icon>clear</mat-icon>
+    </button>
+    <button
+      type="submit"
+      color="primary"
+      mat-icon-button
+      matTooltip="Accept dedication changes"
+      [disabled]="form.invalid || form.pristine"
+    >
+      <mat-icon>check_circle</mat-icon>
+    </button>
+  </div>
+</form>
