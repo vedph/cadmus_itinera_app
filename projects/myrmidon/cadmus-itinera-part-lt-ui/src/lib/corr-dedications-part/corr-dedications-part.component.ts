@@ -15,6 +15,10 @@ import {
 import { LitDedication } from '@myrmidon/cadmus-itinera-core';
 import { take } from 'rxjs/operators';
 
+/**
+ * Correspondent's dedications part editor.
+ * Thesauri: doc-reference-tags (optional).
+ */
 @Component({
   selector: 'cadmus-corr-dedications-part',
   templateUrl: './corr-dedications-part.component.html',
