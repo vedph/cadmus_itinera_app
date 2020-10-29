@@ -16,7 +16,7 @@
     </mat-form-field>
 
     <!-- language (free) -->
-    <mat-form-field style="width: 8em">
+    <mat-form-field *ngIf="!langEntries?.length" style="width: 8em">
       <input matInput [formControl]="language" placeholder="language" />
       <mat-error
         *ngIf="
