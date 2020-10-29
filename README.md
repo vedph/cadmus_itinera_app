@@ -291,7 +291,7 @@ export class __PARTNAME__PartComponent
       <div mat-card-avatar>
         <mat-icon>picture_in_picture</mat-icon>
       </div>
-      <mat-card-title>Manuscript's __NAME__s Part</mat-card-title>
+      <mat-card-title>__NAME__s Part</mat-card-title>
     </mat-card-header>
     <mat-card-content>
       <mat-tab-group [(selectedIndex)]="tabIndex">

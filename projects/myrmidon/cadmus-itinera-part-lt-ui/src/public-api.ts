@@ -6,6 +6,8 @@ export * from './lib/corr-dedications-part';
 export * from './lib/corr-dedications-part/corr-dedications-part.component';
 export * from './lib/lit-dedication/lit-dedication.component';
 
+export * from './lib/corr-pseudonyms-part';
+export * from './lib/corr-pseudonyms-part/corr-pseudonyms-part.component';
 export * from './lib/corr-pseudonym/corr-pseudonym.component';
 
 export * from './lib/doc-references-part';
