@@ -1,0 +1,83 @@
+<form [formGroup]="form" (submit)="save()">
+  <div>
+    <!-- language (bound) -->
+    <mat-form-field *ngIf="langEntries?.length" style="width: 8em">
+      <mat-select [formControl]="language" placeholder="language">
+        <mat-option *ngFor="let e of langEntries" [value]="e.id">{{
+          e.value
+        }}</mat-option>
+      </mat-select>
+      <mat-error
+        *ngIf="
+          language.errors?.required && (language.dirty || language.touched)
+        "
+        >language required</mat-error
+      >
+    </mat-form-field>
+
+    <!-- language (free) -->
+    <mat-form-field style="width: 8em">
+      <input matInput [formControl]="language" placeholder="language" />
+      <mat-error
+        *ngIf="
+          language.errors?.required && (language.dirty || language.touched)
+        "
+        >language required</mat-error
+      >
+      <mat-error
+        *ngIf="
+          language.errors?.maxLength && (language.dirty || language.touched)
+        "
+        >language too long</mat-error
+      >
+    </mat-form-field>
+
+    &nbsp;
+    <!-- value -->
+    <mat-form-field style="width: 10em">
+      <input matInput [formControl]="value" placeholder="value" />
+      <mat-error
+        *ngIf="value.errors?.required && (value.dirty || value.touched)"
+        >value required</mat-error
+      >
+      <mat-error
+        *ngIf="value.errors?.maxLength && (value.dirty || value.touched)"
+        >value too long</mat-error
+      >
+    </mat-form-field>
+
+    &nbsp;
+    <!-- author -->
+    <mat-checkbox [formControl]="author">is author</mat-checkbox>
+  </div>
+  <!-- sources -->
+  <div>
+    <cadmus-doc-references
+      [model$]="sources$"
+      [tagEntries]="tagEntries"
+      (modelChange)="onSourcesChanged($event)"
+    ></cadmus-doc-references>
+  </div>
+
+  <!-- buttons -->
+  <div>
+    <button
+      type="button"
+      color="warn"
+      mat-icon-button
+      matTooltip="Discard pseudonym changes"
+      (click)="cancel()"
+    >
+      <mat-icon>clear</mat-icon>
+    </button>
+    <button
+      type="submit"
+      color="primary"
+      mat-icon-button
+      matTooltip="Accept pseudonym changes"
+      [disabled]="form.invalid || form.pristine"
+    >
+      <mat-icon>check_circle</mat-icon>
+    </button>
+  </div>
+</form>

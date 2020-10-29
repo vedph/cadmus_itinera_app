@@ -105,6 +105,16 @@ export interface LitDedication {
 }
 
 /**
+ * A correspondent's pseudonym.
+ */
+export interface CorrPseudonym {
+  language: string;
+  value: string;
+  isAuthor?: boolean;
+  sources?: DocReference[];
+}
+
+/**
  * Location of a sheet in a manuscript.
  */
 export interface MsLocation {
