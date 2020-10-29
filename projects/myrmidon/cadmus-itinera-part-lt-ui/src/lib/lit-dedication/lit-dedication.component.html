@@ -22,7 +22,7 @@
     <div>
       <mat-checkbox [formControl]="hasDate">date</mat-checkbox>
     </div>
-    <cadmus-historical-date-editor [(date)]="date">
+    <cadmus-historical-date-editor [(date)]="date" [disabled]="!hasDate?.value">
     </cadmus-historical-date-editor>
   </div>
   <br />
@@ -31,7 +31,10 @@
     <div>
       <mat-checkbox [formControl]="hasDateSent">date sent</mat-checkbox>
     </div>
-    <cadmus-historical-date-editor [(date)]="dateSent">
+    <cadmus-historical-date-editor
+      [(date)]="dateSent"
+      [disabled]="!hasDateSent?.value"
+    >
     </cadmus-historical-date-editor>
   </div>
   <br />

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ThesaurusEntry } from '@myrmidon/cadmus-core';
+import { HistoricalDate, HistoricalDateModel, ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { Chronotope, CitedPerson, DecoratedCount, PhysicalDimension, PhysicalSize } from '@myrmidon/cadmus-itinera-core';
 import {
   DecoratedId,
@@ -14,6 +14,8 @@ import { BehaviorSubject } from 'rxjs';
   styleUrls: ['./sub-editors-demo.component.css'],
 })
 export class SubEditorsDemoComponent implements OnInit {
+  public date: HistoricalDateModel;
+
   public personName$: BehaviorSubject<PersonName>;
   public lastPersonName: PersonName;
   public langEntries: ThesaurusEntry[];
@@ -61,6 +63,8 @@ export class SubEditorsDemoComponent implements OnInit {
       { id: 'nomen', value: 'nomen' },
       { id: 'cognomen', value: 'cognomen' },
     ];
+
+    this.date = HistoricalDate.parse('c. 1260 AD');
 
     this.personName$ = new BehaviorSubject<PersonName>({
       language: 'lat',

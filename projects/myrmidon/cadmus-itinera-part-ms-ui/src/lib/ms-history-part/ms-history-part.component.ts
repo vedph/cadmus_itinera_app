@@ -245,7 +245,10 @@ export class MsHistoryPartComponent
   }
 
   // persons
-  public getFullName(name: PersonName): string {
+  public getFullName(name: PersonName | null): string {
+    if (!name) {
+      return '';
+    }
     const sb: string[] = [];
     for (let i = 0; i < name.parts?.length || 0; i++) {
       sb.push(name.parts[i].value);

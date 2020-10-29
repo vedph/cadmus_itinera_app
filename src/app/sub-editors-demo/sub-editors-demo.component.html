@@ -6,6 +6,15 @@
   </mat-card-header>
   <mat-card-content>
     <mat-tab-group>
+      <mat-tab label="Date">
+        <cadmus-historical-date-editor
+          [(date)]="date"
+        ></cadmus-historical-date-editor>
+        <div *ngIf="date">
+          <pre>{{ date | json }}</pre>
+        </div>
+      </mat-tab>
+
       <mat-tab label="Person Name">
         <cadmus-person-name
           [model$]="personName$"
