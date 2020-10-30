@@ -2,6 +2,8 @@
  * Public API Surface of cadmus-itinera-part-lt-ui
  */
 
+export * from './lib/cited-person/cited-person.component';
+
 export * from './lib/corr-dedications-part';
 export * from './lib/corr-dedications-part/corr-dedications-part.component';
 export * from './lib/lit-dedication/lit-dedication.component';

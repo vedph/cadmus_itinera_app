@@ -55,6 +55,7 @@ export interface DecoratedId {
 export interface CitedPerson {
   name: PersonName;
   ids?: DecoratedId[];
+  sources?: DocReference[];
 }
 
 /**

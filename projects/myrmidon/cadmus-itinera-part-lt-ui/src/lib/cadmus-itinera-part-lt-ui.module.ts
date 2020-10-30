@@ -14,10 +14,12 @@ import { LitDedicationComponent } from './lit-dedication/lit-dedication.componen
 import { CorrDedicationsPartComponent } from './corr-dedications-part/corr-dedications-part.component';
 import { CorrPseudonymComponent } from './corr-pseudonym/corr-pseudonym.component';
 import { CorrPseudonymsPartComponent } from './corr-pseudonyms-part/corr-pseudonyms-part.component';
+import { CitedPersonComponent } from './cited-person/cited-person.component';
 
 @NgModule({
   declarations: [
     BioEventComponent,
+    CitedPersonComponent,
     CorrDedicationsPartComponent,
     CorrPseudonymComponent,
     CorrPseudonymsPartComponent,
@@ -40,6 +42,7 @@ import { CorrPseudonymsPartComponent } from './corr-pseudonyms-part/corr-pseudon
   ],
   exports: [
     BioEventComponent,
+    CitedPersonComponent,
     CorrDedicationsPartComponent,
     CorrPseudonymComponent,
     CorrPseudonymsPartComponent,
