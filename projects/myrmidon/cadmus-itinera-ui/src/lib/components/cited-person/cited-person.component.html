@@ -27,6 +27,21 @@
   </mat-expansion-panel>
 
   <br>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <h4>sources</h4>
+      </mat-panel-title>
+      <mat-panel-description>{{ this.sources?.length || 0 }}</mat-panel-description>
+    </mat-expansion-panel-header>
+    <cadmus-doc-references
+      [model$]="sources$"
+      [tagEntries]="tagEntries"
+      (modelChange)="onSourcesChange($event)"
+    ></cadmus-doc-references>
+  </mat-expansion-panel>
+
+  <br>
   <div>
     <button
       type="button"

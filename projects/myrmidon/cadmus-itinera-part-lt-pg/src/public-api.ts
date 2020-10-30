@@ -2,6 +2,8 @@
  * Public API Surface of cadmus-itinera-part-lt-pg
  */
 
+export * from './lib/cited-persons-part-feature/cited-persons-part-feature.component';
+
 export * from './lib/corr-dedications-part-feature/corr-dedications-part-feature.component';
 
 export * from './lib/corr-pseudonyms-part-feature/corr-pseudonyms-part-feature.component';

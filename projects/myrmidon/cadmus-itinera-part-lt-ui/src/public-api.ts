@@ -4,7 +4,6 @@
 
 export * from './lib/cited-persons-part';
 export * from './lib/cited-persons-part/cited-persons-part.component';
-export * from './lib/cited-person/cited-person.component';
 
 export * from './lib/corr-dedications-part';
 export * from './lib/corr-dedications-part/corr-dedications-part.component';

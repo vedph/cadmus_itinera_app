@@ -1,9 +1,15 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { ThesaurusEntry } from '@myrmidon/cadmus-core';
 import {
   CitedPerson,
   DecoratedId,
+  DocReference,
   PersonName,
 } from '@myrmidon/cadmus-itinera-core';
 import { BehaviorSubject } from 'rxjs';
@@ -16,6 +22,7 @@ import { BehaviorSubject } from 'rxjs';
 export class CitedPersonComponent {
   private _person: CitedPerson;
   private _name: PersonName;
+  public sources: DocReference[];
 
   public ids: DecoratedId[];
 
@@ -57,31 +64,41 @@ export class CitedPersonComponent {
   public editorClose: EventEmitter<any>;
 
   public name$: BehaviorSubject<PersonName>;
+  public sources$: BehaviorSubject<DocReference[]>;
 
+  public hasName: FormControl;
   public form: FormGroup;
 
   constructor(formBuilder: FormBuilder) {
+    this.name$ = new BehaviorSubject<PersonName>({
+      language: 'ita',
+      parts: [],
+    });
+    this.sources$ = new BehaviorSubject<DocReference[]>([]);
+
     // events
     this.personChage = new EventEmitter<CitedPerson>();
     this.editorClose = new EventEmitter<any>();
 
     // form
-    this.name$ = new BehaviorSubject<PersonName>({
-      language: 'ita',
-      parts: [],
-    });
+    this.hasName = formBuilder.control(false, Validators.requiredTrue);
 
     // this is the parent form for both name and ids
-    this.form = formBuilder.group({});
+    this.form = formBuilder.group({
+      hasName: this.hasName,
+    });
   }
 
   private setModel(model: CitedPerson): void {
     this.name$.next(model?.name);
-    this.ids = model?.ids;
+    this.ids = model?.ids || [];
+    this.sources$.next(model?.sources || []);
 
     if (!model) {
+      this.hasName.setValue(false);
       this.form.reset();
     } else {
+      this.hasName.setValue(model?.name?.parts?.length > 0);
       this.form.markAsPristine();
     }
   }
@@ -89,16 +106,25 @@ export class CitedPersonComponent {
   private getModel(): CitedPerson {
     return {
       name: this._name,
-      ids: this.ids,
+      ids: this.ids?.length ? this.ids : undefined,
+      sources: this.sources?.length ? this.sources : undefined,
     };
   }
 
   public onNameChange(name: PersonName): void {
     this._name = name;
+    this.form.markAsDirty();
+    this.hasName.setValue(name?.parts?.length > 0);
   }
 
   public onIdsChange(ids: DecoratedId[]): void {
     this.ids = ids;
+    this.form.markAsDirty();
+  }
+
+  public onSourcesChange(sources: DocReference[]): void {
+    this.sources = sources;
+    this.form.markAsDirty();
   }
 
   public cancel(): void {

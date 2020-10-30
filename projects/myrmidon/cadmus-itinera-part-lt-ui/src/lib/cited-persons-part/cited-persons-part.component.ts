@@ -9,6 +9,10 @@ import { CitedPersonsPart, CITED_PERSONS_PART_TYPEID } from '../cited-persons-pa
 import { CitedPerson, PersonName } from '@myrmidon/cadmus-itinera-core';
 import { take } from 'rxjs/operators';
 
+/**
+ * Cited persons part editor.
+ * Thesauri: doc-reference-tags (optional).
+ */
 @Component({
   selector: 'cadmus-cited-persons-part',
   templateUrl: './cited-persons-part.component.html',
