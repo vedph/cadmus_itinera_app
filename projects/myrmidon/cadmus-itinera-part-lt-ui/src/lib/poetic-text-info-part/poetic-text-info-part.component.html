@@ -1,0 +1,63 @@
+<form [formGroup]="form" (submit)="save()">
+  <mat-card>
+    <mat-card-header>
+      <div mat-card-avatar>
+        <mat-icon>picture_in_picture</mat-icon>
+      </div>
+      <mat-card-title>Poetic Text Info Part</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div>
+        <!-- language (bound) -->
+        <mat-form-field *ngIf="langEntries?.length" style="width: 8em">
+          <mat-select [formControl]="language" placeholder="language">
+            <mat-option *ngFor="let e of langEntries" [value]="e.id">{{
+              e.value
+            }}</mat-option>
+          </mat-select>
+          <mat-error
+            *ngIf="
+              language.errors?.required && (language.dirty || language.touched)
+            "
+            >language required</mat-error
+          >
+        </mat-form-field>
+
+        <!-- language (free) -->
+        &nbsp;
+        <!-- metre (bound) -->
+        <!-- metre (free) -->
+      </div>
+      <div>
+        <!-- subject -->
+        <ngx-monaco-editor
+          [options]="editorOptions"
+          [formControl]="subject"
+        ></ngx-monaco-editor>
+        <mat-error
+          *ngIf="subject.errors?.required && (subject.touched || subject.dirty)"
+          >subject required</mat-error
+        >
+        <mat-error
+          *ngIf="
+            subject.errors?.maxLength && (subject.touched || subject.dirty)
+          "
+          >subject too long</mat-error
+        >
+      </div>
+      <div>
+        <!-- authors -->
+      </div>
+      <div>
+        <!-- related -->
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <cadmus-close-save-buttons
+        [form]="form"
+        [noSave]="userLevel < 2"
+        (closeRequest)="close()"
+      ></cadmus-close-save-buttons>
+    </mat-card-actions>
+  </mat-card>
+</form>

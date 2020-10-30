@@ -15,6 +15,7 @@ import { CorrDedicationsPartComponent } from './corr-dedications-part/corr-dedic
 import { CorrPseudonymComponent } from './corr-pseudonym/corr-pseudonym.component';
 import { CorrPseudonymsPartComponent } from './corr-pseudonyms-part/corr-pseudonyms-part.component';
 import { CitedPersonsPartComponent } from './cited-persons-part/cited-persons-part.component';
+import { PoeticTextInfoPartComponent } from './poetic-text-info-part/poetic-text-info-part.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { CitedPersonsPartComponent } from './cited-persons-part/cited-persons-pa
     LitDedicationComponent,
     PersonPartComponent,
     PersonEventsPartComponent,
+    PoeticTextInfoPartComponent,
   ],
   imports: [
     CommonModule,
@@ -49,7 +51,8 @@ import { CitedPersonsPartComponent } from './cited-persons-part/cited-persons-pa
     DocReferencesPartComponent,
     LitDedicationComponent,
     PersonPartComponent,
-    PersonEventsPartComponent
+    PersonEventsPartComponent,
+    PoeticTextInfoPartComponent,
   ],
 })
 export class CadmusItineraPartLtUiModule {}

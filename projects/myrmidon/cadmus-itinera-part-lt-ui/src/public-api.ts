@@ -24,5 +24,6 @@ export * from './lib/person-part';
 export * from './lib/person-part/person-part.component';
 
 export * from './lib/poetic-text-info-part';
+export * from './lib/poetic-text-info-part/poetic-text-info-part.component';
 
 export * from './lib/cadmus-itinera-part-lt-ui.module';
