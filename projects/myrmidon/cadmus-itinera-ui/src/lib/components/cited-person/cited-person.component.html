@@ -55,10 +55,11 @@
     <button
       type="submit"
       color="primary"
-      mat-flat-button
+      mat-icon-button
       matTooltip="Save this person"
+      [disabled]="form.invalid"
     >
-      <mat-icon>check_circle</mat-icon> save person
+      <mat-icon>check_circle</mat-icon>
     </button>
   </div>
 </form>

@@ -132,6 +132,9 @@ export class CitedPersonComponent {
   }
 
   public save(): void {
+    if (this.form.invalid) {
+      return;
+    }
     const model = this.getModel();
     if (model.name?.language && model.name?.parts?.length > 0) {
       this.personChage.emit(model);
