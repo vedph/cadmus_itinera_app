@@ -58,7 +58,7 @@ export class CitedPersonComponent {
   public idTagEntries: ThesaurusEntry[];
 
   @Output()
-  public personChage: EventEmitter<CitedPerson>;
+  public personChange: EventEmitter<CitedPerson>;
 
   @Output()
   public editorClose: EventEmitter<any>;
@@ -77,7 +77,7 @@ export class CitedPersonComponent {
     this.sources$ = new BehaviorSubject<DocReference[]>([]);
 
     // events
-    this.personChage = new EventEmitter<CitedPerson>();
+    this.personChange = new EventEmitter<CitedPerson>();
     this.editorClose = new EventEmitter<any>();
 
     // form
@@ -89,6 +89,12 @@ export class CitedPersonComponent {
     });
   }
 
+  private updateHasName(name: PersonName | null): void {
+    this.hasName.setValue(
+      name?.parts?.length > 0 && name?.language ? true : false
+    );
+  }
+
   private setModel(model: CitedPerson): void {
     this.name$.next(model?.name);
     this.ids = model?.ids || [];
@@ -98,7 +104,7 @@ export class CitedPersonComponent {
       this.hasName.setValue(false);
       this.form.reset();
     } else {
-      this.hasName.setValue(model?.name?.parts?.length > 0);
+      this.updateHasName(model.name);
       this.form.markAsPristine();
     }
   }
@@ -114,7 +120,7 @@ export class CitedPersonComponent {
   public onNameChange(name: PersonName): void {
     this._name = name;
     this.form.markAsDirty();
-    this.hasName.setValue(name?.parts?.length > 0);
+    this.updateHasName(name);
   }
 
   public onIdsChange(ids: DecoratedId[]): void {
@@ -136,8 +142,6 @@ export class CitedPersonComponent {
       return;
     }
     const model = this.getModel();
-    if (model.name?.language && model.name?.parts?.length > 0) {
-      this.personChage.emit(model);
-    }
+    this.personChange.emit(model);
   }
 }

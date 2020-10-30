@@ -73,7 +73,7 @@
         <cadmus-cited-person
           [langEntries]="langEntries"
           [typeEntries]="namePartTypeEntries"
-          (personChage)="onCitedPersonChange($event)"
+          (personChange)="onCitedPersonChange($event)"
         ></cadmus-cited-person>
         <div *ngIf="lastCitedPerson">
           <pre>{{ lastCitedPerson | json }}</pre>
