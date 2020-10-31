@@ -5,12 +5,17 @@ import { ModelEditorComponentBase, DialogService } from '@myrmidon/cadmus-ui';
 import { AuthService } from '@myrmidon/cadmus-api';
 import { ThesaurusEntry } from '@myrmidon/cadmus-core';
 
-import { CitedPerson, DocReference } from '@myrmidon/cadmus-itinera-core';
+import {
+  CitedPerson,
+  DocReference,
+  PersonName,
+} from '@myrmidon/cadmus-itinera-core';
 import {
   PoeticTextInfoPart,
   POETIC_TEXT_INFO_PART_TYPEID,
 } from '../poetic-text-info-part';
 import { BehaviorSubject } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 /**
  * Poetic text information part.
@@ -24,13 +29,17 @@ import { BehaviorSubject } from 'rxjs';
 export class PoeticTextInfoPartComponent
   extends ModelEditorComponentBase<PoeticTextInfoPart>
   implements OnInit {
+  private _editedIndex: number;
+
   public language: FormControl;
   public metre: FormControl;
   public subject: FormControl;
 
+  public tabIndex: number;
+  public authors: CitedPerson[];
+  public editedAuthor: CitedPerson;
   public related: DocReference[];
   public related$: BehaviorSubject<DocReference[]>;
-  public authors: CitedPerson[];
 
   public langEntries: ThesaurusEntry[];
   public metreEntries: ThesaurusEntry[];
@@ -44,8 +53,14 @@ export class PoeticTextInfoPartComponent
     automaticLayout: true,
   };
 
-  constructor(authService: AuthService, formBuilder: FormBuilder) {
+  constructor(
+    authService: AuthService,
+    formBuilder: FormBuilder,
+    private _dialogService: DialogService
+  ) {
     super(authService);
+    this._editedIndex = -1;
+    this.tabIndex = 0;
     this.related = [];
     this.authors = [];
     this.related$ = new BehaviorSubject<DocReference[]>([]);
@@ -57,7 +72,7 @@ export class PoeticTextInfoPartComponent
     this.metre = formBuilder.control(null, Validators.maxLength(50));
     this.subject = formBuilder.control(null, [
       Validators.required,
-      Validators.maxLength(500)
+      Validators.maxLength(500),
     ]);
     this.form = formBuilder.group({
       language: this.language,
@@ -134,5 +149,88 @@ export class PoeticTextInfoPartComponent
     part.metre = this.metre.value?.trim();
     part.subject = this.subject.value?.trim();
     return part;
+  }
+
+  public addAuthor(): void {
+    const person: CitedPerson = {
+      name: null,
+    };
+    this.authors = [...this.authors, person];
+    this.editAuthor(this.related.length - 1);
+  }
+
+  public editAuthor(index: number): void {
+    if (index < 0) {
+      this._editedIndex = -1;
+      this.tabIndex = 0;
+      this.editedAuthor = null;
+    } else {
+      this._editedIndex = index;
+      this.editedAuthor = this.authors[index];
+      setTimeout(() => {
+        this.tabIndex = 1;
+      }, 300);
+    }
+  }
+
+  public onAuthorSaved(item: CitedPerson): void {
+    this.authors = this.authors.map((s, i) =>
+      i === this._editedIndex ? item : s
+    );
+    this.editAuthor(-1);
+  }
+
+  public onAuthorClosed(): void {
+    this.editAuthor(-1);
+  }
+
+  public deleteAuthor(index: number): void {
+    this._dialogService
+      .confirm('Confirmation', 'Delete author?')
+      .pipe(take(1))
+      .subscribe((yes) => {
+        if (yes) {
+          const authors = [...this.authors];
+          authors.splice(index, 1);
+          this.authors = authors;
+        }
+      });
+  }
+
+  public moveAuthorUp(index: number): void {
+    if (index < 1) {
+      return;
+    }
+    const author = this.authors[index];
+    const authors = [...this.authors];
+    authors.splice(index, 1);
+    authors.splice(index - 1, 0, author);
+    this.authors = authors;
+  }
+
+  public moveAuthorDown(index: number): void {
+    if (index + 1 >= this.authors.length) {
+      return;
+    }
+    const author = this.authors[index];
+    const authors = [...this.authors];
+    authors.splice(index, 1);
+    authors.splice(index + 1, 0, author);
+    this.authors = authors;
+  }
+
+  public getFullName(name: PersonName | null): string {
+    if (!name) {
+      return '';
+    }
+    const sb: string[] = [];
+    for (let i = 0; i < name.parts?.length || 0; i++) {
+      sb.push(name.parts[i].value);
+    }
+    return sb.join(' ');
+  }
+
+  public onRelatedChange(related: DocReference[]): void {
+    this.related = related;
   }
 }

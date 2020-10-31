@@ -24,9 +24,40 @@
         </mat-form-field>
 
         <!-- language (free) -->
+        <mat-form-field *ngIf="!langEntries?.length" style="width: 8em">
+          <input matInput [formControl]="language" placeholder="language" />
+          <mat-error
+            *ngIf="
+              language.errors?.required && (language.dirty || language.touched)
+            "
+            >language required</mat-error
+          >
+          <mat-error
+            *ngIf="
+              language.errors?.maxLength && (language.dirty || language.touched)
+            "
+            >language too long</mat-error
+          >
+        </mat-form-field>
+
         &nbsp;
         <!-- metre (bound) -->
+        <mat-form-field *ngIf="metreEntries?.length" style="width: 8em">
+          <mat-select [formControl]="metre" placeholder="metre">
+            <mat-option *ngFor="let e of metreEntries" [value]="e.id">{{
+              e.value
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
         <!-- metre (free) -->
+        <mat-form-field *ngIf="!metreEntries?.length" style="width: 8em">
+          <input matInput [formControl]="metre" placeholder="metre" />
+          <mat-error
+            *ngIf="metre.errors?.maxLength && (metre.dirty || metre.touched)"
+            >metre too long</mat-error
+          >
+        </mat-form-field>
       </div>
       <div>
         <!-- subject -->
@@ -46,10 +77,85 @@
         >
       </div>
       <div>
-        <!-- authors -->
+        <h4>authors</h4>
+        <button
+          type="button"
+          mat-icon-button
+          color="primary"
+          matTooltip="Add author"
+          (click)="addAuthor()"
+        >
+          <mat-icon>add_circle</mat-icon>
+        </button>
       </div>
+
+      <table *ngIf="authors?.length">
+        <thead>
+          <tr>
+            <th></th>
+            <th>name</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="
+              let a of authors;
+              let i = index;
+              let first = first;
+              let last = last
+            "
+          >
+            <td>
+              <button
+                type="button"
+                mat-icon-button
+                color="primary"
+                matTooltip="Edit this author"
+                (click)="editAuthor(i)"
+              >
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button
+                type="button"
+                mat-icon-button
+                matTooltip="Move this author up"
+                [disabled]="first"
+                (click)="moveAuthorUp(i)"
+              >
+                <mat-icon>arrow_upward</mat-icon>
+              </button>
+              <button
+                type="button"
+                mat-icon-button
+                matTooltip="Move this author down"
+                [disabled]="last"
+                (click)="moveAuthorDown(i)"
+              >
+                <mat-icon>arrow_downward</mat-icon>
+              </button>
+              <button
+                type="button"
+                mat-icon-button
+                color="warn"
+                matTooltip="Delete this author"
+                (click)="deleteAuthor(i)"
+              >
+                <mat-icon>remove_circle</mat-icon>
+              </button>
+            </td>
+            <td>{{ getFullName(a.name) }}</td>
+          </tr>
+        </tbody>
+      </table>
+
       <div>
         <!-- related -->
+        <h4>related passages</h4>
+        <cadmus-doc-references
+          [model$]="related$"
+          [tagEntries]="tagEntries"
+          (modelChange)="onRelatedChange($event)"
+        ></cadmus-doc-references>
       </div>
     </mat-card-content>
     <mat-card-actions>
