@@ -25,6 +25,7 @@ export class DecoratedIdsComponent {
   public editorOpen: boolean;
 
   public form: FormGroup;
+  public subForm: FormGroup;
   public id: FormControl;
   public rank: FormControl;
   public tag: FormControl;
@@ -62,10 +63,13 @@ export class DecoratedIdsComponent {
     ]);
     this.rank = formBuilder.control(0);
     this.tag = formBuilder.control(null, Validators.maxLength(50));
-    this.form = formBuilder.group({
+    this.subForm = formBuilder.group({
       id: this.id,
       rank: this.rank,
       tag: this.tag,
+    });
+    this.form = formBuilder.group({
+      subForm: this.subForm
     });
   }
 
@@ -75,17 +79,17 @@ export class DecoratedIdsComponent {
     if (index === -1) {
       this.editedId = null;
       this.sources$.next([]);
-      this.form?.reset();
-      this.form?.disable();
+      this.subForm?.reset();
+      this.subForm?.disable();
       this.editorOpen = false;
     } else {
-      this.form.enable();
+      this.subForm.enable();
       this.editedId = this.ids[index];
       this.sources$.next(this.editedId.sources || []);
       this.id.setValue(this.editedId.id);
       this.rank.setValue(this.editedId.rank);
       this.tag.setValue(this.editedId.tag);
-      this.form.markAsPristine();
+      this.subForm.markAsPristine();
       this.editorOpen = true;
     }
   }
@@ -123,7 +127,7 @@ export class DecoratedIdsComponent {
       return;
     }
     this.editedId.sources = sources?.length ? sources : null;
-    this.form.markAsDirty();
+    this.subForm.markAsDirty();
   }
 
   public closeEditedId(): void {
@@ -131,7 +135,7 @@ export class DecoratedIdsComponent {
   }
 
   public saveEditedId(): void {
-    if (this.form.invalid) {
+    if (this.subForm.invalid) {
       return;
     }
     const id = this.getEditedId();
@@ -151,7 +155,7 @@ export class DecoratedIdsComponent {
   public save(): void {
     // if editing and valid, save; else show editor
     if (this.editedId) {
-      if (this.form.invalid) {
+      if (this.subForm.invalid) {
         this.editorOpen = true;
         return;
       }

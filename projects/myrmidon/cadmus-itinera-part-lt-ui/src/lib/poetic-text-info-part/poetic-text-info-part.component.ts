@@ -177,6 +177,7 @@ export class PoeticTextInfoPartComponent
     this.authors = this.authors.map((s, i) =>
       i === this._editedIndex ? item : s
     );
+    this.form.markAsDirty();
     this.editAuthor(-1);
   }
 
@@ -193,6 +194,7 @@ export class PoeticTextInfoPartComponent
           const authors = [...this.authors];
           authors.splice(index, 1);
           this.authors = authors;
+          this.form.markAsDirty();
         }
       });
   }
@@ -206,6 +208,7 @@ export class PoeticTextInfoPartComponent
     authors.splice(index, 1);
     authors.splice(index - 1, 0, author);
     this.authors = authors;
+    this.form.markAsDirty();
   }
 
   public moveAuthorDown(index: number): void {
@@ -217,6 +220,7 @@ export class PoeticTextInfoPartComponent
     authors.splice(index, 1);
     authors.splice(index + 1, 0, author);
     this.authors = authors;
+    this.form.markAsDirty();
   }
 
   public getFullName(name: PersonName | null): string {
@@ -232,5 +236,6 @@ export class PoeticTextInfoPartComponent
 
   public onRelatedChange(related: DocReference[]): void {
     this.related = related;
+    this.form.markAsDirty();
   }
 }

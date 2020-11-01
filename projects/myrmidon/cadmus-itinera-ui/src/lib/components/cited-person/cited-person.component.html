@@ -11,11 +11,11 @@
     ></cadmus-person-name>
   </div>
 
-  <br>
+  <br />
   <mat-expansion-panel>
     <mat-expansion-panel-header>
       <mat-panel-title>
-        <h4>identification</h4>
+        <h4>identifications</h4>
       </mat-panel-title>
       <mat-panel-description>{{ this.ids?.length || 0 }}</mat-panel-description>
     </mat-expansion-panel-header>
@@ -26,13 +26,15 @@
     ></cadmus-decorated-ids>
   </mat-expansion-panel>
 
-  <br>
+  <br />
   <mat-expansion-panel>
     <mat-expansion-panel-header>
       <mat-panel-title>
         <h4>sources</h4>
       </mat-panel-title>
-      <mat-panel-description>{{ this.sources?.length || 0 }}</mat-panel-description>
+      <mat-panel-description>{{
+        this.sources?.length || 0
+      }}</mat-panel-description>
     </mat-expansion-panel-header>
     <cadmus-doc-references
       [model$]="sources$"
@@ -41,7 +43,7 @@
     ></cadmus-doc-references>
   </mat-expansion-panel>
 
-  <br>
+  <br />
   <div>
     <button
       type="button"
@@ -57,7 +59,7 @@
       color="primary"
       mat-icon-button
       matTooltip="Save this person"
-      [disabled]="form.invalid"
+      [disabled]="form.invalid || form.pristine"
     >
       <mat-icon>check_circle</mat-icon>
     </button>
