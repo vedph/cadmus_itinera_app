@@ -269,6 +269,7 @@ export class __PARTNAME__PartComponent
     items.splice(index, 1);
     items.splice(index - 1, 0, item);
     this.__NAME__s = items;
+    this.form.markAsDirty();
   }
 
   public move__NAME__Down(index: number): void {
@@ -280,6 +281,7 @@ export class __PARTNAME__PartComponent
     items.splice(index, 1);
     items.splice(index + 1, 0, item);
     this.__NAME__s = items;
+    this.form.markAsDirty();
   }
 }
 ```

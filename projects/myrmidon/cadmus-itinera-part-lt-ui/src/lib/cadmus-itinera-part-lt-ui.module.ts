@@ -18,6 +18,7 @@ import { CitedPersonsPartComponent } from './cited-persons-part/cited-persons-pa
 import { PoeticTextInfoPartComponent } from './poetic-text-info-part/poetic-text-info-part.component';
 import { LetterInfoPartComponent } from './letter-info-part/letter-info-part.component';
 import { MsHandSignComponent } from './ms-hand-sign/ms-hand-sign.component';
+import { PersonHandPartComponent } from './person-hand-part/person-hand-part.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { MsHandSignComponent } from './ms-hand-sign/ms-hand-sign.component';
     LitDedicationComponent,
     MsHandSignComponent,
     PersonPartComponent,
+    PersonHandPartComponent,
     PersonEventsPartComponent,
     PoeticTextInfoPartComponent,
   ],
@@ -57,6 +59,7 @@ import { MsHandSignComponent } from './ms-hand-sign/ms-hand-sign.component';
     LitDedicationComponent,
     MsHandSignComponent,
     PersonPartComponent,
+    PersonHandPartComponent,
     PersonEventsPartComponent,
     PoeticTextInfoPartComponent,
   ],
