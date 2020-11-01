@@ -10,6 +10,7 @@ import {
   DOC_REFERENCES_PART_TYPEID,
   LETTER_INFO_PART_TYPEID,
   PERSON_EVENTS_PART_TYPEID,
+  PERSON_HAND_PART_TYPEID,
   PERSON_PART_TYPEID,
   POETIC_TEXT_INFO_PART_TYPEID,
 } from '@myrmidon/cadmus-itinera-part-lt-ui';
@@ -24,6 +25,7 @@ import { CorrPseudonymsPartFeatureComponent } from './corr-pseudonyms-part-featu
 import { CitedPersonsPartFeatureComponent } from './cited-persons-part-feature/cited-persons-part-feature.component';
 import { PoeticTextInfoPartFeatureComponent } from './poetic-text-info-part-feature/poetic-text-info-part-feature.component';
 import { LetterInfoPartFeatureComponent } from './letter-info-part-feature/letter-info-part-feature.component';
+import { PersonHandPartFeatureComponent } from './person-hand-part-feature/person-hand-part-feature.component';
 
 // https://github.com/ng-packagr/ng-packagr/issues/778
 export const RouterModuleForChild = RouterModule.forChild([
@@ -75,6 +77,12 @@ export const RouterModuleForChild = RouterModule.forChild([
     component: LetterInfoPartFeatureComponent,
     canDeactivate: [PendingChangesGuard],
   },
+  {
+    path: `${PERSON_HAND_PART_TYPEID}/:pid`,
+    pathMatch: 'full',
+    component: PersonHandPartFeatureComponent,
+    canDeactivate: [PendingChangesGuard],
+  },
 ]);
 
 @NgModule({
@@ -85,6 +93,7 @@ export const RouterModuleForChild = RouterModule.forChild([
     DocReferencesPartFeatureComponent,
     LetterInfoPartFeatureComponent,
     PersonEventsPartFeatureComponent,
+    PersonHandPartFeatureComponent,
     PersonPartFeatureComponent,
     PoeticTextInfoPartFeatureComponent,
   ],
@@ -106,6 +115,7 @@ export const RouterModuleForChild = RouterModule.forChild([
     DocReferencesPartFeatureComponent,
     LetterInfoPartFeatureComponent,
     PersonEventsPartFeatureComponent,
+    PersonHandPartFeatureComponent,
     PersonPartFeatureComponent,
     PoeticTextInfoPartFeatureComponent,
   ],

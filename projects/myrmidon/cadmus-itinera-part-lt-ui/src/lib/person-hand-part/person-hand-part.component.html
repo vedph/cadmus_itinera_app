@@ -172,6 +172,11 @@
 
         <mat-tab label="signs">
           <!-- signs -->
+          <div>
+            <button mat-stroked-button type="button" (click)="addSign()">
+              <mat-icon>add_circle</mat-icon> add sign
+            </button>
+          </div>
           <table *ngIf="signs?.length">
             <thead>
               <tr>
@@ -237,7 +242,7 @@
           <!-- sign editor -->
           <mat-expansion-panel [(expanded)]="editorOpen">
             <mat-expansion-panel-header>
-              <mat-panel-title>locus</mat-panel-title>
+              <mat-panel-title>sign</mat-panel-title>
               <mat-panel-description *ngIf="editedSign">{{
                 editedSign.id
               }}</mat-panel-description>
