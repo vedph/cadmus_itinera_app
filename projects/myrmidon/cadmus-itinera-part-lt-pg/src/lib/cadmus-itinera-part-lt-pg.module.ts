@@ -10,6 +10,7 @@ import {
   DOC_REFERENCES_PART_TYPEID,
   PERSON_EVENTS_PART_TYPEID,
   PERSON_PART_TYPEID,
+  POETIC_TEXT_INFO_PART_TYPEID,
 } from '@myrmidon/cadmus-itinera-part-lt-ui';
 import { RouterModule } from '@angular/router';
 import { PendingChangesGuard } from '@myrmidon/cadmus-core';
@@ -20,6 +21,7 @@ import { DocReferencesPartFeatureComponent } from './doc-references-part-feature
 import { CorrDedicationsPartFeatureComponent } from './corr-dedications-part-feature/corr-dedications-part-feature.component';
 import { CorrPseudonymsPartFeatureComponent } from './corr-pseudonyms-part-feature/corr-pseudonyms-part-feature.component';
 import { CitedPersonsPartFeatureComponent } from './cited-persons-part-feature/cited-persons-part-feature.component';
+import { PoeticTextInfoPartFeatureComponent } from './poetic-text-info-part-feature/poetic-text-info-part-feature.component';
 
 // https://github.com/ng-packagr/ng-packagr/issues/778
 export const RouterModuleForChild = RouterModule.forChild([
@@ -59,6 +61,12 @@ export const RouterModuleForChild = RouterModule.forChild([
     component: CitedPersonsPartFeatureComponent,
     canDeactivate: [PendingChangesGuard],
   },
+  {
+    path: `${POETIC_TEXT_INFO_PART_TYPEID}/:pid`,
+    pathMatch: 'full',
+    component: PoeticTextInfoPartFeatureComponent,
+    canDeactivate: [PendingChangesGuard],
+  },
 ]);
 
 @NgModule({
@@ -69,6 +77,7 @@ export const RouterModuleForChild = RouterModule.forChild([
     DocReferencesPartFeatureComponent,
     PersonEventsPartFeatureComponent,
     PersonPartFeatureComponent,
+    PoeticTextInfoPartFeatureComponent,
   ],
   imports: [
     CommonModule,
@@ -88,6 +97,7 @@ export const RouterModuleForChild = RouterModule.forChild([
     DocReferencesPartFeatureComponent,
     PersonEventsPartFeatureComponent,
     PersonPartFeatureComponent,
+    PoeticTextInfoPartFeatureComponent,
   ],
 })
 export class CadmusItineraPartLtPgModule {}

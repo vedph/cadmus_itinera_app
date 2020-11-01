@@ -7,156 +7,174 @@
       <mat-card-title>Poetic Text Info Part</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <div>
-        <!-- language (bound) -->
-        <mat-form-field *ngIf="langEntries?.length" style="width: 8em">
-          <mat-select [formControl]="language" placeholder="language">
-            <mat-option *ngFor="let e of langEntries" [value]="e.id">{{
-              e.value
-            }}</mat-option>
-          </mat-select>
-          <mat-error
-            *ngIf="
-              language.errors?.required && (language.dirty || language.touched)
-            "
-            >language required</mat-error
-          >
-        </mat-form-field>
-
-        <!-- language (free) -->
-        <mat-form-field *ngIf="!langEntries?.length" style="width: 8em">
-          <input matInput [formControl]="language" placeholder="language" />
-          <mat-error
-            *ngIf="
-              language.errors?.required && (language.dirty || language.touched)
-            "
-            >language required</mat-error
-          >
-          <mat-error
-            *ngIf="
-              language.errors?.maxLength && (language.dirty || language.touched)
-            "
-            >language too long</mat-error
-          >
-        </mat-form-field>
-
-        &nbsp;
-        <!-- metre (bound) -->
-        <mat-form-field *ngIf="metreEntries?.length" style="width: 8em">
-          <mat-select [formControl]="metre" placeholder="metre">
-            <mat-option *ngFor="let e of metreEntries" [value]="e.id">{{
-              e.value
-            }}</mat-option>
-          </mat-select>
-        </mat-form-field>
-
-        <!-- metre (free) -->
-        <mat-form-field *ngIf="!metreEntries?.length" style="width: 8em">
-          <input matInput [formControl]="metre" placeholder="metre" />
-          <mat-error
-            *ngIf="metre.errors?.maxLength && (metre.dirty || metre.touched)"
-            >metre too long</mat-error
-          >
-        </mat-form-field>
-      </div>
-      <div>
-        <!-- subject -->
-        <ngx-monaco-editor
-          [options]="editorOptions"
-          [formControl]="subject"
-        ></ngx-monaco-editor>
-        <mat-error
-          *ngIf="subject.errors?.required && (subject.touched || subject.dirty)"
-          >subject required</mat-error
-        >
-        <mat-error
-          *ngIf="
-            subject.errors?.maxLength && (subject.touched || subject.dirty)
-          "
-          >subject too long</mat-error
-        >
-      </div>
-      <div>
-        <h4>authors</h4>
-        <button
-          type="button"
-          mat-icon-button
-          color="primary"
-          matTooltip="Add author"
-          (click)="addAuthor()"
-        >
-          <mat-icon>add_circle</mat-icon>
-        </button>
-      </div>
-
-      <table *ngIf="authors?.length">
-        <thead>
-          <tr>
-            <th></th>
-            <th>name</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr
-            *ngFor="
-              let a of authors;
-              let i = index;
-              let first = first;
-              let last = last
-            "
-          >
-            <td>
-              <button
-                type="button"
-                mat-icon-button
-                color="primary"
-                matTooltip="Edit this author"
-                (click)="editAuthor(i)"
+      <mat-tab-group [(selectedIndex)]="tabIndex">
+        <mat-tab label="info">
+          <div>
+            <!-- language (bound) -->
+            <mat-form-field *ngIf="langEntries?.length" style="width: 8em">
+              <mat-select [formControl]="language" placeholder="language">
+                <mat-option *ngFor="let e of langEntries" [value]="e.id">{{
+                  e.value
+                }}</mat-option>
+              </mat-select>
+              <mat-error
+                *ngIf="
+                  language.errors?.required &&
+                  (language.dirty || language.touched)
+                "
+                >language required</mat-error
               >
-                <mat-icon>edit</mat-icon>
-              </button>
-              <button
-                type="button"
-                mat-icon-button
-                matTooltip="Move this author up"
-                [disabled]="first"
-                (click)="moveAuthorUp(i)"
-              >
-                <mat-icon>arrow_upward</mat-icon>
-              </button>
-              <button
-                type="button"
-                mat-icon-button
-                matTooltip="Move this author down"
-                [disabled]="last"
-                (click)="moveAuthorDown(i)"
-              >
-                <mat-icon>arrow_downward</mat-icon>
-              </button>
-              <button
-                type="button"
-                mat-icon-button
-                color="warn"
-                matTooltip="Delete this author"
-                (click)="deleteAuthor(i)"
-              >
-                <mat-icon>remove_circle</mat-icon>
-              </button>
-            </td>
-            <td>{{ getFullName(a.name) }}</td>
-          </tr>
-        </tbody>
-      </table>
+            </mat-form-field>
 
-      <div>
-        <!-- related -->
-        <h4>related passages</h4>
-        <cadmus-doc-references
-          [model$]="related$"
-          [tagEntries]="tagEntries"
-          (modelChange)="onRelatedChange($event)"
-        ></cadmus-doc-references>
-      </div>
+            <!-- language (free) -->
+            <mat-form-field *ngIf="!langEntries?.length" style="width: 8em">
+              <input matInput [formControl]="language" placeholder="language" />
+              <mat-error
+                *ngIf="
+                  language.errors?.required &&
+                  (language.dirty || language.touched)
+                "
+                >language required</mat-error
+              >
+              <mat-error
+                *ngIf="
+                  language.errors?.maxLength &&
+                  (language.dirty || language.touched)
+                "
+                >language too long</mat-error
+              >
+            </mat-form-field>
+
+            &nbsp;
+            <!-- metre (bound) -->
+            <mat-form-field *ngIf="metreEntries?.length" style="width: 8em">
+              <mat-select [formControl]="metre" placeholder="metre">
+                <mat-option *ngFor="let e of metreEntries" [value]="e.id">{{
+                  e.value
+                }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <!-- metre (free) -->
+            <mat-form-field *ngIf="!metreEntries?.length" style="width: 8em">
+              <input matInput [formControl]="metre" placeholder="metre" />
+              <mat-error
+                *ngIf="
+                  metre.errors?.maxLength && (metre.dirty || metre.touched)
+                "
+                >metre too long</mat-error
+              >
+            </mat-form-field>
+          </div>
+          <div>
+            <!-- subject -->
+            <ngx-monaco-editor
+              [options]="editorOptions"
+              [formControl]="subject"
+            ></ngx-monaco-editor>
+            <mat-error
+              *ngIf="
+                subject.errors?.required && (subject.touched || subject.dirty)
+              "
+              >subject required</mat-error
+            >
+            <mat-error
+              *ngIf="
+                subject.errors?.maxLength && (subject.touched || subject.dirty)
+              "
+              >subject too long</mat-error
+            >
+          </div>
+          <div>
+            <h4>authors</h4>
+            <button
+              type="button"
+              mat-stroked-button
+              color="primary"
+              (click)="addAuthor()"
+            >
+              <mat-icon>add_circle</mat-icon> add author
+            </button>
+          </div>
+
+          <table *ngIf="authors?.length">
+            <thead>
+              <tr>
+                <th></th>
+                <th>name</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="
+                  let a of authors;
+                  let i = index;
+                  let first = first;
+                  let last = last
+                "
+              >
+                <td>
+                  <button
+                    type="button"
+                    mat-icon-button
+                    color="primary"
+                    matTooltip="Edit this author"
+                    (click)="editAuthor(i)"
+                  >
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                  <button
+                    type="button"
+                    mat-icon-button
+                    matTooltip="Move this author up"
+                    [disabled]="first"
+                    (click)="moveAuthorUp(i)"
+                  >
+                    <mat-icon>arrow_upward</mat-icon>
+                  </button>
+                  <button
+                    type="button"
+                    mat-icon-button
+                    matTooltip="Move this author down"
+                    [disabled]="last"
+                    (click)="moveAuthorDown(i)"
+                  >
+                    <mat-icon>arrow_downward</mat-icon>
+                  </button>
+                  <button
+                    type="button"
+                    mat-icon-button
+                    color="warn"
+                    matTooltip="Delete this author"
+                    (click)="deleteAuthor(i)"
+                  >
+                    <mat-icon>remove_circle</mat-icon>
+                  </button>
+                </td>
+                <td>{{ getFullName(a.name) }}</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div>
+            <!-- related -->
+            <h4>related passages</h4>
+            <cadmus-doc-references
+              [model$]="related$"
+              [tagEntries]="tagEntries"
+              (modelChange)="onRelatedChange($event)"
+            ></cadmus-doc-references>
+          </div>
+        </mat-tab>
+
+        <mat-tab *ngIf="editedAuthor" label="author">
+          <cadmus-cited-person
+            [person]="editedAuthor"
+            (personChange)="onAuthorSaved($event)"
+            (editorClose)="onAuthorClosed()"
+          ></cadmus-cited-person>
+        </mat-tab>
+      </mat-tab-group>
     </mat-card-content>
     <mat-card-actions>
       <cadmus-close-save-buttons

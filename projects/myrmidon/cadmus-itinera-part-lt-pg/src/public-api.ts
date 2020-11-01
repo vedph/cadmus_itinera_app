@@ -14,4 +14,6 @@ export * from './lib/person-events-part-feature/person-events-part-feature.compo
 
 export * from './lib/person-part-feature/person-part-feature.component';
 
+export * from './lib/poetic-text-info-part-feature/poetic-text-info-part-feature.component';
+
 export * from './lib/cadmus-itinera-part-lt-pg.module';
