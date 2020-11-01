@@ -278,6 +278,16 @@ export interface MsHandInstance {
 }
 
 /**
+ * Description of a specific manuscript hand's sign.
+ */
+export interface MsHandSign {
+  id: string;
+  type: string;
+  description?: string;
+  imageId?: string;
+}
+
+/**
  * A manuscript's guide letter.
  */
 export interface MsGuideLetter {

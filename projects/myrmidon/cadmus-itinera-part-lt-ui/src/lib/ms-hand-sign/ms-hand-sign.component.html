@@ -1,0 +1,84 @@
+<form [formGroup]="form" (submit)="save()">
+  <div>
+    <!-- id -->
+    <mat-form-field style="width: 15em">
+      <input matInput [formControl]="id" placeholder="id" />
+      <mat-error *ngIf="id.errors?.required && (id.dirty || id.touched)"
+        >id required</mat-error
+      >
+      <mat-error *ngIf="id.errors?.maxLength && (id.dirty || id.touched)"
+        >id too long</mat-error
+      >
+    </mat-form-field>
+
+    &nbsp;
+    <!-- type (bound) -->
+    <mat-form-field *ngIf="typeEntries?.length" style="width: 8em">
+      <mat-select [formControl]="type" placeholder="type">
+        <mat-option *ngFor="let e of typeEntries" [value]="e.id">{{
+          e.value
+        }}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="type.errors?.required && (type.dirty || type.touched)"
+        >type required</mat-error
+      >
+    </mat-form-field>
+
+    <!-- type (free) -->
+    <mat-form-field *ngIf="!typeEntries?.length" style="width: 8em">
+      <input matInput [formControl]="type" placeholder="type" />
+      <mat-error *ngIf="type.errors?.required && (type.dirty || type.touched)"
+        >type required</mat-error
+      >
+      <mat-error *ngIf="type.errors?.maxLength && (type.dirty || type.touched)"
+        >type too long</mat-error
+      >
+    </mat-form-field>
+  </div>
+  <div>
+    <!-- image ID -->
+    <mat-form-field>
+      <input matInput [formControl]="imageId" placeholder="imageId" />
+      <mat-error
+        *ngIf="imageId.errors?.maxLength && (imageId.dirty || imageId.touched)"
+        >ID too long</mat-error
+      >
+    </mat-form-field>
+  </div>
+  <div>
+    <!-- description -->
+    <ngx-monaco-editor
+      [options]="editorOptions"
+      [formControl]="description"
+    ></ngx-monaco-editor>
+    <mat-error
+      *ngIf="
+        description.errors?.maxLength &&
+        (description.touched || description.dirty)
+      "
+      >description too long</mat-error
+    >
+  </div>
+
+  <!-- buttons -->
+  <div>
+    <button
+      type="button"
+      color="warn"
+      mat-icon-button
+      matTooltip="Discard sign changes"
+      (click)="cancel()"
+    >
+      <mat-icon>clear</mat-icon>
+    </button>
+    <button
+      type="submit"
+      color="primary"
+      mat-icon-button
+      matTooltip="Accept sign changes"
+      [disabled]="form.invalid || form.pristine"
+    >
+      <mat-icon>check_circle</mat-icon>
+    </button>
+  </div>
+</form>
