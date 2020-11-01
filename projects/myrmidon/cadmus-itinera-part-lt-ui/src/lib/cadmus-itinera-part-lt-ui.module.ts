@@ -16,6 +16,7 @@ import { CorrPseudonymComponent } from './corr-pseudonym/corr-pseudonym.componen
 import { CorrPseudonymsPartComponent } from './corr-pseudonyms-part/corr-pseudonyms-part.component';
 import { CitedPersonsPartComponent } from './cited-persons-part/cited-persons-part.component';
 import { PoeticTextInfoPartComponent } from './poetic-text-info-part/poetic-text-info-part.component';
+import { LetterInfoPartComponent } from './letter-info-part/letter-info-part.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { PoeticTextInfoPartComponent } from './poetic-text-info-part/poetic-text
     CorrPseudonymComponent,
     CorrPseudonymsPartComponent,
     DocReferencesPartComponent,
+    LetterInfoPartComponent,
     LitDedicationComponent,
     PersonPartComponent,
     PersonEventsPartComponent,
@@ -49,6 +51,7 @@ import { PoeticTextInfoPartComponent } from './poetic-text-info-part/poetic-text
     CorrPseudonymComponent,
     CorrPseudonymsPartComponent,
     DocReferencesPartComponent,
+    LetterInfoPartComponent,
     LitDedicationComponent,
     PersonPartComponent,
     PersonEventsPartComponent,

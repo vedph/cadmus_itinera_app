@@ -10,6 +10,8 @@ export * from './lib/corr-pseudonyms-part-feature/corr-pseudonyms-part-feature.c
 
 export * from './lib/doc-references-part-feature/doc-references-part-feature.component';
 
+export * from './lib/letter-info-part-feature/letter-info-part-feature.component';
+
 export * from './lib/person-events-part-feature/person-events-part-feature.component';
 
 export * from './lib/person-part-feature/person-part-feature.component';

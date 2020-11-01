@@ -16,6 +16,9 @@ export * from './lib/corr-pseudonym/corr-pseudonym.component';
 export * from './lib/doc-references-part';
 export * from './lib/doc-references-part/doc-references-part.component';
 
+export * from './lib/letter-info-part';
+export * from './lib/letter-info-part/letter-info-part.component';
+
 export * from './lib/person-events-part';
 export * from './lib/person-events-part/person-events-part.component';
 export * from './lib/bio-event/bio-event.component';
