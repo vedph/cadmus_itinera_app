@@ -28,7 +28,7 @@ export class MsHandSignComponent implements OnInit {
   @Input()
   public typeEntries: ThesaurusEntry[];
   @Output()
-  public modelChange: EventEmitter<MsHandSign>;
+  public signChange: EventEmitter<MsHandSign>;
 
   @Output()
   public editorClose: EventEmitter<any>;
@@ -49,7 +49,7 @@ export class MsHandSignComponent implements OnInit {
 
   constructor(formBuilder: FormBuilder) {
     // events
-    this.modelChange = new EventEmitter<MsHandSign>();
+    this.signChange = new EventEmitter<MsHandSign>();
     this.editorClose = new EventEmitter();
     // form
     this.id = formBuilder.control(null, [
@@ -101,6 +101,6 @@ export class MsHandSignComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
-    this.modelChange.emit(this.getModel());
+    this.signChange.emit(this.getModel());
   }
 }
