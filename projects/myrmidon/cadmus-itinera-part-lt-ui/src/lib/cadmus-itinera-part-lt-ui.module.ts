@@ -21,10 +21,12 @@ import { MsHandSignComponent } from './ms-hand-sign/ms-hand-sign.component';
 import { PersonHandPartComponent } from './person-hand-part/person-hand-part.component';
 import { CorrExchangeComponent } from './corr-exchange/corr-exchange.component';
 import { CorrExchangesPartComponent } from './corr-exchanges-part/corr-exchanges-part.component';
+import { ChronotopicsPartComponent } from './chronotopics-part/chronotopics-part.component';
 
 @NgModule({
   declarations: [
     BioEventComponent,
+    ChronotopicsPartComponent,
     CitedPersonsPartComponent,
     CorrDedicationsPartComponent,
     CorrExchangeComponent,
@@ -54,6 +56,7 @@ import { CorrExchangesPartComponent } from './corr-exchanges-part/corr-exchanges
   ],
   exports: [
     BioEventComponent,
+    ChronotopicsPartComponent,
     CitedPersonsPartComponent,
     CorrDedicationsPartComponent,
     CorrExchangeComponent,

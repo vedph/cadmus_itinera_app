@@ -3,6 +3,7 @@
  */
 
 export * from './lib/chronotopics-part';
+export * from './lib/chronotopics-part/chronotopics-part.component';
 
 export * from './lib/cited-persons-part';
 export * from './lib/cited-persons-part/cited-persons-part.component';

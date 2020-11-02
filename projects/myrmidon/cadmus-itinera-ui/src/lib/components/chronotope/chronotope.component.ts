@@ -6,7 +6,6 @@ import {
   Validators,
 } from '@angular/forms';
 import {
-  HistoricalDate,
   HistoricalDateModel,
   ThesaurusEntry,
 } from '@myrmidon/cadmus-core';
