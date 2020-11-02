@@ -1,0 +1,209 @@
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
+import { ThesaurusEntry } from '@myrmidon/cadmus-core';
+import {
+  Chronotope,
+  CorrExchange,
+  DecoratedId,
+  DocReference,
+  EpistAttachment,
+} from '@myrmidon/cadmus-itinera-core';
+import { BehaviorSubject } from 'rxjs';
+
+@Component({
+  selector: 'cadmus-corr-exchange',
+  templateUrl: './corr-exchange.component.html',
+  styleUrls: ['./corr-exchange.component.css'],
+})
+export class CorrExchangeComponent implements OnInit {
+  private _model: CorrExchange;
+
+  @Input()
+  public get model(): CorrExchange {
+    return this._model;
+  }
+  public set model(value: CorrExchange) {
+    this._model = value;
+    this.setModel(this._model);
+  }
+
+  // doc-reference-tags
+  @Input()
+  public tagEntries: ThesaurusEntry[];
+  // epist-attachment-types
+  @Input()
+  public typeEntries: ThesaurusEntry[];
+
+  @Output()
+  public modelChange: EventEmitter<CorrExchange>;
+
+  @Output()
+  public editorClose: EventEmitter<any>;
+
+  public dubious: FormControl;
+  public indirect: FormControl;
+  public participant: FormControl;
+  public attachments: FormArray;
+  public hasCt: FormControl;
+  public form: FormGroup;
+
+  public participants: DecoratedId[];
+  public participants$: BehaviorSubject<DecoratedId[]>;
+  public from: Chronotope;
+  public to: Chronotope;
+  public sources: DocReference[];
+  public sources$: BehaviorSubject<DocReference[]>;
+
+  constructor(private _formBuilder: FormBuilder) {
+    this.participants = [];
+    this.participants$ = new BehaviorSubject<DecoratedId[]>([]);
+    this.sources = [];
+    this.sources$ = new BehaviorSubject<DocReference[]>([]);
+    // events
+    this.modelChange = new EventEmitter<CorrExchange>();
+    this.editorClose = new EventEmitter();
+    // form
+    this.dubious = _formBuilder.control(false);
+    this.indirect = _formBuilder.control(false);
+    this.participant = _formBuilder.control(false);
+    this.attachments = _formBuilder.array([]);
+    this.hasCt = _formBuilder.control(false, Validators.requiredTrue);
+    this.form = _formBuilder.group({
+      dubious: this.dubious,
+      indirect: this.indirect,
+      participant: this.participant,
+      attachments: this.attachments,
+      // used to validate: from/to must exist
+      hasCt: this.hasCt,
+    });
+  }
+
+  ngOnInit(): void {}
+
+  private setModel(model: CorrExchange): void {
+    if (!model) {
+      this.participants$.next([]);
+      this.sources$.next([]);
+      this.from = null;
+      this.to = null;
+      this.form.reset();
+      return;
+    }
+    this.participants$.next(model.participants || []);
+    this.sources$.next(model.sources || []);
+    this.from = model.from;
+    this.to = model.to;
+    this.dubious.setValue(model.isDubious);
+    this.indirect.setValue(model.isIndirect);
+    this.participant.setValue(model.isFromParticipant);
+    this.attachments.clear();
+    for (const a of model.attachments || []) {
+      this.addAttachment(a);
+    }
+    this.hasCt.setValue(
+      model.from?.date && model.from?.place && model.to?.date && model.to?.place
+        ? true
+        : false
+    );
+    this.form.markAsPristine();
+  }
+
+  private getModel(): CorrExchange {
+    const model: CorrExchange = {
+      isDubious: this.dubious.value,
+      isIndirect: this.indirect.value,
+      isFromParticipant: this.participant.value,
+      from: this.from,
+      to: this.to,
+      participants: this.participants?.length ? this.participants : undefined,
+      sources: this.sources?.length ? this.sources : undefined,
+    };
+
+    if (this.attachments.length) {
+      model.attachments = [];
+      for (let i = 0; i < this.attachments.length; i++) {
+        const g = this.attachments.controls[i] as FormGroup;
+        model.attachments.push({
+          type: g.controls.type.value?.trim(),
+          name: g.controls.name.value?.trim(),
+          portion: g.controls.portion.value?.trim(),
+          note: g.controls.note.value?.trim(),
+        });
+      }
+    }
+
+    return model;
+  }
+
+  private getAttachmentGroup(attachment?: EpistAttachment): FormGroup {
+    return this._formBuilder.group({
+      type: this._formBuilder.control(attachment?.type, [
+        Validators.required,
+        Validators.maxLength(50),
+      ]),
+      name: this._formBuilder.control(attachment?.name, [
+        Validators.required,
+        Validators.maxLength(100),
+      ]),
+      portion: this._formBuilder.control(
+        attachment?.portion,
+        Validators.maxLength(50)
+      ),
+      note: this._formBuilder.control(
+        attachment?.note,
+        Validators.maxLength(500)
+      ),
+    });
+  }
+
+  public addAttachment(item?: EpistAttachment): void {
+    this.attachments.push(this.getAttachmentGroup(item));
+  }
+
+  public removeAttachment(index: number): void {
+    this.attachments.removeAt(index);
+  }
+
+  public moveAttachmentUp(index: number): void {
+    if (index < 1) {
+      return;
+    }
+    const item = this.attachments.controls[index];
+    this.attachments.removeAt(index);
+    this.attachments.insert(index - 1, item);
+  }
+
+  public moveAttachmentDown(index: number): void {
+    if (index + 1 >= this.attachments.length) {
+      return;
+    }
+    const item = this.attachments.controls[index];
+    this.attachments.removeAt(index);
+    this.attachments.insert(index + 1, item);
+  }
+
+  public onParticipantsChange(participants: DecoratedId[]): void {
+    this.participants = participants;
+  }
+
+  public onSourcesChange(sources: DocReference[]): void {
+    this.sources = sources;
+  }
+
+  public cancel(): void {
+    this.editorClose.emit();
+  }
+
+  public save(): void {
+    if (this.form.invalid) {
+      return;
+    }
+    this.modelChange.emit(this.getModel());
+  }
+}

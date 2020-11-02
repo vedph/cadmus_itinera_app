@@ -19,12 +19,14 @@ import { PoeticTextInfoPartComponent } from './poetic-text-info-part/poetic-text
 import { LetterInfoPartComponent } from './letter-info-part/letter-info-part.component';
 import { MsHandSignComponent } from './ms-hand-sign/ms-hand-sign.component';
 import { PersonHandPartComponent } from './person-hand-part/person-hand-part.component';
+import { CorrExchangeComponent } from './corr-exchange/corr-exchange.component';
 
 @NgModule({
   declarations: [
     BioEventComponent,
     CitedPersonsPartComponent,
     CorrDedicationsPartComponent,
+    CorrExchangeComponent,
     CorrPseudonymComponent,
     CorrPseudonymsPartComponent,
     DocReferencesPartComponent,
@@ -52,6 +54,7 @@ import { PersonHandPartComponent } from './person-hand-part/person-hand-part.com
     BioEventComponent,
     CitedPersonsPartComponent,
     CorrDedicationsPartComponent,
+    CorrExchangeComponent,
     CorrPseudonymComponent,
     CorrPseudonymsPartComponent,
     DocReferencesPartComponent,
