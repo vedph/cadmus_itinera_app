@@ -28,6 +28,7 @@ import {
   LETTER_INFO_PART_TYPEID,
   PERSON_HAND_PART_TYPEID,
   CORR_EXCHANGES_PART_TYPEID,
+  CHRONOTOPICS_PART_TYPEID
 } from '@myrmidon/cadmus-itinera-part-lt-ui';
 import {
   MSCOMPOSITION_PART_TYPEID,
@@ -115,6 +116,9 @@ export const PART_EDITOR_KEYS: PartEditorKeys = {
     part: ITINERA_LT,
   },
   [CORR_EXCHANGES_PART_TYPEID]: {
+    part: ITINERA_LT,
+  },
+  [CHRONOTOPICS_PART_TYPEID]: {
     part: ITINERA_LT,
   },
   [MSSIGNATURES_PART_TYPEID]: {

@@ -93,11 +93,12 @@ export class ChronotopeComponent implements OnInit {
       this.form.reset();
       return;
     } else {
+      this.sources$.next(model.sources || []);
+      this.date = model.date;
       this.tag.setValue(model.tag);
       this.place.setValue(model.place);
       this.textDate.setValue(model.textDate);
       this.hasDate.setValue(model.date?.a?.value ? true : false);
-      this.sources$.next(model.sources || []);
       this.form.markAsPristine();
     }
   }

@@ -14,10 +14,9 @@
               type="button"
               mat-icon-button
               color="primary"
-              matTooltip="Add chronotopic"
               (click)="addChronotope()"
             >
-              <mat-icon>add_circle</mat-icon>
+              <mat-icon>add_circle</mat-icon> add chronotopic
             </button>
           </div>
           <table *ngIf="chronotopes?.length">
@@ -25,7 +24,7 @@
               <tr>
                 <th></th>
                 <th>place</th>
-                <td>date</td>
+                <th>date</th>
               </tr>
             </thead>
             <tbody>
@@ -86,7 +85,7 @@
           <cadmus-chronotope
             [chronotope]="editedChronotope"
             [tagEntries]="tagEntries"
-            (modelChange)="onChronotopeSave($event)"
+            (chronotopeChange)="onChronotopeSave($event)"
             (editorClose)="onChronotopeClose()"
           ></cadmus-chronotope>
         </mat-tab>

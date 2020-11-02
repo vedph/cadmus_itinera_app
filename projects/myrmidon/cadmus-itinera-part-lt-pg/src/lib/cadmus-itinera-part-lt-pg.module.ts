@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CadmusMaterialModule } from '@myrmidon/cadmus-material';
 import {
   CadmusItineraPartLtUiModule,
+  CHRONOTOPICS_PART_TYPEID,
   CITED_PERSONS_PART_TYPEID,
   CORR_DEDICATIONS_PART_TYPEID,
   CORR_EXCHANGES_PART_TYPEID,
@@ -28,6 +29,7 @@ import { PoeticTextInfoPartFeatureComponent } from './poetic-text-info-part-feat
 import { LetterInfoPartFeatureComponent } from './letter-info-part-feature/letter-info-part-feature.component';
 import { PersonHandPartFeatureComponent } from './person-hand-part-feature/person-hand-part-feature.component';
 import { CorrExchangesPartFeatureComponent } from './corr-exchanges-part-feature/corr-exchanges-part-feature.component';
+import { ChronotopicsPartFeatureComponent } from './chronotopics-part-feature/chronotopics-part-feature.component';
 
 // https://github.com/ng-packagr/ng-packagr/issues/778
 export const RouterModuleForChild = RouterModule.forChild([
@@ -91,10 +93,17 @@ export const RouterModuleForChild = RouterModule.forChild([
     component: CorrExchangesPartFeatureComponent,
     canDeactivate: [PendingChangesGuard],
   },
+  {
+    path: `${CHRONOTOPICS_PART_TYPEID}/:pid`,
+    pathMatch: 'full',
+    component: ChronotopicsPartFeatureComponent,
+    canDeactivate: [PendingChangesGuard],
+  },
 ]);
 
 @NgModule({
   declarations: [
+    ChronotopicsPartFeatureComponent,
     CitedPersonsPartFeatureComponent,
     CorrDedicationsPartFeatureComponent,
     CorrExchangesPartFeatureComponent,
@@ -118,6 +127,7 @@ export const RouterModuleForChild = RouterModule.forChild([
     CadmusItineraPartLtUiModule,
   ],
   exports: [
+    ChronotopicsPartFeatureComponent,
     CitedPersonsPartFeatureComponent,
     CorrDedicationsPartFeatureComponent,
     CorrExchangesPartFeatureComponent,
