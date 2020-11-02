@@ -207,6 +207,7 @@ export class CorrExchangeComponent implements OnInit, AfterViewInit, OnDestroy {
     const attachment = this.attachments.controls[index];
     this.attachments.removeAt(index);
     this.attachments.insert(index - 1, attachment);
+    this.form.markAsDirty();
   }
 
   public moveAttachmentDown(index: number): void {
@@ -216,6 +217,7 @@ export class CorrExchangeComponent implements OnInit, AfterViewInit, OnDestroy {
     const attachment = this.attachments.controls[index];
     this.attachments.removeAt(index);
     this.attachments.insert(index + 1, attachment);
+    this.form.markAsDirty();
   }
 
   public onParticipantsChange(participants: DecoratedId[]): void {

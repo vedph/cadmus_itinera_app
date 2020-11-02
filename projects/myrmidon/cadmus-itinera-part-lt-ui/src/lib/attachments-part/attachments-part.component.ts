@@ -146,10 +146,12 @@ export class AttachmentsPartComponent
 
   public addAttachment(attachment?: EpistAttachment): void {
     this.attachments.push(this.getAttachmentGroup(attachment));
+    this.form.markAsDirty();
   }
 
   public removeAttachment(index: number): void {
     this.attachments.removeAt(index);
+    this.form.markAsDirty();
   }
 
   public moveAttachmentUp(index: number): void {
@@ -159,6 +161,7 @@ export class AttachmentsPartComponent
     const attachment = this.attachments.controls[index];
     this.attachments.removeAt(index);
     this.attachments.insert(index - 1, attachment);
+    this.form.markAsDirty();
   }
 
   public moveAttachmentDown(index: number): void {
@@ -168,5 +171,6 @@ export class AttachmentsPartComponent
     const attachment = this.attachments.controls[index];
     this.attachments.removeAt(index);
     this.attachments.insert(index + 1, attachment);
+    this.form.markAsDirty();
   }
 }

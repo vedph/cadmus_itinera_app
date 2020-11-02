@@ -15,6 +15,7 @@ import {
   PERSON_HAND_PART_TYPEID,
   PERSON_PART_TYPEID,
   POETIC_TEXT_INFO_PART_TYPEID,
+  ATTACHMENTS_PART_TYPEID
 } from '@myrmidon/cadmus-itinera-part-lt-ui';
 import { RouterModule } from '@angular/router';
 import { PendingChangesGuard } from '@myrmidon/cadmus-core';
@@ -30,6 +31,7 @@ import { LetterInfoPartFeatureComponent } from './letter-info-part-feature/lette
 import { PersonHandPartFeatureComponent } from './person-hand-part-feature/person-hand-part-feature.component';
 import { CorrExchangesPartFeatureComponent } from './corr-exchanges-part-feature/corr-exchanges-part-feature.component';
 import { ChronotopicsPartFeatureComponent } from './chronotopics-part-feature/chronotopics-part-feature.component';
+import { AttachmentsPartFeatureComponent } from './attachments-part-feature/attachments-part-feature.component';
 
 // https://github.com/ng-packagr/ng-packagr/issues/778
 export const RouterModuleForChild = RouterModule.forChild([
@@ -99,10 +101,17 @@ export const RouterModuleForChild = RouterModule.forChild([
     component: ChronotopicsPartFeatureComponent,
     canDeactivate: [PendingChangesGuard],
   },
+  {
+    path: `${ATTACHMENTS_PART_TYPEID}/:pid`,
+    pathMatch: 'full',
+    component: AttachmentsPartFeatureComponent,
+    canDeactivate: [PendingChangesGuard],
+  },
 ]);
 
 @NgModule({
   declarations: [
+    AttachmentsPartFeatureComponent,
     ChronotopicsPartFeatureComponent,
     CitedPersonsPartFeatureComponent,
     CorrDedicationsPartFeatureComponent,
@@ -127,6 +136,7 @@ export const RouterModuleForChild = RouterModule.forChild([
     CadmusItineraPartLtUiModule,
   ],
   exports: [
+    AttachmentsPartFeatureComponent,
     ChronotopicsPartFeatureComponent,
     CitedPersonsPartFeatureComponent,
     CorrDedicationsPartFeatureComponent,
