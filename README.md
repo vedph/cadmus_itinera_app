@@ -1,6 +1,6 @@
 # Cadmus Itinera App
 
-Quick Docker image build (after `ng build --prod`; ensure you have first built all the libraries with `npm run build-all`): `docker build . -t vedph2020/cadmus-itinera-app:1.0.4 -t vedph2020/cadmus-itinera-app:latest` (replace with the current version).
+Quick Docker image build (after `ng build --prod`; ensure you have first built all the libraries with `npm run build-all`): `docker build . -t vedph2020/cadmus-itinera-app:1.0.5 -t vedph2020/cadmus-itinera-app:latest` (replace with the current version).
 
 Web application frontend for Cadmus _Itinera_. This application is built by packing together a number of components:
 
