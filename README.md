@@ -158,6 +158,19 @@ public editorOptions = {
 The child component is in another tab and has ok/cancel buttons.
 
 ```ts
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormBuilder, Validators } from '@angular/forms';
+
+import { ModelEditorComponentBase, DialogService } from '@myrmidon/cadmus-ui';
+import { AuthService } from '@myrmidon/cadmus-api';
+import { ThesaurusEntry } from '@myrmidon/cadmus-core';
+
+import { __PARTNAME__Part, __PARTNAME___PART_TYPEID } from '../YOURPARTFILE';
+
+/**
+ * __PARTNAME__ editor component.
+ * Thesauri: TODO thesauri names and optionality
+ */
 export class __PARTNAME__PartComponent
   extends ModelEditorComponentBase<__PARTNAME__Part>
   implements OnInit {

@@ -2,6 +2,8 @@
  * Public API Surface of cadmus-itinera-part-lt-ui
  */
 
+export * from './lib/chronotopics-part';
+
 export * from './lib/cited-persons-part';
 export * from './lib/cited-persons-part/cited-persons-part.component';
 
