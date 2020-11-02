@@ -144,7 +144,7 @@
             <!-- name -->
             &nbsp;
             <mat-form-field style="width: 20em">
-              <input matInput formControlName="name" placeholder="name" />
+              <input matInput formControlName="name" placeholder="name" #name />
               <mat-error
                 *ngIf="
                   item['controls'].name.errors?.required &&
@@ -176,7 +176,7 @@
             </mat-form-field>
 
             <!-- note -->
-            <div style="margin-left: 120px">
+            <div style="margin-left: 130px; width: 90%; max-width: 600px">
               &nbsp;
               <mat-form-field>
                 <input matInput formControlName="note" placeholder="note" />
@@ -197,6 +197,7 @@
   </mat-tab-group>
 
   <!-- buttons -->
+  <hr>
   <div>
     <button
       type="button"
@@ -214,7 +215,7 @@
       matTooltip="Accept exchange changes"
       [disabled]="form.invalid || form.pristine"
     >
-      <mat-icon>check_circle</mat-icon>
+      <mat-icon>check_circle</mat-icon> exchange
     </button>
   </div>
 </form>

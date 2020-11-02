@@ -5,7 +5,11 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { HistoricalDate, HistoricalDateModel, ThesaurusEntry } from '@myrmidon/cadmus-core';
+import {
+  HistoricalDate,
+  HistoricalDateModel,
+  ThesaurusEntry,
+} from '@myrmidon/cadmus-core';
 import { Chronotope, DocReference } from '@myrmidon/cadmus-itinera-core';
 import { BehaviorSubject } from 'rxjs';
 
@@ -46,6 +50,7 @@ export class ChronotopeComponent implements OnInit {
   public tag: FormControl;
   public place: FormControl;
   public textDate: FormControl;
+  public hasDate: FormControl;
 
   constructor(formBuilder: FormBuilder) {
     // events
@@ -60,10 +65,12 @@ export class ChronotopeComponent implements OnInit {
       Validators.maxLength(50),
     ]);
     this.textDate = formBuilder.control(null, Validators.maxLength(300));
+    this.hasDate = formBuilder.control(false, Validators.requiredTrue);
     this.form = formBuilder.group({
       tag: this.tag,
       place: this.place,
       textDate: this.textDate,
+      hasDate: this.hasDate,
     });
   }
 
@@ -71,6 +78,13 @@ export class ChronotopeComponent implements OnInit {
 
   public onSourcesChange(sources: DocReference[]): void {
     this.sources = sources;
+    this.form.markAsDirty();
+  }
+
+  public onDateChange(date: HistoricalDateModel): void {
+    this.date = date;
+    this.hasDate.setValue(date?.a?.value ? true : false);
+    this.form.markAsDirty();
   }
 
   private setModel(model: Chronotope): void {
@@ -83,6 +97,7 @@ export class ChronotopeComponent implements OnInit {
       this.tag.setValue(model.tag);
       this.place.setValue(model.place);
       this.textDate.setValue(model.textDate);
+      this.hasDate.setValue(model.date?.a?.value ? true : false);
       this.sources$.next(model.sources || []);
       this.form.markAsPristine();
     }

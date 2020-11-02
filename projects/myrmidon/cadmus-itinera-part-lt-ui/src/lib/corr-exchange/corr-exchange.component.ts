@@ -1,4 +1,14 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  QueryList,
+  ViewChildren,
+} from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -14,15 +24,19 @@ import {
   DocReference,
   EpistAttachment,
 } from '@myrmidon/cadmus-itinera-core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'cadmus-corr-exchange',
   templateUrl: './corr-exchange.component.html',
   styleUrls: ['./corr-exchange.component.css'],
 })
-export class CorrExchangeComponent implements OnInit {
+export class CorrExchangeComponent implements OnInit, AfterViewInit, OnDestroy {
   private _model: CorrExchange;
+  private _nameSubscription: Subscription;
+
+  @ViewChildren('name') nameQueryList: QueryList<any>;
 
   @Input()
   public get model(): CorrExchange {
@@ -85,6 +99,20 @@ export class CorrExchangeComponent implements OnInit {
   }
 
   ngOnInit(): void {}
+
+  public ngAfterViewInit(): void {
+    this._nameSubscription = this.nameQueryList.changes
+      .pipe(debounceTime(300))
+      .subscribe((_) => {
+        if (this.nameQueryList.length > 0) {
+          this.nameQueryList.last.nativeElement.focus();
+        }
+      });
+  }
+
+  public ngOnDestroy(): void {
+    this._nameSubscription.unsubscribe();
+  }
 
   private setModel(model: CorrExchange): void {
     if (!model) {
