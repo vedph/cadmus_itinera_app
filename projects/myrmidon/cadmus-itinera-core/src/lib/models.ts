@@ -116,6 +116,30 @@ export interface CorrPseudonym {
 }
 
 /**
+ * An attachment in a letters exchange.
+ */
+export interface EpistAttachment {
+  type: string;
+  name: string;
+  portion?: string;
+  note?: string;
+}
+
+/**
+ * An exchange between correspondents.
+ */
+export interface CorrExchange {
+  isDubious?: boolean;
+  isIndirect?: boolean;
+  isFromParticipant?: boolean;
+  from: Chronotope;
+  to: Chronotope;
+  participants?: DecoratedId[];
+  sources?: DocReference[];
+  attachments?: EpistAttachment[];
+}
+
+/**
  * Location of a sheet in a manuscript.
  */
 export interface MsLocation {
