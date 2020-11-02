@@ -6,6 +6,7 @@ import {
   CadmusItineraPartLtUiModule,
   CITED_PERSONS_PART_TYPEID,
   CORR_DEDICATIONS_PART_TYPEID,
+  CORR_EXCHANGES_PART_TYPEID,
   CORR_PSEUDONYMS_PART_TYPEID,
   DOC_REFERENCES_PART_TYPEID,
   LETTER_INFO_PART_TYPEID,
@@ -26,6 +27,7 @@ import { CitedPersonsPartFeatureComponent } from './cited-persons-part-feature/c
 import { PoeticTextInfoPartFeatureComponent } from './poetic-text-info-part-feature/poetic-text-info-part-feature.component';
 import { LetterInfoPartFeatureComponent } from './letter-info-part-feature/letter-info-part-feature.component';
 import { PersonHandPartFeatureComponent } from './person-hand-part-feature/person-hand-part-feature.component';
+import { CorrExchangesPartFeatureComponent } from './corr-exchanges-part-feature/corr-exchanges-part-feature.component';
 
 // https://github.com/ng-packagr/ng-packagr/issues/778
 export const RouterModuleForChild = RouterModule.forChild([
@@ -83,12 +85,19 @@ export const RouterModuleForChild = RouterModule.forChild([
     component: PersonHandPartFeatureComponent,
     canDeactivate: [PendingChangesGuard],
   },
+  {
+    path: `${CORR_EXCHANGES_PART_TYPEID}/:pid`,
+    pathMatch: 'full',
+    component: CorrExchangesPartFeatureComponent,
+    canDeactivate: [PendingChangesGuard],
+  },
 ]);
 
 @NgModule({
   declarations: [
     CitedPersonsPartFeatureComponent,
     CorrDedicationsPartFeatureComponent,
+    CorrExchangesPartFeatureComponent,
     CorrPseudonymsPartFeatureComponent,
     DocReferencesPartFeatureComponent,
     LetterInfoPartFeatureComponent,
@@ -111,6 +120,7 @@ export const RouterModuleForChild = RouterModule.forChild([
   exports: [
     CitedPersonsPartFeatureComponent,
     CorrDedicationsPartFeatureComponent,
+    CorrExchangesPartFeatureComponent,
     CorrPseudonymsPartFeatureComponent,
     DocReferencesPartFeatureComponent,
     LetterInfoPartFeatureComponent,

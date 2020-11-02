@@ -5,9 +5,11 @@
         <!-- dubious -->
         <mat-checkbox [formControl]="dubious">dubious</mat-checkbox>
 
+        &nbsp;
         <!-- indirect -->
         <mat-checkbox [formControl]="indirect">indirect</mat-checkbox>
 
+        &nbsp;
         <!-- participant -->
         <mat-checkbox [formControl]="participant"
           >from participant</mat-checkbox
@@ -59,6 +61,7 @@
             color="primary"
             (click)="addAttachment()"
           >
+            <mat-icon>add_circle</mat-icon>
             add attachment
           </button>
         </div>

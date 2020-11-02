@@ -6,6 +6,8 @@ export * from './lib/cited-persons-part-feature/cited-persons-part-feature.compo
 
 export * from './lib/corr-dedications-part-feature/corr-dedications-part-feature.component';
 
+export * from './lib/corr-exchanges-part-feature/corr-exchanges-part-feature.component';
+
 export * from './lib/corr-pseudonyms-part-feature/corr-pseudonyms-part-feature.component';
 
 export * from './lib/doc-references-part-feature/doc-references-part-feature.component';
