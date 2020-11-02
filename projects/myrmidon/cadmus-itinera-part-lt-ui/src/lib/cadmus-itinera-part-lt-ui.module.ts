@@ -22,9 +22,11 @@ import { PersonHandPartComponent } from './person-hand-part/person-hand-part.com
 import { CorrExchangeComponent } from './corr-exchange/corr-exchange.component';
 import { CorrExchangesPartComponent } from './corr-exchanges-part/corr-exchanges-part.component';
 import { ChronotopicsPartComponent } from './chronotopics-part/chronotopics-part.component';
+import { AttachmentsPartComponent } from './attachments-part/attachments-part.component';
 
 @NgModule({
   declarations: [
+    AttachmentsPartComponent,
     BioEventComponent,
     ChronotopicsPartComponent,
     CitedPersonsPartComponent,
@@ -55,6 +57,7 @@ import { ChronotopicsPartComponent } from './chronotopics-part/chronotopics-part
     CadmusItineraUiModule
   ],
   exports: [
+    AttachmentsPartComponent,
     BioEventComponent,
     ChronotopicsPartComponent,
     CitedPersonsPartComponent,

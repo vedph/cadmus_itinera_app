@@ -1,0 +1,160 @@
+<form [formGroup]="form" (submit)="save()">
+  <mat-card>
+    <mat-card-header>
+      <div mat-card-avatar>
+        <mat-icon>picture_in_picture</mat-icon>
+      </div>
+      <mat-card-title>Attachments Part</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <!-- attachments -->
+      <div formArrayName="attachments">
+        <div>
+          <button
+            type="button"
+            mat-stroked-button
+            color="primary"
+            (click)="addAttachment()"
+          >
+            <mat-icon>add_circle</mat-icon>
+            add attachment
+          </button>
+        </div>
+        <div
+          *ngFor="
+            let item of attachments.controls;
+            let i = index;
+            let first = first;
+            let last = last
+          "
+        >
+          <!-- child form -->
+          <div [formGroupName]="i">
+            <!-- child actions -->
+            {{ i + 1 }}.
+            <button
+              mat-icon-button
+              type="button"
+              matTooltip="Remove this attachment"
+              color="warn"
+              (click)="removeAttachment(i)"
+            >
+              <mat-icon>remove_circle</mat-icon>
+            </button>
+            <button
+              [disabled]="first"
+              mat-icon-button
+              type="button"
+              matTooltip="Move attachment up"
+              (click)="moveAttachmentUp(i)"
+            >
+              <mat-icon>arrow_upward</mat-icon>
+            </button>
+            <button
+              [disabled]="last"
+              mat-icon-button
+              type="button"
+              matTooltip="Move attachment down"
+              (click)="moveAttachmentDown(i)"
+            >
+              <mat-icon>arrow_downward</mat-icon>
+            </button>
+
+            <!-- child controls -->
+            <!-- type (bound) -->
+            <mat-form-field *ngIf="typeEntries?.length" style="width: 8em">
+              <mat-select formControlName="type" placeholder="type">
+                <mat-option *ngFor="let e of typeEntries" [value]="e.id">{{
+                  e.value
+                }}</mat-option>
+              </mat-select>
+              <mat-error
+                *ngIf="
+                  item['controls'].type.errors?.required &&
+                  (item['controls'].type.dirty || item['controls'].type.touched)
+                "
+                >type required</mat-error
+              >
+            </mat-form-field>
+
+            <!-- type (free) -->
+            <mat-form-field>
+              <input matInput formControlName="type" placeholder="type" />
+              <mat-error
+                *ngIf="
+                  item['controls'].type.errors?.required &&
+                  (item['controls'].type.dirty || item['controls'].type.touched)
+                "
+                >type required</mat-error
+              >
+              <mat-error
+                *ngIf="
+                  item['controls'].type.errors?.maxLength &&
+                  (item['controls'].type.dirty || item['controls'].type.touched)
+                "
+                >type too long</mat-error
+              >
+            </mat-form-field>
+
+            <!-- name -->
+            &nbsp;
+            <mat-form-field style="width: 20em">
+              <input matInput formControlName="name" placeholder="name" #name />
+              <mat-error
+                *ngIf="
+                  item['controls'].name.errors?.required &&
+                  (item['controls'].name.dirty || item['controls'].name.touched)
+                "
+                >name required</mat-error
+              >
+              <mat-error
+                *ngIf="
+                  item['controls'].name.errors?.maxLength &&
+                  (item['controls'].name.dirty || item['controls'].name.touched)
+                "
+                >name too long</mat-error
+              >
+            </mat-form-field>
+
+            <!-- portion -->
+            &nbsp;
+            <mat-form-field style="width: 8em">
+              <input matInput formControlName="portion" placeholder="portion" />
+              <mat-error
+                *ngIf="
+                  item['controls'].portion.errors?.maxLength &&
+                  (item['controls'].portion.dirty ||
+                    item['controls'].portion.touched)
+                "
+                >portion too long</mat-error
+              >
+            </mat-form-field>
+
+            <!-- note -->
+            <div style="margin-left: 130px; width: 90%; max-width: 600px">
+              &nbsp;
+              <mat-form-field>
+                <input matInput formControlName="note" placeholder="note" />
+                <mat-error
+                  *ngIf="
+                    item['controls'].note.errors?.maxLength &&
+                    (item['controls'].note.dirty ||
+                      item['controls'].note.touched)
+                  "
+                  >note too long</mat-error
+                >
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <cadmus-close-save-buttons
+        [form]="form"
+        [noSave]="userLevel < 2"
+        (closeRequest)="close()"
+      ></cadmus-close-save-buttons>
+    </mat-card-actions>
+  </mat-card>
+</form>

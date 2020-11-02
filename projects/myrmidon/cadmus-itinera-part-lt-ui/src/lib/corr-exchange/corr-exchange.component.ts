@@ -192,8 +192,8 @@ export class CorrExchangeComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  public addAttachment(item?: EpistAttachment): void {
-    this.attachments.push(this.getAttachmentGroup(item));
+  public addAttachment(attachment?: EpistAttachment): void {
+    this.attachments.push(this.getAttachmentGroup(attachment));
   }
 
   public removeAttachment(index: number): void {
@@ -204,18 +204,18 @@ export class CorrExchangeComponent implements OnInit, AfterViewInit, OnDestroy {
     if (index < 1) {
       return;
     }
-    const item = this.attachments.controls[index];
+    const attachment = this.attachments.controls[index];
     this.attachments.removeAt(index);
-    this.attachments.insert(index - 1, item);
+    this.attachments.insert(index - 1, attachment);
   }
 
   public moveAttachmentDown(index: number): void {
     if (index + 1 >= this.attachments.length) {
       return;
     }
-    const item = this.attachments.controls[index];
+    const attachment = this.attachments.controls[index];
     this.attachments.removeAt(index);
-    this.attachments.insert(index + 1, item);
+    this.attachments.insert(index + 1, attachment);
   }
 
   public onParticipantsChange(participants: DecoratedId[]): void {

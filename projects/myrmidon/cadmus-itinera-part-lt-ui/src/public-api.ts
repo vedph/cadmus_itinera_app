@@ -3,6 +3,7 @@
  */
 
 export * from './lib/attachments-part';
+export * from './lib/attachments-part/attachments-part.component';
 
 export * from './lib/chronotopics-part';
 export * from './lib/chronotopics-part/chronotopics-part.component';
