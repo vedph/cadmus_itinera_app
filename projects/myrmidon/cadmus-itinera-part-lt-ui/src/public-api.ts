@@ -2,6 +2,8 @@
  * Public API Surface of cadmus-itinera-part-lt-ui
  */
 
+export * from './lib/attachments-part';
+
 export * from './lib/chronotopics-part';
 export * from './lib/chronotopics-part/chronotopics-part.component';
 
