@@ -20,6 +20,7 @@ import { LetterInfoPartComponent } from './letter-info-part/letter-info-part.com
 import { MsHandSignComponent } from './ms-hand-sign/ms-hand-sign.component';
 import { PersonHandPartComponent } from './person-hand-part/person-hand-part.component';
 import { CorrExchangeComponent } from './corr-exchange/corr-exchange.component';
+import { CorrExchangesPartComponent } from './corr-exchanges-part/corr-exchanges-part.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { CorrExchangeComponent } from './corr-exchange/corr-exchange.component';
     CitedPersonsPartComponent,
     CorrDedicationsPartComponent,
     CorrExchangeComponent,
+    CorrExchangesPartComponent,
     CorrPseudonymComponent,
     CorrPseudonymsPartComponent,
     DocReferencesPartComponent,
@@ -55,6 +57,7 @@ import { CorrExchangeComponent } from './corr-exchange/corr-exchange.component';
     CitedPersonsPartComponent,
     CorrDedicationsPartComponent,
     CorrExchangeComponent,
+    CorrExchangesPartComponent,
     CorrPseudonymComponent,
     CorrPseudonymsPartComponent,
     DocReferencesPartComponent,

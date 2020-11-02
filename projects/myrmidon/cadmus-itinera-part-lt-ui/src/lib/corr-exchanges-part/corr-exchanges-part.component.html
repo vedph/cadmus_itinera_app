@@ -1,0 +1,108 @@
+<form [formGroup]="form" (submit)="save()">
+  <mat-card>
+    <mat-card-header>
+      <div mat-card-avatar>
+        <mat-icon>picture_in_picture</mat-icon>
+      </div>
+      <mat-card-title>Correspondent's Exchanges Part</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-tab-group [(selectedIndex)]="tabIndex">
+        <mat-tab label="exchanges">
+          <div>
+            <button
+              type="button"
+              mat-icon-button
+              color="primary"
+              matTooltip="Add exchange"
+              (click)="addExchange()"
+            >
+              <mat-icon>add_circle</mat-icon>
+            </button>
+          </div>
+          <table *ngIf="exchanges?.length">
+            <thead>
+              <tr>
+                <th></th>
+                <th>A/P</th>
+                <th>date</th>
+                <th>from</th>
+                <th>to</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="
+                  let e of exchanges;
+                  let i = index;
+                  let first = first;
+                  let last = last
+                "
+              >
+                <td>
+                  <button
+                    type="button"
+                    mat-icon-button
+                    color="primary"
+                    matTooltip="Edit this exchange"
+                    (click)="editExchange(i)"
+                  >
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                  <button
+                    type="button"
+                    mat-icon-button
+                    matTooltip="Move this exchange up"
+                    [disabled]="first"
+                    (click)="moveExchangeUp(i)"
+                  >
+                    <mat-icon>arrow_upward</mat-icon>
+                  </button>
+                  <button
+                    type="button"
+                    mat-icon-button
+                    matTooltip="Move this exchange down"
+                    [disabled]="last"
+                    (click)="moveExchangeDown(i)"
+                  >
+                    <mat-icon>arrow_downward</mat-icon>
+                  </button>
+                  <button
+                    type="button"
+                    mat-icon-button
+                    color="warn"
+                    matTooltip="Delete this exchange"
+                    (click)="deleteExchange(i)"
+                  >
+                    <mat-icon>remove_circle</mat-icon>
+                  </button>
+                </td>
+                <td>{{ e.isFromParticipant ? "P" : "A" }}</td>
+                <td>{{ dateToString(e.from?.date) }}</td>
+                <td>{{ e.from?.place }}</td>
+                <td>{{ e.to?.place }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </mat-tab>
+
+        <mat-tab label="exchange" *ngIf="editedExchange">
+          <cadmus-corr-exchange
+            [model]="editedExchange"
+            [tagEntries]="tagEntries"
+            [typeEntries]="typeEntries"
+            (modelChange)="onExchangeSave($event)"
+            (editorClose)="onExchangeClose()"
+          ></cadmus-corr-exchange>
+        </mat-tab>
+      </mat-tab-group>
+    </mat-card-content>
+    <mat-card-actions>
+      <cadmus-close-save-buttons
+        [form]="form"
+        [noSave]="userLevel < 2"
+        (closeRequest)="close()"
+      ></cadmus-close-save-buttons>
+    </mat-card-actions>
+  </mat-card>
+</form>
