@@ -106,12 +106,14 @@ export class CorrExchangeComponent implements OnInit {
     for (const a of model.attachments || []) {
       this.addAttachment(a);
     }
-    this.hasCt.setValue(
-      model.from?.date && model.from?.place && model.to?.date && model.to?.place
-        ? true
-        : false
-    );
+    this.updateHasCt(model.from, model.to);
     this.form.markAsPristine();
+  }
+
+  private updateHasCt(from: Chronotope | null, to: Chronotope | null): void {
+    this.hasCt.setValue(
+      from?.date && from?.place && to?.date && to?.place ? true : false
+    );
   }
 
   private getModel(): CorrExchange {
@@ -194,6 +196,16 @@ export class CorrExchangeComponent implements OnInit {
 
   public onSourcesChange(sources: DocReference[]): void {
     this.sources = sources;
+  }
+
+  public onFromChange(chronotope: Chronotope): void {
+    this.from = chronotope;
+    this.updateHasCt(chronotope, this.to);
+  }
+
+  public onToChange(chronotope: Chronotope): void {
+    this.to = chronotope;
+    this.updateHasCt(this.from, chronotope);
   }
 
   public cancel(): void {

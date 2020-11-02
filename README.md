@@ -43,6 +43,7 @@ These snippets are provided here just to save some typing.
 Standard text field with required and max-length:
 
 ```html
+<!-- input -->
 <mat-form-field>
   <input matInput [formControl]="__NAME__" placeholder="__NAME__" />
   <mat-error
@@ -63,6 +64,7 @@ Standard text field with required and max-length:
 In a form array template, where we must bind by name (`item` being the variable used in the `*ngFor`):
 
 ```html
+<!-- input in FormArray -->
 <mat-form-field>
   <input matInput formControlName="__NAME__" placeholder="__NAME__" />
   <mat-error
@@ -89,15 +91,38 @@ In a form array template, where we must bind by name (`item` being the variable 
 Standard selection:
 
 ```html
+<!-- select -->
 <mat-form-field *ngIf="__ARRAY__?.length" style="width: 8em">
   <mat-select [formControl]="__NAME__" placeholder="__NAME__">
-    <mat-option *ngFor="let e of __ARRAY__" [value]="e.id">{{
-      e.value
-    }}</mat-option>
+    <mat-option *ngFor="let e of __ARRAY__" [value]="e.id"
+      >{{ e.value }}</mat-option
+    >
   </mat-select>
   <mat-error
     *ngIf="__NAME__.errors?.required && (__NAME__.dirty || __NAME__.touched)"
-  >__NAME__ required</mat-error>
+    >__NAME__ required</mat-error
+  >
+</mat-form-field>
+```
+
+In form array:
+
+```html
+<!-- select in FormArray -->
+<mat-form-field *ngIf="__ARRAY__?.length" style="width: 8em">
+  <mat-select formControlName="__NAME__" placeholder="__NAME__">
+    <mat-option *ngFor="let e of __ARRAY__" [value]="e.id"
+      >{{ e.value }}</mat-option
+    >
+  </mat-select>
+  <mat-error
+    *ngIf="
+      item['controls'].__NAME__.errors?.required &&
+      (item['controls'].__NAME__.dirty ||
+        item['controls'].__NAME__.touched)
+    "
+    >__NAME__ required</mat-error
+  >
 </mat-form-field>
 ```
 
@@ -247,7 +272,7 @@ export class __PARTNAME__PartComponent
 
   public delete__NAME__(index: number): void {
     this._dialogService
-      .confirm('Confirmation', 'Delete __NAME__?')
+      .confirm("Confirmation", "Delete __NAME__?")
       .pipe(take(1))
       .subscribe((yes) => {
         if (yes) {
@@ -393,19 +418,19 @@ export class __PARTNAME__PartComponent
 ### Edit Model Component
 
 ```ts
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import {
   FormBuilder,
   FormControl,
   FormGroup,
   Validators,
-} from '@angular/forms';
-import { ThesaurusEntry } from '@myrmidon/cadmus-core';
+} from "@angular/forms";
+import { ThesaurusEntry } from "@myrmidon/cadmus-core";
 
 @Component({
-  selector: 'cadmus-__FNAME__',
-  templateUrl: './__FNAME__.component.html',
-  styleUrls: ['./__NAME__.component.css'],
+  selector: "cadmus-__FNAME__",
+  templateUrl: "./__FNAME__.component.html",
+  styleUrls: ["./__NAME__.component.css"],
 })
 export class __NAME__Component implements OnInit {
   private _model: __NAME__;
