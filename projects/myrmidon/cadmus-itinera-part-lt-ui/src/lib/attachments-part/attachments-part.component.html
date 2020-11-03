@@ -20,6 +20,7 @@
             add attachment
           </button>
         </div>
+        <br>
         <div
           *ngFor="
             let item of attachments.controls;
@@ -131,9 +132,8 @@
             </mat-form-field>
 
             <!-- note -->
-            <div style="margin-left: 130px; width: 90%; max-width: 600px">
-              &nbsp;
-              <mat-form-field>
+            <div>
+              <mat-form-field style="margin-left: 130px; width: 90%; max-width: 600px">
                 <input matInput formControlName="note" placeholder="note" />
                 <mat-error
                   *ngIf="
