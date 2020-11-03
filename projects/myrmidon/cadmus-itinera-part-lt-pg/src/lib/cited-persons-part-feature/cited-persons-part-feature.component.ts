@@ -39,6 +39,11 @@ export class CitedPersonsPartFeatureComponent
   }
 
   public ngOnInit(): void {
-    this.initEditor(['doc-reference-tags']);
+    this.initEditor([
+      'doc-reference-tags',
+      'languages',
+      'person-name-types',
+      'person-id-tags',
+    ]);
   }
 }
