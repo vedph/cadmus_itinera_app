@@ -49,7 +49,7 @@
   </table>
 
   <!-- editor -->
-  <mat-expansion-panel [(expanded)]="editorOpen">
+  <mat-expansion-panel [(expanded)]="editorOpen" [disabled]="!editorOpen">
     <mat-expansion-panel-header>
       <mat-panel-title>ID</mat-panel-title>
       <mat-panel-description>
@@ -133,7 +133,7 @@
       </div>
     </form>
   </mat-expansion-panel>
-  <div>
+  <div style="margin-top:4px">
     <button
       (click)="close()"
       type="button"
