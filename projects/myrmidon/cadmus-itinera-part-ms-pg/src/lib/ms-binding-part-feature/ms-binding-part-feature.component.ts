@@ -43,7 +43,7 @@ export class MsBindingPartFeatureComponent
 
   public ngOnInit(): void {
     this.initEditor([
-      'ms-materials',
+      'ms-binding-materials',
       'physical-size-tags',
       'physical-dimension-tags',
       'physical-size-units',

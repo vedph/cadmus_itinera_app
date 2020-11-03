@@ -9,7 +9,7 @@ import { PhysicalSize } from '@myrmidon/cadmus-itinera-core';
 
 /**
  * Manuscript's binding part.
- * Thesauri: ms-materials (optional), physical-size-tags (optional),
+ * Thesauri: ms-binding-materials (optional), physical-size-tags (optional),
  * physical-dimension-tags (optional), physical-size-units.
  */
 @Component({
@@ -91,7 +91,7 @@ export class MsBindingPartComponent
   }
 
   protected onThesauriSet(): void {
-    let key = 'ms-materials';
+    let key = 'ms-binding-materials';
     if (this.thesauri && this.thesauri[key]) {
       this.materialEntries = this.thesauri[key].entries;
     } else {
