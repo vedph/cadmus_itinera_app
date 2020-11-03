@@ -140,8 +140,11 @@ export class CorrExchangeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private updateHasCt(from: Chronotope | null, to: Chronotope | null): void {
     this.hasCt.setValue(
-      from?.date && from?.place && to?.date && to?.place ? true : false
+      from?.date?.a?.value && from?.place && to?.date?.a?.value && to?.place
+        ? true
+        : false
     );
+    this.form.markAsDirty();
   }
 
   private getModel(): CorrExchange {

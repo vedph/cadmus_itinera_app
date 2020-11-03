@@ -138,7 +138,7 @@ export class CorrExchangesPartComponent
       i === this._editedIndex ? item : s
     );
     this.editExchange(-1);
-    this.count.markAsDirty();
+    this.form.markAsDirty();
   }
 
   public onExchangeClose(): void {
