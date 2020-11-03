@@ -12,6 +12,10 @@ import { AuthService } from '@myrmidon/cadmus-api';
 import { MsQuiresPart, MSQUIRES_PART_TYPEID } from '../ms-quires-part';
 import { MsQuire, MsQuiresService } from '@myrmidon/cadmus-itinera-core';
 
+/**
+ * Manuscript's quires part.
+ * Thesauri: none.
+ */
 @Component({
   selector: 'cadmus-ms-quires-part',
   templateUrl: './ms-quires-part.component.html',

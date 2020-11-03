@@ -27,7 +27,8 @@ import { debounceTime } from 'rxjs/operators';
 
 /**
  * Manuscript's numbering(s) part.
- * Thesauri (all optional): ms-numbering-eras, ms-numbering-systems, ms-numbering-techniques, ms-numbering-positions.
+ * Thesauri (all optional): ms-numbering-eras, ms-numbering-systems,
+ * ms-numbering-techniques, ms-numbering-positions.
  */
 @Component({
   selector: 'cadmus-ms-numberings-part',

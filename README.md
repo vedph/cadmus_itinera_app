@@ -34,6 +34,150 @@ Other general tasks:
 - list all the linked libraries: `npm ls -g --depth=0 --link=true`.
 - unlink: `npm unlink LIBNAME -g` (linked libraries are global).
 
+## Thesauri List
+
+This list is built by inspecting the head comments of each part editor component in the libraries.
+
+- AttachmentsPart:
+  - epist-attachment-types
+- ChronotopicsPart:
+  - doc-reference-tags
+- CitedPersonsPart:
+  - doc-reference-tags
+- CorrDedicationsPart:
+  - doc-reference-tags
+- CorrExchangesPart:
+  - doc-reference-tags
+  - epist-attachment-types
+- CorrPseudonymsPart:
+  - languages
+  - doc-reference-tags
+- DocReferencesPart:
+  - doc-reference-tags
+- LetterInfoPart:
+  - languages
+- PersonEventsPart:
+  - bio-event-types
+  - event-participant-tags
+- PersonHandPart:
+  - ms-hand-types
+  - ms-hand-jobs
+  - ms-hand-sign-types
+- PersonPart:
+  - languages
+  - person-name-types
+  - person-name-tags
+- PoeticTextInfoPart:
+  - bio-event-types
+  - event-participant-tags
+
+- MsBindingPart:
+  - ms-binding-materials
+  - ms-binding-support-materials
+  - physical-size-tags
+  - physical-dimension-tags
+  - physical-size-units\*
+- MsCatchwordsPart:
+  - ms-catchword-positions
+- MsCompositionPart:
+  - ms-materials
+- MsContentLociPart
+- MsContentsPart:
+  - ms-content-states
+- MsDecorationsPart:
+  - ms-decoration-types
+  - ms-decoration-layouts
+  - ms-decoration-tools
+  - ms-decoration-positions
+  - ms-guide-positions
+  - ms-artist-types
+  - ms-decoration-colors
+  - physical-size-tags
+  - physical-dimension-tags
+  - physical-size-units\*
+- MsDimensionsPart:
+  - ms-dimensions
+  - ms-counts
+  - physical-size-units\*
+- MsHandsPart:
+  - ms-hand-id-reasons
+  - ms-rubrication-types
+  - languages
+- MsHistoryPart:
+  - ms-provenance-areas
+  - ms-history-person-roles
+  - ms-history-languages
+  - ms-history-person-tags
+  - ms-annotation-types
+  - ms-restoration-types
+- MsMaterialDscPart:
+  - ms-materials
+  - ms-formats
+  - ms-states
+- MsNumberingsPart:
+  - ms-numbering-eras
+  - ms-numbering-systems
+  - ms-numbering-techniques
+  - ms-numbering-positions
+- MsPlacePart:
+  - ms-place-areas
+  - doc-reference-tags
+- MsPoemRangesPart:
+  - ms-poem-ranges-tags
+- MsQuiresPart
+- MsSignaturesPart:
+  - ms-signature-tags
+- MsWatermarksPart:
+  - ms-watermark-subjects
+
+Reverse index:
+
+- bio-event-types
+- doc-reference-tags
+- epist-attachment-types
+- event-participant-tags
+- languages
+- ms-annotation-types
+- ms-artist-types
+- ms-binding-materials
+- ms-binding-support-materials
+- ms-catchword-positions
+- ms-content-states
+- ms-counts
+- ms-decoration-colors
+- ms-decoration-layouts
+- ms-decoration-positions
+- ms-decoration-tools
+- ms-decoration-types
+- ms-dimensions
+- ms-formats
+- ms-guide-positions
+- ms-hand-id-reasons
+- ms-hand-jobs
+- ms-hand-sign-types
+- ms-hand-types
+- ms-history-languages
+- ms-history-person-roles
+- ms-history-person-tags
+- ms-materials
+- ms-numbering-eras
+- ms-numbering-positions
+- ms-numbering-systems
+- ms-numbering-techniques
+- ms-place-areas
+- ms-poem-ranges-tags
+- ms-provenance-areas
+- ms-restoration-types
+- ms-rubrication-types
+- ms-signature-tags
+- ms-states
+- ms-watermark-subjects
+- person-name-tags
+- person-name-types
+- physical-dimension-tags
+- physical-size-tags
+- physical-size-units\*
+
 ## Useful Snippets
 
 These snippets are provided here just to save some typing.
