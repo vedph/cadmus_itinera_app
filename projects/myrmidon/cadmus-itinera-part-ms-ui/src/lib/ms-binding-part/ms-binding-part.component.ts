@@ -9,8 +9,9 @@ import { PhysicalSize } from '@myrmidon/cadmus-itinera-core';
 
 /**
  * Manuscript's binding part.
- * Thesauri: ms-binding-materials (optional), physical-size-tags (optional),
- * physical-dimension-tags (optional), physical-size-units.
+ * Thesauri: ms-binding-materials (optional), ms-binding-support-materials
+ * (optional), physical-size-tags (optional), physical-dimension-tags
+ * (optional), physical-size-units.
  */
 @Component({
   selector: 'cadmus-ms-binding-part',
@@ -36,6 +37,7 @@ export class MsBindingPartComponent
   };
 
   public materialEntries: ThesaurusEntry[];
+  public supportEntries: ThesaurusEntry[];
   public sizeTagEntries: ThesaurusEntry[];
   public dimTagEntries: ThesaurusEntry[];
   public unitEntries: ThesaurusEntry[];
@@ -96,6 +98,13 @@ export class MsBindingPartComponent
       this.materialEntries = this.thesauri[key].entries;
     } else {
       this.materialEntries = null;
+    }
+
+    key = 'ms-binding-support-materials';
+    if (this.thesauri && this.thesauri[key]) {
+      this.supportEntries = this.thesauri[key].entries;
+    } else {
+      this.supportEntries = null;
     }
 
     key = 'physical-size-tags';

@@ -36,95 +36,90 @@
       </div>
 
       <div>
-        <ng-container *ngIf="materialEntries?.length">
-          <!-- cover material (bound) -->
-          <mat-form-field style="width: 8em">
-            <mat-select
-              [formControl]="coverMaterial"
-              placeholder="cover material"
-            >
-              <mat-option *ngFor="let e of materialEntries" [value]="e.id">{{
-                e.value
-              }}</mat-option>
-            </mat-select>
-            <mat-error
-              *ngIf="
-                coverMaterial.errors?.required &&
-                (coverMaterial.dirty || coverMaterial.touched)
-              "
-              >cover material required</mat-error
-            >
-          </mat-form-field>
+        <!-- cover material (bound) -->
+        <mat-form-field *ngIf="materialEntries?.length" style="width: 8em">
+          <mat-select
+            [formControl]="coverMaterial"
+            placeholder="cover material"
+          >
+            <mat-option *ngFor="let e of materialEntries" [value]="e.id">{{
+              e.value
+            }}</mat-option>
+          </mat-select>
+          <mat-error
+            *ngIf="
+              coverMaterial.errors?.required &&
+              (coverMaterial.dirty || coverMaterial.touched)
+            "
+            >cover material required</mat-error
+          >
+        </mat-form-field>
 
-          <!-- support material (bound) -->
-          &nbsp;
-          <mat-form-field style="width: 8em">
-            <mat-select
-              [formControl]="supportMaterial"
-              placeholder="support material"
-            >
-              <mat-option *ngFor="let e of materialEntries" [value]="e.id">{{
-                e.value
-              }}</mat-option>
-            </mat-select>
-            <mat-error
-              *ngIf="
-                supportMaterial.errors?.required &&
-                (supportMaterial.dirty || supportMaterial.touched)
-              "
-              >support material required</mat-error
-            >
-          </mat-form-field>
-        </ng-container>
+        <!-- cover material (free) -->
+        <mat-form-field *ngIf="!materialEntries?.length" style="width: 8em">
+          <input
+            matInput
+            [formControl]="coverMaterial"
+            placeholder="cover material"
+          />
+          <mat-error
+            *ngIf="
+              coverMaterial.errors?.required &&
+              (coverMaterial.dirty || coverMaterial.touched)
+            "
+            >cover material required</mat-error
+          >
+          <mat-error
+            *ngIf="
+              coverMaterial.errors?.maxLength &&
+              (coverMaterial.dirty || coverMaterial.touched)
+            "
+            >cover material too long</mat-error
+          >
+        </mat-form-field>
 
-        <ng-container *ngIf="!materialEntries?.length">
-          <!-- cover material (free) -->
-          <mat-form-field style="width: 8em">
-            <input
-              matInput
-              [formControl]="coverMaterial"
-              placeholder="cover material"
-            />
-            <mat-error
-              *ngIf="
-                coverMaterial.errors?.required &&
-                (coverMaterial.dirty || coverMaterial.touched)
-              "
-              >cover material required</mat-error
-            >
-            <mat-error
-              *ngIf="
-                coverMaterial.errors?.maxLength &&
-                (coverMaterial.dirty || coverMaterial.touched)
-              "
-              >cover material too long</mat-error
-            >
-          </mat-form-field>
+        <!-- support material (bound) -->
+        &nbsp;
+        <mat-form-field *ngIf="supportEntries?.length" style="width: 8em">
+          <mat-select
+            [formControl]="supportMaterial"
+            placeholder="support material"
+          >
+            <mat-option *ngFor="let e of supportEntries" [value]="e.id">{{
+              e.value
+            }}</mat-option>
+          </mat-select>
+          <mat-error
+            *ngIf="
+              supportMaterial.errors?.required &&
+              (supportMaterial.dirty || supportMaterial.touched)
+            "
+            >support material required</mat-error
+          >
+        </mat-form-field>
 
-          <!-- support material (free) -->
-          &nbsp;
-          <mat-form-field style="width: 8em">
-            <input
-              matInput
-              [formControl]="supportMaterial"
-              placeholder="support material"
-            />
-            <mat-error
-              *ngIf="
-                supportMaterial.errors?.required &&
-                (supportMaterial.dirty || supportMaterial.touched)
-              "
-              >support material required</mat-error
-            >
-            <mat-error
-              *ngIf="
-                supportMaterial.errors?.maxLength &&
-                (supportMaterial.dirty || supportMaterial.touched)
-              "
-              >support material too long</mat-error
-            >
-          </mat-form-field>
-        </ng-container>
+        <!-- support material (free) -->
+        <mat-form-field *ngIf="!supportEntries?.length" style="width: 8em">
+          <input
+            matInput
+            [formControl]="supportMaterial"
+            placeholder="support material"
+          />
+          <mat-error
+            *ngIf="
+              supportMaterial.errors?.required &&
+              (supportMaterial.dirty || supportMaterial.touched)
+            "
+            >support material required</mat-error
+          >
+          <mat-error
+            *ngIf="
+              supportMaterial.errors?.maxLength &&
+              (supportMaterial.dirty || supportMaterial.touched)
+            "
+            >support material too long</mat-error
+          >
+        </mat-form-field>
       </div>
 
       <div>
