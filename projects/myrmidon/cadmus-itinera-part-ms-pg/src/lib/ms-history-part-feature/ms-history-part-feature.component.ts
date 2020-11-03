@@ -42,7 +42,7 @@ export class MsHistoryPartFeatureComponent
     this.initEditor([
       'ms-provenance-areas',
       'ms-history-person-roles',
-      'languages',
+      'ms-history-languages',
       'ms-history-person-tags',
       'ms-annotation-types',
       'ms-restoration-types',

@@ -24,9 +24,9 @@ import { take } from 'rxjs/operators';
 
 /**
  * Manuscript's history part editor.
- * Thesauri: ms-provenance-areas, ms-history-person-roles, languages,
- * ms-history-person-tags, ms-annotation-types, ms-restoration-types
- * (all optional).
+ * Thesauri: ms-provenance-areas, ms-history-person-roles,
+ * ms-history-languages, ms-history-person-tags, ms-annotation-types,
+ * ms-restoration-types (all optional).
  */
 @Component({
   selector: 'cadmus-ms-history-part',
@@ -148,7 +148,7 @@ export class MsHistoryPartComponent
       this.roleEntries = null;
     }
 
-    key = 'languages';
+    key = 'ms-history-languages';
     if (this.thesauri && this.thesauri[key]) {
       this.langEntries = this.thesauri[key].entries;
     } else {
