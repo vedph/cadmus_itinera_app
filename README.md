@@ -44,6 +44,9 @@ This list is built by inspecting the head comments of each part editor component
   - doc-reference-tags
 - CitedPersonsPart:
   - doc-reference-tags
+  - languages
+  - person-name-types
+  - person-id-tags
 - CorrDedicationsPart:
   - doc-reference-tags
 - CorrExchangesPart:

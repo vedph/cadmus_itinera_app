@@ -14,10 +14,10 @@
               type="button"
               mat-icon-button
               color="primary"
-              matTooltip="Add person"
               (click)="addPerson()"
             >
               <mat-icon>add_circle</mat-icon>
+              add person
             </button>
           </div>
           <table *ngIf="persons?.length">
@@ -82,9 +82,12 @@
 
         <mat-tab label="person" *ngIf="editedPerson">
           <cadmus-cited-person
-            [model]="editedPerson"
-            [tagEntries]="tagEntries"
-            (modelChange)="onPersonSaved($event)"
+            [person]="editedPerson"
+            [langEntries]="langEntries"
+            [nameTagEntries]="nameTagEntries"
+            [nameTypeEntries]="nameTypeEntries"
+            [idTagEntries]="idTagEntries"
+            (personChange)="onPersonSaved($event)"
             (editorClose)="onPersonClosed()"
           ></cadmus-cited-person>
         </mat-tab>

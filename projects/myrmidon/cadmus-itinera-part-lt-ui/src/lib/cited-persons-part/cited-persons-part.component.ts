@@ -5,18 +5,21 @@ import { ModelEditorComponentBase, DialogService } from '@myrmidon/cadmus-ui';
 import { AuthService } from '@myrmidon/cadmus-api';
 import { ThesaurusEntry } from '@myrmidon/cadmus-core';
 
-import { CitedPersonsPart, CITED_PERSONS_PART_TYPEID } from '../cited-persons-part';
+import {
+  CitedPersonsPart,
+  CITED_PERSONS_PART_TYPEID,
+} from '../cited-persons-part';
 import { CitedPerson, PersonName } from '@myrmidon/cadmus-itinera-core';
 import { take } from 'rxjs/operators';
 
 /**
  * Cited persons part editor.
- * Thesauri: doc-reference-tags (optional).
+ * Thesauri: doc-reference-tags, languages, person-name-types, person-id-tags (all optional).
  */
 @Component({
   selector: 'cadmus-cited-persons-part',
   templateUrl: './cited-persons-part.component.html',
-  styleUrls: ['./cited-persons-part.component.css']
+  styleUrls: ['./cited-persons-part.component.css'],
 })
 export class CitedPersonsPartComponent
   extends ModelEditorComponentBase<CitedPersonsPart>
@@ -26,7 +29,10 @@ export class CitedPersonsPartComponent
   public tabIndex: number;
   public editedPerson: CitedPerson;
 
-  public tagEntries: ThesaurusEntry[];
+  public langEntries: ThesaurusEntry[];
+  public nameTagEntries: ThesaurusEntry[];
+  public nameTypeEntries: ThesaurusEntry[];
+  public idTagEntries: ThesaurusEntry[];
 
   public persons: CitedPerson[];
 
@@ -67,11 +73,32 @@ export class CitedPersonsPartComponent
   }
 
   protected onThesauriSet(): void {
-    const key = 'doc-reference-tags';
+    let key = 'doc-reference-tags';
     if (this.thesauri && this.thesauri[key]) {
-    this.tagEntries = this.thesauri[key].entries;
+      this.nameTagEntries = this.thesauri[key].entries;
     } else {
-      this.tagEntries = null;
+      this.nameTagEntries = null;
+    }
+
+    key = 'languages';
+    if (this.thesauri && this.thesauri[key]) {
+      this.langEntries = this.thesauri[key].entries;
+    } else {
+      this.langEntries = null;
+    }
+
+    key = 'person-name-types';
+    if (this.thesauri && this.thesauri[key]) {
+      this.nameTypeEntries = this.thesauri[key].entries;
+    } else {
+      this.nameTypeEntries = null;
+    }
+
+    key = 'person-id-tags';
+    if (this.thesauri && this.thesauri[key]) {
+      this.idTagEntries = this.thesauri[key].entries;
+    } else {
+      this.idTagEntries = null;
     }
   }
 
@@ -96,7 +123,7 @@ export class CitedPersonsPartComponent
 
   public addPerson(): void {
     const person: CitedPerson = {
-      name: null
+      name: null,
     };
     this.persons = [...this.persons, person];
     this.count.setValue(this.persons.length);

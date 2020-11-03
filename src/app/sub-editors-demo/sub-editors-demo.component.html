@@ -72,7 +72,7 @@
       <mat-tab label="Cited Person">
         <cadmus-cited-person
           [langEntries]="langEntries"
-          [typeEntries]="namePartTypeEntries"
+          [nameTypeEntries]="namePartTypeEntries"
           (personChange)="onCitedPersonChange($event)"
         ></cadmus-cited-person>
         <div *ngIf="lastCitedPerson">

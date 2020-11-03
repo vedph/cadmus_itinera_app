@@ -1,7 +1,7 @@
 <form [formGroup]="form">
   <div>
     <!-- language (bound) -->
-    <ng-container *ngIf="!langEntries">
+    <ng-container *ngIf="!langEntries?.length">
       <mat-form-field style="width: 6em">
         <input matInput placeholder="language" [formControl]="language" />
         <mat-error
@@ -21,7 +21,7 @@
       </mat-form-field>
     </ng-container>
     <!-- language (free) -->
-    <ng-container *ngIf="langEntries">
+    <ng-container *ngIf="langEntries?.length">
       <mat-form-field style="width: 6em">
         <mat-select [formControl]="language" placeholder="language">
           <mat-option *ngFor="let e of langEntries" [value]="e.id">{{

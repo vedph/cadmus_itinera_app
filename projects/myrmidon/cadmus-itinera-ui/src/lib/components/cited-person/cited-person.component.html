@@ -5,8 +5,8 @@
       [parentForm]="form"
       [model$]="name$"
       [langEntries]="langEntries"
-      [tagEntries]="tagEntries"
-      [typeEntries]="typeEntries"
+      [tagEntries]="nameTagEntries"
+      [typeEntries]="nameTypeEntries"
       (modelChange)="onNameChange($event)"
     ></cadmus-person-name>
   </div>
@@ -21,7 +21,7 @@
     </mat-expansion-panel-header>
     <cadmus-decorated-ids
       [ids]="ids"
-      [tagEntries]="tagEntries"
+      [tagEntries]="idTagEntries"
       (idsChange)="onIdsChange($event)"
     ></cadmus-decorated-ids>
   </mat-expansion-panel>
@@ -38,7 +38,7 @@
     </mat-expansion-panel-header>
     <cadmus-doc-references
       [model$]="sources$"
-      [tagEntries]="tagEntries"
+      [tagEntries]="idTagEntries"
       (modelChange)="onSourcesChange($event)"
     ></cadmus-doc-references>
   </mat-expansion-panel>

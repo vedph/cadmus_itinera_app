@@ -44,13 +44,12 @@ export class CitedPersonComponent {
    * The optional thesaurus name's tag entries.
    */
   @Input()
-  public tagEntries: ThesaurusEntry[];
+  public nameTagEntries: ThesaurusEntry[];
   /**
    * The optional thesaurus name part's type entries.
    */
   @Input()
-  public typeEntries: ThesaurusEntry[];
-
+  public nameTypeEntries: ThesaurusEntry[];
   /**
    * The optional IDs tag entries.
    */
