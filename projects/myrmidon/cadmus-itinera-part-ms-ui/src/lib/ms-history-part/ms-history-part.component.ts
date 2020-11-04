@@ -25,8 +25,8 @@ import { take } from 'rxjs/operators';
 /**
  * Manuscript's history part editor.
  * Thesauri: ms-provenance-areas, ms-history-person-roles,
- * ms-history-languages, ms-history-person-tags, ms-annotation-types,
- * ms-restoration-types (all optional).
+ * ms-history-languages, ms-annotation-types, ms-restoration-types,
+ * person-name-types, person-name-tags (all optional).
  */
 @Component({
   selector: 'cadmus-ms-history-part',
@@ -67,7 +67,8 @@ export class MsHistoryPartComponent
   // persons
   public roleEntries: ThesaurusEntry[];
   public langEntries: ThesaurusEntry[];
-  public tagEntries: ThesaurusEntry[];
+  public nameTypeEntries: ThesaurusEntry[];
+  public nameTagEntries: ThesaurusEntry[];
   // annotations
   public annTypeEntries: ThesaurusEntry[];
   // restorations
@@ -155,13 +156,6 @@ export class MsHistoryPartComponent
       this.langEntries = null;
     }
 
-    key = 'ms-history-person-tags';
-    if (this.thesauri && this.thesauri[key]) {
-      this.tagEntries = this.thesauri[key].entries;
-    } else {
-      this.tagEntries = null;
-    }
-
     key = 'ms-annotation-types';
     if (this.thesauri && this.thesauri[key]) {
       this.annTypeEntries = this.thesauri[key].entries;
@@ -174,6 +168,20 @@ export class MsHistoryPartComponent
       this.rstTypeEntries = this.thesauri[key].entries;
     } else {
       this.rstTypeEntries = null;
+    }
+
+    key = 'person-name-types';
+    if (this.thesauri && this.thesauri[key]) {
+      this.nameTypeEntries = this.thesauri[key].entries;
+    } else {
+      this.nameTypeEntries = null;
+    }
+
+    key = 'person-name-tags';
+    if (this.thesauri && this.thesauri[key]) {
+      this.nameTagEntries = this.thesauri[key].entries;
+    } else {
+      this.nameTagEntries = null;
     }
   }
 
@@ -224,6 +232,7 @@ export class MsHistoryPartComponent
 
   public removeProvenance(index: number): void {
     this.provenances.removeAt(index);
+    this.form.markAsDirty();
   }
 
   public moveProvenanceUp(index: number): void {
@@ -233,6 +242,7 @@ export class MsHistoryPartComponent
     const provenance = this.provenances.controls[index];
     this.provenances.removeAt(index);
     this.provenances.insert(index - 1, provenance);
+    this.form.markAsDirty();
   }
 
   public moveProvenanceDown(index: number): void {
@@ -242,6 +252,7 @@ export class MsHistoryPartComponent
     const provenance = this.provenances.controls[index];
     this.provenances.removeAt(index);
     this.provenances.insert(index + 1, provenance);
+    this.form.markAsDirty();
   }
 
   // persons

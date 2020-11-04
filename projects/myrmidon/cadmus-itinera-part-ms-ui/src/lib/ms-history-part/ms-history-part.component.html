@@ -81,7 +81,7 @@
                 </mat-form-field>
 
                 <!-- area (free) -->
-                <mat-form-field>
+                <mat-form-field *ngIf="!areaEntries?.length" style="width: 8em">
                   <input matInput formControlName="area" placeholder="area" />
                   <mat-error
                     *ngIf="
@@ -223,7 +223,10 @@
             </tbody>
           </table>
 
-          <mat-expansion-panel [(expanded)]="personEditorOpen">
+          <mat-expansion-panel
+            [(expanded)]="personEditorOpen"
+            [disabled]="!personEditorOpen"
+          >
             <mat-expansion-panel-header>
               <mat-panel-title>person</mat-panel-title>
               <mat-panel-description *ngIf="editedPerson">
@@ -235,9 +238,11 @@
               [model]="editedPerson"
               [roleEntries]="roleEntries"
               [langEntries]="langEntries"
-              [tagEntries]="tagEntries"
+              [nameTypeEntries]="nameTypeEntries"
+              [nameTagEntries]="nameTagEntries"
               (modelChange)="onPersonSaved($event)"
-              (editorClose)="onPersonClosed()">
+              (editorClose)="onPersonClosed()"
+            >
             </cadmus-ms-history-person>
           </mat-expansion-panel>
         </mat-tab>
@@ -322,7 +327,10 @@
             </tbody>
           </table>
 
-          <mat-expansion-panel [(expanded)]="annotationEditorOpen">
+          <mat-expansion-panel
+            [(expanded)]="annotationEditorOpen"
+            [disabled]="!annotationEditorOpen"
+          >
             <mat-expansion-panel-header>
               <mat-panel-title>annotation</mat-panel-title>
             </mat-expansion-panel-header>
@@ -332,7 +340,8 @@
               [langEntries]="langEntries"
               [typeEntries]="annTypeEntries"
               (modelChange)="onAnnotationSaved($event)"
-              (editorClose)="onAnnotationClosed()">
+              (editorClose)="onAnnotationClosed()"
+            >
             </cadmus-ms-annotation>
           </mat-expansion-panel>
         </mat-tab>
@@ -411,7 +420,10 @@
             </tbody>
           </table>
 
-          <mat-expansion-panel [(expanded)]="restorationEditorOpen">
+          <mat-expansion-panel
+            [(expanded)]="restorationEditorOpen"
+            [disabled]="!restorationEditorOpen"
+          >
             <mat-expansion-panel-header>
               <mat-panel-title>restoration</mat-panel-title>
             </mat-expansion-panel-header>
@@ -420,7 +432,8 @@
               [model]="editedRestoration"
               [typeEntries]="rstTypeEntries"
               (modelChange)="onRestorationSaved($event)"
-              (editorClose)="onRestorationClosed()">
+              (editorClose)="onRestorationClosed()"
+            >
             </cadmus-ms-restoration>
           </mat-expansion-panel>
         </mat-tab>

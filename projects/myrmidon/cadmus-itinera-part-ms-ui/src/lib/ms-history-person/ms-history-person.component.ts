@@ -5,7 +5,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { HistoricalDate, HistoricalDateModel, ThesaurusEntry } from '@myrmidon/cadmus-core';
+import { HistoricalDateModel, ThesaurusEntry } from '@myrmidon/cadmus-core';
 import {
   DocReference,
   MsHistoryPerson,
@@ -32,7 +32,9 @@ export class MsHistoryPersonComponent implements OnInit {
   @Input()
   public langEntries: ThesaurusEntry[];
   @Input()
-  public tagEntries: ThesaurusEntry[];
+  public nameTypeEntries: ThesaurusEntry[];
+  @Input()
+  public nameTagEntries: ThesaurusEntry[];
 
   @Output()
   public modelChange: EventEmitter<MsHistoryPerson>;

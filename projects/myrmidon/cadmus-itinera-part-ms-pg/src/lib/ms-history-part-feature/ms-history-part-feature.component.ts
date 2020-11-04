@@ -43,9 +43,10 @@ export class MsHistoryPartFeatureComponent
       'ms-provenance-areas',
       'ms-history-person-roles',
       'ms-history-languages',
-      'ms-history-person-tags',
       'ms-annotation-types',
       'ms-restoration-types',
+      'person-name-types',
+      'person-name-tags'
     ]);
   }
 }

@@ -114,9 +114,10 @@ This list is built by inspecting the head comments of each part editor component
   - ms-provenance-areas
   - ms-history-person-roles
   - ms-history-languages
-  - ms-history-person-tags
   - ms-annotation-types
   - ms-restoration-types
+  - person-name-types
+  - person-name-tags
 - MsMaterialDscPart:
   - ms-materials
   - ms-formats
@@ -165,7 +166,6 @@ Reverse index:
 - ms-hand-types
 - ms-history-languages
 - ms-history-person-roles
-- ms-history-person-tags
 - ms-materials
 - ms-numbering-eras
 - ms-numbering-positions

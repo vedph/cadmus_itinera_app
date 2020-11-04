@@ -32,7 +32,8 @@
   <cadmus-person-name
     [model$]="name$"
     [langEntries]="langEntries"
-    [tagEntries]="tagEntries"
+    [tagEntries]="nameTagEntries"
+    [typeEntries]="nameTypeEntries"
     (modelChange)="onNameChanged($event)"
   ></cadmus-person-name>
 
