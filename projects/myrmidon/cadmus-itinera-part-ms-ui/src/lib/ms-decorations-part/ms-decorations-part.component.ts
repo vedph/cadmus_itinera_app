@@ -245,6 +245,7 @@ export class MsDecorationsPartComponent
     sheets.splice(index, 1);
     sheets.splice(index - 1, 0, item);
     this.decorations = sheets;
+    this.form.markAsDirty();
   }
 
   public moveDecorationDown(index: number): void {
@@ -256,6 +257,7 @@ export class MsDecorationsPartComponent
     items.splice(index, 1);
     items.splice(index + 1, 0, item);
     this.decorations = items;
+    this.form.markAsDirty();
   }
 
   public locationToString(location: MsLocation): string {

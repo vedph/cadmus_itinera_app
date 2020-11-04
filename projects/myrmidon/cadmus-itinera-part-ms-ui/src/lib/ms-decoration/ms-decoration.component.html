@@ -157,7 +157,6 @@
         </mat-form-field>
 
         <!-- layout (free) -->
-        &nbsp;
         <mat-form-field *ngIf="!layoutEntries?.length" style="width: 8em">
           <input matInput [formControl]="layout" placeholder="layout" />
           <mat-error
@@ -171,6 +170,7 @@
         </mat-form-field>
 
         <!-- tool (bound) -->
+        &nbsp;
         <mat-form-field *ngIf="toolEntries?.length" style="width: 8em">
           <mat-select [formControl]="tool" placeholder="tool">
             <mat-option *ngFor="let e of toolEntries" [value]="e.id">{{
@@ -184,7 +184,6 @@
         </mat-form-field>
 
         <!-- tool (free) -->
-        &nbsp;
         <mat-form-field *ngIf="!toolEntries?.length" style="width: 8em">
           <input matInput [formControl]="tool" placeholder="tool" />
           <mat-error
