@@ -17,4 +17,5 @@ export * from './lib/ms-poem-ranges-part-feature/ms-poem-ranges-part-feature.com
 export * from './lib/ms-quires-part-feature/ms-quires-part-feature.component';
 export * from './lib/ms-signatures-part-feature/ms-signatures-part-feature.component';
 export * from './lib/ms-watermarks-part-feature/ms-watermarks-part-feature.component';
+export * from './lib/person-hand-part-feature/person-hand-part-feature.component';
 export * from './lib/cadmus-itinera-part-ms-pg.module';

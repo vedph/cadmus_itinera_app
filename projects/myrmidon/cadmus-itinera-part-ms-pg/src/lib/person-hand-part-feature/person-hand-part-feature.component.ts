@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
-
-import { ThesauriSet } from '@myrmidon/cadmus-core';
 import {
   EditItemQuery,
   EditItemService,

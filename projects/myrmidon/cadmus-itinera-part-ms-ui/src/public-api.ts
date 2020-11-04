@@ -62,4 +62,7 @@ export * from './lib/ms-watermarks-part';
 export * from './lib/ms-watermark/ms-watermark.component';
 export * from './lib/ms-watermarks-part/ms-watermarks-part.component';
 
+export * from './lib/person-hand-part';
+export * from './lib/person-hand-part/person-hand-part.component';
+
 export * from './lib/cadmus-itinera-part-ms-ui.module';

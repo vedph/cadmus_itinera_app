@@ -12,7 +12,6 @@ import {
   DOC_REFERENCES_PART_TYPEID,
   LETTER_INFO_PART_TYPEID,
   PERSON_EVENTS_PART_TYPEID,
-  PERSON_HAND_PART_TYPEID,
   PERSON_PART_TYPEID,
   POETIC_TEXT_INFO_PART_TYPEID,
   ATTACHMENTS_PART_TYPEID
@@ -28,7 +27,6 @@ import { CorrPseudonymsPartFeatureComponent } from './corr-pseudonyms-part-featu
 import { CitedPersonsPartFeatureComponent } from './cited-persons-part-feature/cited-persons-part-feature.component';
 import { PoeticTextInfoPartFeatureComponent } from './poetic-text-info-part-feature/poetic-text-info-part-feature.component';
 import { LetterInfoPartFeatureComponent } from './letter-info-part-feature/letter-info-part-feature.component';
-import { PersonHandPartFeatureComponent } from './person-hand-part-feature/person-hand-part-feature.component';
 import { CorrExchangesPartFeatureComponent } from './corr-exchanges-part-feature/corr-exchanges-part-feature.component';
 import { ChronotopicsPartFeatureComponent } from './chronotopics-part-feature/chronotopics-part-feature.component';
 import { AttachmentsPartFeatureComponent } from './attachments-part-feature/attachments-part-feature.component';
@@ -84,12 +82,6 @@ export const RouterModuleForChild = RouterModule.forChild([
     canDeactivate: [PendingChangesGuard],
   },
   {
-    path: `${PERSON_HAND_PART_TYPEID}/:pid`,
-    pathMatch: 'full',
-    component: PersonHandPartFeatureComponent,
-    canDeactivate: [PendingChangesGuard],
-  },
-  {
     path: `${CORR_EXCHANGES_PART_TYPEID}/:pid`,
     pathMatch: 'full',
     component: CorrExchangesPartFeatureComponent,
@@ -120,7 +112,6 @@ export const RouterModuleForChild = RouterModule.forChild([
     DocReferencesPartFeatureComponent,
     LetterInfoPartFeatureComponent,
     PersonEventsPartFeatureComponent,
-    PersonHandPartFeatureComponent,
     PersonPartFeatureComponent,
     PoeticTextInfoPartFeatureComponent,
   ],
@@ -145,7 +136,6 @@ export const RouterModuleForChild = RouterModule.forChild([
     DocReferencesPartFeatureComponent,
     LetterInfoPartFeatureComponent,
     PersonEventsPartFeatureComponent,
-    PersonHandPartFeatureComponent,
     PersonPartFeatureComponent,
     PoeticTextInfoPartFeatureComponent,
   ],

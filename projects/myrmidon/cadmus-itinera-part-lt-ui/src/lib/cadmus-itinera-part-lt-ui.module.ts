@@ -18,7 +18,6 @@ import { CitedPersonsPartComponent } from './cited-persons-part/cited-persons-pa
 import { PoeticTextInfoPartComponent } from './poetic-text-info-part/poetic-text-info-part.component';
 import { LetterInfoPartComponent } from './letter-info-part/letter-info-part.component';
 import { MsHandSignComponent } from './ms-hand-sign/ms-hand-sign.component';
-import { PersonHandPartComponent } from './person-hand-part/person-hand-part.component';
 import { CorrExchangeComponent } from './corr-exchange/corr-exchange.component';
 import { CorrExchangesPartComponent } from './corr-exchanges-part/corr-exchanges-part.component';
 import { ChronotopicsPartComponent } from './chronotopics-part/chronotopics-part.component';
@@ -40,7 +39,6 @@ import { AttachmentsPartComponent } from './attachments-part/attachments-part.co
     LitDedicationComponent,
     MsHandSignComponent,
     PersonPartComponent,
-    PersonHandPartComponent,
     PersonEventsPartComponent,
     PoeticTextInfoPartComponent,
   ],
@@ -71,7 +69,6 @@ import { AttachmentsPartComponent } from './attachments-part/attachments-part.co
     LitDedicationComponent,
     MsHandSignComponent,
     PersonPartComponent,
-    PersonHandPartComponent,
     PersonEventsPartComponent,
     PoeticTextInfoPartComponent,
   ],

@@ -7,7 +7,7 @@ import {
   editPartInitialState,
 } from '@myrmidon/cadmus-state';
 
-import { PERSON_HAND_PART_TYPEID } from '@myrmidon/cadmus-itinera-part-lt-ui';
+import { PERSON_HAND_PART_TYPEID } from '@myrmidon/cadmus-itinera-part-ms-ui';
 
 @Injectable({ providedIn: 'root' })
 @StoreConfig({ name: PERSON_HAND_PART_TYPEID })

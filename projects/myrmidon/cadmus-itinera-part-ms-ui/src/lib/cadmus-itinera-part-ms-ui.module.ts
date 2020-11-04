@@ -34,6 +34,7 @@ import { MsHistoryPersonComponent } from './ms-history-person/ms-history-person.
 import { MsAnnotationComponent } from './ms-annotation/ms-annotation.component';
 import { MsRestorationComponent } from './ms-restoration/ms-restoration.component';
 import { MsHistoryPartComponent } from './ms-history-part/ms-history-part.component';
+import { PersonHandPartComponent } from './person-hand-part/person-hand-part.component';
 
 @NgModule({
   declarations: [
@@ -65,6 +66,7 @@ import { MsHistoryPartComponent } from './ms-history-part/ms-history-part.compon
     MsSignaturesPartComponent,
     MsWatermarkComponent,
     MsWatermarksPartComponent,
+    PersonHandPartComponent
   ],
   imports: [
     CommonModule,
@@ -107,6 +109,7 @@ import { MsHistoryPartComponent } from './ms-history-part/ms-history-part.compon
     MsSignaturesPartComponent,
     MsWatermarkComponent,
     MsWatermarksPartComponent,
+    PersonHandPartComponent
   ],
 })
 export class CadmusItineraPartMsUiModule {}

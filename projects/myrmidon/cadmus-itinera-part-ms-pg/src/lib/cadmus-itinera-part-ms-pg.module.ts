@@ -22,7 +22,8 @@ import {
   MSDIMENSIONS_PART_TYPEID,
   MSHANDS_PART_TYPEID,
   MSDECORATIONS_PART_TYPEID,
-  MSHISTORY_PART_TYPEID
+  MSHISTORY_PART_TYPEID,
+  PERSON_HAND_PART_TYPEID
 } from '@myrmidon/cadmus-itinera-part-ms-ui';
 import { MsSignaturesPartFeatureComponent } from './ms-signatures-part-feature/ms-signatures-part-feature.component';
 import { MsCompositionPartFeatureComponent } from './ms-composition-part-feature/ms-composition-part-feature.component';
@@ -40,6 +41,7 @@ import { MsDimensionsPartFeatureComponent } from './ms-dimensions-part-feature/m
 import { MsHandsPartFeatureComponent } from './ms-hands-part-feature/ms-hands-part-feature.component';
 import { MsDecorationsPartFeatureComponent } from './ms-decorations-part-feature/ms-decorations-part-feature.component';
 import { MsHistoryPartFeatureComponent } from './ms-history-part-feature/ms-history-part-feature.component';
+import { PersonHandPartFeatureComponent } from './person-hand-part-feature/person-hand-part-feature.component';
 
 // https://github.com/ng-packagr/ng-packagr/issues/778
 export const RouterModuleForChild = RouterModule.forChild([
@@ -139,6 +141,12 @@ export const RouterModuleForChild = RouterModule.forChild([
     component: MsHistoryPartFeatureComponent,
     canDeactivate: [PendingChangesGuard],
   },
+  {
+    path: `${PERSON_HAND_PART_TYPEID}/:pid`,
+    pathMatch: 'full',
+    component: PersonHandPartFeatureComponent,
+    canDeactivate: [PendingChangesGuard],
+  },
 ]);
 
 @NgModule({
@@ -159,6 +167,7 @@ export const RouterModuleForChild = RouterModule.forChild([
     MsQuiresPartFeatureComponent,
     MsSignaturesPartFeatureComponent,
     MsWatermarksPartFeatureComponent,
+    PersonHandPartFeatureComponent
   ],
   imports: [
     CommonModule,
@@ -188,6 +197,7 @@ export const RouterModuleForChild = RouterModule.forChild([
     MsQuiresPartFeatureComponent,
     MsSignaturesPartFeatureComponent,
     MsWatermarksPartFeatureComponent,
+    PersonHandPartFeatureComponent
   ],
 })
 export class CadmusItineraPartMsPgModule {}

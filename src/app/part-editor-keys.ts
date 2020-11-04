@@ -26,7 +26,6 @@ import {
   CITED_PERSONS_PART_TYPEID,
   POETIC_TEXT_INFO_PART_TYPEID,
   LETTER_INFO_PART_TYPEID,
-  PERSON_HAND_PART_TYPEID,
   CORR_EXCHANGES_PART_TYPEID,
   CHRONOTOPICS_PART_TYPEID,
   ATTACHMENTS_PART_TYPEID
@@ -48,6 +47,7 @@ import {
   MSHANDS_PART_TYPEID,
   MSDECORATIONS_PART_TYPEID,
   MSHISTORY_PART_TYPEID,
+  PERSON_HAND_PART_TYPEID
 } from '@myrmidon/cadmus-itinera-part-ms-ui';
 
 const GENERAL = 'general';
@@ -113,9 +113,6 @@ export const PART_EDITOR_KEYS: PartEditorKeys = {
   [LETTER_INFO_PART_TYPEID]: {
     part: ITINERA_LT,
   },
-  [PERSON_HAND_PART_TYPEID]: {
-    part: ITINERA_LT,
-  },
   [CORR_EXCHANGES_PART_TYPEID]: {
     part: ITINERA_LT,
   },
@@ -171,6 +168,9 @@ export const PART_EDITOR_KEYS: PartEditorKeys = {
     part: ITINERA_MS,
   },
   [MSHISTORY_PART_TYPEID]: {
+    part: ITINERA_MS,
+  },
+  [PERSON_HAND_PART_TYPEID]: {
     part: ITINERA_MS,
   },
   // layer parts

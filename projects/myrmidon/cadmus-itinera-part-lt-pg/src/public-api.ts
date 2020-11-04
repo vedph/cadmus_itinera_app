@@ -18,8 +18,6 @@ export * from './lib/letter-info-part-feature/letter-info-part-feature.component
 
 export * from './lib/person-events-part-feature/person-events-part-feature.component';
 
-export * from './lib/person-hand-part-feature/person-hand-part-feature.component';
-
 export * from './lib/person-part-feature/person-part-feature.component';
 
 export * from './lib/poetic-text-info-part-feature/poetic-text-info-part-feature.component';
