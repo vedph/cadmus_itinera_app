@@ -39,6 +39,13 @@ export class PoeticTextInfoPartFeatureComponent
   }
 
   public ngOnInit(): void {
-    this.initEditor(['languages', 'text-metres', 'doc-reference-tags']);
+    this.initEditor([
+      'languages',
+      'person-name-types',
+      'person-name-tags',
+      'person-id-tags',
+      'text-metres',
+      'doc-reference-tags',
+    ]);
   }
 }

@@ -19,7 +19,8 @@ import { take } from 'rxjs/operators';
 
 /**
  * Poetic text information part.
- * Thesauri: languages, text-metres, doc-reference-tags (all optional).
+ * Thesauri: languages, person-name-types, person-name-tags, person-id-tags,
+ * text-metres, doc-reference-tags (all optional).
  */
 @Component({
   selector: 'cadmus-poetic-text-info-part',
@@ -41,9 +42,12 @@ export class PoeticTextInfoPartComponent
   public related: DocReference[];
   public related$: BehaviorSubject<DocReference[]>;
 
-  public langEntries: ThesaurusEntry[];
-  public metreEntries: ThesaurusEntry[];
   public tagEntries: ThesaurusEntry[];
+  public langEntries: ThesaurusEntry[];
+  public nameTagEntries: ThesaurusEntry[];
+  public nameTypeEntries: ThesaurusEntry[];
+  public metreEntries: ThesaurusEntry[];
+  public idTagEntries: ThesaurusEntry[];
 
   public editorOptions = {
     theme: 'vs-light',
@@ -124,6 +128,27 @@ export class PoeticTextInfoPartComponent
       this.tagEntries = this.thesauri[key].entries;
     } else {
       this.tagEntries = null;
+    }
+
+    key = 'person-name-types';
+    if (this.thesauri && this.thesauri[key]) {
+      this.nameTypeEntries = this.thesauri[key].entries;
+    } else {
+      this.nameTypeEntries = null;
+    }
+
+    key = 'person-name-tags';
+    if (this.thesauri && this.thesauri[key]) {
+      this.nameTagEntries = this.thesauri[key].entries;
+    } else {
+      this.nameTagEntries = null;
+    }
+
+    key = 'person-id-tags';
+    if (this.thesauri && this.thesauri[key]) {
+      this.idTagEntries = this.thesauri[key].entries;
+    } else {
+      this.idTagEntries = null;
     }
   }
 

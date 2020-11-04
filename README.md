@@ -71,8 +71,12 @@ This list is built by inspecting the head comments of each part editor component
   - person-name-types
   - person-name-tags
 - PoeticTextInfoPart:
-  - bio-event-types
-  - event-participant-tags
+  - languages
+  - person-name-types
+  - person-name-tags
+  - person-id-tags
+  - text-metres
+  - doc-reference-tags
 
 - MsBindingPart:
   - ms-binding-materials

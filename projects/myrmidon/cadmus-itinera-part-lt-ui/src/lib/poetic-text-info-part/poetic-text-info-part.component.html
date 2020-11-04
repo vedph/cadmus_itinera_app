@@ -170,6 +170,10 @@
         <mat-tab *ngIf="editedAuthor" label="author">
           <cadmus-cited-person
             [person]="editedAuthor"
+            [langEntries]="langEntries"
+            [nameTagEntries]="nameTagEntries"
+            [nameTypeEntries]="nameTypeEntries"
+            [idTagEntries]="idTagEntries"
             (personChange)="onAuthorSaved($event)"
             (editorClose)="onAuthorClosed()"
           ></cadmus-cited-person>
