@@ -19,19 +19,12 @@ import { BehaviorSubject } from 'rxjs';
   styleUrls: ['./ms-history-person.component.css'],
 })
 export class MsHistoryPersonComponent implements OnInit {
-  private _model: MsHistoryPerson;
   private _ids: string[];
   private _sources: DocReference[];
   public name: PersonName;
 
   @Input()
-  public get model(): MsHistoryPerson {
-    return this._model;
-  }
-  public set model(value: MsHistoryPerson) {
-    this._model = value;
-    this.setModel(this._model);
-  }
+  public model: MsHistoryPerson;
 
   @Input()
   public roleEntries: ThesaurusEntry[];
@@ -75,9 +68,11 @@ export class MsHistoryPersonComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.updateForm(this.model);
+  }
 
-  private setModel(model: MsHistoryPerson): void {
+  private updateForm(model: MsHistoryPerson): void {
     if (!model) {
       this.form.reset();
       return;

@@ -16,16 +16,9 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class CorrPseudonymComponent implements OnInit {
   private _sources: DocReference[];
-  private _model: CorrPseudonym;
 
   @Input()
-  public get model(): CorrPseudonym {
-    return this._model;
-  }
-  public set model(value: CorrPseudonym) {
-    this._model = value;
-    this.setModel(this._model);
-  }
+  public model: CorrPseudonym;
 
   @Input()
   public langEntries: ThesaurusEntry[];
@@ -68,9 +61,11 @@ export class CorrPseudonymComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.updateForm(this.model);
+  }
 
-  private setModel(model: CorrPseudonym): void {
+  private updateForm(model: CorrPseudonym): void {
     if (!model) {
       this.sources$.next([]);
       this.form.reset();

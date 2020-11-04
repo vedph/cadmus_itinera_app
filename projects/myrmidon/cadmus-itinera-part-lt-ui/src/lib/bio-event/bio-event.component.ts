@@ -19,18 +19,11 @@ import { BehaviorSubject } from 'rxjs';
   styleUrls: ['./bio-event.component.css'],
 })
 export class BioEventComponent implements OnInit {
-  private _model: BioEvent;
   private _ids: string[];
   private _sources: DocReference[];
 
   @Input()
-  public get model(): BioEvent {
-    return this._model;
-  }
-  public set model(value: BioEvent) {
-    this._model = value;
-    this.setModel(this._model);
-  }
+  public model: BioEvent;
 
   @Input()
   public typeEntries: ThesaurusEntry[];
@@ -94,9 +87,11 @@ export class BioEventComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.updateForm(this.model);
+  }
 
-  private setModel(model: BioEvent): void {
+  private updateForm(model: BioEvent): void {
     if (!model) {
       this.form.reset();
       return;

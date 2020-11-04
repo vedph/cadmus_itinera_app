@@ -33,19 +33,12 @@ import { debounceTime } from 'rxjs/operators';
   styleUrls: ['./corr-exchange.component.css'],
 })
 export class CorrExchangeComponent implements OnInit, AfterViewInit, OnDestroy {
-  private _model: CorrExchange;
   private _nameSubscription: Subscription;
 
   @ViewChildren('name') nameQueryList: QueryList<any>;
 
   @Input()
-  public get model(): CorrExchange {
-    return this._model;
-  }
-  public set model(value: CorrExchange) {
-    this._model = value;
-    this.setModel(this._model);
-  }
+  public model: CorrExchange;
 
   // doc-reference-tags
   @Input()
@@ -98,7 +91,9 @@ export class CorrExchangeComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.updateForm(this.model);
+  }
 
   public ngAfterViewInit(): void {
     this._nameSubscription = this.nameQueryList.changes
@@ -114,7 +109,7 @@ export class CorrExchangeComponent implements OnInit, AfterViewInit, OnDestroy {
     this._nameSubscription.unsubscribe();
   }
 
-  private setModel(model: CorrExchange): void {
+  private updateForm(model: CorrExchange): void {
     if (!model) {
       this.participants$.next([]);
       this.sources$.next([]);

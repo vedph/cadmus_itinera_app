@@ -19,16 +19,8 @@ import {
   styleUrls: ['./ms-content.component.css'],
 })
 export class MsContentComponent implements OnInit {
-  private _model: MsContent;
-
   @Input()
-  public get model(): MsContent {
-    return this._model;
-  }
-  public set model(value: MsContent) {
-    this._model = value;
-    this.setModel(this._model);
-  }
+  public model: MsContent;
 
   @Output()
   public modelChange: EventEmitter<MsContent>;
@@ -86,9 +78,11 @@ export class MsContentComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.updateForm(this.model);
+  }
 
-  private setModel(model: MsContent): void {
+  private updateForm(model: MsContent): void {
     if (!model) {
       this.form.reset();
       return;

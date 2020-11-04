@@ -13,16 +13,8 @@ import { MsContentLocus } from '@myrmidon/cadmus-itinera-core';
   styleUrls: ['./ms-content-locus.component.css'],
 })
 export class MsContentLocusComponent implements OnInit {
-  private _model: MsContentLocus;
-
   @Input()
-  public get model(): MsContentLocus {
-    return this._model;
-  }
-  public set model(value: MsContentLocus) {
-    this._model = value;
-    this.setModel(this._model);
-  }
+  public model: MsContentLocus;
 
   @Output()
   public modelChange: EventEmitter<MsContentLocus>;
@@ -53,9 +45,11 @@ export class MsContentLocusComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.updateForm(this.model);
+  }
 
-  private setModel(model: MsContentLocus): void {
+  private updateForm(model: MsContentLocus): void {
     if (!model) {
       this.form.reset();
       return;

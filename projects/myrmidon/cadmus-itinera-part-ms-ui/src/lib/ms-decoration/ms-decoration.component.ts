@@ -21,16 +21,8 @@ import {
   styleUrls: ['./ms-decoration.component.css'],
 })
 export class MsDecorationComponent implements OnInit {
-  private _model: MsDecoration;
-
   @Input()
-  public get model(): MsDecoration {
-    return this._model;
-  }
-  public set model(value: MsDecoration) {
-    this._model = value;
-    this.setModel(this._model);
-  }
+  public model: MsDecoration;
 
   @Output()
   public modelChange: EventEmitter<MsDecoration>;
@@ -173,9 +165,11 @@ export class MsDecorationComponent implements OnInit {
         this.artistForm.disable();
       }
     });
+
+    this.updateForm(this.model);
   }
 
-  private setModel(model: MsDecoration): void {
+  private updateForm(model: MsDecoration): void {
     if (!model) {
       this.form.reset();
       return;

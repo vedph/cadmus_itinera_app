@@ -15,7 +15,6 @@ import { debounceTime } from 'rxjs/operators';
   styleUrls: ['./physical-dimension.component.css'],
 })
 export class PhysicalDimensionComponent implements OnInit {
-  private _dimension: PhysicalDimension;
   private _disabled: boolean;
   private _changeFrozen: boolean;
 
@@ -32,20 +31,7 @@ export class PhysicalDimensionComponent implements OnInit {
   public tagEntries: ThesaurusEntry[];
 
   @Input()
-  public get dimension(): PhysicalDimension {
-    return this._dimension;
-  }
-  public set dimension(value: PhysicalDimension) {
-    if (
-      this._dimension?.value === value?.value &&
-      this.dimension?.unit === value?.unit &&
-      this.dimension?.tag === value?.tag
-    ) {
-      return;
-    }
-    this._dimension = value;
-    this.setModel(this._dimension);
-  }
+  public dimension: PhysicalDimension;
 
   @Input()
   public get disabled(): boolean {
@@ -93,7 +79,8 @@ export class PhysicalDimensionComponent implements OnInit {
     if (this.parentForm) {
       this.parentForm.addControl(this.label, this.form);
     }
-    this.setModel(this._dimension);
+    this.updateForm(this.dimension);
+
     // on change emit event
     this.form.valueChanges.pipe(debounceTime(300)).subscribe((_) => {
       if (!this._changeFrozen) {
@@ -103,7 +90,7 @@ export class PhysicalDimensionComponent implements OnInit {
     });
   }
 
-  private setModel(model: PhysicalDimension): void {
+  private updateForm(model: PhysicalDimension): void {
     this._changeFrozen = true;
     if (!model) {
       this.form.reset();

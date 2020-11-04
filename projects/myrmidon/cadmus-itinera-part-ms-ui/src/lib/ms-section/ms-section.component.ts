@@ -14,16 +14,8 @@ import { MsLocationService, MsSection } from '@myrmidon/cadmus-itinera-core';
   styleUrls: ['./ms-section.component.css'],
 })
 export class MsSectionComponent implements OnInit {
-  private _model: MsSection;
-
   @Input()
-  public get model(): MsSection {
-    return this._model;
-  }
-  public set model(value: MsSection) {
-    this._model = value;
-    this.setModel(this._model);
-  }
+  public model: MsSection;
 
   @Output()
   public modelChange: EventEmitter<MsSection>;
@@ -67,9 +59,11 @@ export class MsSectionComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.updateForm(this.model);
+  }
 
-  private setModel(model: MsSection): void {
+  private updateForm(model: MsSection): void {
     if (!model) {
       this.date = null;
       this.form.reset();

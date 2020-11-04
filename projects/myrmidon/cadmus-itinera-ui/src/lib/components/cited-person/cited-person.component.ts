@@ -19,21 +19,14 @@ import { BehaviorSubject } from 'rxjs';
   templateUrl: './cited-person.component.html',
   styleUrls: ['./cited-person.component.css'],
 })
-export class CitedPersonComponent {
-  private _person: CitedPerson;
+export class CitedPersonComponent implements OnInit {
   private _name: PersonName;
   public sources: DocReference[];
 
   public ids: DecoratedId[];
 
   @Input()
-  public get person(): CitedPerson {
-    return this._person;
-  }
-  public set person(value: CitedPerson) {
-    this._person = value;
-    this.setModel(this._person);
-  }
+  public person: CitedPerson;
 
   /**
    * The optional thesaurus language entries.
@@ -88,13 +81,17 @@ export class CitedPersonComponent {
     });
   }
 
+  public ngOnInit(): void {
+    this.updateForm(this.person);
+  }
+
   private updateHasName(name: PersonName | null): void {
     this.hasName.setValue(
       name?.parts?.length > 0 && name?.language ? true : false
     );
   }
 
-  private setModel(model: CitedPerson): void {
+  private updateForm(model: CitedPerson): void {
     this.name$.next(model?.name);
     this.ids = model?.ids || [];
     this.sources$.next(model?.sources || []);

@@ -18,17 +18,10 @@ import { BehaviorSubject } from 'rxjs';
   styleUrls: ['./ms-restoration.component.css'],
 })
 export class MsRestorationComponent implements OnInit {
-  private _model: MsRestoration;
   private _sources: DocReference[];
 
   @Input()
-  public get model(): MsRestoration {
-    return this._model;
-  }
-  public set model(value: MsRestoration) {
-    this._model = value;
-    this.setModel(this._model);
-  }
+  public model: MsRestoration;
 
   @Input()
   public typeEntries: ThesaurusEntry[];
@@ -69,9 +62,11 @@ export class MsRestorationComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.updateForm(this.model);
+  }
 
-  private setModel(model: MsRestoration): void {
+  private updateForm(model: MsRestoration): void {
     if (!model) {
       this.sources$.next([]);
       this.form.reset();

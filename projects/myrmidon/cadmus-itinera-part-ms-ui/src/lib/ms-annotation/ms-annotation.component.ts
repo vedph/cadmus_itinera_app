@@ -19,17 +19,10 @@ import { BehaviorSubject } from 'rxjs';
   styleUrls: ['./ms-annotation.component.css'],
 })
 export class MsAnnotationComponent implements OnInit {
-  private _model: MsAnnotation;
   private _sources: DocReference[];
 
   @Input()
-  public get model(): MsAnnotation {
-    return this._model;
-  }
-  public set model(value: MsAnnotation) {
-    this._model = value;
-    this.setModel(this._model);
-  }
+  public model: MsAnnotation;
 
   @Input()
   public langEntries: ThesaurusEntry[];
@@ -89,9 +82,11 @@ export class MsAnnotationComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.updateForm(this.model);
+  }
 
-  private setModel(model: MsAnnotation): void {
+  private updateForm(model: MsAnnotation): void {
     if (!model) {
       this.sources$.next([]);
       this.form.reset();

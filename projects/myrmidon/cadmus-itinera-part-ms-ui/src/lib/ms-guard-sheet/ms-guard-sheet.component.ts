@@ -15,16 +15,8 @@ import { MsLocationService } from '@myrmidon/cadmus-itinera-core';
   styleUrls: ['./ms-guard-sheet.component.css'],
 })
 export class MsGuardSheetComponent implements OnInit {
-  private _model: MsGuardSheet;
-
   @Input()
-  public get model(): MsGuardSheet {
-    return this._model;
-  }
-  public set model(value: MsGuardSheet) {
-    this._model = value;
-    this.setModel(this._model);
-  }
+  public model: MsGuardSheet;
 
   @Input()
   public materialEntries: ThesaurusEntry[];
@@ -69,9 +61,11 @@ export class MsGuardSheetComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.updateForm(this.model);
+  }
 
-  private setModel(model: MsGuardSheet): void {
+  private updateForm(model: MsGuardSheet): void {
     if (!model) {
       this.date = null;
       this.form.reset();

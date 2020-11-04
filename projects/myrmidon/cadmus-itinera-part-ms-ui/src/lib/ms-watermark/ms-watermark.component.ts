@@ -15,16 +15,8 @@ import { BehaviorSubject } from 'rxjs';
   styleUrls: ['./ms-watermark.component.css'],
 })
 export class MsWatermarkComponent implements OnInit {
-  private _model: MsWatermark;
-
   @Input()
-  public get model(): MsWatermark {
-    return this._model;
-  }
-  public set model(value: MsWatermark) {
-    this._model = value;
-    this.setModel(this._model);
-  }
+  public model: MsWatermark;
 
   @Input()
   public subjectEntries: ThesaurusEntry[];
@@ -67,9 +59,11 @@ export class MsWatermarkComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.updateForm(this.model);
+  }
 
-  private setModel(model: MsWatermark): void {
+  private updateForm(model: MsWatermark): void {
     if (!model) {
       this.form.reset();
       this.date = null;

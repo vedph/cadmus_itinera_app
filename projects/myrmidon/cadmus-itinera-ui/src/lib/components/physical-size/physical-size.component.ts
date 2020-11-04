@@ -15,19 +15,11 @@ import { debounceTime } from 'rxjs/operators';
   styleUrls: ['./physical-size.component.css'],
 })
 export class PhysicalSizeComponent implements OnInit {
-  private _size: PhysicalSize;
-
   @Input()
   public parentForm: FormGroup;
 
   @Input()
-  public get size(): PhysicalSize {
-    return this._size;
-  }
-  public set size(value: PhysicalSize) {
-    this._size = value;
-    this.setModel(this._size);
-  }
+  public size: PhysicalSize;
 
   @Input()
   public unitEntries: ThesaurusEntry[];
@@ -107,6 +99,8 @@ export class PhysicalSizeComponent implements OnInit {
         this.sizeChange.emit(model);
       }
     });
+
+    this.updateForm(this.size);
   }
 
   private validateUnit(form: FormGroup): { [key: string]: any } | null {
@@ -213,14 +207,11 @@ export class PhysicalSizeComponent implements OnInit {
     this.label = sb.join(' × ') + (uniqueUnit ? ' ' + uniqueUnit : '');
   }
 
-  private setModel(model: PhysicalSize): void {
+  private updateForm(model: PhysicalSize): void {
     if (!model) {
       this.form.reset();
       this.label = null;
     } else {
-      const defaultUnit = this.unitEntries?.length
-        ? this.unitEntries[0].id
-        : null;
       this.tag.setValue(model.tag);
       this.note.setValue(model.note);
 

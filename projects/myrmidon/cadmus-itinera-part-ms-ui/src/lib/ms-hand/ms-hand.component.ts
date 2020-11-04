@@ -22,16 +22,8 @@ import {
   styleUrls: ['./ms-hand.component.css'],
 })
 export class MsHandComponent implements OnInit {
-  private _model: MsHandInstance;
-
   @Input()
-  public get model(): MsHandInstance {
-    return this._model;
-  }
-  public set model(value: MsHandInstance) {
-    this._model = value;
-    this.setModel(this._model);
-  }
+  public model: MsHandInstance;
 
   @Output()
   public modelChange: EventEmitter<MsHandInstance>;
@@ -134,9 +126,10 @@ export class MsHandComponent implements OnInit {
     this.subPresent.valueChanges.subscribe((present) => {
       this.toggleSubscription(present);
     });
+    this.updateForm(this.model);
   }
 
-  private setModel(model: MsHandInstance): void {
+  private updateForm(model: MsHandInstance): void {
     this.id.setValue(model.id);
     this.idReason.setValue(model.idReason);
     this.start.setValue(this._msLocationService.locationToString(model.start));

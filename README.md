@@ -597,16 +597,8 @@ import { ThesaurusEntry } from "@myrmidon/cadmus-core";
   styleUrls: ["./__NAME__.component.css"],
 })
 export class __NAME__Component implements OnInit {
-  private _model: __NAME__;
-
   @Input()
-  public get model(): __NAME__ {
-    return this._model;
-  }
-  public set model(value: __NAME__) {
-    this._model = value;
-    this.setModel(this._model);
-  }
+  public model: __NAME__;
 
   // TODO: eventual thesaurus entries, like:
   // @Input()
@@ -632,9 +624,11 @@ export class __NAME__Component implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.updateForm(this.model);
+  }
 
-  private setModel(model: __NAME__): void {
+  private updateForm(model: __NAME__): void {
     if (!model) {
       this.form.reset();
       return;

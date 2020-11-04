@@ -16,16 +16,9 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class LitDedicationComponent implements OnInit {
   private _sources: DocReference[];
-  private _model: LitDedication;
 
   @Input()
-  public get model(): LitDedication {
-    return this._model;
-  }
-  public set model(value: LitDedication) {
-    this._model = value;
-    this.setModel(this._model);
-  }
+  public model: LitDedication;
 
   @Input()
   public tagEntries: ThesaurusEntry[];
@@ -68,9 +61,11 @@ export class LitDedicationComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.updateForm(this.model);
+  }
 
-  private setModel(model: LitDedication): void {
+  private updateForm(model: LitDedication): void {
     if (!model) {
       this.sources$.next([]);
       this.date = null;

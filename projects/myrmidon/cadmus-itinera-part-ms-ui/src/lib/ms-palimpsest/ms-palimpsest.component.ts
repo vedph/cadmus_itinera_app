@@ -14,16 +14,8 @@ import { MsPalimpsest, MsLocationService } from '@myrmidon/cadmus-itinera-core';
   styleUrls: ['./ms-palimpsest.component.css'],
 })
 export class MsPalimpsestComponent implements OnInit {
-  private _model: MsPalimpsest;
-
   @Input()
-  public get model(): MsPalimpsest {
-    return this._model;
-  }
-  public set model(value: MsPalimpsest) {
-    this._model = value;
-    this.setModel(this._model);
-  }
+  public model: MsPalimpsest;
 
   @Output()
   public modelChange: EventEmitter<MsPalimpsest>;
@@ -56,9 +48,11 @@ export class MsPalimpsestComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.updateForm(this.model);
+  }
 
-  private setModel(model: MsPalimpsest | null): void {
+  private updateForm(model: MsPalimpsest | null): void {
     if (!model) {
       this.form.reset();
       this.date = null;

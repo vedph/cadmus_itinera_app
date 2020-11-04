@@ -19,20 +19,13 @@ import { debounceTime } from 'rxjs/operators';
   styleUrls: ['./ms-decoration-artist.component.css'],
 })
 export class MsDecorationArtistComponent implements OnInit {
-  private _artist: MsDecorationArtist;
   private _sources: DocReference[];
 
   @Input()
   public parentForm: FormGroup;
 
   @Input()
-  public get artist(): MsDecorationArtist {
-    return this._artist;
-  }
-  public set artist(value: MsDecorationArtist) {
-    this._artist = value;
-    this.setModel(this._artist);
-  }
+  public artist: MsDecorationArtist;
 
   @Input()
   public typeEntries: ThesaurusEntry[];
@@ -83,9 +76,11 @@ export class MsDecorationArtistComponent implements OnInit {
     this.form.valueChanges.pipe(debounceTime(400)).subscribe((_) => {
       this.emitModelChange();
     });
+
+    this.updateForm(this.artist);
   }
 
-  private setModel(model: MsDecorationArtist): void {
+  private updateForm(model: MsDecorationArtist): void {
     if (!model) {
       this.form.reset();
       this.sources$.next([]);
