@@ -306,6 +306,9 @@ export class MsHistoryPartComponent
       .pipe(take(1))
       .subscribe((yes) => {
         if (yes) {
+          if (this.personIndex === index) {
+            this.personEditorOpen = false;
+          }
           const persons = [...this.persons];
           persons.splice(index, 1);
           this.persons = persons;
@@ -384,6 +387,9 @@ export class MsHistoryPartComponent
       .pipe(take(1))
       .subscribe((yes) => {
         if (yes) {
+          if (this.annotationIndex === index) {
+            this.annotationEditorOpen = false;
+          }
           const annotations = [...this.annotations];
           annotations.splice(index, 1);
           this.annotations = annotations;
@@ -456,6 +462,9 @@ export class MsHistoryPartComponent
       .pipe(take(1))
       .subscribe((yes) => {
         if (yes) {
+          if (this.restorationIndex === index) {
+            this.restorationEditorOpen = false;
+          }
           const restorations = [...this.restorations];
           restorations.splice(index, 1);
           this.restorations = restorations;
