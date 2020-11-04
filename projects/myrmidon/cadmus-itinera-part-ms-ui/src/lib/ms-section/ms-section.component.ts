@@ -94,6 +94,7 @@ export class MsSectionComponent implements OnInit {
 
   public onDateChange(date: HistoricalDateModel): void {
     this.date = date;
+    this.form.markAsDirty();
   }
 
   public cancel(): void {
