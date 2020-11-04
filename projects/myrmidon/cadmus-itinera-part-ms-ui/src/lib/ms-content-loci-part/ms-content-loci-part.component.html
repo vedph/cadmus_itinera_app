@@ -80,7 +80,7 @@
       </table>
 
       <!-- locus -->
-      <mat-expansion-panel [(expanded)]="editorOpen">
+      <mat-expansion-panel [(expanded)]="editorOpen" [disabled]="!editorOpen">
         <mat-expansion-panel-header>
           <mat-panel-title>locus</mat-panel-title>
           <mat-panel-description *ngIf="editedLocus">{{

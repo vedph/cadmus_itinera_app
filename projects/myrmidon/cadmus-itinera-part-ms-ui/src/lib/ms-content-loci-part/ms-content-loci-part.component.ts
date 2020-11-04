@@ -146,6 +146,7 @@ export class MsContentLociPartComponent
     if (index === this.editedIndex) {
       this.editedIndex--;
     }
+    this.form.markAsDirty();
   }
 
   public moveLocusDown(index: number): void {
@@ -160,5 +161,6 @@ export class MsContentLociPartComponent
     if (index === this.editedIndex) {
       this.editedIndex++;
     }
+    this.form.markAsDirty();
   }
 }
