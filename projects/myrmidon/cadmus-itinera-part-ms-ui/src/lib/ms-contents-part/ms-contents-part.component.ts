@@ -153,6 +153,7 @@ export class MsContentsPartComponent
     sheets.splice(index, 1);
     sheets.splice(index - 1, 0, sheet);
     this.contents = sheets;
+    this.form.markAsDirty();
   }
 
   public moveContentDown(index: number): void {
@@ -164,6 +165,7 @@ export class MsContentsPartComponent
     sheets.splice(index, 1);
     sheets.splice(index + 1, 0, sheet);
     this.contents = sheets;
+    this.form.markAsDirty();
   }
 
   public locationToString(location: MsLocation): string {

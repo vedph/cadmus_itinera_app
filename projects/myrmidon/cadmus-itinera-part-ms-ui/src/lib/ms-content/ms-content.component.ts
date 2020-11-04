@@ -116,6 +116,7 @@ export class MsContentComponent implements OnInit {
       end: this._msLocationService.parseLocation(this.end.value),
       state: this.state.value?.trim(),
       note: this.note.value?.trim(),
+      units: []
     };
 
     for (let i = 0; i < this.units.length; i++) {
@@ -153,6 +154,7 @@ export class MsContentComponent implements OnInit {
 
   public removeUnit(index: number): void {
     this.units.removeAt(index);
+    this.form.markAsDirty();
   }
 
   public moveUnitUp(index: number): void {
@@ -162,6 +164,7 @@ export class MsContentComponent implements OnInit {
     const unit = this.units.controls[index];
     this.units.removeAt(index);
     this.units.insert(index - 1, unit);
+    this.form.markAsDirty();
   }
 
   public moveUnitDown(index: number): void {
@@ -171,6 +174,7 @@ export class MsContentComponent implements OnInit {
     const unit = this.units.controls[index];
     this.units.removeAt(index);
     this.units.insert(index + 1, unit);
+    this.form.markAsDirty();
   }
 
   public cancel(): void {
