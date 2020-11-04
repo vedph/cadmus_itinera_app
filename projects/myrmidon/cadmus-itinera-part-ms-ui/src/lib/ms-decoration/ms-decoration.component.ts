@@ -280,6 +280,7 @@ export class MsDecorationComponent implements OnInit {
 
   public removeColor(index: number): void {
     this.colors.removeAt(index);
+    this.form.markAsDirty();
   }
 
   public moveColorUp(index: number): void {
@@ -289,6 +290,7 @@ export class MsDecorationComponent implements OnInit {
     const item = this.colors.controls[index];
     this.colors.removeAt(index);
     this.colors.insert(index - 1, item);
+    this.form.markAsDirty();
   }
 
   public moveColorDown(index: number): void {
@@ -298,6 +300,7 @@ export class MsDecorationComponent implements OnInit {
     const item = this.colors.controls[index];
     this.colors.removeAt(index);
     this.colors.insert(index + 1, item);
+    this.form.markAsDirty();
   }
 
   private getLetterGroup(letter?: MsGuideLetter): FormGroup {
@@ -319,6 +322,7 @@ export class MsDecorationComponent implements OnInit {
 
   public removeLetter(index: number): void {
     this.letters.removeAt(index);
+    this.form.markAsDirty();
   }
 
   public moveLetterUp(index: number): void {
@@ -328,6 +332,7 @@ export class MsDecorationComponent implements OnInit {
     const item = this.letters.controls[index];
     this.letters.removeAt(index);
     this.letters.insert(index - 1, item);
+    this.form.markAsDirty();
   }
 
   public moveLetterDown(index: number): void {
@@ -337,14 +342,17 @@ export class MsDecorationComponent implements OnInit {
     const item = this.letters.controls[index];
     this.letters.removeAt(index);
     this.letters.insert(index + 1, item);
+    this.form.markAsDirty();
   }
 
   public onSizeChanged(size: PhysicalSize): void {
     this.size = size;
+    this.form.markAsDirty();
   }
 
   public onArtistChanged(artist: MsDecorationArtist): void {
     this.artist = artist;
+    this.form.markAsDirty();
   }
 
   public cancel(): void {

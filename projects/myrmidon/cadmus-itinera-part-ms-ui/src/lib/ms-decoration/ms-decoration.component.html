@@ -3,7 +3,7 @@
     <mat-tab label="general">
       <div>
         <!-- type (bound) -->
-        <mat-form-field *ngIf="typeEntries?.length" style="width: 8em">
+        <mat-form-field *ngIf="typeEntries?.length" style="width: 12em">
           <mat-select [formControl]="type" placeholder="type">
             <mat-option *ngFor="let e of typeEntries" [value]="e.id">{{
               e.value
@@ -16,7 +16,7 @@
         </mat-form-field>
 
         <!-- type (free) -->
-        <mat-form-field *ngIf="!typeEntries?.length" style="width: 8em">
+        <mat-form-field *ngIf="!typeEntries?.length" style="width: 12em">
           <input matInput [formControl]="type" placeholder="type" />
           <mat-error
             *ngIf="type.errors?.required && (type.dirty || type.touched)"
