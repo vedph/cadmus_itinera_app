@@ -5,6 +5,7 @@ import { MsHandSign } from '@myrmidon/cadmus-itinera-core';
  * The PersonHand part model.
  */
 export interface PersonHandPart extends Part {
+  personId: string;
   type: string;
   job: string;
   description?: string;
@@ -39,8 +40,9 @@ export const PERSON_HAND_PART_SCHEMA = {
     'creatorId',
     'timeModified',
     'userId',
+    'personId',
     'type',
-    'job'
+    'job',
   ],
   properties: {
     timeCreated: {
@@ -72,6 +74,9 @@ export const PERSON_HAND_PART_SCHEMA = {
     roleId: {
       type: ['string', 'null'],
       pattern: '^([a-z][-0-9a-z._]*)?$',
+    },
+    personId: {
+      type: 'string',
     },
     type: {
       type: 'string',

@@ -10,6 +10,29 @@
       <mat-tab-group>
         <mat-tab label="general">
           <div>
+            <!-- personId -->
+            <mat-form-field>
+              <input
+                matInput
+                [formControl]="personId"
+                placeholder="person ID"
+              />
+              <mat-error
+                *ngIf="
+                  personId.errors?.required &&
+                  (personId.dirty || personId.touched)
+                "
+                >ID required</mat-error
+              >
+              <mat-error
+                *ngIf="
+                  personId.errors?.maxLength &&
+                  (personId.dirty || personId.touched)
+                "
+                >ID too long</mat-error
+              >
+            </mat-form-field>
+            &nbsp;
             <!-- type (bound) -->
             <mat-form-field *ngIf="handTypeEntries?.length" style="width: 8em">
               <mat-select [formControl]="type" placeholder="type">
@@ -245,7 +268,10 @@
           </table>
 
           <!-- sign editor -->
-          <mat-expansion-panel [(expanded)]="editorOpen">
+          <mat-expansion-panel
+            [(expanded)]="editorOpen"
+            [disabled]="!editorOpen"
+          >
             <mat-expansion-panel-header>
               <mat-panel-title>sign</mat-panel-title>
               <mat-panel-description *ngIf="editedSign">{{

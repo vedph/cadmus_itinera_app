@@ -21,6 +21,7 @@ import { take } from 'rxjs/operators';
 export class PersonHandPartComponent
   extends ModelEditorComponentBase<PersonHandPart>
   implements OnInit {
+  public personId: FormControl;
   public type: FormControl;
   public job: FormControl;
   public description: FormControl;
@@ -57,6 +58,10 @@ export class PersonHandPartComponent
     this.editedIndex = -1;
     this.signs = [];
     // form
+    this.personId = formBuilder.control(null, [
+      Validators.required,
+      Validators.maxLength(50),
+    ]);
     this.type = formBuilder.control(null, [
       Validators.required,
       Validators.maxLength(50),
@@ -72,6 +77,7 @@ export class PersonHandPartComponent
     this.abbreviations = formBuilder.control(null, Validators.maxLength(1000));
     this.imageIds = formBuilder.control(null, Validators.maxLength(1000));
     this.form = formBuilder.group({
+      personId: this.personId,
       type: this.type,
       job: this.job,
       description: this.description,
@@ -115,6 +121,7 @@ export class PersonHandPartComponent
       this.form.reset();
       return;
     }
+    this.personId.setValue(model.personId);
     this.type.setValue(model.type);
     this.job.setValue(model.job);
     this.description.setValue(model.description);
@@ -158,6 +165,7 @@ export class PersonHandPartComponent
     let part = this.getModelFromJson();
     if (!part) {
       part = {
+        personId: null,
         itemId: this.itemId,
         id: null,
         typeId: PERSON_HAND_PART_TYPEID,
@@ -170,6 +178,7 @@ export class PersonHandPartComponent
         job: null,
       };
     }
+    part.personId = this.personId.value?.trim();
     part.type = this.type.value?.trim();
     part.job = this.job.value?.trim();
     part.description = this.description.value?.trim();
