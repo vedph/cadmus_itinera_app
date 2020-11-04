@@ -181,7 +181,7 @@ export class PersonPartComponent
 
   public removeNameAt(index: number): void {
     this._dialogService
-      .confirm('Confirm Deletion', 'Delete part?')
+      .confirm('Confirm Deletion', 'Delete name?')
       .subscribe((result) => {
         if (!result) {
           return;

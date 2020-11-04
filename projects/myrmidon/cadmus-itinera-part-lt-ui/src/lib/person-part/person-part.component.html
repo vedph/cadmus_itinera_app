@@ -112,12 +112,11 @@
               mat-icon-button
               color="primary"
               (click)="addName()"
-              matTooltip="Add a new name"
             >
-              <mat-icon>add_circle</mat-icon>
+              <mat-icon>add_circle</mat-icon> add name
             </button>
           </div>
-          <mat-expansion-panel [expanded]="nameIndex > -1">
+          <mat-expansion-panel [expanded]="nameIndex > -1" [disabled]="nameIndex < 0">
             <mat-expansion-panel-header>
               <mat-panel-title>name</mat-panel-title>
             </mat-expansion-panel-header>
@@ -133,6 +132,7 @@
           </mat-expansion-panel>
 
           <!-- external IDs -->
+          <br>
           <mat-expansion-panel>
             <mat-expansion-panel-header>
               <mat-panel-title>external IDs</mat-panel-title>
