@@ -4,9 +4,16 @@ import { FormControl, FormBuilder, Validators } from '@angular/forms';
 import { ModelEditorComponentBase, DialogService } from '@myrmidon/cadmus-ui';
 import { AuthService } from '@myrmidon/cadmus-api';
 import { ThesaurusEntry } from '@myrmidon/cadmus-core';
-import { MsDecoration, MsLocation, MsLocationService } from '@myrmidon/cadmus-itinera-core';
+import {
+  MsDecoration,
+  MsLocation,
+  MsLocationService,
+} from '@myrmidon/cadmus-itinera-core';
 import { take } from 'rxjs/operators';
-import { MsDecorationsPart, MSDECORATIONS_PART_TYPEID } from '../ms-decorations-part';
+import {
+  MsDecorationsPart,
+  MSDECORATIONS_PART_TYPEID,
+} from '../ms-decorations-part';
 
 /**
  * Manuscript's decorations part.
@@ -262,5 +269,17 @@ export class MsDecorationsPartComponent
 
   public locationToString(location: MsLocation): string {
     return this._msLocationService.locationToString(location);
+  }
+
+  public typeIdToString(id: string): string {
+    if (!id) {
+      return '';
+    } else {
+      return (
+        this.typeEntries.find((e) => {
+          return e.id === id;
+        })?.value || id
+      );
+    }
   }
 }
