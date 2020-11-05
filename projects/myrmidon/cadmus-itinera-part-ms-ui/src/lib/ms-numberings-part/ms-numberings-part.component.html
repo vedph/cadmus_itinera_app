@@ -16,7 +16,7 @@
             (click)="addNumbering()"
           >
             <mat-icon>add_circle</mat-icon>
-            add Numbering
+            add numbering
           </button>
         </div>
         <div
@@ -101,8 +101,14 @@
 
               <!-- century-->
               &nbsp;
-              <mat-form-field style="width: 5em;">
-                <input matInput #century formControlName="century" type="number" />
+              <mat-form-field style="width: 5em">
+                <input
+                  matInput
+                  #century
+                  formControlName="century"
+                  type="number"
+                  placeholder="century"
+                />
                 <mat-error
                   *ngIf="
                     item['controls'].century.errors?.required &&

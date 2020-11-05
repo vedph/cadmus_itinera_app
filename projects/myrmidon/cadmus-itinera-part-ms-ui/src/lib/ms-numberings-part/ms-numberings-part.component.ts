@@ -192,6 +192,7 @@ export class MsNumberingsPartComponent
 
   public removeNumbering(index: number): void {
     this.numberings.removeAt(index);
+    this.form.markAsDirty();
   }
 
   public moveNumberingUp(index: number): void {
@@ -201,6 +202,7 @@ export class MsNumberingsPartComponent
     const item = this.numberings.controls[index];
     this.numberings.removeAt(index);
     this.numberings.insert(index - 1, item);
+    this.form.markAsDirty();
   }
 
   public moveNumberingDown(index: number): void {
@@ -210,5 +212,6 @@ export class MsNumberingsPartComponent
     const item = this.numberings.controls[index];
     this.numberings.removeAt(index);
     this.numberings.insert(index + 1, item);
+    this.form.markAsDirty();
   }
 }
