@@ -7,9 +7,9 @@
       <mat-card-title>Manuscript's Place of Origin Part</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <!-- area (bound) -->
-      <div *ngIf="areaEntries?.length">
-        <mat-form-field>
+      <div>
+        <!-- area (bound) -->
+        <mat-form-field *ngIf="areaEntries?.length">
           <mat-select [formControl]="area" placeholder="area">
             <mat-option *ngFor="let e of areaEntries" [value]="e.id">{{
               e.value
@@ -20,11 +20,9 @@
             >area required</mat-error
           >
         </mat-form-field>
-      </div>
 
-      <!-- area (free) -->
-      <div *ngIf="!areaEntries?.length">
-        <mat-form-field>
+        <!-- area (free) -->
+        <mat-form-field *ngIf="!areaEntries?.length">
           <input matInput [formControl]="area" placeholder="area" />
           <mat-error
             *ngIf="area.errors?.required && (area.dirty || area.touched)"
@@ -35,11 +33,10 @@
             >area too long</mat-error
           >
         </mat-form-field>
-      </div>
 
-      <!-- address -->
-      <div>
-        <mat-form-field>
+        &nbsp;
+        <!-- address -->
+        <mat-form-field style="width: 30em">
           <input matInput [formControl]="address" placeholder="address" />
           <mat-error
             *ngIf="
@@ -59,10 +56,9 @@
             >city too long</mat-error
           >
         </mat-form-field>
-      </div>
 
-      <!-- site -->
-      <div>
+        &nbsp;
+        <!-- site -->
         <mat-form-field>
           <input matInput [formControl]="site" placeholder="site" />
           <mat-error
@@ -87,7 +83,7 @@
 
         <!-- subscriptionLoc -->
         &nbsp;
-        <mat-form-field style="width: 6em;">
+        <mat-form-field style="width: 6em">
           <input
             matInput
             [formControl]="subscriptionLoc"
