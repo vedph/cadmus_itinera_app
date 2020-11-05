@@ -156,6 +156,7 @@ export class MsWatermarksPartComponent
     sheets.splice(index, 1);
     sheets.splice(index - 1, 0, sheet);
     this.watermarks = sheets;
+    this.form.markAsDirty();
   }
 
   public moveWatermarkDown(index: number): void {
@@ -167,5 +168,6 @@ export class MsWatermarksPartComponent
     sheets.splice(index, 1);
     sheets.splice(index + 1, 0, sheet);
     this.watermarks = sheets;
+    this.form.markAsDirty();
   }
 }

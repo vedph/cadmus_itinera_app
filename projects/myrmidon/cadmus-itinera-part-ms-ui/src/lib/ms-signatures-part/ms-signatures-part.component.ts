@@ -139,6 +139,7 @@ export class MsSignaturesPartComponent
 
   public removeSignature(index: number): void {
     this.signatures.removeAt(index);
+    this.form.markAsDirty();
   }
 
   public moveSignatureUp(index: number): void {
@@ -148,6 +149,7 @@ export class MsSignaturesPartComponent
     const item = this.signatures.controls[index];
     this.signatures.removeAt(index);
     this.signatures.insert(index - 1, item);
+    this.form.markAsDirty();
   }
 
   public moveSignatureDown(index: number): void {
@@ -157,5 +159,6 @@ export class MsSignaturesPartComponent
     const item = this.signatures.controls[index];
     this.signatures.removeAt(index);
     this.signatures.insert(index + 1, item);
+    this.form.markAsDirty();
   }
 }

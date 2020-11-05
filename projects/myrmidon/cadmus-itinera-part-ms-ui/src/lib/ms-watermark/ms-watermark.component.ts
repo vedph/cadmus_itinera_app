@@ -92,10 +92,12 @@ export class MsWatermarkComponent implements OnInit {
 
   public onDateChanged(date: HistoricalDateModel): void {
     this.date = date;
+    this.form.markAsDirty();
   }
 
   public onIdsChanged(ids: string[]): void {
     this.ids = ids;
+    this.form.markAsDirty();
   }
 
   public cancel(): void {
