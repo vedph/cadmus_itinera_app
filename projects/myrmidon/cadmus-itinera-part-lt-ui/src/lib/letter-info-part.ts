@@ -1,4 +1,5 @@
 import { Part } from '@myrmidon/cadmus-core';
+import { DecoratedId } from '@myrmidon/cadmus-itinera-core';
 
 /**
  * The letter info part model.
@@ -6,7 +7,10 @@ import { Part } from '@myrmidon/cadmus-core';
 export interface LetterInfoPart extends Part {
   language: string;
   subject: string;
-  heading?: string;
+  authorId: string;
+  headings?: string[];
+  recipients?: DecoratedId[];
+  replyingTo?: DecoratedId[];
   note?: string;
 }
 
@@ -35,6 +39,7 @@ export const LETTER_INFO_PART_SCHEMA = {
     'userId',
     'language',
     'subject',
+    'authorId',
   ],
   properties: {
     timeCreated: {
@@ -73,8 +78,118 @@ export const LETTER_INFO_PART_SCHEMA = {
     subject: {
       type: 'string',
     },
-    heading: {
+    authorId: {
       type: 'string',
+    },
+    headings: {
+      type: 'array',
+      items: {
+        anyOf: [
+          {
+            type: 'string',
+          },
+        ],
+      },
+    },
+    recipients: {
+      type: 'array',
+      items: {
+        anyOf: [
+          {
+            type: 'object',
+            required: ['id'],
+            properties: {
+              id: {
+                type: 'string',
+              },
+              rank: {
+                type: 'integer',
+              },
+              tag: {
+                type: 'string',
+              },
+              sources: {
+                type: 'array',
+                items: {
+                  anyOf: [
+                    {
+                      type: 'object',
+                      required: ['author', 'work'],
+                      properties: {
+                        tag: {
+                          type: 'string',
+                        },
+                        author: {
+                          type: 'string',
+                        },
+                        work: {
+                          type: 'string',
+                        },
+                        location: {
+                          type: 'string',
+                        },
+                        note: {
+                          type: 'string',
+                        },
+                      },
+                    },
+                  ],
+                },
+              },
+            },
+          },
+        ],
+      },
+    },
+    replyingTo: {
+      type: 'array',
+      items: {
+        anyOf: [
+          {
+            type: 'object',
+            required: ['id'],
+            properties: {
+              id: {
+                type: 'string',
+              },
+              rank: {
+                type: 'integer',
+              },
+              tag: {
+                type: 'string',
+              },
+              sources: {
+                type: 'array',
+                items: {
+                  anyOf: [
+                    {
+                      type: 'object',
+                      required: ['author', 'work'],
+                      properties: {
+                        tag: {
+                          type: 'string',
+                        },
+                        author: {
+                          type: 'string',
+                        },
+                        work: {
+                          type: 'string',
+                        },
+                        location: {
+                          type: 'string',
+                        },
+                        note: {
+                          type: 'string',
+                        },
+                      },
+                    },
+                  ],
+                },
+              },
+            },
+          },
+        ],
+      },
     },
     note: {
       type: 'string',

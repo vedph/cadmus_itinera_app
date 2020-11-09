@@ -7,90 +7,141 @@
       <mat-card-title>Letter's Information Part</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <div>
-        <!-- language (bound) -->
-        <mat-form-field *ngIf="langEntries?.length" style="width: 8em">
-          <mat-select [formControl]="language" placeholder="language">
-            <mat-option *ngFor="let e of langEntries" [value]="e.id">{{
-              e.value
-            }}</mat-option>
-          </mat-select>
-          <mat-error
-            *ngIf="
-              language.errors?.required && (language.dirty || language.touched)
-            "
-            >language required</mat-error
-          >
-        </mat-form-field>
+      <mat-tab-group>
+        <mat-tab label="general">
+          <div>
+            <!-- authorId -->
+            <mat-form-field style="width: 16em">
+              <input
+                matInput
+                [formControl]="authorId"
+                placeholder="author ID"
+              />
+              <mat-error
+                *ngIf="
+                  authorId.errors?.required &&
+                  (authorId.dirty || authorId.touched)
+                "
+                >ID required</mat-error
+              >
+              <mat-error
+                *ngIf="
+                  authorId.errors?.maxLength &&
+                  (authorId.dirty || authorId.touched)
+                "
+                >ID too long</mat-error
+              >
+            </mat-form-field>
 
-        <!-- language (free) -->
-        <mat-form-field *ngIf="!langEntries?.length" style="width: 8em">
-          <input matInput [formControl]="language" placeholder="language" />
-          <mat-error
-            *ngIf="
-              language.errors?.required && (language.dirty || language.touched)
-            "
-            >language required</mat-error
-          >
-          <mat-error
-            *ngIf="
-              language.errors?.maxLength && (language.dirty || language.touched)
-            "
-            >language too long</mat-error
-          >
-        </mat-form-field>
-      </div>
+            &nbsp;
+            <!-- language (bound) -->
+            <mat-form-field *ngIf="langEntries?.length" style="width: 8em">
+              <mat-select [formControl]="language" placeholder="language">
+                <mat-option *ngFor="let e of langEntries" [value]="e.id">{{
+                  e.value
+                }}</mat-option>
+              </mat-select>
+              <mat-error
+                *ngIf="
+                  language.errors?.required &&
+                  (language.dirty || language.touched)
+                "
+                >language required</mat-error
+              >
+            </mat-form-field>
 
-      <div>
-        <!-- subject -->
-        <h4>subject</h4>
-        <ngx-monaco-editor
-          [options]="editorOptions"
-          [formControl]="subject"
-        ></ngx-monaco-editor>
-        <mat-error
-          *ngIf="subject.errors?.required && (subject.touched || subject.dirty)"
-          >subject required</mat-error
-        >
-        <mat-error
-          *ngIf="
-            subject.errors?.maxLength && (subject.touched || subject.dirty)
-          "
-          >subject too long</mat-error
-        >
-      </div>
+            <!-- language (free) -->
+            <mat-form-field *ngIf="!langEntries?.length" style="width: 8em">
+              <input matInput [formControl]="language" placeholder="language" />
+              <mat-error
+                *ngIf="
+                  language.errors?.required &&
+                  (language.dirty || language.touched)
+                "
+                >language required</mat-error
+              >
+              <mat-error
+                *ngIf="
+                  language.errors?.maxLength &&
+                  (language.dirty || language.touched)
+                "
+                >language too long</mat-error
+              >
+            </mat-form-field>
+          </div>
 
-      <div>
-        <!-- heading -->
-        <h4>heading</h4>
-        <mat-form-field style="width: 90%;max-width: 800px;">
-          <textarea
-            rows="3"
-            matInput
-            [formControl]="heading"
-            placeholder="heading"
-          ></textarea>
-          <mat-error
-            *ngIf="
-              heading.errors?.maxLength && (heading.dirty || heading.touched)
-            "
-            >heading too long</mat-error
-          >
-        </mat-form-field>
-      </div>
+          <div>
+            <!-- subject -->
+            <h4>subject</h4>
+            <ngx-monaco-editor
+              [options]="editorOptions"
+              [formControl]="subject"
+            ></ngx-monaco-editor>
+            <mat-error
+              *ngIf="
+                subject.errors?.required && (subject.touched || subject.dirty)
+              "
+              >subject required</mat-error
+            >
+            <mat-error
+              *ngIf="
+                subject.errors?.maxLength && (subject.touched || subject.dirty)
+              "
+              >subject too long</mat-error
+            >
+          </div>
 
-      <div>
-        <!-- note -->
-        <h4>note</h4>
-        <ngx-monaco-editor
-          [options]="editorOptions"
-          [formControl]="note"
-        ></ngx-monaco-editor>
-        <mat-error
-          *ngIf="note.errors?.maxLength && (note.touched || note.dirty)"
-          >note too long</mat-error
-        >
-      </div>
+          <div>
+            <!-- headings -->
+            <h4>headings</h4>
+            <mat-form-field style="width: 90%; max-width: 800px">
+              <textarea
+                rows="3"
+                matInput
+                [formControl]="headings"
+                placeholder="headings"
+              ></textarea>
+              <mat-error
+                *ngIf="
+                  headings.errors?.maxLength &&
+                  (headings.dirty || headings.touched)
+                "
+                >headings too long</mat-error
+              >
+            </mat-form-field>
+          </div>
+
+          <div>
+            <!-- note -->
+            <h4>note</h4>
+            <ngx-monaco-editor
+              [options]="editorOptions"
+              [formControl]="note"
+            ></ngx-monaco-editor>
+            <mat-error
+              *ngIf="note.errors?.maxLength && (note.touched || note.dirty)"
+              >note too long</mat-error
+            >
+          </div>
+        </mat-tab>
+
+        <mat-tab label="recipients">
+          <cadmus-decorated-ids
+            [ids]="recipients"
+            [tagEntries]="tagEntries"
+            (idsChange)="onRecipientsChange($event)"
+          ></cadmus-decorated-ids>
+        </mat-tab>
+
+        <mat-tab label="reply-to">
+          <cadmus-decorated-ids
+            [ids]="replyingTo"
+            [tagEntries]="tagEntries"
+            (idsChange)="onReplyingToChange($event)"
+          ></cadmus-decorated-ids>
+        </mat-tab>
+
+      </mat-tab-group>
     </mat-card-content>
     <mat-card-actions>
       <cadmus-close-save-buttons

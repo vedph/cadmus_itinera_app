@@ -39,6 +39,6 @@ export class LetterInfoPartFeatureComponent
   }
 
   public ngOnInit(): void {
-    this.initEditor(['languages']);
+    this.initEditor(['languages', 'doc-reference-tags']);
   }
 }

@@ -7,6 +7,7 @@ import { ThesaurusEntry } from '@myrmidon/cadmus-core';
 
 import {
   CitedPerson,
+  DecoratedId,
   DocReference,
   PersonName,
 } from '@myrmidon/cadmus-itinera-core';
@@ -35,6 +36,8 @@ export class PoeticTextInfoPartComponent
   public language: FormControl;
   public metre: FormControl;
   public subject: FormControl;
+  public recipients: DecoratedId[];
+  public replyingTo: DecoratedId[];
 
   public tabIndex: number;
   public authors: CitedPerson[];
@@ -63,6 +66,8 @@ export class PoeticTextInfoPartComponent
     private _dialogService: DialogService
   ) {
     super(authService);
+    this.recipients = [];
+    this.replyingTo = [];
     this._editedIndex = -1;
     this.tabIndex = 0;
     this.related = [];
@@ -93,11 +98,15 @@ export class PoeticTextInfoPartComponent
     if (!model) {
       this.authors = [];
       this.related$.next([]);
+      this.recipients = [];
+      this.replyingTo = [];
       this.form.reset();
       return;
     }
     this.authors = model.authors || [];
     this.related$.next(model.related || []);
+    this.recipients = model.recipients || [];
+    this.replyingTo = model.replyingTo || [];
     this.language.setValue(model.language);
     this.metre.setValue(model.metre);
     this.subject.setValue(model.subject);
@@ -173,6 +182,8 @@ export class PoeticTextInfoPartComponent
     part.language = this.language.value?.trim();
     part.metre = this.metre.value?.trim();
     part.subject = this.subject.value?.trim();
+    part.recipients = this.recipients?.length ? this.recipients : undefined;
+    part.replyingTo = this.replyingTo?.length ? this.replyingTo : undefined;
     return part;
   }
 
@@ -261,6 +272,16 @@ export class PoeticTextInfoPartComponent
 
   public onRelatedChange(related: DocReference[]): void {
     this.related = related;
+    this.form.markAsDirty();
+  }
+
+  public onRecipientsChange(ids: DecoratedId[]): void {
+    this.recipients = ids;
+    this.form.markAsDirty();
+  }
+
+  public onReplyingToChange(ids: DecoratedId[]): void {
+    this.replyingTo = ids;
     this.form.markAsDirty();
   }
 }

@@ -165,6 +165,40 @@
               (modelChange)="onRelatedChange($event)"
             ></cadmus-doc-references>
           </div>
+
+          <div>
+            <!-- recipients-->
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>recipients</mat-panel-title>
+                <mat-panel-description>
+                  {{ recipients?.length || 0 }}
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+              <cadmus-decorated-ids
+                [ids]="recipients"
+                [tagEntries]="tagEntries"
+                (idsChange)="onRecipientsChange($event)"
+              ></cadmus-decorated-ids>
+            </mat-expansion-panel>
+          </div>
+
+          <div>
+            <!-- replyingTo -->
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>replying to</mat-panel-title>
+                <mat-panel-description>
+                  {{ replyingTo?.length || 0 }}
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+              <cadmus-decorated-ids
+                [ids]="replyingTo"
+                [tagEntries]="tagEntries"
+                (idsChange)="onReplyingToChange($event)"
+              ></cadmus-decorated-ids>
+            </mat-expansion-panel>
+          </div>
         </mat-tab>
 
         <mat-tab *ngIf="editedAuthor" label="author">
