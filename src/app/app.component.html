@@ -36,35 +36,6 @@
       >Thesauri</a
     >
 
-    <button mat-button [matMenuTriggerFor]="demoMenu" *ngIf="logged">
-      Demo
-    </button>
-    <mat-menu #demoMenu>
-      <a mat-menu-item [matMenuTriggerFor]="partsMenu">Parts</a>
-      <a mat-menu-item [matMenuTriggerFor]="fragmentsMenu">Fragments</a>
-      <a mat-menu-item routerLink="/demo/layers">Text Layers</a>
-    </mat-menu>
-    <mat-menu #partsMenu>
-      <a mat-menu-item routerLink="/demo/categories-part">Categories</a>
-      <a mat-menu-item routerLink="/demo/keywords-part">Keywords</a>
-      <a mat-menu-item routerLink="/demo/index-keywords-part">Index keywords</a>
-      <a mat-menu-item routerLink="/demo/note-part">Note</a>
-      <a mat-menu-item routerLink="/demo/historical-date-part"
-        >Historical date</a
-      >
-      <a mat-menu-item routerLink="/demo/bibliography-part">Bibliography</a>
-      <a mat-menu-item routerLink="/demo/token-text-part">Token text</a>
-      <a mat-menu-item routerLink="/demo/tiled-text-part">Tiled text</a>
-    </mat-menu>
-    <mat-menu #fragmentsMenu>
-      <a mat-menu-item routerLink="/demo/apparatus-fragment">Apparatus</a>
-      <a mat-menu-item routerLink="/demo/comment-fragment">Comment</a>
-      <a mat-menu-item routerLink="/demo/chronology-fragment">Chronology</a>
-      <a mat-menu-item routerLink="/demo/orthography-fragment">Orthography</a>
-      <a mat-menu-item routerLink="/demo/quotations-fragment">Quotations</a>
-      <a mat-menu-item routerLink="/demo/witnesses-fragment">Witnesses</a>
-    </mat-menu>
-
     <span class="tb-fill-remaining-space"></span>
 
     <div *ngIf="logged" fxLayout="row" fxLayoutAlign="start center">
@@ -110,8 +81,24 @@
 <footer>
   <div layout="row" layout-align="center center">
     <p>
-      Cadmus by
-      <a href="https://www.fusisoft.net" target="_blank">Daniele Fusi</a>
+      <a href="https://www.unisi.it" target="_blank"
+        >Università degli Studi di Siena</a
+      >
+      -
+      <a href="https://www.uniroma3.it" target="_blank"
+        >Università degli Studi Roma Tre</a
+      >
+      -
+      <a href="https://www.unina.it" target="_blank"
+        >Università degli Studi di Napoli Federico II</a
+      >
+      -
+      <a href="https://www.unistrapg.it" target="_blank"
+        >Università per Stranieri di Perugia</a
+      >
+      - Cadmus by
+      <a href="https://www.fusisoft.net" target="_blank">Daniele Fusi</a> at
+      <a href="https://www.unive.it/pag/39287" target="_blank">VeDPH</a>
     </p>
   </div>
 </footer>
