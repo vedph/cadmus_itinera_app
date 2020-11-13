@@ -160,9 +160,10 @@ import { SubEditorsDemoComponent } from './sub-editors-demo/sub-editors-demo.com
         { path: '**', component: HomeComponent },
       ],
       {
-        initialNavigation: 'enabled',
-        useHash: true,
-      }
+    initialNavigation: 'enabled',
+    useHash: true,
+    relativeLinkResolution: 'legacy'
+}
     ),
     // flex
     FlexLayoutModule,
