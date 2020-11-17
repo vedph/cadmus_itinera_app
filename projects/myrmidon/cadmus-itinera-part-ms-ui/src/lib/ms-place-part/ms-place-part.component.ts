@@ -115,7 +115,7 @@ export class MsPlacePartComponent
         creatorId: null,
         timeModified: new Date(),
         userId: null,
-        area: null
+        area: null,
       };
     }
     part.area = this.area.value?.trim();
@@ -123,7 +123,9 @@ export class MsPlacePartComponent
     part.city = this.city.value?.trim();
     part.site = this.site.value?.trim();
     part.subscriber = this.subscriber.value?.trim();
-    part.subscriptionLoc = this.subscriptionLoc.value?.trim();
+    part.subscriptionLoc = this._msLocationService.parseLocation(
+      this.subscriptionLoc.value
+    );
     part.sources = this.sources$.value;
     return part;
   }
