@@ -5,7 +5,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { HistoricalDate, HistoricalDateModel, ThesaurusEntry } from '@myrmidon/cadmus-core';
+import { HistoricalDateModel, ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { MsGuardSheet } from '@myrmidon/cadmus-itinera-core';
 import { MsLocationService } from '@myrmidon/cadmus-itinera-core';
 
