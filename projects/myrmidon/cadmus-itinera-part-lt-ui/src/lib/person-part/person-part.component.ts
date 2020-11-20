@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { AuthService } from '@myrmidon/cadmus-api';
 import { HistoricalDate, HistoricalDateModel, ThesaurusEntry } from '@myrmidon/cadmus-core';
@@ -25,6 +25,8 @@ export class PersonPartComponent
   public langEntries: ThesaurusEntry[];
   public tagEntries: ThesaurusEntry[];
   public typeEntries: ThesaurusEntry[];
+
+  @ViewChild('editorbio') bioEditor: any;
 
   public editorOptions = {
     theme: 'vs-light',
@@ -79,11 +81,22 @@ export class PersonPartComponent
       sex: this.sex,
       birthPlace: this.birthPlace,
       deathPlace: this.deathPlace,
+      bio: this.bio
     });
   }
 
   public ngOnInit(): void {
     this.initEditor();
+  }
+
+  public onTabIndexChanged(index: number): void {
+    // https://github.com/atularen/ngx-monaco-editor/issues/19
+    // https://stackoverflow.com/questions/37412950/ngx-monaco-editor-unable-to-set-layout-size-when-container-changes-using-tab
+    if (index === 3) {
+      setTimeout(() => {
+        this.bioEditor._editor.layout();
+      }, 100);
+    }
   }
 
   private updateForm(model: PersonPart): void {
