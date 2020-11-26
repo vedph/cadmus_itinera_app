@@ -22,7 +22,11 @@
     <div>
       <mat-checkbox [formControl]="hasDate">date</mat-checkbox>
     </div>
-    <cadmus-historical-date-editor [(date)]="date" [disabled]="!hasDate?.value">
+    <cadmus-historical-date-editor
+      [date]="date"
+      (dateChange)="onDateChange($event)"
+      [disabled]="!hasDate?.value"
+    >
     </cadmus-historical-date-editor>
   </div>
   <br />
@@ -32,7 +36,8 @@
       <mat-checkbox [formControl]="hasDateSent">date sent</mat-checkbox>
     </div>
     <cadmus-historical-date-editor
-      [(date)]="dateSent"
+      [date]="dateSent"
+      (dateChange)="onDateSentChange($event)"
       [disabled]="!hasDateSent?.value"
     >
     </cadmus-historical-date-editor>

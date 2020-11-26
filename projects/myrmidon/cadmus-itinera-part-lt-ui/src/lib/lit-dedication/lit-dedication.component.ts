@@ -94,6 +94,16 @@ export class LitDedicationComponent implements OnInit {
     };
   }
 
+  public onDateChange(date: HistoricalDateModel): void {
+    this.date = date;
+    this.form.markAsDirty();
+  }
+
+  public onDateSentChange(date: HistoricalDateModel): void {
+    this.dateSent = date;
+    this.form.markAsDirty();
+  }
+
   public onSourcesChanged(sources: DocReference[]): void {
     this._sources = sources;
     this.form.markAsDirty();
