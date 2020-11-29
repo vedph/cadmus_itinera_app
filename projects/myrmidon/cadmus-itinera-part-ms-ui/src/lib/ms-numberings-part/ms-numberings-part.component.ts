@@ -16,7 +16,7 @@ import {
 
 import { ModelEditorComponentBase } from '@myrmidon/cadmus-ui';
 import { AuthService } from '@myrmidon/cadmus-api';
-import { ThesaurusEntry } from '@myrmidon/cadmus-core';
+import { deepCopy, ThesaurusEntry } from '@myrmidon/cadmus-core';
 import {
   MsNumberingsPart,
   MSNUMBERINGS_PART_TYPEID,
@@ -90,7 +90,7 @@ export class MsNumberingsPartComponent
   }
 
   protected onModelSet(model: MsNumberingsPart): void {
-    this.updateForm(model);
+    this.updateForm(deepCopy(model));
   }
 
   protected onThesauriSet(): void {
@@ -124,7 +124,7 @@ export class MsNumberingsPartComponent
   }
 
   protected getModelFromForm(): MsNumberingsPart {
-    let part = this.getModelFromJson();
+    let part = deepCopy(this.model);
     if (!part) {
       part = {
         itemId: this.itemId,

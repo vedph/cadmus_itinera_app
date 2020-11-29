@@ -3,7 +3,7 @@ import { FormBuilder, Validators, FormArray, FormGroup } from '@angular/forms';
 
 import { ModelEditorComponentBase } from '@myrmidon/cadmus-ui';
 import { AuthService } from '@myrmidon/cadmus-api';
-import { ThesaurusEntry } from '@myrmidon/cadmus-core';
+import { deepCopy, ThesaurusEntry } from '@myrmidon/cadmus-core';
 import {
   MsCatchwordsPart,
   MSCATCHWORDS_PART_TYPEID,
@@ -52,7 +52,7 @@ export class MsCatchwordsPartComponent
   }
 
   protected onModelSet(model: MsCatchwordsPart): void {
-    this.updateForm(model);
+    this.updateForm(deepCopy(model));
   }
 
   protected onThesauriSet(): void {
@@ -65,7 +65,7 @@ export class MsCatchwordsPartComponent
   }
 
   protected getModelFromForm(): MsCatchwordsPart {
-    let part = this.getModelFromJson();
+    let part = deepCopy(this.model);
     if (!part) {
       part = {
         itemId: this.itemId,

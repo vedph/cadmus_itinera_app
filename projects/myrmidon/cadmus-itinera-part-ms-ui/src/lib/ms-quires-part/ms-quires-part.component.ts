@@ -11,6 +11,7 @@ import { ModelEditorComponentBase } from '@myrmidon/cadmus-ui';
 import { AuthService } from '@myrmidon/cadmus-api';
 import { MsQuiresPart, MSQUIRES_PART_TYPEID } from '../ms-quires-part';
 import { MsQuire, MsQuiresService } from '@myrmidon/cadmus-itinera-core';
+import { deepCopy } from '@myrmidon/cadmus-core';
 
 /**
  * Manuscript's quires part.
@@ -60,7 +61,7 @@ export class MsQuiresPartComponent
   }
 
   protected onModelSet(model: MsQuiresPart): void {
-    this.updateForm(model);
+    this.updateForm(deepCopy(model));
   }
 
   private getQuireFromGroup(group: FormGroup): MsQuire {
@@ -74,7 +75,7 @@ export class MsQuiresPartComponent
   }
 
   protected getModelFromForm(): MsQuiresPart {
-    let part = this.getModelFromJson();
+    let part = deepCopy(this.model);
     if (!part) {
       part = {
         itemId: this.itemId,

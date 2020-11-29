@@ -4,6 +4,7 @@ import { FormControl, FormBuilder, Validators } from '@angular/forms';
 import { ModelEditorComponentBase, DialogService } from '@myrmidon/cadmus-ui';
 import { AuthService } from '@myrmidon/cadmus-api';
 import {
+  deepCopy,
   HistoricalDate,
   HistoricalDateModel,
   ThesaurusEntry,
@@ -69,7 +70,7 @@ export class CorrDedicationsPartComponent
   }
 
   protected onModelSet(model: CorrDedicationsPart): void {
-    this.updateForm(model);
+    this.updateForm(deepCopy(model));
   }
 
   protected onThesauriSet(): void {
@@ -82,7 +83,7 @@ export class CorrDedicationsPartComponent
   }
 
   protected getModelFromForm(): CorrDedicationsPart {
-    let part = this.getModelFromJson();
+    let part = deepCopy(this.model);
     if (!part) {
       part = {
         itemId: this.itemId,

@@ -3,7 +3,7 @@ import { FormControl, FormBuilder, Validators } from '@angular/forms';
 
 import { ModelEditorComponentBase, DialogService } from '@myrmidon/cadmus-ui';
 import { AuthService } from '@myrmidon/cadmus-api';
-import { ThesaurusEntry } from '@myrmidon/cadmus-core';
+import { deepCopy, ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { DocReferencesPart, DOC_REFERENCES_PART_TYPEID } from '../doc-references-part';
 import { BehaviorSubject } from 'rxjs';
 import { DocReference } from '@myrmidon/cadmus-itinera-core';
@@ -21,6 +21,7 @@ export class DocReferencesPartComponent
   extends ModelEditorComponentBase<DocReferencesPart>
   implements OnInit {
   private _references: DocReference[];
+  private _refChangedFrozen: boolean;
   public count: FormControl;
 
   public tagEntries: ThesaurusEntry[];
@@ -36,6 +37,7 @@ export class DocReferencesPartComponent
     this.form = formBuilder.group({
       count: this.count,
     });
+    this._refChangedFrozen = true;
   }
 
   public ngOnInit(): void {
@@ -53,7 +55,7 @@ export class DocReferencesPartComponent
   }
 
   protected onModelSet(model: DocReferencesPart): void {
-    this.updateForm(model);
+    this.updateForm(deepCopy(model));
   }
 
   protected onThesauriSet(): void {
@@ -66,7 +68,7 @@ export class DocReferencesPartComponent
   }
 
   protected getModelFromForm(): DocReferencesPart {
-    let part = this.getModelFromJson();
+    let part = deepCopy(this.model);
     if (!part) {
       part = {
         itemId: this.itemId,
@@ -87,6 +89,12 @@ export class DocReferencesPartComponent
   public onReferencesChanged(references: DocReference[]): void {
     this._references = references;
     this.count.setValue(references?.length || 0);
-    this.count.markAsDirty();
+
+    // skip the first time event
+    if (this._refChangedFrozen) {
+      this._refChangedFrozen = false;
+    } else {
+      this.count.markAsDirty();
+    }
   }
 }

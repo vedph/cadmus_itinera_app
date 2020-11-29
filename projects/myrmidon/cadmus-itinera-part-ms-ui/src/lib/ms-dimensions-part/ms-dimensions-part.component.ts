@@ -9,7 +9,7 @@ import {
 
 import { ModelEditorComponentBase } from '@myrmidon/cadmus-ui';
 import { AuthService } from '@myrmidon/cadmus-api';
-import { ThesaurusEntry } from '@myrmidon/cadmus-core';
+import { deepCopy, ThesaurusEntry } from '@myrmidon/cadmus-core';
 import {
   MsDimensionsPart,
   MSDIMENSIONS_PART_TYPEID,
@@ -107,7 +107,7 @@ export class MsDimensionsPartComponent
   }
 
   protected onModelSet(model: MsDimensionsPart): void {
-    this.updateForm(model);
+    this.updateForm(deepCopy(model));
   }
 
   protected onThesauriSet(): void {
@@ -134,7 +134,7 @@ export class MsDimensionsPartComponent
   }
 
   protected getModelFromForm(): MsDimensionsPart {
-    let part = this.getModelFromJson();
+    let part = deepCopy(this.model);
     if (!part) {
       part = {
         itemId: this.itemId,

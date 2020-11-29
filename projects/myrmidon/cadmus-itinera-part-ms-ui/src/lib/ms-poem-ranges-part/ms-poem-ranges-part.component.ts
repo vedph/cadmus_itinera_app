@@ -8,7 +8,7 @@ import {
   MSPOEM_RANGES_PART_TYPEID,
 } from '../ms-poem-ranges-part';
 import { AlnumRangeService } from '@myrmidon/cadmus-itinera-core';
-import { ThesaurusEntry } from '@myrmidon/cadmus-core';
+import { deepCopy, ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { debounceTime } from 'rxjs/operators';
 
 /**
@@ -74,7 +74,7 @@ export class MsPoemRangesPartComponent
   }
 
   protected onModelSet(model: MsPoemRangesPart): void {
-    this.updateForm(model);
+    this.updateForm(deepCopy(model));
   }
 
   protected onThesauriSet(): void {
@@ -87,7 +87,7 @@ export class MsPoemRangesPartComponent
   }
 
   protected getModelFromForm(): MsPoemRangesPart {
-    let part = this.getModelFromJson();
+    let part = deepCopy(this.model);
     if (!part) {
       part = {
         itemId: this.itemId,

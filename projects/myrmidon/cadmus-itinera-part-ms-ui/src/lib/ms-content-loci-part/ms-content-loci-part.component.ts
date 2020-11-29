@@ -9,6 +9,7 @@ import {
 } from '../ms-content-loci-part';
 import { MsContentLocus } from '@myrmidon/cadmus-itinera-core';
 import { take } from 'rxjs/operators';
+import { deepCopy } from '@myrmidon/cadmus-core';
 
 /**
  * MsContentLociPart editor component.
@@ -61,11 +62,11 @@ export class MsContentLociPartComponent
   }
 
   protected onModelSet(model: MsContentLociPart): void {
-    this.updateForm(model);
+    this.updateForm(deepCopy(model));
   }
 
   protected getModelFromForm(): MsContentLociPart {
-    let part = this.getModelFromJson();
+    let part = deepCopy(this.model);
     if (!part) {
       part = {
         itemId: this.itemId,

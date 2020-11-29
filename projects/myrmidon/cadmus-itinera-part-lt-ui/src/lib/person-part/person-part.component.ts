@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { AuthService } from '@myrmidon/cadmus-api';
-import { HistoricalDate, HistoricalDateModel, ThesaurusEntry } from '@myrmidon/cadmus-core';
+import { deepCopy, HistoricalDateModel, ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { PersonName } from '@myrmidon/cadmus-itinera-core';
 import { ModelEditorComponentBase, DialogService } from '@myrmidon/cadmus-ui';
 import { BehaviorSubject } from 'rxjs';
@@ -38,6 +38,7 @@ export class PersonPartComponent
 
   public personId: FormControl;
   public sex: FormControl;
+  public nameCount: FormControl;
 
   public birthPlace: FormControl;
   public deathPlace: FormControl;
@@ -71,6 +72,7 @@ export class PersonPartComponent
       Validators.maxLength(50),
     ]);
     this.sex = formBuilder.control(null, Validators.maxLength(1));
+    this.nameCount = formBuilder.control(0, Validators.min(1));
 
     this.birthPlace = formBuilder.control(null, Validators.maxLength(50));
     this.deathPlace = formBuilder.control(null, Validators.maxLength(50));
@@ -79,6 +81,7 @@ export class PersonPartComponent
     this.form = formBuilder.group({
       personId: this.personId,
       sex: this.sex,
+      nameCount: this.nameCount,
       birthPlace: this.birthPlace,
       deathPlace: this.deathPlace,
       bio: this.bio
@@ -107,6 +110,7 @@ export class PersonPartComponent
     this.personId.setValue(model.personId);
     this.externalIds$.next(model.externalIds || []);
     this.names$.next(model.names || []);
+    this.nameCount.setValue(model.names.length || 0);
     this.sex.setValue(model.sex);
     this.birthDate = model.birthDate;
     this.birthPlace.setValue(model.birthPlace);
@@ -117,7 +121,7 @@ export class PersonPartComponent
   }
 
   protected onModelSet(model: PersonPart): void {
-    this.updateForm(model);
+    this.updateForm(deepCopy(model));
   }
 
   protected onThesauriSet(): void {
@@ -145,7 +149,7 @@ export class PersonPartComponent
   }
 
   protected getModelFromForm(): PersonPart {
-    let part = this.getModelFromJson();
+    let part = deepCopy(this.model);
     if (!part) {
       part = {
         itemId: this.itemId,
@@ -202,6 +206,8 @@ export class PersonPartComponent
         const updated: PersonName[] = this.names$.value;
         updated.splice(index, 1);
         this.names$.next(updated);
+        this.nameCount.setValue(this.names$.value.length);
+        this.form.markAsDirty();
       });
   }
 
@@ -214,6 +220,7 @@ export class PersonPartComponent
     updated.splice(index, 1);
     updated.splice(index - 1, 0, name);
     this.names$.next(updated);
+    this.form.markAsDirty();
   }
 
   public moveNameDown(index: number): void {
@@ -225,6 +232,7 @@ export class PersonPartComponent
     updated.splice(index, 1);
     updated.splice(index + 1, 0, name);
     this.names$.next(updated);
+    this.form.markAsDirty();
   }
 
   public addName(): void {
@@ -234,7 +242,9 @@ export class PersonPartComponent
       parts: [],
     });
     this.names$.next(updated);
+    this.nameCount.setValue(this.names$.value.length);
     this.editNameAt(updated.length - 1);
+    this.form.markAsDirty();
   }
 
   public onNameChange(name: PersonName): void {
@@ -244,5 +254,6 @@ export class PersonPartComponent
     const updated: PersonName[] = this.names$.value;
     updated.splice(this.nameIndex, 1, name);
     this.names$.next(updated);
+    this.form.markAsDirty();
   }
 }

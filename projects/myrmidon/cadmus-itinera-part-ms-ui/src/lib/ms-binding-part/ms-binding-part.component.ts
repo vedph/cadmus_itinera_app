@@ -3,7 +3,7 @@ import { FormControl, FormBuilder, Validators } from '@angular/forms';
 
 import { ModelEditorComponentBase } from '@myrmidon/cadmus-ui';
 import { AuthService } from '@myrmidon/cadmus-api';
-import { ThesaurusEntry } from '@myrmidon/cadmus-core';
+import { deepCopy, ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { MsBindingPart, MSBINDING_PART_TYPEID } from '../ms-binding-part';
 import { PhysicalSize } from '@myrmidon/cadmus-itinera-core';
 
@@ -89,7 +89,7 @@ export class MsBindingPartComponent
   }
 
   protected onModelSet(model: MsBindingPart): void {
-    this.updateForm(model);
+    this.updateForm(deepCopy(model));
   }
 
   protected onThesauriSet(): void {
@@ -130,7 +130,7 @@ export class MsBindingPartComponent
   }
 
   protected getModelFromForm(): MsBindingPart {
-    let part = this.getModelFromJson();
+    let part = deepCopy(this.model);
     if (!part) {
       part = {
         itemId: this.itemId,

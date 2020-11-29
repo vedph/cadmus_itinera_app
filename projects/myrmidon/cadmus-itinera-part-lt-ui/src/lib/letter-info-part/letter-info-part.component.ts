@@ -3,7 +3,7 @@ import { FormControl, FormBuilder, Validators } from '@angular/forms';
 
 import { ModelEditorComponentBase } from '@myrmidon/cadmus-ui';
 import { AuthService } from '@myrmidon/cadmus-api';
-import { ThesaurusEntry } from '@myrmidon/cadmus-core';
+import { deepCopy, ThesaurusEntry } from '@myrmidon/cadmus-core';
 
 import { LetterInfoPart, LETTER_INFO_PART_TYPEID } from '../letter-info-part';
 import { DecoratedId } from '@myrmidon/cadmus-itinera-core';
@@ -89,7 +89,7 @@ export class LetterInfoPartComponent
   }
 
   protected onModelSet(model: LetterInfoPart): void {
-    this.updateForm(model);
+    this.updateForm(deepCopy(model));
   }
 
   protected onThesauriSet(): void {
@@ -128,7 +128,7 @@ export class LetterInfoPartComponent
   }
 
   protected getModelFromForm(): LetterInfoPart {
-    let part = this.getModelFromJson();
+    let part = deepCopy(this.model);
     if (!part) {
       part = {
         itemId: this.itemId,

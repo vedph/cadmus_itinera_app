@@ -9,7 +9,7 @@ import {
 
 import { ModelEditorComponentBase, DialogService } from '@myrmidon/cadmus-ui';
 import { AuthService } from '@myrmidon/cadmus-api';
-import { ThesaurusEntry } from '@myrmidon/cadmus-core';
+import { deepCopy, ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { MsHistoryPart, MSHISTORY_PART_TYPEID } from '../ms-history-part';
 import {
   GeoAddress,
@@ -131,7 +131,7 @@ export class MsHistoryPartComponent
   }
 
   protected onModelSet(model: MsHistoryPart): void {
-    this.updateForm(model);
+    this.updateForm(deepCopy(model));
   }
 
   protected onThesauriSet(): void {
@@ -186,7 +186,7 @@ export class MsHistoryPartComponent
   }
 
   protected getModelFromForm(): MsHistoryPart {
-    let part = this.getModelFromJson();
+    let part = deepCopy(this.model);
     if (!part) {
       part = {
         itemId: this.itemId,

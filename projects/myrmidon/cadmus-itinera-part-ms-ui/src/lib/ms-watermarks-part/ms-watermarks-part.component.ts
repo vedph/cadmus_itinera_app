@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { AuthService } from '@myrmidon/cadmus-api';
-import { ThesaurusEntry } from '@myrmidon/cadmus-core';
+import { deepCopy, ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { MsWatermark } from '@myrmidon/cadmus-itinera-core';
 import { DialogService, ModelEditorComponentBase } from '@myrmidon/cadmus-ui';
 import { take } from 'rxjs/operators';
@@ -65,7 +65,7 @@ export class MsWatermarksPartComponent
   }
 
   protected onModelSet(model: MsWatermarksPart): void {
-    this.updateForm(model);
+    this.updateForm(deepCopy(model));
   }
 
   protected onThesauriSet(): void {
@@ -78,7 +78,7 @@ export class MsWatermarksPartComponent
   }
 
   protected getModelFromForm(): MsWatermarksPart {
-    let part = this.getModelFromJson();
+    let part = deepCopy(this.model);
     if (!part) {
       part = {
         itemId: this.itemId,

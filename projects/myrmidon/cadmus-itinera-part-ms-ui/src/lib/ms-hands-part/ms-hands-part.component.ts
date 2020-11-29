@@ -3,7 +3,7 @@ import { FormControl, FormBuilder, Validators } from '@angular/forms';
 
 import { ModelEditorComponentBase, DialogService } from '@myrmidon/cadmus-ui';
 import { AuthService } from '@myrmidon/cadmus-api';
-import { ThesaurusEntry } from '@myrmidon/cadmus-core';
+import { deepCopy, ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { MsHandsPart, MSHANDS_PART_TYPEID } from '../ms-hands-part';
 import {
   MsHandInstance, MsLocation, MsLocationService,
@@ -67,7 +67,7 @@ export class MsHandsPartComponent
   }
 
   protected onModelSet(model: MsHandsPart): void {
-    this.updateForm(model);
+    this.updateForm(deepCopy(model));
   }
 
   protected onThesauriSet(): void {
@@ -94,7 +94,7 @@ export class MsHandsPartComponent
   }
 
   protected getModelFromForm(): MsHandsPart {
-    let part = this.getModelFromJson();
+    let part = deepCopy(this.model);
     if (!part) {
       part = {
         itemId: this.itemId,

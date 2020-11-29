@@ -4,7 +4,7 @@ Quick Docker image build:
 
 1. `npm run build-all`
 2. `ng build --prod`
-3. `docker build . -t vedph2020/cadmus-itinera-app:1.0.12 -t vedph2020/cadmus-itinera-app:latest` (replace with the current version).
+3. `docker build . -t vedph2020/cadmus-itinera-app:1.0.13 -t vedph2020/cadmus-itinera-app:latest` (replace with the current version).
 
 Web application frontend for Cadmus _Itinera_. This application is built by packing together a number of components:
 
@@ -372,7 +372,7 @@ export class __PARTNAME__PartComponent
   }
 
   protected onModelSet(model: __PARTNAME__Part): void {
-    this.updateForm(model);
+    this.updateForm(deepCopy(model));
   }
 
   protected onThesauriSet(): void {
@@ -385,7 +385,7 @@ export class __PARTNAME__PartComponent
   }
 
   protected getModelFromForm(): __PARTNAME__Part {
-    let part = this.getModelFromJson();
+    let part = deepCopy(this.model);
     if (!part) {
       part = {
         itemId: this.itemId,

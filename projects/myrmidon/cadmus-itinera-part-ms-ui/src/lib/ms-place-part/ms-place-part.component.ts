@@ -3,7 +3,7 @@ import { FormControl, FormBuilder, Validators } from '@angular/forms';
 
 import { ModelEditorComponentBase } from '@myrmidon/cadmus-ui';
 import { AuthService } from '@myrmidon/cadmus-api';
-import { ThesaurusEntry } from '@myrmidon/cadmus-core';
+import { deepCopy, ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { MsPlacePart, MSPLACE_PART_TYPEID } from '../ms-place-part';
 import { DocReference, MsLocationService } from '@myrmidon/cadmus-itinera-core';
 import { BehaviorSubject } from 'rxjs';
@@ -85,7 +85,7 @@ export class MsPlacePartComponent
   }
 
   protected onModelSet(model: MsPlacePart): void {
-    this.updateForm(model);
+    this.updateForm(deepCopy(model));
   }
 
   protected onThesauriSet(): void {
@@ -104,7 +104,7 @@ export class MsPlacePartComponent
   }
 
   protected getModelFromForm(): MsPlacePart {
-    let part = this.getModelFromJson();
+    let part = deepCopy(this.model);
     if (!part) {
       part = {
         itemId: this.itemId,

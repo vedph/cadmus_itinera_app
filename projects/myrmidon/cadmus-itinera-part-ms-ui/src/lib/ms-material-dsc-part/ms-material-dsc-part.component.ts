@@ -3,7 +3,7 @@ import { FormControl, FormBuilder, Validators } from '@angular/forms';
 
 import { ModelEditorComponentBase, DialogService } from '@myrmidon/cadmus-ui';
 import { AuthService } from '@myrmidon/cadmus-api';
-import { ThesaurusEntry } from '@myrmidon/cadmus-core';
+import { deepCopy, ThesaurusEntry } from '@myrmidon/cadmus-core';
 import {
   MsMaterialDscPart,
   MSMATERIAL_DSC_PART_TYPEID,
@@ -88,7 +88,7 @@ export class MsMaterialDscPartComponent
   }
 
   protected onModelSet(model: MsMaterialDscPart): void {
-    this.updateForm(model);
+    this.updateForm(deepCopy(model));
   }
 
   protected onThesauriSet(): void {
@@ -115,7 +115,7 @@ export class MsMaterialDscPartComponent
   }
 
   protected getModelFromForm(): MsMaterialDscPart {
-    let part = this.getModelFromJson();
+    let part = deepCopy(this.model);
     if (!part) {
       part = {
         itemId: this.itemId,
