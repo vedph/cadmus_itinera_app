@@ -1,9 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { HistoricalDate, HistoricalDateModel, ThesaurusEntry } from '@myrmidon/cadmus-core';
-import { Chronotope, CitedPerson, DecoratedCount, PhysicalDimension, PhysicalSize } from '@myrmidon/cadmus-itinera-core';
+import {
+  HistoricalDate,
+  HistoricalDateModel,
+  ThesaurusEntry,
+  DocReference,
+} from '@myrmidon/cadmus-core';
+import {
+  Chronotope,
+  CitedPerson,
+  DecoratedCount,
+  PhysicalDimension,
+  PhysicalSize,
+} from '@myrmidon/cadmus-itinera-core';
 import {
   DecoratedId,
-  DocReference,
   PersonName,
 } from 'projects/myrmidon/cadmus-itinera-core/src/lib/models';
 import { BehaviorSubject } from 'rxjs';
@@ -95,11 +105,11 @@ export class SubEditorsDemoComponent implements OnInit {
       {
         id: 'sheets',
         value: 32,
-        note: 'a note here.'
+        note: 'a note here.',
       },
       {
         id: 'guard-sheets',
-        value: 2
+        value: 2,
       },
     ]);
 
@@ -111,7 +121,7 @@ export class SubEditorsDemoComponent implements OnInit {
     this.size = {
       tag: 'A4',
       w: { value: 21, unit: 'cm' },
-      h: { value: 29.7, unit: 'cm' }
+      h: { value: 29.7, unit: 'cm' },
     };
   }
 

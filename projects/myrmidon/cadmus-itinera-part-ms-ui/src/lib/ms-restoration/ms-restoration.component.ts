@@ -5,9 +5,8 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { HistoricalDateModel, ThesaurusEntry } from '@myrmidon/cadmus-core';
+import { HistoricalDateModel, ThesaurusEntry, DocReference } from '@myrmidon/cadmus-core';
 import {
-  DocReference,
   MsRestoration,
 } from '@myrmidon/cadmus-itinera-core';
 import { BehaviorSubject } from 'rxjs';

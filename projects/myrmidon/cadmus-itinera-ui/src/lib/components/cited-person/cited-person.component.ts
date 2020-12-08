@@ -5,11 +5,10 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { ThesaurusEntry } from '@myrmidon/cadmus-core';
+import { ThesaurusEntry, DocReference } from '@myrmidon/cadmus-core';
 import {
   CitedPerson,
   DecoratedId,
-  DocReference,
   PersonName,
 } from '@myrmidon/cadmus-itinera-core';
 import { BehaviorSubject } from 'rxjs';

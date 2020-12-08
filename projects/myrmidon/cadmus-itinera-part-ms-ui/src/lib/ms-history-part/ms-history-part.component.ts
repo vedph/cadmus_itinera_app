@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {
   FormControl,
   FormBuilder,
@@ -61,6 +61,8 @@ export class MsHistoryPartComponent
     automaticLayout: true,
   };
 
+  @ViewChild('editorhist') histEditor: any;
+
   // thesauri:
   // history
   public areaEntries: ThesaurusEntry[];
@@ -101,6 +103,17 @@ export class MsHistoryPartComponent
 
   public ngOnInit(): void {
     this.initEditor();
+  }
+
+  public onTabIndexChanged(index: number): void {
+    // HACK
+    // https://github.com/atularen/ngx-monaco-editor/issues/19
+    // https://stackoverflow.com/questions/37412950/ngx-monaco-editor-unable-to-set-layout-size-when-container-changes-using-tab
+    if (index === 1) {
+      setTimeout(() => {
+        this.histEditor._editor.layout();
+      }, 100);
+    }
   }
 
   private updateForm(model: MsHistoryPart): void {

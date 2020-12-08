@@ -1,4 +1,4 @@
-import { HistoricalDateModel } from '@myrmidon/cadmus-core';
+import { DocReference, HistoricalDateModel } from '@myrmidon/cadmus-core';
 
 /**
  * A part of a PersonName.
@@ -15,17 +15,6 @@ export interface PersonName {
   language: string;
   tag?: string;
   parts: PersonNamePart[];
-}
-
-/**
- * A document reference, usually including an author and a work.
- */
-export interface DocReference {
-  tag?: string;
-  author: string;
-  work: string;
-  location?: string;
-  note?: string;
 }
 
 /**

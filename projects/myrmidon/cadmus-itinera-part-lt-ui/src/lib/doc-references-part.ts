@@ -1,5 +1,5 @@
 import { Part } from '@myrmidon/cadmus-core';
-import { DocReference } from '@myrmidon/cadmus-itinera-core';
+import { DocReference } from '@myrmidon/cadmus-core';
 
 /**
  * The document references part model.

@@ -93,6 +93,7 @@ export class PersonPartComponent
   }
 
   public onTabIndexChanged(index: number): void {
+    // HACK
     // https://github.com/atularen/ngx-monaco-editor/issues/19
     // https://stackoverflow.com/questions/37412950/ngx-monaco-editor-unable-to-set-layout-size-when-container-changes-using-tab
     if (index === 3) {

@@ -5,12 +5,12 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { HistoricalDateModel, ThesaurusEntry } from '@myrmidon/cadmus-core';
 import {
-  BioEvent,
-  DecoratedId,
   DocReference,
-} from '@myrmidon/cadmus-itinera-core';
+  HistoricalDateModel,
+  ThesaurusEntry,
+} from '@myrmidon/cadmus-core';
+import { BioEvent, DecoratedId } from '@myrmidon/cadmus-itinera-core';
 import { BehaviorSubject } from 'rxjs';
 
 @Component({

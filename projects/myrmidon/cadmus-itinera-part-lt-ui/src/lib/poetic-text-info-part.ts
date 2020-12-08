@@ -1,8 +1,7 @@
-import { Part } from '@myrmidon/cadmus-core';
+import { DocReference, Part } from '@myrmidon/cadmus-core';
 import {
   CitedPerson,
   DecoratedId,
-  DocReference,
 } from '@myrmidon/cadmus-itinera-core';
 
 /**

@@ -5,8 +5,8 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { ThesaurusEntry } from '@myrmidon/cadmus-core';
-import { DecoratedId, DocReference } from '@myrmidon/cadmus-itinera-core';
+import { ThesaurusEntry, DocReference } from '@myrmidon/cadmus-core';
+import { DecoratedId } from '@myrmidon/cadmus-itinera-core';
 import { BehaviorSubject } from 'rxjs';
 
 /**
@@ -69,7 +69,7 @@ export class DecoratedIdsComponent {
       tag: this.tag,
     });
     this.form = formBuilder.group({
-      subForm: this.subForm
+      subForm: this.subForm,
     });
   }
 

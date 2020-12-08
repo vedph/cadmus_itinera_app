@@ -5,11 +5,8 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { ThesaurusEntry } from '@myrmidon/cadmus-core';
-import {
-  DocReference,
-  MsDecorationArtist,
-} from '@myrmidon/cadmus-itinera-core';
+import { ThesaurusEntry, DocReference } from '@myrmidon/cadmus-core';
+import { MsDecorationArtist } from '@myrmidon/cadmus-itinera-core';
 import { BehaviorSubject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
@@ -64,7 +61,7 @@ export class MsDecorationArtistComponent implements OnInit {
       type: this.type,
       id: this.id,
       name: this.name,
-      note: this.note
+      note: this.note,
     });
   }
 

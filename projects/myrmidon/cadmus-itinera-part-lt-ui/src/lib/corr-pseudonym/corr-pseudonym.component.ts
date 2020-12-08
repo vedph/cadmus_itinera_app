@@ -5,8 +5,8 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { ThesaurusEntry } from '@myrmidon/cadmus-core';
-import { CorrPseudonym, DocReference } from '@myrmidon/cadmus-itinera-core';
+import { ThesaurusEntry, DocReference } from '@myrmidon/cadmus-core';
+import { CorrPseudonym } from '@myrmidon/cadmus-itinera-core';
 import { BehaviorSubject } from 'rxjs';
 
 @Component({

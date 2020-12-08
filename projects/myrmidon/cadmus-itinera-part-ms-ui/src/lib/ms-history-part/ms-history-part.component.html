@@ -7,7 +7,7 @@
       <mat-card-title>Manuscript's History Part</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <mat-tab-group>
+      <mat-tab-group (selectedIndexChange)="onTabIndexChanged($event)">
         <!-- provenances -->
         <mat-tab label="provenances">
           <div formArrayName="provenances">
@@ -134,7 +134,7 @@
         <!-- history -->
         <mat-tab label="history">
           <div>
-            <ngx-monaco-editor
+            <ngx-monaco-editor #editorhist
               [options]="editorOptions"
               [formControl]="history"
             ></ngx-monaco-editor>

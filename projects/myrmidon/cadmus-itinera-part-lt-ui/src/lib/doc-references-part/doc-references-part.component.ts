@@ -3,10 +3,9 @@ import { FormControl, FormBuilder, Validators } from '@angular/forms';
 
 import { ModelEditorComponentBase, DialogService } from '@myrmidon/cadmus-ui';
 import { AuthService } from '@myrmidon/cadmus-api';
-import { deepCopy, ThesaurusEntry } from '@myrmidon/cadmus-core';
+import { deepCopy, DocReference, ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { DocReferencesPart, DOC_REFERENCES_PART_TYPEID } from '../doc-references-part';
 import { BehaviorSubject } from 'rxjs';
-import { DocReference } from '@myrmidon/cadmus-itinera-core';
 
 /**
  * Document references part editor.

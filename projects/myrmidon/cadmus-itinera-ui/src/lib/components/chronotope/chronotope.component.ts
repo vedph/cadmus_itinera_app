@@ -8,8 +8,9 @@ import {
 import {
   HistoricalDateModel,
   ThesaurusEntry,
+  DocReference
 } from '@myrmidon/cadmus-core';
-import { Chronotope, DocReference } from '@myrmidon/cadmus-itinera-core';
+import { Chronotope } from '@myrmidon/cadmus-itinera-core';
 import { BehaviorSubject } from 'rxjs';
 
 @Component({

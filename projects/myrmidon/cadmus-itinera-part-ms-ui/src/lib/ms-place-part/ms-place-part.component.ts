@@ -3,9 +3,9 @@ import { FormControl, FormBuilder, Validators } from '@angular/forms';
 
 import { ModelEditorComponentBase } from '@myrmidon/cadmus-ui';
 import { AuthService } from '@myrmidon/cadmus-api';
-import { deepCopy, ThesaurusEntry } from '@myrmidon/cadmus-core';
+import { deepCopy, ThesaurusEntry, DocReference } from '@myrmidon/cadmus-core';
 import { MsPlacePart, MSPLACE_PART_TYPEID } from '../ms-place-part';
-import { DocReference, MsLocationService } from '@myrmidon/cadmus-itinera-core';
+import { MsLocationService } from '@myrmidon/cadmus-itinera-core';
 import { BehaviorSubject } from 'rxjs';
 
 /**

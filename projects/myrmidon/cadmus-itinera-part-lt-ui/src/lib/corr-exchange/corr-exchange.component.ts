@@ -16,12 +16,11 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { ThesaurusEntry } from '@myrmidon/cadmus-core';
+import { DocReference, ThesaurusEntry } from '@myrmidon/cadmus-core';
 import {
   Chronotope,
   CorrExchange,
   DecoratedId,
-  DocReference,
   EpistAttachment,
 } from '@myrmidon/cadmus-itinera-core';
 import { BehaviorSubject, Subscription } from 'rxjs';

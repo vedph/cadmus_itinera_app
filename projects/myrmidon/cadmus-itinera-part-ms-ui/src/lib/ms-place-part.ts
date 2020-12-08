@@ -1,5 +1,5 @@
-import { Part } from '@myrmidon/cadmus-core';
-import { DocReference, MsLocation } from '@myrmidon/cadmus-itinera-core';
+import { Part, DocReference } from '@myrmidon/cadmus-core';
+import { MsLocation } from '@myrmidon/cadmus-itinera-core';
 
 /**
  * The manuscript's place of origin part model.
