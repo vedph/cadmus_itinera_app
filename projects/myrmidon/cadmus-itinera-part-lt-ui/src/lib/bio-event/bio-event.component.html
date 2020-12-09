@@ -16,7 +16,7 @@
         </mat-form-field>
 
         <!-- type (free) -->
-        <mat-form-field>
+        <mat-form-field *ngIf="!typeEntries?.length" style="width: 8em">
           <input matInput [formControl]="type" placeholder="type" />
           <mat-error
             *ngIf="type.errors?.required && (type.dirty || type.touched)"
@@ -82,7 +82,7 @@
       <div>
         <h4>description</h4>
         <!-- description -->
-        <ngx-monaco-editor
+        <ngx-monaco-editor #dsceditor
           [options]="editorOptions"
           [formControl]="description"
         ></ngx-monaco-editor>

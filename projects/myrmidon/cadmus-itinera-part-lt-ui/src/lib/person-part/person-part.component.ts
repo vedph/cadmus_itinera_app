@@ -111,7 +111,7 @@ export class PersonPartComponent
     this.personId.setValue(model.personId);
     this.externalIds$.next(model.externalIds || []);
     this.names$.next(model.names || []);
-    this.nameCount.setValue(model.names.length || 0);
+    this.nameCount.setValue(model.names?.length || 0);
     this.sex.setValue(model.sex);
     this.birthDate = model.birthDate;
     this.birthPlace.setValue(model.birthPlace);

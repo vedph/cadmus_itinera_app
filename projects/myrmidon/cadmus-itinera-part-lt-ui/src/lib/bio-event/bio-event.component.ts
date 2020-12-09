@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -35,6 +35,8 @@ export class BioEventComponent implements OnInit {
 
   @Output()
   public editorClose: EventEmitter<any>;
+
+  @ViewChild('dsceditor') dscEditor: any;
 
   public editorOptions = {
     theme: 'vs-light',
@@ -89,6 +91,17 @@ export class BioEventComponent implements OnInit {
 
   ngOnInit(): void {
     this.updateForm(this.model);
+  }
+
+  public onTabIndexChanged(index: number): void {
+    // HACK
+    // https://github.com/atularen/ngx-monaco-editor/issues/19
+    // https://stackoverflow.com/questions/37412950/ngx-monaco-editor-unable-to-set-layout-size-when-container-changes-using-tab
+    if (index === 0) {
+      setTimeout(() => {
+        this.dscEditor._editor.layout();
+      }, 100);
+    }
   }
 
   private updateForm(model: BioEvent): void {
