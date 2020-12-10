@@ -89,30 +89,6 @@ export class PersonNameComponent
     this._partValueSubscription.unsubscribe();
   }
 
-  // private areModelsEqual(x: PersonName, y: PersonName): boolean {
-  //   if ((!x && y) || (!y && x)) {
-  //     return false;
-  //   }
-  //   if (!x && !y) {
-  //     return true;
-  //   }
-  //   if (x.language !== y.language || x.tag !== y.tag) {
-  //     return false;
-  //   }
-  //   if (x.parts?.length !== y.parts?.length) {
-  //     return false;
-  //   }
-  //   for (let i = 0; i < x.parts.length; i++) {
-  //     if (
-  //       x.parts[i]?.type !== y.parts[i]?.type ||
-  //       x.parts[i]?.value !== y.parts[i]?.value
-  //     ) {
-  //       return false;
-  //     }
-  //   }
-  //   return true;
-  // }
-
   private getPartGroup(part?: PersonNamePart): FormGroup {
     return this.formBuilder.group({
       type: this.formBuilder.control(part?.type, [

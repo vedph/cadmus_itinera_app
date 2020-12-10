@@ -21,7 +21,6 @@ import { BehaviorSubject } from 'rxjs';
 export class CitedPersonComponent implements OnInit {
   private _name: PersonName;
   public sources: DocReference[];
-
   public ids: DecoratedId[];
 
   @Input()
@@ -91,6 +90,7 @@ export class CitedPersonComponent implements OnInit {
   }
 
   private updateForm(model: CitedPerson): void {
+    console.log('updateForm: ' + (model?.name? JSON.stringify(model.name) : 'n/a'));
     this.name$.next(model?.name);
     this.ids = model?.ids || [];
     this.sources$.next(model?.sources || []);
@@ -105,6 +105,7 @@ export class CitedPersonComponent implements OnInit {
   }
 
   private getModel(): CitedPerson {
+    console.log('getModel: ' + (this._name? JSON.stringify(this._name) : 'n/a'));
     return {
       name: this._name,
       ids: this.ids?.length ? this.ids : undefined,
@@ -113,6 +114,7 @@ export class CitedPersonComponent implements OnInit {
   }
 
   public onNameChange(name: PersonName): void {
+    console.log('onNameChange: ' + (name? JSON.stringify(name) : 'n/a'));
     this._name = name;
     this.form.markAsDirty();
     this.updateHasName(name);
@@ -124,6 +126,7 @@ export class CitedPersonComponent implements OnInit {
   }
 
   public onSourcesChange(sources: DocReference[]): void {
+    console.log('onSourcesChange: ' + (name? JSON.stringify(name) : 'n/a'));
     this.sources = sources;
     this.form.markAsDirty();
   }
