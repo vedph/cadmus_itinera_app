@@ -17,7 +17,7 @@ import {
  * Manuscript's hand editor.
  */
 @Component({
-  selector: 'cadmus-ms-hand',
+  selector: 'itinera-ms-hand',
   templateUrl: './ms-hand.component.html',
   styleUrls: ['./ms-hand.component.css'],
 })

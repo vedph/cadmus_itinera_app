@@ -86,12 +86,12 @@
         </mat-tab>
 
         <mat-tab label="content" *ngIf="editedContent">
-          <cadmus-ms-content
+          <itinera-ms-content
             [model]="editedContent"
             [stateEntries]="stateEntries"
             (modelChange)="onContentSaved($event)"
             (editorClose)="onContentClosed()"
-          ></cadmus-ms-content>
+          ></itinera-ms-content>
         </mat-tab>
       </mat-tab-group>
     </mat-card-content>

@@ -10,7 +10,7 @@ import { EditMsCatchwordsPartQuery } from './edit-ms-catchwords-part.query';
 import { EditMsCatchwordsPartService } from './edit-ms-catchwords-part.service';
 
 @Component({
-  selector: 'cadmus-ms-catchwords-part-feature',
+  selector: 'itinera-ms-catchwords-part-feature',
   templateUrl: './ms-catchwords-part-feature.component.html',
   styleUrls: ['./ms-catchwords-part-feature.component.css'],
 })

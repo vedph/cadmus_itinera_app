@@ -14,7 +14,7 @@ import { Chronotope } from '@myrmidon/cadmus-itinera-core';
 import { BehaviorSubject } from 'rxjs';
 
 @Component({
-  selector: 'cadmus-chronotope',
+  selector: 'itinera-chronotope',
   templateUrl: './chronotope.component.html',
   styleUrls: ['./chronotope.component.css'],
 })

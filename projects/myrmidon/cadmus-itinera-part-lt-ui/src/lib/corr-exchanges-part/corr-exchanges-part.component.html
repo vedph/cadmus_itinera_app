@@ -86,13 +86,13 @@
         </mat-tab>
 
         <mat-tab label="exchange" *ngIf="editedExchange">
-          <cadmus-corr-exchange
+          <itinera-corr-exchange
             [model]="editedExchange"
             [tagEntries]="tagEntries"
             [typeEntries]="typeEntries"
             (modelChange)="onExchangeSave($event)"
             (editorClose)="onExchangeClose()"
-          ></cadmus-corr-exchange>
+          ></itinera-corr-exchange>
         </mat-tab>
       </mat-tab-group>
     </mat-card-content>

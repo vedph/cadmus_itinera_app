@@ -24,7 +24,7 @@ import { debounceTime } from 'rxjs/operators';
  * Person name in-place editor.
  */
 @Component({
-  selector: 'cadmus-person-name',
+  selector: 'itinera-person-name',
   templateUrl: './person-name.component.html',
   styleUrls: ['./person-name.component.css'],
 })

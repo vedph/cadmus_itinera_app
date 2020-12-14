@@ -564,8 +564,8 @@ export class __PARTNAME__PartComponent
         </mat-tab>
 
         <mat-tab label="__NAME__" *ngIf="edited__NAME__">
-          <cadmus-ms-__NAME__
-            [model]="edited__NAME__"
+          <itinera-ms-__NAME__
+            [modelitinera]="edited__NAME__"
             [thesaurusEntries]="TODO"
             (modelChange)="on__NAME__Saved($event)"
             (editorClose)="on__NAME__Closed()"

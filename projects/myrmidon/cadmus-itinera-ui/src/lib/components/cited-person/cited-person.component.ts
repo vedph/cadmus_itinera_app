@@ -16,7 +16,7 @@ import {
 import { BehaviorSubject } from 'rxjs';
 
 @Component({
-  selector: 'cadmus-cited-person',
+  selector: 'itinera-cited-person',
   templateUrl: './cited-person.component.html',
   styleUrls: ['./cited-person.component.css'],
 })

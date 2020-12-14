@@ -12,7 +12,7 @@ import { EditPersonPartService } from './edit-person-part.service';
 // import { MatSnackBar } from '@myrmidon/cadmus-material';
 
 @Component({
-  selector: 'cadmus-person-part-feature',
+  selector: 'itinera-person-part-feature',
   templateUrl: './person-part-feature.component.html',
   styleUrls: ['./person-part-feature.component.css'],
 })

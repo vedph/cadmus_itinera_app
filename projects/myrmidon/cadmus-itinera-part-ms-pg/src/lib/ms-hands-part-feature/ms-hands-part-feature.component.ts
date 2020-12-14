@@ -10,7 +10,7 @@ import { EditMsHandsPartQuery } from './edit-ms-hands-part.query';
 import { EditMsHandsPartService } from './edit-ms-hands-part.service';
 
 @Component({
-  selector: 'cadmus-ms-hands-part-feature',
+  selector: 'itinera-ms-hands-part-feature',
   templateUrl: './ms-hands-part-feature.component.html',
   styleUrls: ['./ms-hands-part-feature.component.css'],
 })

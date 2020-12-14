@@ -16,7 +16,7 @@ import { take } from 'rxjs/operators';
  * Thesauri: ms-materials, ms-formats, ms-states (all optional).
  */
 @Component({
-  selector: 'cadmus-ms-material-dsc-part',
+  selector: 'itinera-ms-material-dsc-part',
   templateUrl: './ms-material-dsc-part.component.html',
   styleUrls: ['./ms-material-dsc-part.component.css'],
 })

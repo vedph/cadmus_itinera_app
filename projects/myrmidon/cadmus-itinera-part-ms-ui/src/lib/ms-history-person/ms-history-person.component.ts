@@ -13,7 +13,7 @@ import {
 import { BehaviorSubject } from 'rxjs';
 
 @Component({
-  selector: 'cadmus-ms-history-person',
+  selector: 'itinera-ms-history-person',
   templateUrl: './ms-history-person.component.html',
   styleUrls: ['./ms-history-person.component.css'],
 })

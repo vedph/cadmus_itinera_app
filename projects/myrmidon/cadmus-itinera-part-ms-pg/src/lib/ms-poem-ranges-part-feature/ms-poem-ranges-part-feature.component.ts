@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
-
-import { ThesauriSet } from '@myrmidon/cadmus-core';
 import {
   EditItemQuery,
   EditItemService,
@@ -13,7 +10,7 @@ import { EditMsPoemRangesPartQuery } from './edit-ms-poem-ranges-part.query';
 import { EditMsPoemRangesPartService } from './edit-ms-poem-ranges-part.service';
 
 @Component({
-  selector: 'cadmus-ms-poem-ranges-part-feature',
+  selector: 'itinera-ms-poem-ranges-part-feature',
   templateUrl: './ms-poem-ranges-part-feature.component.html',
   styleUrls: ['./ms-poem-ranges-part-feature.component.css'],
 })

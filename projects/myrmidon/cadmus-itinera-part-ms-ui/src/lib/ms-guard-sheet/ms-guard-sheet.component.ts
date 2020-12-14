@@ -10,7 +10,7 @@ import { MsGuardSheet } from '@myrmidon/cadmus-itinera-core';
 import { MsLocationService } from '@myrmidon/cadmus-itinera-core';
 
 @Component({
-  selector: 'cadmus-ms-guard-sheet',
+  selector: 'itinera-ms-guard-sheet',
   templateUrl: './ms-guard-sheet.component.html',
   styleUrls: ['./ms-guard-sheet.component.css'],
 })

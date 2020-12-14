@@ -21,7 +21,7 @@ import { take } from 'rxjs/operators';
  * Thesauri: bio-event-types, event-participant-tags (all optional).
  */
 @Component({
-  selector: 'cadmus-person-events-part',
+  selector: 'itinera-person-events-part',
   templateUrl: './person-events-part.component.html',
   styleUrls: ['./person-events-part.component.css'],
 })

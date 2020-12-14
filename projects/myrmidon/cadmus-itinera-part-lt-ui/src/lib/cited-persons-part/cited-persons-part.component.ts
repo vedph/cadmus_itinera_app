@@ -17,7 +17,7 @@ import { take } from 'rxjs/operators';
  * Thesauri: doc-reference-tags, languages, person-name-types, person-id-tags (all optional).
  */
 @Component({
-  selector: 'cadmus-cited-persons-part',
+  selector: 'itinera-cited-persons-part',
   templateUrl: './cited-persons-part.component.html',
   styleUrls: ['./cited-persons-part.component.css'],
 })

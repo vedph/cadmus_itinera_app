@@ -86,14 +86,14 @@
         </mat-tab>
 
         <mat-tab label="hand" *ngIf="editedHand">
-          <cadmus-ms-hand
+          <itinera-ms-hand
             [model]="editedHand"
             [reasonEntries]="reasonEntries"
             [rubrEntries]="rubrEntries"
             [langEntries]="langEntries"
             (modelChange)="onHandSaved($event)"
             (editorClose)="onHandClosed()"
-          ></cadmus-ms-hand>
+          ></itinera-ms-hand>
         </mat-tab>
       </mat-tab-group>
     </mat-card-content>

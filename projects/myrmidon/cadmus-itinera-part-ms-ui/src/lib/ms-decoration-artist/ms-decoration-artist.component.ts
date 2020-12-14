@@ -11,7 +11,7 @@ import { BehaviorSubject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
 @Component({
-  selector: 'cadmus-ms-decoration-artist',
+  selector: 'itinera-ms-decoration-artist',
   templateUrl: './ms-decoration-artist.component.html',
   styleUrls: ['./ms-decoration-artist.component.css'],
 })

@@ -16,7 +16,7 @@ import {
  * Thesauri: ms-watermark-subjects (optional).
  */
 @Component({
-  selector: 'cadmus-ms-watermarks-part',
+  selector: 'itinera-ms-watermarks-part',
   templateUrl: './ms-watermarks-part.component.html',
   styleUrls: ['./ms-watermarks-part.component.css'],
 })

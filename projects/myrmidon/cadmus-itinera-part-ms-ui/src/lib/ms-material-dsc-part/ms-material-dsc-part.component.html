@@ -201,12 +201,12 @@
         </mat-tab>
 
         <mat-tab label="palimpsest" *ngIf="editedPalimpsest">
-          <cadmus-ms-palimpsest
+          <itinera-ms-palimpsest
             [model]="editedPalimpsest"
             (modelChange)="onPalimpsestSaved($event)"
             (editorClose)="onPalimpsestClosed()"
           >
-          </cadmus-ms-palimpsest>
+          </itinera-ms-palimpsest>
         </mat-tab>
       </mat-tab-group>
     </mat-card-content>

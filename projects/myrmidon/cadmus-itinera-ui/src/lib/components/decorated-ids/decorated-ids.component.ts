@@ -13,7 +13,7 @@ import { BehaviorSubject } from 'rxjs';
  * Decorated IDs editor.
  */
 @Component({
-  selector: 'cadmus-decorated-ids',
+  selector: 'itinera-decorated-ids',
   templateUrl: './decorated-ids.component.html',
   styleUrls: ['./decorated-ids.component.css'],
 })

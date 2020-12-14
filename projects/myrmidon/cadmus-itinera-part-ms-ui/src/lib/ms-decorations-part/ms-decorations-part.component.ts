@@ -23,7 +23,7 @@ import {
  * physical-dimension-tags (optional), physical-size-units.
  */
 @Component({
-  selector: 'cadmus-ms-decorations-part',
+  selector: 'itinera-ms-decorations-part',
   templateUrl: './ms-decorations-part.component.html',
   styleUrls: ['./ms-decorations-part.component.css'],
 })

@@ -11,7 +11,7 @@ import { EditCitedPersonsPartQuery } from './edit-cited-persons-part.query';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
-  selector: 'cadmus-cited-persons-part-feature',
+  selector: 'itinera-cited-persons-part-feature',
   templateUrl: './cited-persons-part-feature.component.html',
   styleUrls: ['./cited-persons-part-feature.component.css'],
 })

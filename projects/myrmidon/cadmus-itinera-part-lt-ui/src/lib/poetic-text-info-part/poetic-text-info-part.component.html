@@ -175,11 +175,11 @@
                   {{ recipients?.length || 0 }}
                 </mat-panel-description>
               </mat-expansion-panel-header>
-              <cadmus-decorated-ids
+              <itinera-decorated-ids
                 [ids]="recipients"
                 [tagEntries]="tagEntries"
                 (idsChange)="onRecipientsChange($event)"
-              ></cadmus-decorated-ids>
+              ></itinera-decorated-ids>
             </mat-expansion-panel>
           </div>
 
@@ -192,17 +192,17 @@
                   {{ replyingTo?.length || 0 }}
                 </mat-panel-description>
               </mat-expansion-panel-header>
-              <cadmus-decorated-ids
+              <itinera-decorated-ids
                 [ids]="replyingTo"
                 [tagEntries]="tagEntries"
                 (idsChange)="onReplyingToChange($event)"
-              ></cadmus-decorated-ids>
+              ></itinera-decorated-ids>
             </mat-expansion-panel>
           </div>
         </mat-tab>
 
         <mat-tab *ngIf="editedAuthor" label="author">
-          <cadmus-cited-person
+          <itinera-cited-person
             [person]="editedAuthor"
             [langEntries]="langEntries"
             [nameTagEntries]="nameTagEntries"
@@ -210,7 +210,7 @@
             [idTagEntries]="idTagEntries"
             (personChange)="onAuthorSaved($event)"
             (editorClose)="onAuthorClosed()"
-          ></cadmus-cited-person>
+          ></itinera-cited-person>
         </mat-tab>
       </mat-tab-group>
     </mat-card-content>

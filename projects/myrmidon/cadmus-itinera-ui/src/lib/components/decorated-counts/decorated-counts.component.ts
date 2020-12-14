@@ -23,7 +23,7 @@ import { debounceTime } from 'rxjs/operators';
  * Decorated counts in-place editor.
  */
 @Component({
-  selector: 'cadmus-decorated-counts',
+  selector: 'itinera-decorated-counts',
   templateUrl: './decorated-counts.component.html',
   styleUrls: ['./decorated-counts.component.css'],
 })

@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
-
-import { ThesauriSet } from '@myrmidon/cadmus-core';
 import {
   EditItemQuery,
   EditItemService,
@@ -14,7 +11,7 @@ import { EditPersonEventsPartQuery } from './edit-person-events-part.query';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
-  selector: 'cadmus-person-events-part-feature',
+  selector: 'itinera-person-events-part-feature',
   templateUrl: './person-events-part-feature.component.html',
   styleUrls: ['./person-events-part-feature.component.css'],
 })

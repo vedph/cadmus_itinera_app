@@ -21,7 +21,7 @@ import { take } from 'rxjs/operators';
  * Thesauri: doc-reference-tags (optional).
  */
 @Component({
-  selector: 'cadmus-corr-dedications-part',
+  selector: 'itinera-corr-dedications-part',
   templateUrl: './corr-dedications-part.component.html',
   styleUrls: ['./corr-dedications-part.component.css'],
 })

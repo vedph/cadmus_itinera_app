@@ -14,7 +14,7 @@ import {
 } from '@myrmidon/cadmus-itinera-core';
 
 @Component({
-  selector: 'cadmus-ms-content',
+  selector: 'itinera-ms-content',
   templateUrl: './ms-content.component.html',
   styleUrls: ['./ms-content.component.css'],
 })

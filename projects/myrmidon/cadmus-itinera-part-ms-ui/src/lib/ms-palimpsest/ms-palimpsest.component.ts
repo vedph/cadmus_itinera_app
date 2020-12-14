@@ -5,11 +5,11 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { HistoricalDate, HistoricalDateModel } from '@myrmidon/cadmus-core';
+import { HistoricalDateModel } from '@myrmidon/cadmus-core';
 import { MsPalimpsest, MsLocationService } from '@myrmidon/cadmus-itinera-core';
 
 @Component({
-  selector: 'cadmus-ms-palimpsest',
+  selector: 'itinera-ms-palimpsest',
   templateUrl: './ms-palimpsest.component.html',
   styleUrls: ['./ms-palimpsest.component.css'],
 })

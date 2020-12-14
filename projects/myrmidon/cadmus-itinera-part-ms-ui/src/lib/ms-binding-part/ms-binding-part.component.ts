@@ -14,7 +14,7 @@ import { PhysicalSize } from '@myrmidon/cadmus-itinera-core';
  * (optional), physical-size-units.
  */
 @Component({
-  selector: 'cadmus-ms-binding-part',
+  selector: 'itinera-ms-binding-part',
   templateUrl: './ms-binding-part.component.html',
   styleUrls: ['./ms-binding-part.component.css'],
 })

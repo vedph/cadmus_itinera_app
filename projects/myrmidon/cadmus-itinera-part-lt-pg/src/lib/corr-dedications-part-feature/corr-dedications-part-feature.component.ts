@@ -11,7 +11,7 @@ import { EditCorrDedicationsPartQuery } from './edit-corr-dedications-part.query
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
-  selector: 'lib-corr-dedications-part-feature',
+  selector: 'itinera-corr-dedications-part-feature',
   templateUrl: './corr-dedications-part-feature.component.html',
   styleUrls: ['./corr-dedications-part-feature.component.css'],
 })

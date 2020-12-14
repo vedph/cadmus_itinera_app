@@ -87,11 +87,11 @@
             editedLocus.citation
           }}</mat-panel-description>
         </mat-expansion-panel-header>
-        <cadmus-ms-content-locus *ngIf="editedLocus"
+        <itinera-ms-content-locus *ngIf="editedLocus"
           [model]="editedLocus"
           (modelChange)="onLocusSaved($event)"
           (editorClose)="onLocusClosed()"
-        ></cadmus-ms-content-locus>
+        ></itinera-ms-content-locus>
       </mat-expansion-panel>
     </mat-card-content>
     <mat-card-actions>

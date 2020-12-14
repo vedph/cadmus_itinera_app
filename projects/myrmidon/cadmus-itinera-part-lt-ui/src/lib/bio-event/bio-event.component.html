@@ -1,5 +1,5 @@
 <form [formGroup]="form" (submit)="save()">
-  <mat-tab-group>
+  <mat-tab-group (selectedIndexChange)="onTabIndexChanged($event)">
     <mat-tab label="general">
       <div>
         <!-- type (bound) -->
@@ -61,7 +61,7 @@
         <cadmus-historical-date-editor
           [(date)]="date"
         ></cadmus-historical-date-editor>
-        <br>
+        <br />
       </div>
 
       <div>
@@ -82,7 +82,8 @@
       <div>
         <h4>description</h4>
         <!-- description -->
-        <ngx-monaco-editor #dsceditor
+        <ngx-monaco-editor
+          #dsceditor
           [options]="editorOptions"
           [formControl]="description"
         ></ngx-monaco-editor>
@@ -97,10 +98,10 @@
 
       <!-- ids -->
       <h4>external IDs</h4>
-      <cadmus-external-ids
+      <itinera-external-ids
         [model$]="ids$"
         (modelChange)="onIdsChanged($event)"
-      ></cadmus-external-ids>
+      ></itinera-external-ids>
     </mat-tab>
 
     <mat-tab label="sources">
@@ -113,11 +114,11 @@
 
     <mat-tab label="participants">
       <!-- participants -->
-      <cadmus-decorated-ids
+      <itinera-decorated-ids
         [ids]="participants"
         [tagEntries]="partTagEntries"
         (idsChange)="onParticipantsChanged($event)"
-      ></cadmus-decorated-ids>
+      ></itinera-decorated-ids>
     </mat-tab>
   </mat-tab-group>
 

@@ -11,7 +11,7 @@ import { EditPoeticTextInfoPartQuery } from './edit-poetic-text-info-part.query'
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
-  selector: 'cadmus-poetic-text-info-part-feature',
+  selector: 'itinera-poetic-text-info-part-feature',
   templateUrl: './poetic-text-info-part-feature.component.html',
   styleUrls: ['./poetic-text-info-part-feature.component.css'],
 })

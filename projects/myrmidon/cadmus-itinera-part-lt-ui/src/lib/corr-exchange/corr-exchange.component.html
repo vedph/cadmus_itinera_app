@@ -18,29 +18,29 @@
 
       <!-- participants -->
       <h4>participants</h4>
-      <cadmus-decorated-ids
+      <itinera-decorated-ids
         [ids]="participants"
         [tagEntries]="tagEntries"
         (idsChange)="onParticipantsChange($event)"
-      ></cadmus-decorated-ids>
+      ></itinera-decorated-ids>
     </mat-tab>
 
     <mat-tab label="from">
       <!-- from -->
-      <cadmus-chronotope
+      <itinera-chronotope
         [chronotope]="from"
         [tagEntries]="tagEntries"
         (chronotopeChange)="onFromChange($event)"
-      ></cadmus-chronotope>
+      ></itinera-chronotope>
     </mat-tab>
 
     <mat-tab label="to">
       <!-- to -->
-      <cadmus-chronotope
+      <itinera-chronotope
         [chronotope]="to"
         [tagEntries]="tagEntries"
         (chronotopeChange)="onToChange($event)"
-      ></cadmus-chronotope>
+      ></itinera-chronotope>
     </mat-tab>
 
     <mat-tab label="sources">

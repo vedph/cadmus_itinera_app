@@ -16,24 +16,24 @@
       </mat-tab>
 
       <mat-tab label="Person Name">
-        <cadmus-person-name
+        <itinera-person-name
           [model$]="personName$"
           [langEntries]="langEntries"
           [typeEntries]="namePartTypeEntries"
           (modelChange)="onPersonNameChange($event)"
         >
-        </cadmus-person-name>
+        </itinera-person-name>
         <div *ngIf="lastPersonName">
           <pre>{{ lastPersonName | json }}</pre>
         </div>
       </mat-tab>
 
       <mat-tab label="External IDs">
-        <cadmus-external-ids
+        <itinera-external-ids
           [model$]="externalIds$"
           (modelChange)="onExternalIdsChange($event)"
         >
-        </cadmus-external-ids>
+        </itinera-external-ids>
         <div *ngIf="lastExternalIds">
           <pre>{{ lastExternalIds | json }}</pre>
         </div>
@@ -50,59 +50,59 @@
       </mat-tab>
 
       <mat-tab label="Decorated IDs">
-        <cadmus-decorated-ids
+        <itinera-decorated-ids
           (idsChange)="onIdsChange($event)"
-        ></cadmus-decorated-ids>
+        ></itinera-decorated-ids>
         <div *ngIf="lastDecoratedIds">
           <pre>{{ lastDecoratedIds | json }}</pre>
         </div>
       </mat-tab>
 
       <mat-tab label="Decorated counts">
-        <cadmus-decorated-counts
+        <itinera-decorated-counts
           [model$]="decoratedCounts$"
           (modelChange)="onDecoratedCountsChange($event)"
         >
-        </cadmus-decorated-counts>
+        </itinera-decorated-counts>
         <div *ngIf="lastDecoratedCounts">
           <pre>{{ lastDecoratedCounts | json }}</pre>
         </div>
       </mat-tab>
 
       <mat-tab label="Cited Person">
-        <cadmus-cited-person
+        <itinera-cited-person
           [langEntries]="langEntries"
           [nameTypeEntries]="namePartTypeEntries"
           (personChange)="onCitedPersonChange($event)"
-        ></cadmus-cited-person>
+        ></itinera-cited-person>
         <div *ngIf="lastCitedPerson">
           <pre>{{ lastCitedPerson | json }}</pre>
         </div>
       </mat-tab>
 
       <mat-tab label="Chronotope">
-        <cadmus-chronotope
+        <itinera-chronotope
           (chronotopeChange)="onChronotopeChange($event)"
-        ></cadmus-chronotope>
+        ></itinera-chronotope>
         <div *ngIf="lastChronotope">
           <pre>{{ lastChronotope | json }}</pre>
         </div>
       </mat-tab>
 
       <mat-tab label="Dimension">
-        <cadmus-physical-dimension
+        <itinera-physical-dimension
           [(dimension)]="dimension"
-        ></cadmus-physical-dimension>
+        ></itinera-physical-dimension>
         <div *ngIf="dimension">
           <pre>{{ dimension | json }}</pre>
         </div>
       </mat-tab>
 
       <mat-tab label="Size">
-        <cadmus-physical-size
+        <itinera-physical-size
           [unitEntries]="unitEntries"
           [(size)]="size"
-        ></cadmus-physical-size>
+        ></itinera-physical-size>
         <div *ngIf="size">
           <pre>{{ size | json }}</pre>
         </div>

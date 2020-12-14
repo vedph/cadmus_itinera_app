@@ -14,7 +14,7 @@ import { EditMsBindingPartQuery } from './edit-ms-binding-part.query';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
-  selector: 'cadmus-ms-binding-part-feature',
+  selector: 'itinera-ms-binding-part-feature',
   templateUrl: './ms-binding-part-feature.component.html',
   styleUrls: ['./ms-binding-part-feature.component.css'],
 })

@@ -12,7 +12,7 @@ import {
 import { BehaviorSubject } from 'rxjs';
 
 @Component({
-  selector: 'cadmus-ms-restoration',
+  selector: 'itinera-ms-restoration',
   templateUrl: './ms-restoration.component.html',
   styleUrls: ['./ms-restoration.component.css'],
 })

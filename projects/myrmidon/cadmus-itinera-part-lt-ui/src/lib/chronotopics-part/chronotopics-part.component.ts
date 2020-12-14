@@ -22,7 +22,7 @@ import { take } from 'rxjs/operators';
  * Thesauri: doc-reference-tags (optional).
  */
 @Component({
-  selector: 'cadmus-chronotopics-part',
+  selector: 'itinera-chronotopics-part',
   templateUrl: './chronotopics-part.component.html',
   styleUrls: ['./chronotopics-part.component.css'],
 })

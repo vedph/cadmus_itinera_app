@@ -18,7 +18,7 @@ import { MsLocationService } from '@myrmidon/cadmus-itinera-core';
  * Thesauri: ms-materials (optional).
  */
 @Component({
-  selector: 'cadmus-ms-composition-part',
+  selector: 'itinera-ms-composition-part',
   templateUrl: './ms-composition-part.component.html',
   styleUrls: ['./ms-composition-part.component.css'],
 })

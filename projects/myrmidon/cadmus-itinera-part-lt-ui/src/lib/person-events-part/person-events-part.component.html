@@ -84,13 +84,13 @@
         </mat-tab>
 
         <mat-tab label="event" *ngIf="editedEvent">
-          <cadmus-bio-event
+          <itinera-bio-event
             [model]="editedEvent"
             [typeEntries]="typeEntries"
             [partTagEntries]="partTagEntries"
             (modelChange)="onEventSaved($event)"
             (editorClose)="onEventClosed()"
-          ></cadmus-bio-event>
+          ></itinera-bio-event>
         </mat-tab>
       </mat-tab-group>
     </mat-card-content>

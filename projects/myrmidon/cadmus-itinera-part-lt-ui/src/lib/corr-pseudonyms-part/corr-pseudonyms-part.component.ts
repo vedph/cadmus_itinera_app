@@ -17,7 +17,7 @@ import { take } from 'rxjs/operators';
  * Thesauri: languages, doc-reference-tags (all optional).
  */
 @Component({
-  selector: 'cadmus-corr-pseudonyms-part',
+  selector: 'itinera-corr-pseudonyms-part',
   templateUrl: './corr-pseudonyms-part.component.html',
   styleUrls: ['./corr-pseudonyms-part.component.css'],
 })

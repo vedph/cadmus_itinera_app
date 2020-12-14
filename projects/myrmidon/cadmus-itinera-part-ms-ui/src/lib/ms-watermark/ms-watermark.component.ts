@@ -10,7 +10,7 @@ import { MsWatermark } from '@myrmidon/cadmus-itinera-core';
 import { BehaviorSubject } from 'rxjs';
 
 @Component({
-  selector: 'cadmus-ms-watermark',
+  selector: 'itinera-ms-watermark',
   templateUrl: './ms-watermark.component.html',
   styleUrls: ['./ms-watermark.component.css'],
 })

@@ -11,7 +11,7 @@ import { EditPersonHandPartQuery } from './edit-person-hand-part.query';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
-  selector: 'cadmus-person-hand-part-feature',
+  selector: 'itinera-person-hand-part-feature',
   templateUrl: './person-hand-part-feature.component.html',
   styleUrls: ['./person-hand-part-feature.component.css'],
 })

@@ -26,7 +26,7 @@ import { BehaviorSubject } from 'rxjs';
  * Thesauri: physical-size-units; optional: ms-dimensions, ms-counts.
  */
 @Component({
-  selector: 'cadmus-ms-dimensions-part',
+  selector: 'itinera-ms-dimensions-part',
   templateUrl: './ms-dimensions-part.component.html',
   styleUrls: ['./ms-dimensions-part.component.css'],
 })

@@ -13,7 +13,7 @@ import { DecoratedId } from '@myrmidon/cadmus-itinera-core';
  * Thesauri: languages (optional), doc-reference-tags.
  */
 @Component({
-  selector: 'cadmus-letter-info-part',
+  selector: 'itinera-letter-info-part',
   templateUrl: './letter-info-part.component.html',
   styleUrls: ['./letter-info-part.component.css'],
 })

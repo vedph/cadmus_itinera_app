@@ -23,7 +23,7 @@ import { take } from 'rxjs/operators';
  * text-metres, doc-reference-tags (all optional).
  */
 @Component({
-  selector: 'cadmus-poetic-text-info-part',
+  selector: 'itinera-poetic-text-info-part',
   templateUrl: './poetic-text-info-part.component.html',
   styleUrls: ['./poetic-text-info-part.component.css'],
 })

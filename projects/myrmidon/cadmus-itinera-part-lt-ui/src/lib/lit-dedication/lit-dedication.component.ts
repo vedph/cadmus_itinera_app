@@ -10,7 +10,7 @@ import { LitDedication } from '@myrmidon/cadmus-itinera-core';
 import { BehaviorSubject } from 'rxjs';
 
 @Component({
-  selector: 'cadmus-lit-dedication',
+  selector: 'itinera-lit-dedication',
   templateUrl: './lit-dedication.component.html',
   styleUrls: ['./lit-dedication.component.css'],
 })

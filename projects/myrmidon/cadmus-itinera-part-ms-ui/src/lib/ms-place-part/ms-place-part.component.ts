@@ -13,7 +13,7 @@ import { BehaviorSubject } from 'rxjs';
  * Thesauri: ms-place-areas (optional), doc-reference-tags (optional).
  */
 @Component({
-  selector: 'cadmus-ms-place-part',
+  selector: 'itinera-ms-place-part',
   templateUrl: './ms-place-part.component.html',
   styleUrls: ['./ms-place-part.component.css'],
 })

@@ -10,7 +10,7 @@ import { EditMsDecorationsPartQuery } from './edit-ms-decorations-part.query';
 import { EditMsDecorationsPartService } from './edit-ms-decorations-part.service';
 
 @Component({
-  selector: 'cadmus-ms-decorations-part-feature',
+  selector: 'itinera-ms-decorations-part-feature',
   templateUrl: './ms-decorations-part-feature.component.html',
   styleUrls: ['./ms-decorations-part-feature.component.css'],
 })

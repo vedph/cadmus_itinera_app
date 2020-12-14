@@ -10,7 +10,7 @@ import { EditMsNumberingsPartQuery } from './edit-ms-numberings-part.query';
 import { EditMsNumberingsPartService } from './edit-ms-numberings-part.service';
 
 @Component({
-  selector: 'lib-ms-numberings-part-feature',
+  selector: 'itinera-ms-numberings-part-feature',
   templateUrl: './ms-numberings-part-feature.component.html',
   styleUrls: ['./ms-numberings-part-feature.component.css'],
 })

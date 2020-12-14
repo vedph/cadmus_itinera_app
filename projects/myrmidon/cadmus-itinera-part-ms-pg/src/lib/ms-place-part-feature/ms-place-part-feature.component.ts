@@ -14,7 +14,7 @@ import { EditMsPlacePartQuery } from './edit-ms-place-part.query';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
-  selector: 'lib-ms-place-part-feature',
+  selector: 'itinera-ms-place-part-feature',
   templateUrl: './ms-place-part-feature.component.html',
   styleUrls: ['./ms-place-part-feature.component.css'],
 })

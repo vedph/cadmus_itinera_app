@@ -233,7 +233,7 @@
                 {{ getFullName(editedPerson.name) }}
               </mat-panel-description>
             </mat-expansion-panel-header>
-            <cadmus-ms-history-person
+            <itinera-ms-history-person
               *ngIf="editedPerson"
               [model]="editedPerson"
               [roleEntries]="roleEntries"
@@ -243,7 +243,7 @@
               (modelChange)="onPersonSaved($event)"
               (editorClose)="onPersonClosed()"
             >
-            </cadmus-ms-history-person>
+            </itinera-ms-history-person>
           </mat-expansion-panel>
         </mat-tab>
 
@@ -334,7 +334,7 @@
             <mat-expansion-panel-header>
               <mat-panel-title>annotation</mat-panel-title>
             </mat-expansion-panel-header>
-            <cadmus-ms-annotation
+            <itinera-ms-annotation
               *ngIf="editedAnnotation"
               [model]="editedAnnotation"
               [langEntries]="langEntries"
@@ -342,7 +342,7 @@
               (modelChange)="onAnnotationSaved($event)"
               (editorClose)="onAnnotationClosed()"
             >
-            </cadmus-ms-annotation>
+            </itinera-ms-annotation>
           </mat-expansion-panel>
         </mat-tab>
 
@@ -427,14 +427,14 @@
             <mat-expansion-panel-header>
               <mat-panel-title>restoration</mat-panel-title>
             </mat-expansion-panel-header>
-            <cadmus-ms-restoration
+            <itinera-ms-restoration
               *ngIf="editedRestoration"
               [model]="editedRestoration"
               [typeEntries]="rstTypeEntries"
               (modelChange)="onRestorationSaved($event)"
               (editorClose)="onRestorationClosed()"
             >
-            </cadmus-ms-restoration>
+            </itinera-ms-restoration>
           </mat-expansion-panel>
         </mat-tab>
       </mat-tab-group>

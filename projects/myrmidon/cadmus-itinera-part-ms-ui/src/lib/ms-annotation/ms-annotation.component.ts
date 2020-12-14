@@ -10,7 +10,7 @@ import { MsAnnotation, MsLocationService } from '@myrmidon/cadmus-itinera-core';
 import { BehaviorSubject } from 'rxjs';
 
 @Component({
-  selector: 'cadmus-ms-annotation',
+  selector: 'itinera-ms-annotation',
   templateUrl: './ms-annotation.component.html',
   styleUrls: ['./ms-annotation.component.css'],
 })

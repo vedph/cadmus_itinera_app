@@ -16,7 +16,7 @@ import { debounceTime } from 'rxjs/operators';
  * Thesauri (all optional): ms-signature-tags.
  */
 @Component({
-  selector: 'cadmus-ms-signatures-part',
+  selector: 'itinera-ms-signatures-part',
   templateUrl: './ms-signatures-part.component.html',
   styleUrls: ['./ms-signatures-part.component.css'],
 })

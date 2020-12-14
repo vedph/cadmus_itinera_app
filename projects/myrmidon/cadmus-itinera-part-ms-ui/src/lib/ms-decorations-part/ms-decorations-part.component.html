@@ -88,7 +88,7 @@
         </mat-tab>
 
         <mat-tab label="decoration" *ngIf="editedDecoration">
-          <cadmus-ms-decoration
+          <itinera-ms-decoration
             [model]="editedDecoration"
             [typeEntries]="typeEntries"
             [layoutEntries]="layoutEntries"
@@ -102,7 +102,7 @@
             [dimTagEntries]="dimTagEntries"
             (modelChange)="onDecorationSaved($event)"
             (editorClose)="onDecorationClosed()"
-          ></cadmus-ms-decoration>
+          ></itinera-ms-decoration>
         </mat-tab>
       </mat-tab-group>
     </mat-card-content>

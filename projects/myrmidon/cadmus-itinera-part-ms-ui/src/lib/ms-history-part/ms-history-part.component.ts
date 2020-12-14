@@ -29,7 +29,7 @@ import { take } from 'rxjs/operators';
  * person-name-types, person-name-tags (all optional).
  */
 @Component({
-  selector: 'cadmus-ms-history-part',
+  selector: 'itinera-ms-history-part',
   templateUrl: './ms-history-part.component.html',
   styleUrls: ['./ms-history-part.component.css'],
 })

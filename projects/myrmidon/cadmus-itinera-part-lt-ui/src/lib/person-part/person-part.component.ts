@@ -12,7 +12,7 @@ import { PersonPart, PERSON_PART_TYPEID } from '../person-part';
  * Thesauri (all optional): languages, person-name-types, person-name-tags.
  */
 @Component({
-  selector: 'cadmus-person-part',
+  selector: 'itinera-person-part',
   templateUrl: './person-part.component.html',
   styleUrls: ['./person-part.component.css'],
 })

@@ -11,7 +11,7 @@ import { EditMsQuiresPartQuery } from './edit-ms-quires-part.query';
 import { EditMsQuiresPartService } from './edit-ms-quires-part.service';
 
 @Component({
-  selector: 'lib-ms-quires-part-feature',
+  selector: 'itinera-ms-quires-part-feature',
   templateUrl: './ms-quires-part-feature.component.html',
   styleUrls: ['./ms-quires-part-feature.component.css'],
 })

@@ -15,7 +15,7 @@ import { MsCatchword } from '@myrmidon/cadmus-itinera-core';
  * Thesauri: ms-catchword-positions (optional).
  */
 @Component({
-  selector: 'cadmus-ms-catchwords-part',
+  selector: 'itinera-ms-catchwords-part',
   templateUrl: './ms-catchwords-part.component.html',
   styleUrls: ['./ms-catchwords-part.component.css'],
 })

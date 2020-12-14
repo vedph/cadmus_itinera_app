@@ -10,7 +10,7 @@ import { EditMsContentLociPartQuery } from './edit-ms-content-loci-part.query';
 import { EditMsContentLociPartService } from './edit-ms-content-loci-part.service';
 
 @Component({
-  selector: 'cadmus-ms-content-loci-part-feature',
+  selector: 'itinera-ms-content-loci-part-feature',
   templateUrl: './ms-content-loci-part-feature.component.html',
   styleUrls: ['./ms-content-loci-part-feature.component.css'],
 })

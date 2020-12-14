@@ -12,7 +12,7 @@ import { BehaviorSubject } from 'rxjs';
  * Thesauri: doc-reference-tags (optional).
  */
 @Component({
-  selector: 'cadmus-doc-references-part',
+  selector: 'itinera-doc-references-part',
   templateUrl: './doc-references-part.component.html',
   styleUrls: ['./doc-references-part.component.css'],
 })

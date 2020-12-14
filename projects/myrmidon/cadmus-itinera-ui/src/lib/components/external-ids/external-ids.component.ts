@@ -21,7 +21,7 @@ import { debounceTime } from 'rxjs/operators';
  * External IDs in-place editor.
  */
 @Component({
-  selector: 'cadmus-external-ids',
+  selector: 'itinera-external-ids',
   templateUrl: './external-ids.component.html',
   styleUrls: ['./external-ids.component.css'],
 })

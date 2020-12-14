@@ -29,13 +29,13 @@
 
   <!-- name -->
   <h4>name</h4>
-  <cadmus-person-name
+  <itinera-person-name
     [model$]="name$"
     [langEntries]="langEntries"
     [tagEntries]="nameTagEntries"
     [typeEntries]="nameTypeEntries"
     (modelChange)="onNameChanged($event)"
-  ></cadmus-person-name>
+  ></itinera-person-name>
 
   <!-- date -->
   <h4>date</h4>
@@ -46,10 +46,10 @@
   <!-- ids -->
   <br />
   <h4>external IDs</h4>
-  <cadmus-external-ids
+  <itinera-external-ids
     [model$]="ids$"
     (modelChange)="onIdsChanged($event)"
-  ></cadmus-external-ids>
+  ></itinera-external-ids>
 
   <!-- note -->
   <div>

@@ -5,11 +5,11 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { HistoricalDate, HistoricalDateModel } from '@myrmidon/cadmus-core';
+import { HistoricalDateModel } from '@myrmidon/cadmus-core';
 import { MsLocationService, MsSection } from '@myrmidon/cadmus-itinera-core';
 
 @Component({
-  selector: 'cadmus-ms-section',
+  selector: 'itinera-ms-section',
   templateUrl: './ms-section.component.html',
   styleUrls: ['./ms-section.component.css'],
 })

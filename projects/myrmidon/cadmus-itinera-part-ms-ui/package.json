@@ -1,6 +1,19 @@
 {
   "name": "@myrmidon/cadmus-itinera-part-ms-ui",
   "version": "0.0.1",
+  "description": "Cadmus Itinera - manuscript parts editors components.",
+  "keywords": [
+    "Cadmus",
+    "Itinera"
+  ],
+  "homepage": "https://github.com/vedph/cadmus_itinera_app",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vedph/cadmus_itinera_app"
+  },
+  "author": {
+    "name": "Daniele Fusi"
+  },
   "peerDependencies": {
     "@angular/common": "^10.1.4",
     "@angular/core": "^10.1.4",

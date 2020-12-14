@@ -11,7 +11,7 @@ import { EditLetterInfoPartQuery } from './edit-letter-info-part.query';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
-  selector: 'cadmus-letter-info-part-feature',
+  selector: 'itinera-letter-info-part-feature',
   templateUrl: './letter-info-part-feature.component.html',
   styleUrls: ['./letter-info-part-feature.component.css'],
 })

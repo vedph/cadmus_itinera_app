@@ -10,7 +10,7 @@ import { CorrPseudonym } from '@myrmidon/cadmus-itinera-core';
 import { BehaviorSubject } from 'rxjs';
 
 @Component({
-  selector: 'cadmus-corr-pseudonym',
+  selector: 'itinera-corr-pseudonym',
   templateUrl: './corr-pseudonym.component.html',
   styleUrls: ['./corr-pseudonym.component.css'],
 })

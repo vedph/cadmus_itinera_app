@@ -11,7 +11,7 @@ import { EditMsHistoryPartQuery } from './edit-ms-history-part.query';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
-  selector: 'cadmus-ms-history-part-feature',
+  selector: 'itinera-ms-history-part-feature',
   templateUrl: './ms-history-part-feature.component.html',
   styleUrls: ['./ms-history-part-feature.component.css'],
 })

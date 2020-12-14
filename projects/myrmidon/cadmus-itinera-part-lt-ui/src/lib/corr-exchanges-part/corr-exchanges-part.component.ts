@@ -21,7 +21,7 @@ import { take } from 'rxjs/operators';
  * Thesauri: doc-reference-tags, epist-attachment-types (all optional).
  */
 @Component({
-  selector: 'cadmus-corr-exchanges-part',
+  selector: 'itinera-corr-exchanges-part',
   templateUrl: './corr-exchanges-part.component.html',
   styleUrls: ['./corr-exchanges-part.component.css'],
 })

@@ -81,7 +81,7 @@
         </mat-tab>
 
         <mat-tab label="person" *ngIf="editedPerson">
-          <cadmus-cited-person
+          <itinera-cited-person
             [person]="editedPerson"
             [langEntries]="langEntries"
             [nameTagEntries]="nameTagEntries"
@@ -89,7 +89,7 @@
             [idTagEntries]="idTagEntries"
             (personChange)="onPersonSaved($event)"
             (editorClose)="onPersonClosed()"
-          ></cadmus-cited-person>
+          ></itinera-cited-person>
         </mat-tab>
       </mat-tab-group>
     </mat-card-content>

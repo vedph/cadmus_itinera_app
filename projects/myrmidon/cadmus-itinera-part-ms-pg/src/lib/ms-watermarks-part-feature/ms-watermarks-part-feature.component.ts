@@ -12,7 +12,7 @@ import { EditMsWatermarksPartQuery } from './edit-ms-watermarks-part.query';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
-  selector: 'cadmus-ms-watermarks-part-feature',
+  selector: 'itinera-ms-watermarks-part-feature',
   templateUrl: './ms-watermarks-part-feature.component.html',
   styleUrls: ['./ms-watermarks-part-feature.component.css'],
 })

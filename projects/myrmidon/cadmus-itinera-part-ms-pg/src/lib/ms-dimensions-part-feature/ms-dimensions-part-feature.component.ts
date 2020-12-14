@@ -10,7 +10,7 @@ import { EditMsDimensionsPartQuery } from './edit-ms-dimensions-part.query';
 import { EditMsDimensionsPartService } from './edit-ms-dimensions-part.service';
 
 @Component({
-  selector: 'cadmus-ms-dimensions-part-feature',
+  selector: 'itinera-ms-dimensions-part-feature',
   templateUrl: './ms-dimensions-part-feature.component.html',
   styleUrls: ['./ms-dimensions-part-feature.component.css'],
 })

@@ -16,7 +16,7 @@ import { deepCopy } from '@myrmidon/cadmus-core';
  * Thesauri: none.
  */
 @Component({
-  selector: 'cadmus-ms-content-loci-part',
+  selector: 'itinera-ms-content-loci-part',
   templateUrl: './ms-content-loci-part.component.html',
   styleUrls: ['./ms-content-loci-part.component.css'],
 })

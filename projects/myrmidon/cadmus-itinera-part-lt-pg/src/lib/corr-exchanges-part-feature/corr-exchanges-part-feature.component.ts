@@ -11,7 +11,7 @@ import { EditCorrExchangesPartQuery } from './edit-corr-exchanges-part.query';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
-  selector: 'cadmus-corr-exchanges-part-feature',
+  selector: 'itinera-corr-exchanges-part-feature',
   templateUrl: './corr-exchanges-part-feature.component.html',
   styleUrls: ['./corr-exchanges-part-feature.component.css'],
 })

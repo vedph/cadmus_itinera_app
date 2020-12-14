@@ -10,7 +10,7 @@ import { PhysicalDimension } from '@myrmidon/cadmus-itinera-core';
 import { debounceTime } from 'rxjs/operators';
 
 @Component({
-  selector: 'cadmus-physical-dimension',
+  selector: 'itinera-physical-dimension',
   templateUrl: './physical-dimension.component.html',
   styleUrls: ['./physical-dimension.component.css'],
 })

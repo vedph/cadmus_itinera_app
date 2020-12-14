@@ -14,7 +14,7 @@ import { BioEvent, DecoratedId } from '@myrmidon/cadmus-itinera-core';
 import { BehaviorSubject } from 'rxjs';
 
 @Component({
-  selector: 'cadmus-bio-event',
+  selector: 'itinera-bio-event',
   templateUrl: './bio-event.component.html',
   styleUrls: ['./bio-event.component.css'],
 })

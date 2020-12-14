@@ -11,7 +11,7 @@ import { EditChronotopicsPartQuery } from './edit-Chronotopics-part.query';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
-  selector: 'cadmus-chronotopics-part-feature',
+  selector: 'itinera-chronotopics-part-feature',
   templateUrl: './chronotopics-part-feature.component.html',
   styleUrls: ['./chronotopics-part-feature.component.css'],
 })

@@ -18,7 +18,7 @@ import { deepCopy } from '@myrmidon/cadmus-core';
  * Thesauri: none.
  */
 @Component({
-  selector: 'cadmus-ms-quires-part',
+  selector: 'itinera-ms-quires-part',
   templateUrl: './ms-quires-part.component.html',
   styleUrls: ['./ms-quires-part.component.css'],
 })

@@ -9,7 +9,7 @@ import { ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { MsHandSign } from '@myrmidon/cadmus-itinera-core';
 
 @Component({
-  selector: 'cadmus-ms-hand-sign',
+  selector: 'itinera-ms-hand-sign',
   templateUrl: './ms-hand-sign.component.html',
   styleUrls: ['./ms-hand-sign.component.css'],
 })

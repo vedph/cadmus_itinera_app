@@ -26,7 +26,7 @@ import { EpistAttachment } from '@myrmidon/cadmus-itinera-core';
  * Thesauri: epist-attachment-types (optional).
  */
 @Component({
-  selector: 'cadmus-attachments-part',
+  selector: 'itinera-attachments-part',
   templateUrl: './attachments-part.component.html',
   styleUrls: ['./attachments-part.component.css'],
 })

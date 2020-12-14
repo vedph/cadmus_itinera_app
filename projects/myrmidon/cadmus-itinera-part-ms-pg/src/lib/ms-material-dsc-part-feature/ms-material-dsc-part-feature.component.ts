@@ -11,7 +11,7 @@ import { EditMsMaterialDscPartQuery } from './edit-ms-material-dsc-part.query';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
-  selector: 'lib-ms-material-dsc-part-feature',
+  selector: 'itinera-ms-material-dsc-part-feature',
   templateUrl: './ms-material-dsc-part-feature.component.html',
   styleUrls: ['./ms-material-dsc-part-feature.component.css'],
 })

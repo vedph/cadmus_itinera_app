@@ -14,7 +14,7 @@ import { EditMsContentsPartQuery } from './edit-ms-contents-part.query';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
-  selector: 'cadmus-ms-contents-part-feature',
+  selector: 'itinera-ms-contents-part-feature',
   templateUrl: './ms-contents-part-feature.component.html',
   styleUrls: ['./ms-contents-part-feature.component.css'],
 })

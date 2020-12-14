@@ -82,12 +82,12 @@
         </mat-tab>
 
         <mat-tab label="watermark" *ngIf="editedWatermark">
-          <cadmus-ms-watermark
+          <itinera-ms-watermark
             [model]="editedWatermark"
             [subjectEntries]="subjectEntries"
             (modelChange)="onWatermarkSaved($event)"
             (editorClose)="onWatermarkClosed()"
-          ></cadmus-ms-watermark>
+          ></itinera-ms-watermark>
         </mat-tab>
       </mat-tab-group>
     </mat-card-content>

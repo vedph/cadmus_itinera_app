@@ -11,7 +11,7 @@ import { EditCorrPseudonymsPartQuery } from './edit-corr-pseudonyms-part.query';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
-  selector: 'lib-corr-pseudonyms-part-feature',
+  selector: 'itinera-corr-pseudonyms-part-feature',
   templateUrl: './corr-pseudonyms-part-feature.component.html',
   styleUrls: ['./corr-pseudonyms-part-feature.component.css'],
 })

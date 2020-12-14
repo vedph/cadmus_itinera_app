@@ -11,7 +11,7 @@ import { EditAttachmentsPartQuery } from './edit-Attachments-part.query';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
-  selector: 'cadmus-attachments-part-feature',
+  selector: 'itinera-attachments-part-feature',
   templateUrl: './attachments-part-feature.component.html',
   styleUrls: ['./attachments-part-feature.component.css'],
 })

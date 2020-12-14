@@ -267,14 +267,14 @@
       <!-- size -->
       <mat-checkbox [formControl]="sizePresent">size</mat-checkbox>
       <form [formGroup]="sizeForm">
-        <cadmus-physical-size
+        <itinera-physical-size
           [parentForm]="sizeForm"
           [(size)]="size"
           [unitEntries]="unitEntries"
           [tagEntries]="sizeTagEntries"
           [dimTagEntries]="dimTagEntries"
         >
-        </cadmus-physical-size>
+        </itinera-physical-size>
       </form>
     </mat-tab>
 
@@ -429,11 +429,11 @@
       <!-- artist -->
       <mat-checkbox [formControl]="artistPresent">artist</mat-checkbox>
       <form [formGroup]="artistForm">
-        <cadmus-ms-decoration-artist
+        <itinera-ms-decoration-artist
           [parentForm]="artistForm"
           [(artist)]="artist"
           [typeEntries]="artTypeEntries"
-        ></cadmus-ms-decoration-artist>
+        ></itinera-ms-decoration-artist>
       </form>
     </mat-tab>
   </mat-tab-group>

@@ -8,7 +8,7 @@ import {
 import { MsContentLocus } from '@myrmidon/cadmus-itinera-core';
 
 @Component({
-  selector: 'cadmus-ms-content-locus',
+  selector: 'itinera-ms-content-locus',
   templateUrl: './ms-content-locus.component.html',
   styleUrls: ['./ms-content-locus.component.css'],
 })

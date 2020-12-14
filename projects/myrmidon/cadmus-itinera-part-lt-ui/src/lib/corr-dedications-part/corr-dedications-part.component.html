@@ -84,12 +84,12 @@
         </mat-tab>
 
         <mat-tab label="dedication" *ngIf="editedDedication">
-          <cadmus-lit-dedication
+          <itinera-lit-dedication
             [model]="editedDedication"
             [tagEntries]="tagEntries"
             (modelChange)="onDedicationSaved($event)"
             (editorClose)="onDedicationClosed()"
-          ></cadmus-lit-dedication>
+          ></itinera-lit-dedication>
         </mat-tab>
       </mat-tab-group>
     </mat-card-content>

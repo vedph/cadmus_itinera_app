@@ -31,7 +31,7 @@ import { debounceTime } from 'rxjs/operators';
  * ms-numbering-techniques, ms-numbering-positions.
  */
 @Component({
-  selector: 'cadmus-ms-numberings-part',
+  selector: 'itinera-ms-numberings-part',
   templateUrl: './ms-numberings-part.component.html',
   styleUrls: ['./ms-numberings-part.component.css'],
 })

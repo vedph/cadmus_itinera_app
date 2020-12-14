@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormBuilder, Validators } from '@angular/forms';
 
 import { ModelEditorComponentBase, DialogService } from '@myrmidon/cadmus-ui';
@@ -14,13 +14,15 @@ import { take } from 'rxjs/operators';
  * Thesauri: ms-hand-types, ms-hand-jobs, ms-hand-sign-types (all optional).
  */
 @Component({
-  selector: 'cadmus-person-hand-part',
+  selector: 'itinera-person-hand-part',
   templateUrl: './person-hand-part.component.html',
   styleUrls: ['./person-hand-part.component.css'],
 })
 export class PersonHandPartComponent
   extends ModelEditorComponentBase<PersonHandPart>
   implements OnInit {
+  @ViewChild('dscabbr') dscAbbr: any;
+
   public personId: FormControl;
   public type: FormControl;
   public job: FormControl;
@@ -87,6 +89,17 @@ export class PersonHandPartComponent
       abbreviations: this.abbreviations,
       imageIds: this.imageIds,
     });
+  }
+
+  public onTabIndexChanged(index: number): void {
+    // HACK
+    // https://github.com/atularen/ngx-monaco-editor/issues/19
+    // https://stackoverflow.com/questions/37412950/ngx-monaco-editor-unable-to-set-layout-size-when-container-changes-using-tab
+    if (index === 2) {
+      setTimeout(() => {
+        this.dscAbbr._editor.layout();
+      }, 100);
+    }
   }
 
   public ngOnInit(): void {

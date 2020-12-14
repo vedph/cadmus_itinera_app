@@ -84,13 +84,13 @@
         </mat-tab>
 
         <mat-tab label="pseudonym" *ngIf="editedPseudonym">
-          <cadmus-corr-pseudonym
+          <itinera-corr-pseudonym
             [model]="editedPseudonym"
             [langEntries]="langEntries"
             [tagEntries]="tagEntries"
             (modelChange)="onPseudonymSaved($event)"
             (editorClose)="onPseudonymClosed()"
-          ></cadmus-corr-pseudonym>
+          ></itinera-corr-pseudonym>
         </mat-tab>
       </mat-tab-group>
     </mat-card-content>

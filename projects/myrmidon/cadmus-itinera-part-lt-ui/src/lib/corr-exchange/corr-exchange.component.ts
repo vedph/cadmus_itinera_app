@@ -27,7 +27,7 @@ import { BehaviorSubject, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
 @Component({
-  selector: 'cadmus-corr-exchange',
+  selector: 'itinera-corr-exchange',
   templateUrl: './corr-exchange.component.html',
   styleUrls: ['./corr-exchange.component.css'],
 })

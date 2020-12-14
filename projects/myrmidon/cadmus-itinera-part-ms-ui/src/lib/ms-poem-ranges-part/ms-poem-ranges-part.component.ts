@@ -16,7 +16,7 @@ import { debounceTime } from 'rxjs/operators';
  * Thesauri: ms-poem-ranges-tags (optional).
  */
 @Component({
-  selector: 'cadmus-ms-poem-ranges-part',
+  selector: 'itinera-ms-poem-ranges-part',
   templateUrl: './ms-poem-ranges-part.component.html',
   styleUrls: ['./ms-poem-ranges-part.component.css'],
 })

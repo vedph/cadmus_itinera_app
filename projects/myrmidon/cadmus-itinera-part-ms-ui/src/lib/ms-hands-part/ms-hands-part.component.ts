@@ -15,7 +15,7 @@ import { take } from 'rxjs/operators';
  * Thesauri: ms-hand-id-reasons, ms-rubrication-types, languages (all optional).
  */
 @Component({
-  selector: 'cadmus-ms-hands-part',
+  selector: 'itinera-ms-hands-part',
   templateUrl: './ms-hands-part.component.html',
   styleUrls: ['./ms-hands-part.component.css'],
 })

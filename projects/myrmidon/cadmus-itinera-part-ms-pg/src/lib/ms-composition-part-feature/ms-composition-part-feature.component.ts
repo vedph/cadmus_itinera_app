@@ -11,7 +11,7 @@ import { EditMsCompositionPartService } from './edit-ms-composition-part.service
 import { EditMsCompositionPartQuery } from './edit-ms-composition-part.query';
 
 @Component({
-  selector: 'cadmus-ms-composition-part-feature',
+  selector: 'itinera-ms-composition-part-feature',
   templateUrl: './ms-composition-part-feature.component.html',
   styleUrls: ['./ms-composition-part-feature.component.css'],
 })

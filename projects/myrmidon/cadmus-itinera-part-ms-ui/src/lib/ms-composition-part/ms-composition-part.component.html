@@ -199,20 +199,20 @@
         </mat-tab>
 
         <mat-tab label="guards" *ngIf="editedGuardSheet">
-          <cadmus-ms-guard-sheet
+          <itinera-ms-guard-sheet
             [model]="editedGuardSheet"
             [materialEntries]="materialEntries"
             (modelChange)="onGuardSheetSaved($event)"
             (editorClose)="onGuardSheetClosed()"
-          ></cadmus-ms-guard-sheet>
+          ></itinera-ms-guard-sheet>
         </mat-tab>
 
         <mat-tab label="sections" *ngIf="editedSection">
-          <cadmus-ms-section
+          <itinera-ms-section
             [model]="editedSection"
             (modelChange)="onSectionSaved($event)"
             (editorClose)="onSectionClosed()"
-          ></cadmus-ms-section>
+          ></itinera-ms-section>
         </mat-tab>
       </mat-tab-group>
     </mat-card-content>
