@@ -267,14 +267,14 @@
       <!-- size -->
       <mat-checkbox [formControl]="sizePresent">size</mat-checkbox>
       <form [formGroup]="sizeForm">
-        <itinera-physical-size
+        <cadmus-physical-size
           [parentForm]="sizeForm"
           [(size)]="size"
           [unitEntries]="unitEntries"
           [tagEntries]="sizeTagEntries"
           [dimTagEntries]="dimTagEntries"
         >
-        </itinera-physical-size>
+        </cadmus-physical-size>
       </form>
     </mat-tab>
 

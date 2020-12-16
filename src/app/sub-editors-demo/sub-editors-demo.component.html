@@ -90,19 +90,19 @@
       </mat-tab>
 
       <mat-tab label="Dimension">
-        <itinera-physical-dimension
+        <cadmus-physical-dimension
           [(dimension)]="dimension"
-        ></itinera-physical-dimension>
+        ></cadmus-physical-dimension>
         <div *ngIf="dimension">
           <pre>{{ dimension | json }}</pre>
         </div>
       </mat-tab>
 
       <mat-tab label="Size">
-        <itinera-physical-size
+        <cadmus-physical-size
           [unitEntries]="unitEntries"
           [(size)]="size"
-        ></itinera-physical-size>
+        ></cadmus-physical-size>
         <div *ngIf="size">
           <pre>{{ size | json }}</pre>
         </div>

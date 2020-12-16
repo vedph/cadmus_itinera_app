@@ -265,9 +265,9 @@ In form array:
 
 ```html
 <!-- select in FormArray -->
-<mat-form-field *ngIf="__ARRAY__?.length" style="width: 8em">
+<mat-form-field *ngIf="__ENTRIES__?.length" style="width: 8em">
   <mat-select formControlName="__NAME__" placeholder="__NAME__">
-    <mat-option *ngFor="let e of __ARRAY__" [value]="e.id"
+    <mat-option *ngFor="let e of __ENTRIES__" [value]="e.id"
       >{{ e.value }}</mat-option
     >
   </mat-select>
