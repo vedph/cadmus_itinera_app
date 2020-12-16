@@ -6,13 +6,12 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { ThesaurusEntry } from '@myrmidon/cadmus-core';
+import { ThesaurusEntry, PhysicalSize } from '@myrmidon/cadmus-core';
 import {
   MsDecoration,
   MsDecorationArtist,
   MsGuideLetter,
   MsLocationService,
-  PhysicalSize,
 } from '@myrmidon/cadmus-itinera-core';
 
 @Component({

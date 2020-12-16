@@ -9,15 +9,14 @@ import {
 
 import { ModelEditorComponentBase } from '@myrmidon/cadmus-ui';
 import { AuthService } from '@myrmidon/cadmus-api';
-import { deepCopy, ThesaurusEntry } from '@myrmidon/cadmus-core';
+import { deepCopy, ThesaurusEntry, PhysicalDimension } from '@myrmidon/cadmus-core';
 import {
   MsDimensionsPart,
   MSDIMENSIONS_PART_TYPEID,
 } from '../ms-dimensions-part';
 import {
   DecoratedCount,
-  MsLocationService,
-  PhysicalDimension,
+  MsLocationService
 } from '@myrmidon/cadmus-itinera-core';
 import { BehaviorSubject } from 'rxjs';
 

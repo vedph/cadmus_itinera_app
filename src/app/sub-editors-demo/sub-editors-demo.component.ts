@@ -4,13 +4,13 @@ import {
   HistoricalDateModel,
   ThesaurusEntry,
   DocReference,
+  PhysicalDimension,
+  PhysicalSize,
 } from '@myrmidon/cadmus-core';
 import {
   Chronotope,
   CitedPerson,
   DecoratedCount,
-  PhysicalDimension,
-  PhysicalSize,
 } from '@myrmidon/cadmus-itinera-core';
 import {
   DecoratedId,

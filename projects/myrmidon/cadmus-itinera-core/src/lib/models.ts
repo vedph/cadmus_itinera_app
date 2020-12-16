@@ -1,4 +1,8 @@
-import { DocReference, HistoricalDateModel } from '@myrmidon/cadmus-core';
+import {
+  DocReference,
+  HistoricalDateModel,
+  PhysicalSize,
+} from '@myrmidon/cadmus-core';
 
 /**
  * A part of a PersonName.

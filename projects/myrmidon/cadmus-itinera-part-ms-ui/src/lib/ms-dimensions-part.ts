@@ -1,8 +1,7 @@
-import { Part } from '@myrmidon/cadmus-core';
+import { Part, PhysicalDimension } from '@myrmidon/cadmus-core';
 import {
   DecoratedCount,
   MsLocation,
-  PhysicalDimension,
 } from '@myrmidon/cadmus-itinera-core';
 
 /**

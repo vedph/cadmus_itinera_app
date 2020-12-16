@@ -1,5 +1,5 @@
 import { Part } from '@myrmidon/cadmus-core';
-import { PhysicalSize } from '@myrmidon/cadmus-itinera-core';
+import { PhysicalSize } from '@myrmidon/cadmus-core';
 
 /**
  * The manuscript's binding part model.

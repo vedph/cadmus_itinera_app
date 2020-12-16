@@ -91,6 +91,7 @@ export class BioEventComponent implements OnInit {
 
   ngOnInit(): void {
     this.updateForm(this.model);
+    this.onTabIndexChanged(0);
   }
 
   public onTabIndexChanged(index: number): void {
@@ -100,7 +101,7 @@ export class BioEventComponent implements OnInit {
     if (index === 0) {
       setTimeout(() => {
         this.dscEditor._editor.layout();
-      }, 100);
+      }, 150);
     }
   }
 
