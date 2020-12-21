@@ -78,13 +78,16 @@ export const MSDIMENSIONS_PART_SCHEMA = {
         n: {
           type: 'integer',
         },
-        v: {
+        r: {
           type: 'boolean',
+        },
+        s: {
+          type: 'integer',
         },
         l: {
           type: 'integer',
         },
-      },
+},
     },
     dimensions: {
       type: 'array',

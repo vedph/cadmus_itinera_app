@@ -133,11 +133,22 @@ export interface CorrExchange {
 }
 
 /**
+ * Sheet sides for a MsLocation.
+ */
+export enum MsLocationSides {
+  Undefined = 0,
+  Recto = 1,
+  Verso = 2,
+  RectoAndVerso = 3
+}
+
+/**
  * Location of a sheet in a manuscript.
  */
 export interface MsLocation {
   n: number;
-  v?: boolean;
+  r?: boolean;
+  s?: MsLocationSides;
   l?: number;
 }
 

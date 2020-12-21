@@ -187,8 +187,11 @@ export const MSCOMPOSITION_PART_SCHEMA = {
                   n: {
                     type: 'integer',
                   },
-                  v: {
-                    type: 'string',
+                  r: {
+                    type: 'boolean',
+                  },
+                  s: {
+                    type: 'integer',
                   },
                   l: {
                     type: 'integer',
@@ -202,8 +205,11 @@ export const MSCOMPOSITION_PART_SCHEMA = {
                   n: {
                     type: 'integer',
                   },
-                  v: {
-                    type: 'string',
+                  r: {
+                    type: 'boolean',
+                  },
+                  s: {
+                    type: 'integer',
                   },
                   l: {
                     type: 'integer',

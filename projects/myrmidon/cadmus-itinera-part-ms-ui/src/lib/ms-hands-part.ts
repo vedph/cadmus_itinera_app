@@ -84,8 +84,11 @@ export const MSHANDS_PART_SCHEMA = {
                   n: {
                     type: 'integer',
                   },
-                  v: {
+                  r: {
                     type: 'boolean',
+                  },
+                  s: {
+                    type: 'integer',
                   },
                   l: {
                     type: 'integer',
@@ -99,8 +102,11 @@ export const MSHANDS_PART_SCHEMA = {
                   n: {
                     type: 'integer',
                   },
-                  v: {
+                  r: {
                     type: 'boolean',
+                  },
+                  s: {
+                    type: 'integer',
                   },
                   l: {
                     type: 'integer',
@@ -125,8 +131,11 @@ export const MSHANDS_PART_SCHEMA = {
                             n: {
                               type: 'integer',
                             },
-                            v: {
+                            r: {
                               type: 'boolean',
+                            },
+                            s: {
+                              type: 'integer',
                             },
                             l: {
                               type: 'integer',
@@ -158,8 +167,11 @@ export const MSHANDS_PART_SCHEMA = {
                       n: {
                         type: 'integer',
                       },
-                      v: {
+                      r: {
                         type: 'boolean',
+                      },
+                      s: {
+                        type: 'integer',
                       },
                       l: {
                         type: 'integer',

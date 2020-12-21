@@ -88,8 +88,11 @@ export const MSCONTENTS_PART_SCHEMA = {
                   n: {
                     type: 'integer',
                   },
-                  v: {
-                    type: 'string',
+                  r: {
+                    type: 'boolean',
+                  },
+                  s: {
+                    type: 'integer',
                   },
                   l: {
                     type: 'integer',
@@ -103,8 +106,11 @@ export const MSCONTENTS_PART_SCHEMA = {
                   n: {
                     type: 'integer',
                   },
-                  v: {
-                    type: 'string',
+                  r: {
+                    type: 'boolean',
+                  },
+                  s: {
+                    type: 'integer',
                   },
                   l: {
                     type: 'integer',
