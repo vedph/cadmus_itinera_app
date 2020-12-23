@@ -6,13 +6,17 @@ import { AuthService } from '@myrmidon/cadmus-api';
 import { deepCopy, ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { MsHandsPart, MSHANDS_PART_TYPEID } from '../ms-hands-part';
 import {
-  MsHandInstance, MsLocation, MsLocationService,
+  MsHand,
+  MsLocation,
+  MsLocationRange,
+  MsLocationService,
 } from '@myrmidon/cadmus-itinera-core';
 import { take } from 'rxjs/operators';
 
 /**
  * Manuscript's hands part.
- * Thesauri: ms-hand-id-reasons, ms-rubrication-types, languages (all optional).
+ * Thesauri: ms-hand-id-reasons, ms-hand-types, ms-hand-sign-types,
+ * ms-rubrication-types, ms-languages (all optional).
  */
 @Component({
   selector: 'itinera-ms-hands-part',
@@ -25,20 +29,22 @@ export class MsHandsPartComponent
   private _editedIndex: number;
 
   public tabIndex: number;
-  public editedHand: MsHandInstance;
+  public editedHand: MsHand;
 
+  public handTypeEntries: ThesaurusEntry[];
+  public signTypeEntries: ThesaurusEntry[];
   public reasonEntries: ThesaurusEntry[];
   public rubrEntries: ThesaurusEntry[];
   public langEntries: ThesaurusEntry[];
 
-  public hands: MsHandInstance[];
+  public hands: MsHand[];
   public count: FormControl;
 
   constructor(
     authService: AuthService,
     formBuilder: FormBuilder,
     private _dialogService: DialogService,
-    private _msLocationService: MsLocationService
+    private _locService: MsLocationService
   ) {
     super(authService);
     this.tabIndex = 0;
@@ -71,7 +77,21 @@ export class MsHandsPartComponent
   }
 
   protected onThesauriSet(): void {
-    let key = 'ms-hand-id-reasons';
+    let key = 'ms-hand-types';
+    if (this.thesauri && this.thesauri[key]) {
+      this.handTypeEntries = this.thesauri[key].entries;
+    } else {
+      this.handTypeEntries = null;
+    }
+
+    key = 'ms-hand-sign-types';
+    if (this.thesauri && this.thesauri[key]) {
+      this.signTypeEntries = this.thesauri[key].entries;
+    } else {
+      this.signTypeEntries = null;
+    }
+
+    key = 'ms-hand-id-reasons';
     if (this.thesauri && this.thesauri[key]) {
       this.reasonEntries = this.thesauri[key].entries;
     } else {
@@ -113,9 +133,12 @@ export class MsHandsPartComponent
   }
 
   public addHand(): void {
-    const hand: MsHandInstance = {
+    const hand: MsHand = {
       id: null,
-      idReason: null
+      idReason: null,
+      types: [],
+      description: null,
+      ranges: [],
     };
     this.hands = [...this.hands, hand];
     this.count.setValue(this.hands.length);
@@ -137,10 +160,8 @@ export class MsHandsPartComponent
     }
   }
 
-  public onHandSaved(hand: MsHandInstance): void {
-    this.hands = this.hands.map((s, i) =>
-      i === this._editedIndex ? hand : s
-    );
+  public onHandSaved(hand: MsHand): void {
+    this.hands = this.hands.map((s, i) => (i === this._editedIndex ? hand : s));
     this.editHand(-1);
     this.count.markAsDirty();
   }
@@ -187,6 +208,32 @@ export class MsHandsPartComponent
   }
 
   public locationToString(location: MsLocation): string {
-    return this._msLocationService.locationToString(location);
+    return this._locService.locationToString(location);
+  }
+
+  public typesToString(types: string[] | undefined): string {
+    if (!types.length) {
+      return '';
+    }
+    const tokens = types.map((t: string) => {
+      return (
+        this.handTypeEntries?.find((e) => {
+          return e.id === t;
+        })?.value || t
+      );
+    });
+    return tokens.join(', ');
+  }
+
+  public rangesToString(ranges: MsLocationRange[] | undefined): string {
+    if (!ranges?.length) {
+      return '';
+    }
+    const tokens = ranges.map((r) => {
+      return `${this._locService.locationToString(
+        r.start
+      )}-${this._locService.locationToString(r.end)}`;
+    });
+    return tokens.join(', ');
   }
 }

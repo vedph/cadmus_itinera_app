@@ -1,11 +1,11 @@
 import { Part } from '@myrmidon/cadmus-core';
-import { MsHandInstance } from '@myrmidon/cadmus-itinera-core';
+import { MsHand } from '@myrmidon/cadmus-itinera-core';
 
 /**
  * The manuscript's hands instances part model.
  */
 export interface MsHandsPart extends Part {
-  hands: MsHandInstance[];
+  hands: MsHand[];
 }
 
 /**
@@ -69,48 +69,89 @@ export const MSHANDS_PART_SCHEMA = {
         anyOf: [
           {
             type: 'object',
-            required: ['id', 'idReason'],
+            required: ['id', 'types', 'description', 'idReason', 'ranges'],
             properties: {
               id: {
+                type: 'string',
+              },
+              types: {
+                type: 'array',
+                items: {
+                  anyOf: [
+                    {
+                      type: 'string',
+                    },
+                  ],
+                },
+              },
+              personId: {
+                type: 'string',
+              },
+              description: {
+                type: 'string',
+              },
+              initials: {
+                type: 'string',
+              },
+              corrections: {
+                type: 'string',
+              },
+              punctuation: {
+                type: 'string',
+              },
+              abbreviations: {
                 type: 'string',
               },
               idReason: {
                 type: 'string',
               },
-              start: {
-                type: 'object',
-                required: ['n'],
-                properties: {
-                  n: {
-                    type: 'integer',
-                  },
-                  r: {
-                    type: 'boolean',
-                  },
-                  s: {
-                    type: 'integer',
-                  },
-                  l: {
-                    type: 'integer',
-                  },
-                },
-              },
-              end: {
-                type: 'object',
-                required: ['n'],
-                properties: {
-                  n: {
-                    type: 'integer',
-                  },
-                  r: {
-                    type: 'boolean',
-                  },
-                  s: {
-                    type: 'integer',
-                  },
-                  l: {
-                    type: 'integer',
-                  },
+              ranges: {
+                type: 'array',
+                items: {
+                  anyOf: [
+                    {
+                      type: 'object',
+                      required: ['start', 'end'],
+                      properties: {
+                        start: {
+                          type: 'object',
+                          required: ['n'],
+                          properties: {
+                            n: {
+                              type: 'integer',
+                            },
+                            r: {
+                              type: 'boolean',
+                            },
+                            s: {
+                              type: 'integer',
+                            },
+                            l: {
+                              type: 'integer',
+                            },
+                          },
+                        },
+                        end: {
+                          type: 'object',
+                          required: ['n'],
+                          properties: {
+                            n: {
+                              type: 'integer',
+                            },
+                            r: {
+                              type: 'boolean',
+                            },
+                            s: {
+                              type: 'integer',
+                            },
+                            l: {
+                              type: 'integer',
+                            },
+                          },
+                        },
+                      },
+                    },
+                  ],
                 },
               },
               extentNote: {
@@ -184,6 +225,41 @@ export const MSHANDS_PART_SCHEMA = {
                   text: {
                     type: 'string',
                   },
+                },
+              },
+              signs: {
+                type: 'array',
+                items: {
+                  anyOf: [
+                    {
+                      type: 'object',
+                      required: ['id', 'type'],
+                      properties: {
+                        id: {
+                          type: 'string',
+                        },
+                        type: {
+                          type: 'string',
+                        },
+                        description: {
+                          type: 'string',
+                        },
+                        imageId: {
+                          type: 'string',
+                        },
+                      },
+                    },
+                  ],
+                },
+              },
+              imageIds: {
+                type: 'array',
+                items: {
+                  anyOf: [
+                    {
+                      type: 'string',
+                    },
+                  ],
                 },
               },
             },

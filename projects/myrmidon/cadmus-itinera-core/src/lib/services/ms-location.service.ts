@@ -12,6 +12,9 @@ export class MsLocationService {
   public static readonly locRegexp = new RegExp(
     '^\\s*([0-9]+|[IVX]+)(r|v|rv)\\s*([0-9]+)?\\s*$'
   );
+  public static readonly locsRegexp = new RegExp(
+    '^(?:([0-9]+|[IVX]+)(r|v|rv)\s*([0-9]+)?\s*)*$'
+  );
 
   private parseSides(text: string): MsLocationSides {
     switch (text) {
@@ -69,8 +72,7 @@ export class MsLocationService {
    * with parseLocation.
    *
    * @param location The location. If null, null is returned.
-   * @returns String with form nr + rv + optional whitespace + ln,
-   * like "36r 12", "IIrv 13", etc.
+   * @returns String with form nr + rv + ln, like "36r12", "IIrv13", etc.
    */
   public locationToString(location: MsLocation | null): string | null {
     if (!location || location.n === null || location.n === undefined) {
@@ -91,7 +93,6 @@ export class MsLocationService {
     }
 
     if (location.l) {
-      sb.push(' ');
       sb.push(location.l.toString());
     }
     return sb.join('');

@@ -24,8 +24,8 @@
               <tr>
                 <th></th>
                 <th>id</th>
-                <th>start</th>
-                <th>end</th>
+                <th>types</th>
+                <th>ranges</th>
                 <th>rubr.c.</th>
               </tr>
             </thead>
@@ -77,8 +77,8 @@
                   </button>
                 </td>
                 <td>{{ h.id }}</td>
-                <td>{{ locationToString(h.start) }}</td>
-                <td>{{ locationToString(h.end) }}</td>
+                <td>{{ typesToString(h.types) }}</td>
+                <td>{{ rangesToString(h.ranges) }}</td>
                 <td>{{ h.rubrications?.length || 0 }}</td>
               </tr>
             </tbody>
@@ -88,6 +88,8 @@
         <mat-tab label="hand" *ngIf="editedHand">
           <itinera-ms-hand
             [model]="editedHand"
+            [handTypeEntries]="handTypeEntries"
+            [signTypeEntries]="signTypeEntries"
             [reasonEntries]="reasonEntries"
             [rubrEntries]="rubrEntries"
             [langEntries]="langEntries"

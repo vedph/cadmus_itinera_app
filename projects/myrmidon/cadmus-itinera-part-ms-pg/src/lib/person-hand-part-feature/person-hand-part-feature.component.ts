@@ -39,6 +39,6 @@ export class PersonHandPartFeatureComponent
   }
 
   public ngOnInit(): void {
-    this.initEditor(['ms-hand-types', 'ms-hand-jobs', 'ms-hand-sign-types']);
+    this.initEditor(['ms-hand-jobs']);
   }
 }

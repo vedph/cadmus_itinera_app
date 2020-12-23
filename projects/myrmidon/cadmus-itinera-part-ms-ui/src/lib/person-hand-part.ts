@@ -1,20 +1,12 @@
-import { Part } from '@myrmidon/cadmus-core';
-import { MsHandSign } from '@myrmidon/cadmus-itinera-core';
+import { DocReference, Part } from '@myrmidon/cadmus-core';
 
 /**
  * The PersonHand part model.
  */
 export interface PersonHandPart extends Part {
   personId: string;
-  type: string;
   job: string;
-  description?: string;
-  initials?: string;
-  corrections?: string;
-  punctuation?: string;
-  abbreviations?: string;
-  imageIds?: string[];
-  signs?: MsHandSign[];
+  others?: DocReference[];
 }
 
 /**
@@ -78,55 +70,30 @@ export const PERSON_HAND_PART_SCHEMA = {
     personId: {
       type: 'string',
     },
-    type: {
-      type: 'string',
-    },
     job: {
       type: 'string',
     },
-    description: {
-      type: 'string',
-    },
-    initials: {
-      type: 'string',
-    },
-    corrections: {
-      type: 'string',
-    },
-    punctuation: {
-      type: 'string',
-    },
-    abbreviations: {
-      type: 'string',
-    },
-    imageIds: {
-      type: 'array',
-      items: {
-        anyOf: [
-          {
-            type: 'string',
-          },
-        ],
-      },
-    },
-    signs: {
+    others: {
       type: 'array',
       items: {
         anyOf: [
           {
             type: 'object',
-            required: ['id', 'type'],
+            required: ['author', 'work'],
             properties: {
-              id: {
+              tag: {
                 type: 'string',
               },
-              type: {
+              author: {
                 type: 'string',
               },
-              description: {
+              work: {
                 type: 'string',
               },
-              imageId: {
+              location: {
+                type: 'string',
+              },
+              note: {
                 type: 'string',
               },
             },

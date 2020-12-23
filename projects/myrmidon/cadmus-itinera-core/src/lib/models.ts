@@ -277,7 +277,7 @@ export interface MsContentLocus {
  * A manuscript's rubrication.
  */
 export interface MsRubrication {
-  location: MsLocation;
+  locations: MsLocation[];
   type: string;
   description?: string;
   issues?: string;
@@ -287,22 +287,17 @@ export interface MsRubrication {
  * A manuscript's subscription.
  */
 export interface MsSubscription {
-  location: MsLocation;
+  locations: MsLocation[];
   language: string;
   text?: string;
 }
 
 /**
- * A manuscript's hand instance.
+ * A range of manuscript's locations.
  */
-export interface MsHandInstance {
-  id: string;
-  idReason: string;
-  start?: MsLocation;
-  end?: MsLocation;
-  extentNote?: string;
-  rubrications?: MsRubrication[];
-  subscription?: MsSubscription;
+export interface MsLocationRange {
+  start: MsLocation;
+  end: MsLocation;
 }
 
 /**
@@ -313,6 +308,27 @@ export interface MsHandSign {
   type: string;
   description?: string;
   imageId?: string;
+}
+
+/**
+ * A manuscript's hand.
+ */
+export interface MsHand {
+  id: string;
+  types: string[];
+  personId?: string;
+  description: string;
+  initials?: string;
+  corrections?: string;
+  punctuation?: string;
+  abbreviations?: string;
+  idReason: string;
+  ranges: MsLocationRange[];
+  extentNote?: string;
+  rubrications?: MsRubrication[];
+  subscription?: MsSubscription;
+  signs?: MsHandSign[];
+  imageIds?: string[];
 }
 
 /**

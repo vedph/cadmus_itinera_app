@@ -7,287 +7,47 @@
       <mat-card-title>Person's Hand Part</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <mat-tab-group (selectedIndexChange)="onTabIndexChanged($event)">
-        <mat-tab label="general">
-          <div>
-            <!-- personId -->
-            <mat-form-field>
-              <input
-                matInput
-                [formControl]="personId"
-                placeholder="person ID"
-              />
-              <mat-error
-                *ngIf="
-                  personId.errors?.required &&
-                  (personId.dirty || personId.touched)
-                "
-                >ID required</mat-error
-              >
-              <mat-error
-                *ngIf="
-                  personId.errors?.maxLength &&
-                  (personId.dirty || personId.touched)
-                "
-                >ID too long</mat-error
-              >
-            </mat-form-field>
-            &nbsp;
-            <!-- type (bound) -->
-            <mat-form-field *ngIf="handTypeEntries?.length" style="width: 8em">
-              <mat-select [formControl]="type" placeholder="type">
-                <mat-option *ngFor="let e of handTypeEntries" [value]="e.id">{{
-                  e.value
-                }}</mat-option>
-              </mat-select>
-              <mat-error
-                *ngIf="type.errors?.required && (type.dirty || type.touched)"
-                >type required</mat-error
-              >
-            </mat-form-field>
-
-            <!-- type (free) -->
-            <mat-form-field *ngIf="!handTypeEntries?.length" style="width: 8em">
-              <input matInput [formControl]="type" placeholder="type" />
-              <mat-error
-                *ngIf="type.errors?.required && (type.dirty || type.touched)"
-                >type required</mat-error
-              >
-              <mat-error
-                *ngIf="type.errors?.maxLength && (type.dirty || type.touched)"
-                >type too long</mat-error
-              >
-            </mat-form-field>
-
-            &nbsp;
-            <!-- job (bound) -->
-            <mat-form-field *ngIf="handJobEntries?.length" style="width: 8em">
-              <mat-select [formControl]="job" placeholder="job">
-                <mat-option *ngFor="let e of handJobEntries" [value]="e.id">{{
-                  e.value
-                }}</mat-option>
-              </mat-select>
-              <mat-error
-                *ngIf="job.errors?.required && (job.dirty || job.touched)"
-                >job required</mat-error
-              >
-            </mat-form-field>
-
-            <!-- job (free) -->
-            <mat-form-field>
-              <input matInput [formControl]="job" placeholder="job" />
-              <mat-error
-                *ngIf="job.errors?.required && (job.dirty || job.touched)"
-                >job required</mat-error
-              >
-              <mat-error
-                *ngIf="job.errors?.maxLength && (job.dirty || job.touched)"
-                >job too long</mat-error
-              >
-            </mat-form-field>
-          </div>
-
-          <div>
-            <!-- description -->
-            <ngx-monaco-editor
-              [options]="editorOptions"
-              [formControl]="description"
-            ></ngx-monaco-editor>
-            <mat-error
-              *ngIf="
-                description.errors?.maxLength &&
-                (description.touched || description.dirty)
-              "
-              >description too long</mat-error
-            >
-          </div>
-          <div>
-            <!-- imageIds -->
-            <mat-form-field class="long-text">
-              <textarea
-                rows="2"
-                matInput
-                [formControl]="imageIds"
-                placeholder="image IDs"
-              ></textarea>
-              <mat-error
-                *ngIf="
-                  imageIds.errors?.maxLength &&
-                  (imageIds.dirty || imageIds.touched)
-                "
-                >IDs too long</mat-error
-              >
-            </mat-form-field>
-          </div>
-        </mat-tab>
-
-        <mat-tab label="letters">
-          <div>
-            <!-- initials -->
-            <mat-form-field class="long-text">
-              <textarea
-                rows="3"
-                matInput
-                [formControl]="initials"
-                placeholder="initials"
-              ></textarea>
-              <mat-error
-                *ngIf="
-                  initials.errors?.maxLength &&
-                  (initials.dirty || initials.touched)
-                "
-                >initials too long</mat-error
-              >
-            </mat-form-field>
-          </div>
-          <div>
-            <!-- corrections -->
-            <mat-form-field class="long-text">
-              <textarea
-                rows="3"
-                matInput
-                [formControl]="corrections"
-                placeholder="corrections"
-              ></textarea>
-              <mat-error
-                *ngIf="
-                  corrections.errors?.maxLength &&
-                  (corrections.dirty || corrections.touched)
-                "
-                >corrections too long</mat-error
-              >
-            </mat-form-field>
-          </div>
-          <div>
-            <!-- punctuation -->
-            <mat-form-field class="long-text">
-              <textarea
-                rows="3"
-                matInput
-                [formControl]="punctuation"
-                placeholder="punctuation"
-              ></textarea>
-              <mat-error
-                *ngIf="
-                  punctuation.errors?.maxLength &&
-                  (punctuation.dirty || punctuation.touched)
-                "
-                >punctuation too long</mat-error
-              >
-            </mat-form-field>
-          </div>
-        </mat-tab>
-
-        <mat-tab label="abbreviations">
-          <!-- abbreviations -->
-          <ngx-monaco-editor #dscabbr
-            [options]="editorOptions"
-            [formControl]="abbreviations"
-          ></ngx-monaco-editor>
+      <div>
+        <!-- personId -->
+        <mat-form-field>
+          <input matInput [formControl]="personId" placeholder="person ID" />
           <mat-error
             *ngIf="
-              abbreviations.errors?.maxLength &&
-              (abbreviations.touched || abbreviations.dirty)
+              personId.errors?.required && (personId.dirty || personId.touched)
             "
-            >abbreviations too long</mat-error
+            >ID required</mat-error
           >
-        </mat-tab>
-
-        <mat-tab label="signs">
-          <!-- signs -->
-          <div>
-            <button
-              mat-stroked-button
-              type="button"
-              color="primary"
-              (click)="addSign()"
-            >
-              <mat-icon>add_circle</mat-icon> add sign
-            </button>
-          </div>
-          <table *ngIf="signs?.length">
-            <thead>
-              <tr>
-                <th></th>
-                <th>type</th>
-                <th>ID</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr
-                *ngFor="
-                  let s of signs;
-                  let i = index;
-                  let first = first;
-                  let last = last
-                "
-                [class.selected]="i === editedIndex"
-              >
-                <td>
-                  <button
-                    type="button"
-                    mat-icon-button
-                    color="primary"
-                    matTooltip="Edit this sign"
-                    (click)="editSign(i)"
-                  >
-                    <mat-icon>edit</mat-icon>
-                  </button>
-                  <button
-                    type="button"
-                    mat-icon-button
-                    matTooltip="Move this sign up"
-                    [disabled]="first"
-                    (click)="moveSignUp(i)"
-                  >
-                    <mat-icon>arrow_upward</mat-icon>
-                  </button>
-                  <button
-                    type="button"
-                    mat-icon-button
-                    matTooltip="Move this sign down"
-                    [disabled]="last"
-                    (click)="moveSignDown(i)"
-                  >
-                    <mat-icon>arrow_downward</mat-icon>
-                  </button>
-                  <button
-                    type="button"
-                    mat-icon-button
-                    color="warn"
-                    matTooltip="Delete this sign"
-                    (click)="deleteSign(i)"
-                  >
-                    <mat-icon>remove_circle</mat-icon>
-                  </button>
-                </td>
-                <td>{{ s.type }}</td>
-                <td>{{ s.id }}</td>
-              </tr>
-            </tbody>
-          </table>
-
-          <!-- sign editor -->
-          <mat-expansion-panel
-            [(expanded)]="editorOpen"
-            [disabled]="!editorOpen"
+          <mat-error
+            *ngIf="
+              personId.errors?.maxLength && (personId.dirty || personId.touched)
+            "
+            >ID too long</mat-error
           >
-            <mat-expansion-panel-header>
-              <mat-panel-title>sign</mat-panel-title>
-              <mat-panel-description *ngIf="editedSign">{{
-                editedSign.id
-              }}</mat-panel-description>
-            </mat-expansion-panel-header>
-            <itinera-ms-hand-sign
-              *ngIf="editedSign"
-              [sign]="editedSign"
-              [typeEntries]="signTypeEntries"
-              (signChange)="onSignSaved($event)"
-              (editorClose)="onSignClosed()"
-            ></itinera-ms-hand-sign>
-          </mat-expansion-panel>
-        </mat-tab>
-      </mat-tab-group>
+        </mat-form-field>
+        &nbsp;
+        <!-- job (bound) -->
+        <mat-form-field *ngIf="handJobEntries?.length" style="width: 8em">
+          <mat-select [formControl]="job" placeholder="job">
+            <mat-option *ngFor="let e of handJobEntries" [value]="e.id">{{
+              e.value
+            }}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="job.errors?.required && (job.dirty || job.touched)"
+            >job required</mat-error
+          >
+        </mat-form-field>
+
+        <!-- job (free) -->
+        <mat-form-field>
+          <input matInput [formControl]="job" placeholder="job" />
+          <mat-error *ngIf="job.errors?.required && (job.dirty || job.touched)"
+            >job required</mat-error
+          >
+          <mat-error *ngIf="job.errors?.maxLength && (job.dirty || job.touched)"
+            >job too long</mat-error
+          >
+        </mat-form-field>
+      </div>
     </mat-card-content>
     <mat-card-actions>
       <cadmus-close-save-buttons

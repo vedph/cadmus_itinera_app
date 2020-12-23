@@ -40,8 +40,10 @@ export class MsHandsPartFeatureComponent
   public ngOnInit(): void {
     this.initEditor([
       'ms-hand-id-reasons',
+      'ms-hand-types',
+      'ms-hand-sign-types',
       'ms-rubrication-types',
-      'languages',
+      'ms-languages',
     ]);
   }
 }
