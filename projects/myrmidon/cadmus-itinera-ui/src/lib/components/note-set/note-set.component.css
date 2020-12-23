@@ -1,0 +1,20 @@
+.long-text {
+  width: 100%;
+  max-width: 800px;
+}
+.bar {
+  vertical-align: middle;
+}
+.count {
+  background-color: #90a0ff;
+  color: white;
+  border-radius: 10px;
+  padding: 2px;
+  margin-left: 4px;
+}
+.ok {
+  color: green;
+}
+.err {
+  color: red;
+}

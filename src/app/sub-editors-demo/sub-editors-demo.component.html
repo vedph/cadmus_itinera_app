@@ -107,6 +107,16 @@
           <pre>{{ size | json }}</pre>
         </div>
       </mat-tab>
+
+      <mat-tab label="Notes Set">
+        <itinera-note-set
+          [set]="set"
+          (noteChange)="onNoteChange($event)"
+        ></itinera-note-set>
+        <div *ngIf="lastNote">
+          <pre>{{ lastNote | json }}</pre>
+        </div>
+      </mat-tab>
     </mat-tab-group>
   </mat-card-content>
 </mat-card>

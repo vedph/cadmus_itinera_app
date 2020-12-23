@@ -1,3 +1,4 @@
+import { KeyValue } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import {
   HistoricalDate,
@@ -12,6 +13,7 @@ import {
   CitedPerson,
   DecoratedCount,
 } from '@myrmidon/cadmus-itinera-core';
+import { NoteSet } from '@myrmidon/cadmus-itinera-ui';
 import {
   DecoratedId,
   PersonName,
@@ -50,6 +52,9 @@ export class SubEditorsDemoComponent implements OnInit {
 
   public unitEntries: ThesaurusEntry[];
   public size: PhysicalSize;
+
+  public set: NoteSet;
+  public lastNote: KeyValue<string, string>;
 
   constructor() {}
 
@@ -123,6 +128,31 @@ export class SubEditorsDemoComponent implements OnInit {
       w: { value: 21, unit: 'cm' },
       h: { value: 29.7, unit: 'cm' },
     };
+
+    this.set = {
+      definitions: [
+        {
+          key: 'a',
+          label: 'alpha',
+          required: true,
+          maxLength: 50
+        },
+        {
+          key: 'b',
+          label: 'beta',
+          markdown: true,
+          maxLength: 100
+        },
+        {
+          key: 'g',
+          label: 'gamma'
+        }
+      ],
+      notes: new Map<string, string>([
+        ['a', 'This is note alpha.'],
+        ['b', 'This is note __beta__, which uses _Markdown_.']
+      ])
+    };
   }
 
   public onPersonNameChange(model: PersonName): void {
@@ -151,5 +181,9 @@ export class SubEditorsDemoComponent implements OnInit {
 
   public onChronotopeChange(model: Chronotope): void {
     this.lastChronotope = model;
+  }
+
+  public onNoteChange(model: KeyValue<string,string>): void {
+    this.lastNote = model;
   }
 }
