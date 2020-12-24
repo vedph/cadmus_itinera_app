@@ -20,6 +20,7 @@ import { DecoratedId } from '@myrmidon/cadmus-itinera-core';
 export class LetterInfoPartComponent
   extends ModelEditorComponentBase<LetterInfoPart>
   implements OnInit {
+  public letterId: FormControl;
   public language: FormControl;
   public subject: FormControl;
   public authorId: FormControl;
@@ -44,6 +45,10 @@ export class LetterInfoPartComponent
     this.recipients = [];
     this.replyingTo = [];
     // form
+    this.letterId = formBuilder.control(null, [
+      Validators.required,
+      Validators.maxLength(50),
+    ]);
     this.language = formBuilder.control(null, [
       Validators.required,
       Validators.maxLength(50),
@@ -59,6 +64,7 @@ export class LetterInfoPartComponent
     this.headings = formBuilder.control(null, Validators.maxLength(5000));
     this.note = formBuilder.control(null, Validators.maxLength(1000));
     this.form = formBuilder.group({
+      letterId: this.letterId,
       language: this.language,
       subject: this.subject,
       authorId: this.authorId,
@@ -80,6 +86,7 @@ export class LetterInfoPartComponent
     }
     this.recipients = model.recipients || [];
     this.replyingTo = model.replyingTo || [];
+    this.letterId.setValue(model.letterId);
     this.language.setValue(model.language);
     this.subject.setValue(model.subject);
     this.authorId.setValue(model.authorId);
@@ -139,11 +146,13 @@ export class LetterInfoPartComponent
         creatorId: null,
         timeModified: new Date(),
         userId: null,
+        letterId: null,
         language: null,
         authorId: null,
         subject: null,
       };
     }
+    part.letterId = this.letterId.value?.trim();
     part.language = this.language.value?.trim();
     part.authorId = this.authorId.value?.trim();
     part.subject = this.subject.value?.trim();

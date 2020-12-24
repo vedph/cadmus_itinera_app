@@ -143,32 +143,6 @@
       </div>
 
       <div>
-        <!-- layout (bound) -->
-        <mat-form-field *ngIf="layoutEntries?.length" style="width: 8em">
-          <mat-select [formControl]="layout" placeholder="layout">
-            <mat-option *ngFor="let e of layoutEntries" [value]="e.id">{{
-              e.value
-            }}</mat-option>
-          </mat-select>
-          <mat-error
-            *ngIf="layout.errors?.required && (layout.dirty || layout.touched)"
-            >layout required</mat-error
-          >
-        </mat-form-field>
-
-        <!-- layout (free) -->
-        <mat-form-field *ngIf="!layoutEntries?.length" style="width: 8em">
-          <input matInput [formControl]="layout" placeholder="layout" />
-          <mat-error
-            *ngIf="layout.errors?.required && (layout.dirty || layout.touched)"
-            >layout required</mat-error
-          >
-          <mat-error
-            *ngIf="layout.errors?.maxLength && (layout.dirty || layout.touched)"
-            >layout too long</mat-error
-          >
-        </mat-form-field>
-
         <!-- tool (bound) -->
         &nbsp;
         <mat-form-field *ngIf="toolEntries?.length" style="width: 8em">
@@ -261,6 +235,22 @@
           >
         </mat-form-field>
       </div>
+
+      <div>
+        <!-- note -->
+        <mat-form-field class="long-text">
+          <textarea
+            rows="3"
+            matInput
+            [formControl]="note"
+            placeholder="note"
+          ></textarea>
+          <mat-error
+            *ngIf="note.errors?.maxLength && (note.dirty || note.touched)"
+            >note too long</mat-error
+          >
+        </mat-form-field>
+      </div>
     </mat-tab>
 
     <mat-tab label="size">
@@ -295,7 +285,7 @@
       <!-- textRelation -->
       <h4>text relation</h4>
       <div>
-        <mat-form-field style="margin-left:64px" class="long-text">
+        <mat-form-field style="margin-left: 64px" class="long-text">
           <textarea rows="3" matInput [formControl]="textRelation"></textarea>
           <mat-error
             *ngIf="

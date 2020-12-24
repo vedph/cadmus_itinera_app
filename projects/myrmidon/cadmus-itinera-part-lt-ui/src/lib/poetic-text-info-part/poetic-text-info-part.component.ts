@@ -32,6 +32,7 @@ export class PoeticTextInfoPartComponent
   implements OnInit {
   private _editedIndex: number;
 
+  public textId: FormControl;
   public language: FormControl;
   public metre: FormControl;
   public subject: FormControl;
@@ -73,6 +74,10 @@ export class PoeticTextInfoPartComponent
     this.authors = [];
     this.related$ = new BehaviorSubject<DocReference[]>([]);
     // form
+    this.textId = formBuilder.control(null, [
+      Validators.required,
+      Validators.maxLength(50),
+    ]);
     this.language = formBuilder.control(null, [
       Validators.required,
       Validators.maxLength(50),
@@ -83,6 +88,7 @@ export class PoeticTextInfoPartComponent
       Validators.maxLength(500),
     ]);
     this.form = formBuilder.group({
+      textId: this.textId,
       language: this.language,
       metre: this.metre,
       subject: this.subject,
@@ -106,6 +112,7 @@ export class PoeticTextInfoPartComponent
     this.related$.next(model.related || []);
     this.recipients = model.recipients || [];
     this.replyingTo = model.replyingTo || [];
+    this.textId.setValue(model.textId);
     this.language.setValue(model.language);
     this.metre.setValue(model.metre);
     this.subject.setValue(model.subject);
@@ -172,12 +179,14 @@ export class PoeticTextInfoPartComponent
         creatorId: null,
         timeModified: new Date(),
         userId: null,
+        textId: null,
         language: null,
         subject: null,
       };
     }
     part.authors = this.authors?.length ? this.authors : undefined;
     part.related = this.related?.length ? this.related : undefined;
+    part.textId = this.textId.value?.trim();
     part.language = this.language.value?.trim();
     part.metre = this.metre.value?.trim();
     part.subject = this.subject.value?.trim();

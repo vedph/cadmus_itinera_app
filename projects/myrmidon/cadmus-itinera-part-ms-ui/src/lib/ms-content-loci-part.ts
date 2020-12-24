@@ -11,8 +11,7 @@ export interface MsContentLociPart extends Part {
 /**
  * The type ID used to identify the MsContentLociPart type.
  */
-export const MSCONTENT_LOCI_PART_TYPEID =
-  'it.vedph.itinera.ms-content-loci';
+export const MSCONTENT_LOCI_PART_TYPEID = 'it.vedph.itinera.ms-content-loci';
 
 /**
  * JSON schema for the MsContentLoci part. This is used in the editor demo.
@@ -79,6 +78,27 @@ export const MSCONTENTLOCI_PART_SCHEMA = {
                 type: 'string',
               },
               text: {
+                type: 'string',
+              },
+              refSheet: {
+                type: 'object',
+                required: ['n'],
+                properties: {
+                  n: {
+                    type: 'integer',
+                  },
+                  r: {
+                    type: 'boolean',
+                  },
+                  s: {
+                    type: 'integer',
+                  },
+                  l: {
+                    type: 'integer',
+                  },
+                },
+              },
+              imageId: {
                 type: 'string',
               },
             },

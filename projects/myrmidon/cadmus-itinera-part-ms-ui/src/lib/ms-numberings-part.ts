@@ -77,6 +77,9 @@ export const MSNUMBERINGS_PART_SCHEMA = {
               isMain: {
                 type: 'boolean',
               },
+              isPagination: {
+                type: 'boolean',
+              },
               era: {
                 type: 'string',
               },

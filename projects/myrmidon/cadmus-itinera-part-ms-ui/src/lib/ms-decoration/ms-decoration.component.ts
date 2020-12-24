@@ -31,8 +31,6 @@ export class MsDecorationComponent implements OnInit {
   @Input()
   public typeEntries: ThesaurusEntry[];
   @Input()
-  public layoutEntries: ThesaurusEntry[];
-  @Input()
   public toolEntries: ThesaurusEntry[];
   @Input()
   public posEntries: ThesaurusEntry[];
@@ -52,7 +50,6 @@ export class MsDecorationComponent implements OnInit {
   public type: FormControl;
   public subject: FormControl;
   public colors: FormArray;
-  public layout: FormControl;
   public tool: FormControl;
   public start: FormControl;
   public end: FormControl;
@@ -65,6 +62,7 @@ export class MsDecorationComponent implements OnInit {
   public artistPresent: FormControl;
   public sizeForm: FormGroup;
   public artistForm: FormGroup;
+  public note: FormControl;
   public form: FormGroup;
 
   public size: PhysicalSize;
@@ -92,15 +90,8 @@ export class MsDecorationComponent implements OnInit {
       Validators.required,
       Validators.maxLength(50),
     ]);
-    this.subject = _formBuilder.control(null, [
-      Validators.required,
-      Validators.maxLength(50),
-    ]);
+    this.subject = _formBuilder.control(null, Validators.maxLength(50));
     this.colors = _formBuilder.array([], Validators.required);
-    this.layout = _formBuilder.control(null, [
-      Validators.required,
-      Validators.maxLength(50),
-    ]);
     this.tool = _formBuilder.control(null, [
       Validators.required,
       Validators.maxLength(50),
@@ -122,6 +113,7 @@ export class MsDecorationComponent implements OnInit {
     this.imageId = _formBuilder.control(null, [Validators.maxLength(100)]);
     this.sizePresent = _formBuilder.control(false);
     this.artistPresent = _formBuilder.control(false);
+    this.note = _formBuilder.control(null, Validators.maxLength(500));
 
     // children forms
     this.sizeForm = _formBuilder.group({});
@@ -132,7 +124,6 @@ export class MsDecorationComponent implements OnInit {
       type: this.type,
       subject: this.subject,
       colors: this.colors,
-      layout: this.layout,
       tool: this.tool,
       start: this.start,
       end: this.end,
@@ -145,6 +136,7 @@ export class MsDecorationComponent implements OnInit {
       artistPresent: this.artistPresent,
       sizeForm: this.sizeForm,
       artistForm: this.artistForm,
+      note: this.note
     });
   }
 
@@ -175,7 +167,6 @@ export class MsDecorationComponent implements OnInit {
     }
     this.type.setValue(model.type);
     this.subject.setValue(model.subject);
-    this.layout.setValue(model.layout);
     this.tool.setValue(model.tool);
     this.start.setValue(this._msLocationService.locationToString(model.start));
     this.end.setValue(this._msLocationService.locationToString(model.end));
@@ -183,6 +174,7 @@ export class MsDecorationComponent implements OnInit {
     this.description.setValue(model.description);
     this.textRelation.setValue(model.textRelation);
     this.imageId.setValue(model.imageId);
+    this.note.setValue(model.note);
 
     // colors
     this.colors.clear();
@@ -218,7 +210,6 @@ export class MsDecorationComponent implements OnInit {
     const model: MsDecoration = {
       type: this.type.value?.trim(),
       subject: this.subject.value?.trim(),
-      layout: this.layout.value?.trim(),
       tool: this.tool.value?.trim(),
       start: this._msLocationService.parseLocation(this.start.value),
       end: this._msLocationService.parseLocation(this.end.value),
@@ -226,6 +217,7 @@ export class MsDecorationComponent implements OnInit {
       description: this.description.value?.trim(),
       textRelation: this.textRelation.value?.trim(),
       imageId: this.imageId.value?.trim(),
+      note: this.note.value?.trim(),
       colors: undefined,
     };
 

@@ -225,6 +225,7 @@ export interface MsWatermark {
  */
 export interface MsNumbering {
   isMain?: boolean;
+  isPagination?: boolean;
   era: string;
   system: string;
   technique: string;
@@ -271,6 +272,8 @@ export interface MsContent {
 export interface MsContentLocus {
   citation: string;
   text: string;
+  refSheet?: MsLocation;
+  imageId?: string;
 }
 
 /**
@@ -355,9 +358,8 @@ export interface MsDecorationArtist {
  */
 export interface MsDecoration {
   type: string;
-  subject: string;
+  subject?: string;
   colors: string[];
-  layout: string;
   tool: string;
   start?: MsLocation;
   end?: MsLocation;
@@ -368,6 +370,7 @@ export interface MsDecoration {
   guideLetters?: MsGuideLetter[];
   imageId?: string;
   artist?: MsDecorationArtist;
+  note?: string;
 }
 
 /**

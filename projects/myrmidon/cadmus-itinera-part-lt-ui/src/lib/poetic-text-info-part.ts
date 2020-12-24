@@ -8,6 +8,7 @@ import {
  * The poetic text info part model.
  */
 export interface PoeticTextInfoPart extends Part {
+  textId: string;
   language: string;
   subject: string;
   metre?: string;
@@ -42,6 +43,7 @@ export const POETIC_TEXT_INFO_PART_SCHEMA = {
     'creatorId',
     'timeModified',
     'userId',
+    'textId',
     'language',
     'subject',
   ],
@@ -75,6 +77,9 @@ export const POETIC_TEXT_INFO_PART_SCHEMA = {
     roleId: {
       type: ['string', 'null'],
       pattern: '^([a-z][-0-9a-z._]*)?$',
+    },
+    textId: {
+      type: 'string',
     },
     language: {
       type: 'string',

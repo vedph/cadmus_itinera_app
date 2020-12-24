@@ -17,7 +17,7 @@ import { NoteSet } from '@myrmidon/cadmus-itinera-ui';
 import {
   DecoratedId,
   PersonName,
-} from 'projects/myrmidon/cadmus-itinera-core/src/lib/models';
+} from '@myrmidon/cadmus-itinera-core';
 import { BehaviorSubject } from 'rxjs';
 
 @Component({

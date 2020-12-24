@@ -5,6 +5,7 @@ import { DecoratedId } from '@myrmidon/cadmus-itinera-core';
  * The letter info part model.
  */
 export interface LetterInfoPart extends Part {
+  letterId: string;
   language: string;
   subject: string;
   authorId: string;
@@ -37,6 +38,7 @@ export const LETTER_INFO_PART_SCHEMA = {
     'creatorId',
     'timeModified',
     'userId',
+    'letterId',
     'language',
     'subject',
     'authorId',
@@ -71,6 +73,9 @@ export const LETTER_INFO_PART_SCHEMA = {
     roleId: {
       type: ['string', 'null'],
       pattern: '^([a-z][-0-9a-z._]*)?$',
+    },
+    letterId: {
+      type: 'string',
     },
     language: {
       type: 'string',

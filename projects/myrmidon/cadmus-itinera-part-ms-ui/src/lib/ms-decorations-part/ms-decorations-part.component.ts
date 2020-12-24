@@ -17,7 +17,7 @@ import {
 
 /**
  * Manuscript's decorations part.
- * Thesauri: ms-decoration-types, ms-decoration-layouts, ms-decoration-tools,
+ * Thesauri: ms-decoration-types, ms-decoration-tools,
  * ms-decoration-positions, ms-guide-positions, ms-artist-types,
  * ms-decoration-colors (all optional); physical-size-tags (optional),
  * physical-dimension-tags (optional), physical-size-units.
@@ -43,8 +43,6 @@ export class MsDecorationsPartComponent
 
   @Input()
   public typeEntries: ThesaurusEntry[];
-  @Input()
-  public layoutEntries: ThesaurusEntry[];
   @Input()
   public toolEntries: ThesaurusEntry[];
   @Input()
@@ -103,13 +101,6 @@ export class MsDecorationsPartComponent
       this.typeEntries = this.thesauri[key].entries;
     } else {
       this.typeEntries = null;
-    }
-
-    key = 'ms-decoration-layouts';
-    if (this.thesauri && this.thesauri[key]) {
-      this.layoutEntries = this.thesauri[key].entries;
-    } else {
-      this.layoutEntries = null;
     }
 
     key = 'ms-decoration-tools';
@@ -191,9 +182,7 @@ export class MsDecorationsPartComponent
   public addDecoration(): void {
     const item: MsDecoration = {
       type: null,
-      subject: null,
       colors: [],
-      layout: null,
       tool: null,
     };
     this.decorations = [...this.decorations, item];

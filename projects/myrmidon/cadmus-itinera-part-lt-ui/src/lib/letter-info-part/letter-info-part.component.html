@@ -10,6 +10,29 @@
       <mat-tab-group>
         <mat-tab label="general">
           <div>
+            <!-- letterId -->
+            <mat-form-field>
+              <input
+                matInput
+                [formControl]="letterId"
+                placeholder="letter ID"
+              />
+              <mat-error
+                *ngIf="
+                  letterId.errors?.required &&
+                  (letterId.dirty || letterId.touched)
+                "
+                >ID required</mat-error
+              >
+              <mat-error
+                *ngIf="
+                  letterId.errors?.maxLength &&
+                  (letterId.dirty || letterId.touched)
+                "
+                >ID too long</mat-error
+              >
+            </mat-form-field>
+
             <!-- authorId -->
             <mat-form-field style="width: 16em">
               <input
@@ -140,7 +163,6 @@
             (idsChange)="onReplyingToChange($event)"
           ></itinera-decorated-ids>
         </mat-tab>
-
       </mat-tab-group>
     </mat-card-content>
     <mat-card-actions>

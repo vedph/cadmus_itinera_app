@@ -144,6 +144,7 @@ export class MsNumberingsPartComponent
       const g = this.numberings.controls[i] as FormGroup;
       part.numberings.push({
         isMain: g.controls.isMain.value,
+        isPagination: g.controls.isPagination.value,
         era: g.controls.era.value?.trim(),
         system: g.controls.system.value?.trim(),
         technique: g.controls.technique.value?.trim(),
@@ -158,6 +159,7 @@ export class MsNumberingsPartComponent
   private getNumberingGroup(numbering?: MsNumbering): FormGroup {
     return this._formBuilder.group({
       isMain: this._formBuilder.control(numbering?.isMain || false),
+      isPagination: this._formBuilder.control(numbering?.isPagination || false),
       era: this._formBuilder.control(numbering?.era, [
         Validators.required,
         Validators.maxLength(50),

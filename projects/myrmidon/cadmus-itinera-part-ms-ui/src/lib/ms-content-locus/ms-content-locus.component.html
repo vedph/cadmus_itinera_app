@@ -1,7 +1,7 @@
 <form [formGroup]="form" (submit)="save()">
   <!-- citation -->
   <div>
-    <mat-form-field style="width: 10em;">
+    <mat-form-field style="width: 10em">
       <input matInput [formControl]="citation" placeholder="citation" />
       <mat-error
         *ngIf="
@@ -14,6 +14,23 @@
           citation.errors?.maxLength && (citation.dirty || citation.touched)
         "
         >citation too long</mat-error
+      >
+    </mat-form-field>
+
+    &nbsp;
+    <!-- refSheet -->
+    <mat-form-field style="width: 8em">
+      <input matInput [formControl]="refSheet" placeholder="ref.sheet" />
+      <mat-error *ngIf="refSheet.errors?.pattern">invalid</mat-error>
+    </mat-form-field>
+
+    <!-- imageId -->
+    &nbsp;
+    <mat-form-field>
+      <input matInput [formControl]="imageId" placeholder="image ID" />
+      <mat-error
+        *ngIf="imageId.errors?.maxLength && (imageId.dirty || imageId.touched)"
+        >ID too long</mat-error
       >
     </mat-form-field>
   </div>

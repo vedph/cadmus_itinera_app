@@ -10,6 +10,23 @@
       <mat-tab-group [(selectedIndex)]="tabIndex">
         <mat-tab label="info">
           <div>
+            <!-- textId -->
+            <mat-form-field>
+              <input matInput [formControl]="textId" placeholder="text ID" />
+              <mat-error
+                *ngIf="
+                  textId.errors?.required && (textId.dirty || textId.touched)
+                "
+                >ID required</mat-error
+              >
+              <mat-error
+                *ngIf="
+                  textId.errors?.maxLength && (textId.dirty || textId.touched)
+                "
+                >ID too long</mat-error
+              >
+            </mat-form-field>
+
             <!-- language (bound) -->
             <mat-form-field *ngIf="langEntries?.length" style="width: 8em">
               <mat-select [formControl]="language" placeholder="language">

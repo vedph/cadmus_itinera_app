@@ -6,6 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { MsContentLocus } from '@myrmidon/cadmus-itinera-core';
+import { MsLocationService } from '@myrmidon/cadmus-itinera-core';
 
 @Component({
   selector: 'itinera-ms-content-locus',
@@ -25,8 +26,11 @@ export class MsContentLocusComponent implements OnInit {
   public form: FormGroup;
   public citation: FormControl;
   public text: FormControl;
+  public refSheet: FormControl;
+  public imageId: FormControl;
 
-  constructor(formBuilder: FormBuilder) {
+  constructor(formBuilder: FormBuilder,
+    private _locService: MsLocationService) {
     // events
     this.modelChange = new EventEmitter<MsContentLocus>();
     this.editorClose = new EventEmitter();
@@ -39,9 +43,15 @@ export class MsContentLocusComponent implements OnInit {
       Validators.required,
       Validators.maxLength(1000),
     ]);
+    this.refSheet = formBuilder.control(null, [
+      Validators.pattern(MsLocationService.locRegexp),
+    ]);
+    this.imageId = formBuilder.control(null, Validators.maxLength(100));
     this.form = formBuilder.group({
       citation: this.citation,
       text: this.text,
+      refSheet: this.refSheet,
+      imageId: this.imageId
     });
   }
 
@@ -56,13 +66,17 @@ export class MsContentLocusComponent implements OnInit {
     }
     this.citation.setValue(model.citation);
     this.text.setValue(model.text);
+    this.refSheet.setValue(this._locService.locationToString(model.refSheet));
+    this.imageId.setValue(model.imageId);
     this.form.markAsPristine();
   }
 
   private getModel(): MsContentLocus {
     return {
       citation: this.citation.value?.trim(),
-      text: this.text.value?.trim()
+      text: this.text.value?.trim(),
+      refSheet: this._locService.parseLocation(this.refSheet.value),
+      imageId: this.imageId.value?.trim()
     };
   }
 
