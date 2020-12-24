@@ -71,8 +71,8 @@ export const MSQUIRES_PART_SCHEMA = {
             type: 'object',
             required: ['startNr', 'endNr', 'sheetCount'],
             properties: {
-              isMain: {
-                type: 'boolean',
+              tag: {
+                type: 'string',
               },
               startNr: {
                 type: 'integer',

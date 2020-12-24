@@ -190,7 +190,7 @@ export interface MsSection {
  * A manuscript's quire.
  */
 export interface MsQuire {
-  isMain?: boolean;
+  tag?: string;
   startNr: number;
   endNr: number;
   sheetCount: number;

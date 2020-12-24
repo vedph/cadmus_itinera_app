@@ -1,36 +1,47 @@
 import { Injectable } from '@angular/core';
 import { MsQuire } from '../models';
 
+// regex groups: from an expression like "*1-3^4+2 {note here}":
+// [1]=[tag]
+// [2]=start
+// [3]=[end]
+// [4]=count
+// [5]=[delta-op]
+// [6]=[delta]
+// [7]=[note]
+const M_TAG = 1;
+const M_START = 2;
+const M_END = 3;
+const M_COUNT = 4;
+const M_DELTAOP = 5;
+const M_DELTA = 6;
+const M_NOTE = 7;
+
 @Injectable({
   providedIn: 'root',
 })
 export class MsQuiresService {
-  // sample:
-  // *1-3^4~2 {note here}
-  // where:
-  // [1]=[main]
-  // [2]=start
-  // [3]=[end]
-  // [4]=count
-  // [5]=[delta]
-  // [6]=[note]
   public static readonly quireRegExp = new RegExp(
-    '(\\*)?([0-9]+)(?:-([0-9]+))?\\^([0-9]+)(?:[~±]([0-9]+))?(?:\\s*\\{([^}]+)\\})?'
+    '(\[[^]]+\])?([0-9]+)(?:-([0-9]+))?\\^([0-9]+)(?:([-+])([0-9]+))?(?:\\s*\\{([^}]+)\\})?'
   );
   private static readonly _quiresRegExp = new RegExp(
-    '(\\*)?([0-9]+)(?:-([0-9]+))?\\^([0-9]+)(?:[~±]([0-9]+))?(?:\\s*\\{([^}]+)\\})?',
+    '(\[[^]]+\])?([0-9]+)(?:-([0-9]+))?\\^([0-9]+)(?:([-+])([0-9]+))?(?:\\s*\\{([^}]+)\\})?',
     'g'
   );
 
   private getQuireFromMatch(match: RegExpExecArray): MsQuire | null {
     return match
       ? {
-          isMain: match[1] ? true : false,
-          startNr: +match[2],
-          endNr: match[3] ? +match[3] : +match[2],
-          sheetCount: +match[4],
-          sheetDelta: match[5] ? +match[5] : 0,
-          note: match[6],
+          tag: match[M_TAG],
+          startNr: +match[M_START],
+          endNr: match[M_END] ? +match[M_END] : +match[M_START],
+          sheetCount: +match[M_COUNT],
+          sheetDelta: match[M_DELTA]
+            ? match[M_DELTAOP] === '-'
+              ? -match[M_DELTA]
+              : +match[M_DELTA]
+            : 0,
+          note: match[M_NOTE],
         }
       : null;
   }
@@ -78,9 +89,11 @@ export class MsQuiresService {
       return '';
     }
     const sb: string[] = [];
-    // main
-    if (quire.isMain) {
-      sb.push('*');
+    // tag
+    if (quire.tag) {
+      sb.push('[');
+      sb.push(quire.tag);
+      sb.push(']');
     }
     // start-end
     sb.push(quire.startNr.toString());
@@ -93,7 +106,7 @@ export class MsQuiresService {
     sb.push(quire.sheetCount.toString());
     // ±delta
     if (quire.sheetDelta) {
-      sb.push('±');
+      sb.push(quire.sheetDelta < 0? '-' : '+');
       sb.push(quire.sheetDelta.toString());
     }
     // {note}

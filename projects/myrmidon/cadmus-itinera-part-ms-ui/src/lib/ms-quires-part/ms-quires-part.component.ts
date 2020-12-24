@@ -66,7 +66,7 @@ export class MsQuiresPartComponent
 
   private getQuireFromGroup(group: FormGroup): MsQuire {
     return {
-      isMain: group.controls.isMain.value,
+      tag: group.controls.tag.value,
       startNr: group.controls.startNr.value,
       endNr: group.controls.endNr.value,
       sheetCount: group.controls.sheetCount.value,
@@ -99,7 +99,7 @@ export class MsQuiresPartComponent
 
   private getQuireGroup(quire?: MsQuire): FormGroup {
     return this._formBuilder.group({
-      isMain: this._formBuilder.control(quire ? quire.isMain : false),
+      tag: this._formBuilder.control(quire?.tag, Validators.maxLength(50)),
       startNr: this._formBuilder.control(
         quire ? quire.startNr : 0,
         Validators.required
