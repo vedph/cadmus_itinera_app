@@ -345,10 +345,12 @@ export class MsHandComponent implements OnInit {
 
   public addType(item?: string): void {
     this.types.push(this.getTypeGroup(item));
+    this.types.markAsDirty();
   }
 
   public removeType(index: number): void {
     this.types.removeAt(index);
+    this.types.markAsDirty();
   }
 
   public moveTypeUp(index: number): void {
@@ -358,6 +360,7 @@ export class MsHandComponent implements OnInit {
     const type = this.types.controls[index];
     this.types.removeAt(index);
     this.types.insert(index - 1, type);
+    this.types.markAsDirty();
   }
 
   public moveTypeDown(index: number): void {
@@ -367,6 +370,7 @@ export class MsHandComponent implements OnInit {
     const type = this.types.controls[index];
     this.types.removeAt(index);
     this.types.insert(index + 1, type);
+    this.types.markAsDirty();
   }
 
   private getTypes(): string[] | undefined {
@@ -395,10 +399,12 @@ export class MsHandComponent implements OnInit {
 
   public addRange(item?: MsLocationRange): void {
     this.ranges.push(this.getRangeGroup(item));
+    this.ranges.markAsDirty();
   }
 
   public removeRange(index: number): void {
     this.ranges.removeAt(index);
+    this.ranges.markAsDirty();
   }
 
   public moveRangeUp(index: number): void {
@@ -408,6 +414,7 @@ export class MsHandComponent implements OnInit {
     const range = this.ranges.controls[index];
     this.ranges.removeAt(index);
     this.ranges.insert(index - 1, range);
+    this.ranges.markAsDirty();
   }
 
   public moveRangeDown(index: number): void {
@@ -417,6 +424,7 @@ export class MsHandComponent implements OnInit {
     const range = this.ranges.controls[index];
     this.ranges.removeAt(index);
     this.ranges.insert(index + 1, range);
+    this.ranges.markAsDirty();
   }
 
   private getRanges(): MsLocationRange[] | undefined {
@@ -466,10 +474,12 @@ export class MsHandComponent implements OnInit {
 
   public addRubrication(item?: MsRubrication): void {
     this.rubrications.push(this.getRubricationGroup(item));
+    this.rubrications.markAsDirty();
   }
 
   public removeRubrication(index: number): void {
     this.rubrications.removeAt(index);
+    this.rubrications.markAsDirty();
   }
 
   public moveRubricationUp(index: number): void {
@@ -479,6 +489,7 @@ export class MsHandComponent implements OnInit {
     const item = this.rubrications.controls[index];
     this.rubrications.removeAt(index);
     this.rubrications.insert(index - 1, item);
+    this.rubrications.markAsDirty();
   }
 
   public moveRubricationDown(index: number): void {
@@ -488,6 +499,7 @@ export class MsHandComponent implements OnInit {
     const item = this.rubrications.controls[index];
     this.rubrications.removeAt(index);
     this.rubrications.insert(index + 1, item);
+    this.rubrications.markAsDirty();
   }
 
   private getRubrications(): MsRubrication[] | undefined {

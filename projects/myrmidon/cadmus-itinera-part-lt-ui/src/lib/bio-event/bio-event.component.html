@@ -107,6 +107,7 @@
     <mat-tab label="sources">
       <!-- sources -->
       <cadmus-doc-references
+        [tagEntries]="docRefTagEntries"
         [model$]="sources$"
         (modelChange)="onSourcesChanged($event)"
       ></cadmus-doc-references>

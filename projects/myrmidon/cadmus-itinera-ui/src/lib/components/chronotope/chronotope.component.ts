@@ -24,6 +24,8 @@ export class ChronotopeComponent implements OnInit {
 
   @Input()
   public tagEntries: ThesaurusEntry[];
+  @Input()
+  public docRefTagEntries: ThesaurusEntry[];
 
   @Output()
   public chronotopeChange: EventEmitter<Chronotope>;

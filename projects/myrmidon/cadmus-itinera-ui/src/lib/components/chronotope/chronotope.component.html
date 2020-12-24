@@ -69,6 +69,7 @@
     </mat-expansion-panel-header>
 
     <cadmus-doc-references
+      [tagEntries]="docRefTagEntries"
       [model$]="sources$"
       (modelChange)="onSourcesChange($event)"
     ></cadmus-doc-references>

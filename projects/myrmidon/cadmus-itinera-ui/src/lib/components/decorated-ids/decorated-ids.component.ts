@@ -42,6 +42,8 @@ export class DecoratedIdsComponent {
 
   @Input()
   public tagEntries: ThesaurusEntry[];
+  @Input()
+  public docRefTagEntries: ThesaurusEntry[];
 
   @Output()
   public idsChange: EventEmitter<DecoratedId[]>;

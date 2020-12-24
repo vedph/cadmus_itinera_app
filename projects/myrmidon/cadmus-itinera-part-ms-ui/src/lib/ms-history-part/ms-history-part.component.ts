@@ -26,7 +26,7 @@ import { take } from 'rxjs/operators';
  * Manuscript's history part editor.
  * Thesauri: ms-provenance-areas, ms-history-person-roles,
  * ms-history-languages, ms-annotation-types, ms-restoration-types,
- * person-name-types, person-name-tags (all optional).
+ * person-name-types, person-name-tags, doc-reference-tags (all optional).
  */
 @Component({
   selector: 'itinera-ms-history-part',
@@ -73,6 +73,7 @@ export class MsHistoryPartComponent
   public nameTagEntries: ThesaurusEntry[];
   // annotations
   public annTypeEntries: ThesaurusEntry[];
+  public docRefTagEntries: ThesaurusEntry[];
   // restorations
   public rstTypeEntries: ThesaurusEntry[];
 
@@ -188,6 +189,13 @@ export class MsHistoryPartComponent
       this.nameTypeEntries = this.thesauri[key].entries;
     } else {
       this.nameTypeEntries = null;
+    }
+
+    key = 'doc-reference-tags';
+    if (this.thesauri && this.thesauri[key]) {
+      this.docRefTagEntries = this.thesauri[key].entries;
+    } else {
+      this.docRefTagEntries = null;
     }
 
     key = 'person-name-tags';

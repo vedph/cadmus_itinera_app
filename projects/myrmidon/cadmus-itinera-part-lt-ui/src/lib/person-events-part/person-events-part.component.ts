@@ -18,7 +18,8 @@ import { take } from 'rxjs/operators';
 
 /**
  * Person events part editor.
- * Thesauri: bio-event-types, event-participant-tags (all optional).
+ * Thesauri: bio-event-types, event-participant-tags, doc-reference-tags
+ * (all optional).
  */
 @Component({
   selector: 'itinera-person-events-part',
@@ -35,6 +36,7 @@ export class PersonEventsPartComponent
 
   public typeEntries: ThesaurusEntry[];
   public partTagEntries: ThesaurusEntry[];
+  public docRefTagEntries: ThesaurusEntry[];
 
   public events: BioEvent[];
 
@@ -77,16 +79,23 @@ export class PersonEventsPartComponent
   protected onThesauriSet(): void {
     let key = 'bio-event-types';
     if (this.thesauri && this.thesauri[key]) {
-    this.typeEntries = this.thesauri[key].entries;
+      this.typeEntries = this.thesauri[key].entries;
     } else {
       this.typeEntries = null;
     }
 
     key = 'event-participant-tags';
     if (this.thesauri && this.thesauri[key]) {
-    this.partTagEntries = this.thesauri[key].entries;
+      this.partTagEntries = this.thesauri[key].entries;
     } else {
       this.partTagEntries = null;
+    }
+
+    key = 'doc-reference-tags';
+    if (this.thesauri && this.thesauri[key]) {
+      this.docRefTagEntries = this.thesauri[key].entries;
+    } else {
+      this.docRefTagEntries = null;
     }
   }
 

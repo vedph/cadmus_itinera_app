@@ -339,6 +339,7 @@
               [model]="editedAnnotation"
               [langEntries]="langEntries"
               [typeEntries]="annTypeEntries"
+              [docRefTagEntries]="docRefTagEntries"
               (modelChange)="onAnnotationSaved($event)"
               (editorClose)="onAnnotationClosed()"
             >
@@ -431,6 +432,7 @@
               *ngIf="editedRestoration"
               [model]="editedRestoration"
               [typeEntries]="rstTypeEntries"
+              [docRefTagEntries]="docRefTagEntries"
               (modelChange)="onRestorationSaved($event)"
               (editorClose)="onRestorationClosed()"
             >

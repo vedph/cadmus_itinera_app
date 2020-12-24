@@ -19,7 +19,7 @@ import { take } from 'rxjs/operators';
 
 /**
  * Chronotopics part editor.
- * Thesauri: doc-reference-tags (optional).
+ * Thesauri: chronotope-tags, doc-reference-tags (optional).
  */
 @Component({
   selector: 'itinera-chronotopics-part',
@@ -35,6 +35,7 @@ export class ChronotopicsPartComponent
   public editedChronotope: Chronotope;
 
   public tagEntries: ThesaurusEntry[];
+  public docRefTagEntries: ThesaurusEntry[];
 
   public chronotopes: Chronotope[];
 
@@ -75,11 +76,18 @@ export class ChronotopicsPartComponent
   }
 
   protected onThesauriSet(): void {
-    const key = 'doc-reference-tags';
+    let key = 'chronotope-tags';
     if (this.thesauri && this.thesauri[key]) {
       this.tagEntries = this.thesauri[key].entries;
     } else {
       this.tagEntries = null;
+    }
+
+    key = 'doc-reference-tags';
+    if (this.thesauri && this.thesauri[key]) {
+      this.docRefTagEntries = this.thesauri[key].entries;
+    } else {
+      this.docRefTagEntries = null;
     }
   }
 

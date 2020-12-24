@@ -48,6 +48,16 @@
           >
         </mat-form-field>
       </div>
+
+      <!-- others -->
+      <div>
+        <h3>other documents</h3>
+        <cadmus-doc-references
+          [tagEntries]="docRefTagEntries"
+          [model$]="others$"
+          (modelChange)="onOthersChange($event)"
+        ></cadmus-doc-references>
+      </div>
     </mat-card-content>
     <mat-card-actions>
       <cadmus-close-save-buttons

@@ -24,6 +24,8 @@ export class MsAnnotationComponent implements OnInit {
   public langEntries: ThesaurusEntry[];
   @Input()
   public typeEntries: ThesaurusEntry[];
+  @Input()
+  public docRefTagEntries: ThesaurusEntry[];
 
   @Output()
   public modelChange: EventEmitter<MsAnnotation>;

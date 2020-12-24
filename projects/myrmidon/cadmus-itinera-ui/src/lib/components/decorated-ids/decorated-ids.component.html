@@ -107,6 +107,7 @@
         <!-- sources -->
         <h4>ID sources</h4>
         <cadmus-doc-references
+          [tagEntries]="docRefTagEntries"
           [model$]="sources$"
           (modelChange)="onSourcesChange($event)"
         ></cadmus-doc-references>
@@ -133,7 +134,7 @@
       </div>
     </form>
   </mat-expansion-panel>
-  <div style="margin-top:4px">
+  <div style="margin-top: 4px">
     <button
       (click)="close()"
       type="button"

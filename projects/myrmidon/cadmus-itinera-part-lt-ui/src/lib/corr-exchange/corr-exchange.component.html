@@ -46,6 +46,7 @@
     <mat-tab label="sources">
       <!-- sources -->
       <cadmus-doc-references
+        [tagEntries]="tagEntries"
         [model$]="sources$"
         (modelChange)="onSourcesChange($event)"
       ></cadmus-doc-references>

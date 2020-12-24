@@ -39,6 +39,10 @@ export class PersonEventsPartFeatureComponent
   }
 
   public ngOnInit(): void {
-    this.initEditor(['bio-event-types', 'event-participant-tags']);
+    this.initEditor([
+      'bio-event-types',
+      'event-participant-tags',
+      'doc-reference-tags',
+    ]);
   }
 }

@@ -46,6 +46,7 @@ export class MsHistoryPartFeatureComponent
       'ms-annotation-types',
       'ms-restoration-types',
       'person-name-types',
+      'doc-reference-tags',
       'person-name-tags'
     ]);
   }

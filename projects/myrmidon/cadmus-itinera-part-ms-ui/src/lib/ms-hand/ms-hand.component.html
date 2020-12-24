@@ -116,12 +116,12 @@
               <!-- child controls -->
               <!-- name (bound) -->
               <mat-form-field
-                *ngIf="signTypeEntries?.length"
-                style="width: 8em"
+                *ngIf="handTypeEntries?.length"
+                style="width: 10em"
               >
                 <mat-select formControlName="name" placeholder="name">
                   <mat-option
-                    *ngFor="let e of signTypeEntries"
+                    *ngFor="let e of handTypeEntries"
                     [value]="e.id"
                     >{{ e.value }}</mat-option
                   >
@@ -137,7 +137,10 @@
               </mat-form-field>
 
               <!-- name (free) -->
-              <mat-form-field *ngIf="!signTypeEntries?.length">
+              <mat-form-field
+                *ngIf="!handTypeEntries?.length"
+                style="width: 10em"
+              >
                 <input matInput formControlName="name" placeholder="name" />
                 <mat-error
                   *ngIf="
@@ -363,12 +366,7 @@
                 "
                 >locations too long</mat-error
               >
-              <mat-error
-                *ngIf="
-                  item['controls'].locations.pattern?.pattern &&
-                  (item['controls'].locations.dirty ||
-                    item['controls'].locations.touched)
-                "
+              <mat-error *ngIf="item['controls'].locations.errors?.pattern"
                 >invalid locations</mat-error
               >
             </mat-form-field>
@@ -472,11 +470,7 @@
               "
               >locations too long</mat-error
             >
-            <mat-error
-              *ngIf="
-                subLocations.errors?.pattern &&
-                (subLocations.dirty || subLocations.touched)
-              "
+            <mat-error *ngIf="subLocations.errors?.pattern"
               >invalid locations</mat-error
             >
           </mat-form-field>
@@ -546,7 +540,7 @@
       <!-- signs -->
       <div>
         <button
-          mat-stroked-button
+          mat-icon-button
           type="button"
           color="primary"
           (click)="addSign()"

@@ -10,7 +10,7 @@ import { BehaviorSubject } from 'rxjs';
 
 /**
  * PersonHand editor component.
- * Thesauri: ms-hand-jobs (all optional).
+ * Thesauri: ms-hand-jobs, doc-reference-tags (all optional).
  */
 @Component({
   selector: 'itinera-person-hand-part',
@@ -27,6 +27,7 @@ export class PersonHandPartComponent
   public others: DocReference[];
 
   public handJobEntries: ThesaurusEntry[];
+  public docRefTagEntries: ThesaurusEntry[];
 
   constructor(authService: AuthService, formBuilder: FormBuilder) {
     super(authService);
@@ -68,11 +69,18 @@ export class PersonHandPartComponent
   }
 
   protected onThesauriSet(): void {
-    const key = 'ms-hand-jobs';
+    let key = 'ms-hand-jobs';
     if (this.thesauri && this.thesauri[key]) {
       this.handJobEntries = this.thesauri[key].entries;
     } else {
       this.handJobEntries = null;
+    }
+
+    key = 'doc-reference-tags';
+    if (this.thesauri && this.thesauri[key]) {
+      this.docRefTagEntries = this.thesauri[key].entries;
+    } else {
+      this.docRefTagEntries = null;
     }
   }
 
@@ -99,7 +107,7 @@ export class PersonHandPartComponent
     return part;
   }
 
-  public onReferencesChange(model: DocReference[]): void {
+  public onOthersChange(model: DocReference[]): void {
     this.others = model;
   }
 }

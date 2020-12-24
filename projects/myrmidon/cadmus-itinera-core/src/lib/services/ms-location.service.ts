@@ -13,7 +13,7 @@ export class MsLocationService {
     '^\\s*([0-9]+|[IVX]+)(r|v|rv)\\s*([0-9]+)?\\s*$'
   );
   public static readonly locsRegexp = new RegExp(
-    '^(?:([0-9]+|[IVX]+)(r|v|rv)\s*([0-9]+)?\s*)*$'
+    '^(?:([0-9]+|[IVX]+)(r|v|rv)\\s*([0-9]+)?\\s*)*$'
   );
 
   private parseSides(text: string): MsLocationSides {

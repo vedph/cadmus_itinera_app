@@ -39,6 +39,6 @@ export class PersonHandPartFeatureComponent
   }
 
   public ngOnInit(): void {
-    this.initEditor(['ms-hand-jobs']);
+    this.initEditor(['ms-hand-jobs', 'doc-reference-tags']);
   }
 }

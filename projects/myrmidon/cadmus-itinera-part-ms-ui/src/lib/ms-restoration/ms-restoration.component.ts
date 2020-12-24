@@ -24,6 +24,8 @@ export class MsRestorationComponent implements OnInit {
 
   @Input()
   public typeEntries: ThesaurusEntry[];
+  @Input()
+  public docRefTagEntries: ThesaurusEntry[];
 
   @Output()
   public modelChange: EventEmitter<MsRestoration>;
