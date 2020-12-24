@@ -15,7 +15,7 @@ import { MsLocationService } from '@myrmidon/cadmus-itinera-core';
 
 /**
  * Manuscript's composition.
- * Thesauri: ms-materials (optional).
+ * Thesauri: ms-materials, ms-section-eras (all optional).
  */
 @Component({
   selector: 'itinera-ms-composition-part',
@@ -39,7 +39,8 @@ export class MsCompositionPartComponent
   public sections: MsSection[];
   public editedSection: MsSection;
 
-  public materialEntries: ThesaurusEntry[];
+  public materialEntries: ThesaurusEntry[] | undefined;
+  public eraEntries: ThesaurusEntry[] | undefined;
 
   constructor(
     authService: AuthService,
@@ -83,11 +84,18 @@ export class MsCompositionPartComponent
   }
 
   protected onThesauriSet(): void {
-    const key = 'ms-materials';
+    let key = 'ms-materials';
     if (this.thesauri && this.thesauri[key]) {
       this.materialEntries = this.thesauri[key].entries;
     } else {
       this.materialEntries = null;
+    }
+
+    key = 'ms-section-eras';
+    if (this.thesauri && this.thesauri[key]) {
+      this.eraEntries = this.thesauri[key].entries;
+    } else {
+      this.eraEntries = null;
     }
   }
 

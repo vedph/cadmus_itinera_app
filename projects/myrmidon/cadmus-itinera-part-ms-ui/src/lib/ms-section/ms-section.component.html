@@ -23,7 +23,7 @@
 
   <div>
     <!-- start -->
-    <mat-form-field style="width: 6em;">
+    <mat-form-field style="width: 6em">
       <input matInput [formControl]="start" placeholder="start" />
       <mat-error
         *ngIf="start.errors?.required && (start.dirty || start.touched)"
@@ -36,7 +36,7 @@
 
     <!-- end -->
     &nbsp;-&nbsp;
-    <mat-form-field style="width: 6em;">
+    <mat-form-field style="width: 6em">
       <input matInput [formControl]="end" placeholder="end" />
       <mat-error *ngIf="end.errors?.required && (end.dirty || end.touched)"
         >end required</mat-error
@@ -45,13 +45,38 @@
         >invalid end</mat-error
       >
     </mat-form-field>
+
+    &nbsp;
+    <!-- era (bound) -->
+    <mat-form-field *ngIf="eraEntries?.length" style="width: 8em">
+      <mat-select [formControl]="era" placeholder="era">
+        <mat-option *ngFor="let e of eraEntries" [value]="e.id">{{
+          e.value
+        }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- era (free) -->
+    <mat-form-field *ngIf="!eraEntries?.length" style="width: 8em">
+      <input matInput [formControl]="era" placeholder="era" />
+      <mat-error *ngIf="era.errors?.maxLength && (era.dirty || era.touched)"
+        >era too long</mat-error
+      >
+    </mat-form-field>
   </div>
 
   <!-- date -->
-  <cadmus-historical-date-editor
-    [date]="date"
-    (dateChange)="onDateChange($event)"
-  ></cadmus-historical-date-editor>
+  <div>
+    <div>
+      <mat-checkbox [formControl]="hasDate">date</mat-checkbox>
+    </div>
+    <cadmus-historical-date-editor
+      [date]="date"
+      (dateChange)="onDateChange($event)"
+      [disabled]="!hasDate?.value"
+    >
+    </cadmus-historical-date-editor>
+  </div>
 
   <!-- buttons -->
   <div>

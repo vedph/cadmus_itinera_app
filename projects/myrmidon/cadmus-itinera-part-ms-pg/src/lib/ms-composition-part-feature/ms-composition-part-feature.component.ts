@@ -39,6 +39,6 @@ export class MsCompositionPartFeatureComponent
   }
 
   public ngOnInit(): void {
-    this.initEditor(['ms-materials']);
+    this.initEditor(['ms-materials', 'ms-section-eras']);
   }
 }

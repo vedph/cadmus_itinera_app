@@ -5,7 +5,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { HistoricalDateModel } from '@myrmidon/cadmus-core';
+import { HistoricalDateModel, ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { MsLocationService, MsSection } from '@myrmidon/cadmus-itinera-core';
 
 @Component({
@@ -16,6 +16,8 @@ import { MsLocationService, MsSection } from '@myrmidon/cadmus-itinera-core';
 export class MsSectionComponent implements OnInit {
   @Input()
   public model: MsSection;
+  @Input()
+  public eraEntries: ThesaurusEntry[] | undefined;
 
   @Output()
   public modelChange: EventEmitter<MsSection>;
@@ -28,11 +30,13 @@ export class MsSectionComponent implements OnInit {
   public label: FormControl;
   public start: FormControl;
   public end: FormControl;
+  public era: FormControl;
+  public hasDate: FormControl;
   public date: HistoricalDateModel;
 
   constructor(
     formBuilder: FormBuilder,
-    private _msLocationService: MsLocationService
+    private _locService: MsLocationService
   ) {
     // event
     this.modelChange = new EventEmitter<MsSection>();
@@ -51,11 +55,15 @@ export class MsSectionComponent implements OnInit {
       Validators.required,
       Validators.pattern(MsLocationService.locRegexp),
     ]);
+    this.era = formBuilder.control(null, Validators.maxLength(50));
+    this.hasDate = formBuilder.control(false);
     this.form = formBuilder.group({
       tag: this.tag,
       label: this.label,
       start: this.start,
       end: this.end,
+      era: this.era,
+      hasDate: this.hasDate
     });
   }
 
@@ -70,19 +78,23 @@ export class MsSectionComponent implements OnInit {
       return;
     }
     this.date = model.date;
+    this.hasDate.setValue(model.date? true : false);
+
     this.tag.setValue(model.tag);
     this.label.setValue(model.label);
-    this.start.setValue(this._msLocationService.locationToString(model.start));
-    this.end.setValue(this._msLocationService.locationToString(model.end));
+    this.start.setValue(this._locService.locationToString(model.start));
+    this.end.setValue(this._locService.locationToString(model.end));
+    this.era.setValue(model.era);
   }
 
   private getModel(): MsSection {
     return {
-      date: this.date,
+      date: this.hasDate? this.date : undefined,
       tag: this.tag.value?.trim(),
       label: this.label.value?.trim(),
-      start: this._msLocationService.parseLocation(this.start.value),
-      end: this._msLocationService.parseLocation(this.end.value),
+      start: this._locService.parseLocation(this.start.value),
+      end: this._locService.parseLocation(this.end.value),
+      era: this.era.value?.trim()
     };
   }
 
