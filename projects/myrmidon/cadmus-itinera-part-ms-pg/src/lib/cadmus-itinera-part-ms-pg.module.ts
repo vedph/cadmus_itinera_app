@@ -19,7 +19,7 @@ import {
   MSMATERIAL_DSC_PART_TYPEID,
   MSCONTENTS_PART_TYPEID,
   MSCONTENT_LOCI_PART_TYPEID,
-  MSDIMENSIONS_PART_TYPEID,
+  MSLAYOUTS_PART_TYPEID,
   MSHANDS_PART_TYPEID,
   MSDECORATIONS_PART_TYPEID,
   MSHISTORY_PART_TYPEID,
@@ -37,7 +37,7 @@ import { MsBindingPartFeatureComponent } from './ms-binding-part-feature/ms-bind
 import { MsMaterialDscPartFeatureComponent } from './ms-material-dsc-part-feature/ms-material-dsc-part-feature.component';
 import { MsContentsPartFeatureComponent } from './ms-contents-part-feature/ms-contents-part-feature.component';
 import { MsContentLociPartFeatureComponent } from './ms-content-loci-part-feature/ms-content-loci-part-feature.component';
-import { MsDimensionsPartFeatureComponent } from './ms-dimensions-part-feature/ms-dimensions-part-feature.component';
+import { MsLayoutsPartFeatureComponent } from './ms-layouts-part-feature/ms-layouts-part-feature.component';
 import { MsHandsPartFeatureComponent } from './ms-hands-part-feature/ms-hands-part-feature.component';
 import { MsDecorationsPartFeatureComponent } from './ms-decorations-part-feature/ms-decorations-part-feature.component';
 import { MsHistoryPartFeatureComponent } from './ms-history-part-feature/ms-history-part-feature.component';
@@ -118,9 +118,9 @@ export const RouterModuleForChild = RouterModule.forChild([
     canDeactivate: [PendingChangesGuard],
   },
   {
-    path: `${MSDIMENSIONS_PART_TYPEID}/:pid`,
+    path: `${MSLAYOUTS_PART_TYPEID}/:pid`,
     pathMatch: 'full',
-    component: MsDimensionsPartFeatureComponent,
+    component: MsLayoutsPartFeatureComponent,
     canDeactivate: [PendingChangesGuard],
   },
   {
@@ -157,7 +157,7 @@ export const RouterModuleForChild = RouterModule.forChild([
     MsContentLociPartFeatureComponent,
     MsContentsPartFeatureComponent,
     MsDecorationsPartFeatureComponent,
-    MsDimensionsPartFeatureComponent,
+    MsLayoutsPartFeatureComponent,
     MsHandsPartFeatureComponent,
     MsHistoryPartFeatureComponent,
     MsMaterialDscPartFeatureComponent,
@@ -187,7 +187,7 @@ export const RouterModuleForChild = RouterModule.forChild([
     MsContentLociPartFeatureComponent,
     MsContentsPartFeatureComponent,
     MsDecorationsPartFeatureComponent,
-    MsDimensionsPartFeatureComponent,
+    MsLayoutsPartFeatureComponent,
     MsHandsPartFeatureComponent,
     MsHistoryPartFeatureComponent,
     MsMaterialDscPartFeatureComponent,

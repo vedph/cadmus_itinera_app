@@ -6,23 +6,23 @@ import {
   EditPartFeatureBase,
 } from '@myrmidon/cadmus-state';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { EditMsDimensionsPartQuery } from './edit-ms-dimensions-part.query';
-import { EditMsDimensionsPartService } from './edit-ms-dimensions-part.service';
+import { EditMsLayoutsPartQuery } from './edit-ms-layouts-part.query';
+import { EditMsLayoutsPartService } from './edit-ms-layouts-part.service';
 
 @Component({
-  selector: 'itinera-ms-dimensions-part-feature',
-  templateUrl: './ms-dimensions-part-feature.component.html',
-  styleUrls: ['./ms-dimensions-part-feature.component.css'],
+  selector: 'itinera-ms-layouts-part-feature',
+  templateUrl: './ms-layouts-part-feature.component.html',
+  styleUrls: ['./ms-layouts-part-feature.component.css'],
 })
-export class MsDimensionsPartFeatureComponent
+export class MsLayoutsPartFeatureComponent
   extends EditPartFeatureBase
   implements OnInit {
   constructor(
     router: Router,
     route: ActivatedRoute,
     snackbar: MatSnackBar,
-    editPartQuery: EditMsDimensionsPartQuery,
-    editPartService: EditMsDimensionsPartService,
+    editPartQuery: EditMsLayoutsPartQuery,
+    editPartService: EditMsLayoutsPartService,
     editItemQuery: EditItemQuery,
     editItemService: EditItemService
   ) {
@@ -38,6 +38,11 @@ export class MsDimensionsPartFeatureComponent
   }
 
   public ngOnInit(): void {
-    this.initEditor(['physical-size-units', 'ms-dimensions', 'ms-counts']);
+    this.initEditor([
+      'ms-counts',
+      'ms-dimensions',
+      'ms-ruling-techniques',
+      'physical-size-units',
+    ]);
   }
 }

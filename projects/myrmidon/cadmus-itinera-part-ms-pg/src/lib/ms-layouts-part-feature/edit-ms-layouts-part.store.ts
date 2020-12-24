@@ -7,11 +7,11 @@ import {
   editPartInitialState,
 } from '@myrmidon/cadmus-state';
 
-import { MSDIMENSIONS_PART_TYPEID } from '@myrmidon/cadmus-itinera-part-ms-ui';
+import { MSLAYOUTS_PART_TYPEID } from '@myrmidon/cadmus-itinera-part-ms-ui';
 
 @Injectable({ providedIn: 'root' })
-@StoreConfig({ name: MSDIMENSIONS_PART_TYPEID })
-export class EditMsDimensionsPartStore
+@StoreConfig({ name: MSLAYOUTS_PART_TYPEID })
+export class EditMsLayoutsPartStore
   extends Store<EditPartState>
   implements EditPartStoreApi {
   constructor() {

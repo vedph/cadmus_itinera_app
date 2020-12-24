@@ -1,0 +1,106 @@
+<form [formGroup]="form" (submit)="save()">
+  <mat-card>
+    <mat-card-header>
+      <div mat-card-avatar>
+        <mat-icon>picture_in_picture</mat-icon>
+      </div>
+      <mat-card-title>Manuscript's Dimensions Part</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-tab-group [(selectedIndex)]="tabIndex">
+        <mat-tab label="layouts">
+          <div>
+            <button
+              type="button"
+              mat-icon-button
+              color="primary"
+              (click)="addLayout()"
+            >
+              <mat-icon>add_circle</mat-icon> add Layout
+            </button>
+          </div>
+          <table *ngIf="layouts?.value?.length">
+            <thead>
+              <tr>
+                <th></th>
+                <th>sample</th>
+                <th>cols</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="
+                  let layout of layouts?.value;
+                  let i = index;
+                  let first = first;
+                  let last = last
+                "
+              >
+                <td>
+                  <button
+                    type="button"
+                    mat-icon-button
+                    color="primary"
+                    matTooltip="Edit this layout"
+                    (click)="editLayout(i)"
+                  >
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                  <button
+                    type="button"
+                    mat-icon-button
+                    matTooltip="Move this layout up"
+                    [disabled]="first"
+                    (click)="moveLayoutUp(i)"
+                  >
+                    <mat-icon>arrow_upward</mat-icon>
+                  </button>
+                  <button
+                    type="button"
+                    mat-icon-button
+                    matTooltip="Move this layout down"
+                    [disabled]="last"
+                    (click)="moveLayoutDown(i)"
+                  >
+                    <mat-icon>arrow_downward</mat-icon>
+                  </button>
+                  <button
+                    type="button"
+                    mat-icon-button
+                    color="warn"
+                    matTooltip="Delete this layout"
+                    (click)="deleteLayout(i)"
+                  >
+                    <mat-icon>remove_circle</mat-icon>
+                  </button>
+                </td>
+                <td>{{ layout.columnCount }}</td>
+                <td>{{ locationToString(layout.sample) }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </mat-tab>
+
+        <mat-tab label="layout" *ngIf="editedLayout">
+          <itinera-ms-layout
+            [model]="editedLayout"
+            [countEntries]="countEntries"
+            [dimEntries]="dimEntries"
+            [rulingEntries]="rulingEntries"
+            [unitEntries]="unitEntries"
+            (modelChange)="onLayoutSave($event)"
+            (editorClose)="onLayoutClose()"
+          >
+          </itinera-ms-layout>
+        </mat-tab>
+      </mat-tab-group>
+    </mat-card-content>
+    <mat-card-actions>
+      <cadmus-close-save-buttons
+        [form]="form"
+        [noSave]="userLevel < 2"
+        (closeRequest)="close()"
+      ></cadmus-close-save-buttons>
+    </mat-card-actions>
+  </mat-card>
+</form>

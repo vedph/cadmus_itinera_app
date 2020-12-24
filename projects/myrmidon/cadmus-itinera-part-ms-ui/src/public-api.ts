@@ -26,8 +26,9 @@ export * from './lib/ms-decorations-part/ms-decorations-part.component';
 export * from './lib/ms-decoration/ms-decoration.component';
 export * from './lib/ms-decoration-artist/ms-decoration-artist.component';
 
-export * from './lib/ms-dimensions-part';
-export * from './lib/ms-dimensions-part/ms-dimensions-part.component';
+export * from './lib/ms-layouts-part';
+export * from './lib/ms-layout/ms-layout.component';
+export * from './lib/ms-layouts-part/ms-layouts-part.component';
 
 export * from './lib/ms-hands-part';
 export * from './lib/ms-hand-sign/ms-hand-sign.component';

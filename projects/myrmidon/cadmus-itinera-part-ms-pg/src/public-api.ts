@@ -8,7 +8,7 @@ export * from './lib/ms-composition-part-feature/ms-composition-part-feature.com
 export * from './lib/ms-content-loci-part-feature/ms-content-loci-part-feature.component';
 export * from './lib/ms-contents-part-feature/ms-contents-part-feature.component';
 export * from './lib/ms-decorations-part-feature/ms-decorations-part-feature.component';
-export * from './lib/ms-dimensions-part-feature/ms-dimensions-part-feature.component';
+export * from './lib/ms-layouts-part-feature/ms-layouts-part-feature.component';
 export * from './lib/ms-hands-part-feature/ms-hands-part-feature.component';
 export * from './lib/ms-material-dsc-part-feature/ms-material-dsc-part-feature.component';
 export * from './lib/ms-numberings-part-feature/ms-numberings-part-feature.component';

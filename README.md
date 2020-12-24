@@ -107,7 +107,7 @@ This list is built by inspecting the head comments of each part editor component
   - physical-size-tags
   - physical-dimension-tags
   - physical-size-units\*
-- MsDimensionsPart:
+- MsLayoutsPart:
   - ms-dimensions
   - ms-counts
   - physical-size-units\*

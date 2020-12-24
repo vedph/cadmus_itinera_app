@@ -1,0 +1,204 @@
+<form [formGroup]="form" (submit)="save()">
+  <div>
+    <!-- sample -->
+    <mat-form-field style="width: 6em">
+      <input matInput [formControl]="sample" placeholder="sample" />
+      <mat-error
+        *ngIf="sample.errors?.required && (sample.dirty || sample.touched)"
+        >sample required</mat-error
+      >
+      <mat-error *ngIf="sample.errors?.pattern">invalid sample</mat-error>
+    </mat-form-field>
+
+    &nbsp;
+    <!-- colCount -->
+    <mat-form-field>
+      <input
+        matInput
+        [formControl]="colCount"
+        placeholder="cols"
+        type="number"
+        min="0"
+        max="20"
+      />
+      <mat-error
+        *ngIf="
+          colCount.errors?.required && (colCount.dirty || colCount.touched)
+        "
+        >required</mat-error
+      >
+    </mat-form-field>
+
+    &nbsp;
+    <!-- ruling (bound) -->
+    <mat-form-field *ngIf="rulingEntries?.length" style="width: 8em">
+      <mat-select [formControl]="ruling" placeholder="ruling">
+        <mat-option *ngFor="let e of rulingEntries" [value]="e.id">{{
+          e.value
+        }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- ruling (free) -->
+    <mat-form-field *ngIf="!rulingEntries?.length" style="width: 8em">
+      <input matInput [formControl]="ruling" placeholder="ruling" />
+      <mat-error
+        *ngIf="ruling.errors?.maxLength && (ruling.dirty || ruling.touched)"
+        >too long</mat-error
+      >
+    </mat-form-field>
+  </div>
+
+  <div>
+    <h3>dimensions</h3>
+    <div formArrayName="dimensions">
+      <div>
+        <button
+          type="button"
+          mat-icon-button
+          color="primary"
+          (click)="addDimension()"
+        >
+          <mat-icon>add_circle</mat-icon>
+          add dimension
+        </button>
+      </div>
+      <div
+        *ngFor="
+          let item of dimensions.controls;
+          let i = index;
+          let first = first;
+          let last = last
+        "
+      >
+        <!-- child form -->
+        <div [formGroupName]="i">
+          <!-- child actions -->
+          {{ i + 1 }}.
+          <button
+            mat-icon-button
+            type="button"
+            matTooltip="Remove this item"
+            color="warn"
+            (click)="removeDimension(i)"
+          >
+            <mat-icon>remove_circle</mat-icon>
+          </button>
+          <button
+            [disabled]="first"
+            mat-icon-button
+            type="button"
+            matTooltip="Move dimension up"
+            (click)="moveDimensionUp(i)"
+          >
+            <mat-icon>arrow_upward</mat-icon>
+          </button>
+          <button
+            [disabled]="last"
+            mat-icon-button
+            type="button"
+            matTooltip="Move dimension down"
+            (click)="moveDimensionDown(i)"
+          >
+            <mat-icon>arrow_downward</mat-icon>
+          </button>
+
+          <!-- child controls -->
+          <!-- tag (bound) -->
+          <mat-form-field style="width: 6em" *ngIf="dimEntries?.length">
+            <mat-select formControlName="tag" placeholder="ID">
+              <mat-option *ngFor="let e of dimEntries" [value]="e.id">{{
+                e.value
+              }}</mat-option>
+            </mat-select>
+            <mat-error
+              *ngIf="
+                item['controls'].tag.errors?.required &&
+                (item['controls'].tag.dirty || item['controls'].tag.touched)
+              "
+              >ID required</mat-error
+            >
+          </mat-form-field>
+
+          <!-- tag (free) -->
+          <mat-form-field style="width: 6em" *ngIf="!dimEntries?.length">
+            <input matInput formControlName="tag" placeholder="ID" />
+            <mat-error
+              *ngIf="
+                item['controls'].tag.errors?.required &&
+                (item['controls'].tag.dirty || item['controls'].tag.touched)
+              "
+              >tag required</mat-error
+            >
+            <mat-error
+              *ngIf="
+                item['controls'].tag.errors?.maxLength &&
+                (item['controls'].tag.dirty || item['controls'].tag.touched)
+              "
+              >tag too long</mat-error
+            >
+          </mat-form-field>
+          &nbsp;
+
+          <!-- value -->
+          <mat-form-field style="width: 5em">
+            <input
+              matInput
+              type="number"
+              min="0"
+              formControlName="value"
+              placeholder="value"
+            />
+          </mat-form-field>
+          &nbsp;
+          <!-- unit (bound) -->
+          <mat-form-field style="width: 6em">
+            <mat-select formControlName="unit" placeholder="unit">
+              <mat-option *ngFor="let e of unitEntries" [value]="e.id">{{
+                e.value
+              }}</mat-option>
+            </mat-select>
+            <mat-error
+              *ngIf="
+                item['controls'].unit.errors?.required &&
+                (item['controls'].unit.dirty || item['controls'].unit.touched)
+              "
+              >unit required</mat-error
+            >
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <h3>counts</h3>
+    <itinera-decorated-counts
+      [idEntries]="countEntries"
+      [model$]="counts$"
+      (modelChange)="onCountsChanged($event)"
+    ></itinera-decorated-counts>
+  </div>
+
+  <!-- buttons -->
+  <div>
+    <button
+      type="button"
+      color="warn"
+      mat-icon-button
+      matTooltip="Discard layout changes"
+      (click)="cancel()"
+    >
+      <mat-icon>clear</mat-icon>
+    </button>
+    <button
+      type="submit"
+      color="primary"
+      mat-icon-button
+      matTooltip="Accept layout changes"
+      [disabled]="form.invalid || form.pristine"
+    >
+      <mat-icon>check_circle</mat-icon>
+    </button>
+  </div>
+</form>

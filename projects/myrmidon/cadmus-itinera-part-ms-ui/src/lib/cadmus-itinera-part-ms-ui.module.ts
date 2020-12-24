@@ -19,7 +19,7 @@ import { MsContentLocusComponent } from './ms-content-locus/ms-content-locus.com
 import { MsDecorationComponent } from './ms-decoration/ms-decoration.component';
 import { MsDecorationArtistComponent } from './ms-decoration-artist/ms-decoration-artist.component';
 import { MsDecorationsPartComponent } from './ms-decorations-part/ms-decorations-part.component';
-import { MsDimensionsPartComponent } from './ms-dimensions-part/ms-dimensions-part.component';
+import { MsLayoutsPartComponent } from './ms-layouts-part/ms-layouts-part.component';
 import { MsGuardSheetComponent } from './ms-guard-sheet/ms-guard-sheet.component';
 import { MsHandComponent } from './ms-hand/ms-hand.component';
 import { MsHandsPartComponent } from './ms-hands-part/ms-hands-part.component';
@@ -38,6 +38,7 @@ import { MsSignaturesPartComponent } from './ms-signatures-part/ms-signatures-pa
 import { MsWatermarkComponent } from './ms-watermark/ms-watermark.component';
 import { MsWatermarksPartComponent } from './ms-watermarks-part/ms-watermarks-part.component';
 import { PersonHandPartComponent } from './person-hand-part/person-hand-part.component';
+import { MsLayoutComponent } from './ms-layout/ms-layout.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,7 @@ import { PersonHandPartComponent } from './person-hand-part/person-hand-part.com
     MsDecorationArtistComponent,
     MsDecorationComponent,
     MsDecorationsPartComponent,
-    MsDimensionsPartComponent,
+    MsLayoutsPartComponent,
     MsGuardSheetComponent,
     MsHandComponent,
     MsHandsPartComponent,
@@ -70,7 +71,8 @@ import { PersonHandPartComponent } from './person-hand-part/person-hand-part.com
     MsSignaturesPartComponent,
     MsWatermarkComponent,
     MsWatermarksPartComponent,
-    PersonHandPartComponent
+    PersonHandPartComponent,
+    MsLayoutComponent
   ],
   imports: [
     CommonModule,
@@ -96,7 +98,7 @@ import { PersonHandPartComponent } from './person-hand-part/person-hand-part.com
     MsDecorationArtistComponent,
     MsDecorationComponent,
     MsDecorationsPartComponent,
-    MsDimensionsPartComponent,
+    MsLayoutsPartComponent,
     MsGuardSheetComponent,
     MsHandComponent,
     MsHandsPartComponent,

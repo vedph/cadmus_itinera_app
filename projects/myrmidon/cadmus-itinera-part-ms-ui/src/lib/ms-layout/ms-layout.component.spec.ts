@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MsDimensionsPartComponent } from './ms-dimensions-part.component';
+import { MsLayoutComponent } from './ms-layout.component';
 
-describe('MsDimensionsPartComponent', () => {
-  let component: MsDimensionsPartComponent;
-  let fixture: ComponentFixture<MsDimensionsPartComponent>;
+describe('MsLayoutComponent', () => {
+  let component: MsLayoutComponent;
+  let fixture: ComponentFixture<MsLayoutComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MsDimensionsPartComponent ]
+      declarations: [ MsLayoutComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MsDimensionsPartComponent);
+    fixture = TestBed.createComponent(MsLayoutComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
