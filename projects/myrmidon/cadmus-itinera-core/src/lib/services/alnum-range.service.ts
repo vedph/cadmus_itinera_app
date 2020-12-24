@@ -7,10 +7,10 @@ import { Alnum } from './alnum';
 })
 export class AlnumRangeService {
   public static readonly rangeRegExp = new RegExp(
-    '([0-9]+[^-\\s,]*)(?:-([0-9]+[^-\\s,]*))?'
+    '([^-\\s,]+)(?:-([^-\\s,]+))?'
   );
   private static readonly _rangesRegExp = new RegExp(
-    '([0-9]+[^-\\s,]*)(?:-([0-9]+[^-\\s,]*))?',
+    '([^-\\s,]+)(?:-([^-\\s,]+))?',
     'g'
   );
 

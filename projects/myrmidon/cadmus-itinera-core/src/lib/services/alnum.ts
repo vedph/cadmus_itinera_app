@@ -1,14 +1,12 @@
 /**
- * A number with an optional alphanumeric tail.
- * Such alphanumeric is either a number (a string with only digits),
- * or at least 1 digit followed by any combination of digit or non-digit
- * characters. These alphanumerics are sorted according to the following
- * criteria:
+ * A number with an optional alphanumeric tail, or just a string.
+ * These alphanumerics are sorted according to the following criteria:
  * - an alphanumeric with only digits (e.g. `12`) is sorted by its numeric
  * value.
  * - an alphanumeric with non-digit characters (e.g. `12a`, `12b1`, etc.)
  * is sorted first by its numeric value, and then alphabetically by
  * its string suffix.
+ * - an alphanumeric with no digits is sorted alphabetically.
  */
 export class Alnum {
   private static readonly _alnumRegExp = new RegExp('([0-9]+)([^-\\s]*)');
@@ -30,7 +28,14 @@ export class Alnum {
   }
 
   public toString(): string {
-    return this.a ? `${this.n}${this.a}` : this.n.toString();
+    const sb: string[] = [];
+    if (this.n) {
+      sb.push(this.n.toString());
+    }
+    if (this.a) {
+      sb.push(this.a);
+    }
+    return sb.join('');
   }
 
   /**

@@ -25,7 +25,7 @@ describe('MsQuiresService', () => {
     expect(quire.sheetDelta).toBe(0);
     expect(quire.note).toBeFalsy();
   });
-  // *1^4
+  // [tag]1^4
   it('parseQuire should parse "[tag]1^4"', () => {
     const quire = service.parseQuire('[tag]1^4');
     expect(quire).toBeTruthy();

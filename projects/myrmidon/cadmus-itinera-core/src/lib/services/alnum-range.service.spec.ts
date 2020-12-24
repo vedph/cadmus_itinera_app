@@ -40,6 +40,12 @@ describe('AlnumRangeService', () => {
     expect(range.b).toBe('1a');
   });
 
+  it('parseRange("alpha") rets ab=alpha', () => {
+    const range = service.parseRange('alpha');
+    expect(range.a).toBe('alpha');
+    expect(range.b).toBe('alpha');
+  });
+
   it('parseRanges("1 2-5 7-8 10")', () => {
     const ranges = service.parseRanges('1 2-5 7-8 10');
     expect(ranges.length).toBe(4);
@@ -84,5 +90,25 @@ describe('AlnumRangeService', () => {
     expect(expanded[3]).toBe('4');
     expect(expanded[4]).toBe('5');
     expect(expanded[5]).toBe('8a');
+  });
+
+  it('parseRanges("1 2-5 alpha 7-8 9a")', () => {
+    const ranges = service.parseRanges('1 2-5 alpha 7-8 9a');
+    expect(ranges.length).toBe(5);
+
+    expect(ranges[0].a).toBe('1');
+    expect(ranges[0].b).toBe('1');
+
+    expect(ranges[1].a).toBe('2');
+    expect(ranges[1].b).toBe('5');
+
+    expect(ranges[2].a).toBe('alpha');
+    expect(ranges[2].b).toBe('alpha');
+
+    expect(ranges[3].a).toBe('7');
+    expect(ranges[3].b).toBe('8');
+
+    expect(ranges[4].a).toBe('9a');
+    expect(ranges[4].b).toBe('9a');
   });
 });
