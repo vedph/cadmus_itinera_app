@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MarkdownModule } from 'ngx-markdown';
 import { CadmusMaterialModule } from '@myrmidon/cadmus-material';
-import { ExternalIdsComponent } from './components/external-ids/external-ids.component';
 import { PersonNameComponent } from './components/person-name/person-name.component';
 import { DecoratedIdsComponent } from './components/decorated-ids/decorated-ids.component';
 import { DecoratedCountsComponent } from './components/decorated-counts/decorated-counts.component';
@@ -18,7 +17,6 @@ import { NoteSetComponent } from './components/note-set/note-set.component';
     CitedPersonComponent,
     DecoratedCountsComponent,
     DecoratedIdsComponent,
-    ExternalIdsComponent,
     NoteSetComponent,
     PersonNameComponent,
   ],
@@ -35,7 +33,6 @@ import { NoteSetComponent } from './components/note-set/note-set.component';
     CitedPersonComponent,
     DecoratedCountsComponent,
     DecoratedIdsComponent,
-    ExternalIdsComponent,
     NoteSetComponent,
     PersonNameComponent,
   ],

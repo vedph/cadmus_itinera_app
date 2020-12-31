@@ -142,11 +142,11 @@
                 {{ externalIds$?.value.length || 0 }}
               </mat-panel-description>
             </mat-expansion-panel-header>
-            <itinera-external-ids
+            <cadmus-external-ids
               [model$]="externalIds$"
               (modelChange)="onExternalIdsChange($event)"
             >
-            </itinera-external-ids>
+            </cadmus-external-ids>
           </mat-expansion-panel>
         </mat-tab>
 

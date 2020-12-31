@@ -29,11 +29,11 @@
       </mat-tab>
 
       <mat-tab label="External IDs">
-        <itinera-external-ids
+        <cadmus-external-ids
           [model$]="externalIds$"
           (modelChange)="onExternalIdsChange($event)"
         >
-        </itinera-external-ids>
+        </cadmus-external-ids>
         <div *ngIf="lastExternalIds">
           <pre>{{ lastExternalIds | json }}</pre>
         </div>
