@@ -69,7 +69,7 @@ export class NoteSetComponent implements OnInit {
    * The set of notes with their definitions.
    */
   @Input()
-  public get set(): NoteSet {
+  public get set(): NoteSet | undefined {
     return this._set;
   }
   public set set(value: NoteSet | undefined) {
