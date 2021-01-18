@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { RomanNumber } from '@myrmidon/cadmus-core';
-import { MsLocation, MsLocationSides } from '../models';
+import { MsLocation } from '../models';
 
 /**
  * Service for parsing and stringifying a MsLocation.
@@ -10,29 +10,17 @@ import { MsLocation, MsLocationSides } from '../models';
 })
 export class MsLocationService {
   public static readonly locRegexp = new RegExp(
-    '^\\s*([0-9]+|[IVX]+)(r|v|rv)\\s*([0-9]+)?\\s*$'
+    '^\\s*([0-9]+|[IVX]+)([a-z]{0,2})\\s*([0-9]+)?\\s*$'
   );
   public static readonly locsRegexp = new RegExp(
-    '^(?:([0-9]+|[IVX]+)(r|v|rv)\\s*([0-9]+)?\\s*)*$'
+    '^(?:([0-9]+|[IVX]+)([a-z]{0,2})\\s*([0-9]+)?\\s*)*$'
   );
-
-  private parseSides(text: string): MsLocationSides {
-    switch (text) {
-      case 'r':
-        return MsLocationSides.Recto;
-      case 'v':
-        return MsLocationSides.Verso;
-      case 'rv':
-        return MsLocationSides.RectoAndVerso;
-      default:
-        return MsLocationSides.Undefined;
-    }
-  }
 
   /**
    * Parse the text representing a MsLocation, in the form
-   * nr + rv + optional whitespace + ln, like "36r 12",
-   * where nr can be either Arabic or Roman (uppercase).
+   * nr + 0-2 lowercase letters + optional whitespace + ln,
+   * like "36r 12", where nr can be either Arabic or Roman
+   * (uppercase).
    *
    * @param text The text to be parsed.
    * @returns The location, or null if invalid text.
@@ -62,7 +50,7 @@ export class MsLocationService {
     return {
       n,
       r,
-      s: this.parseSides(m[2]),
+      s: m[2] ? m[2] : undefined,
       l: m[3] ? +m[3] : 0,
     };
   }
@@ -72,7 +60,7 @@ export class MsLocationService {
    * with parseLocation.
    *
    * @param location The location. If null, null is returned.
-   * @returns String with form nr + rv + ln, like "36r12", "IIrv13", etc.
+   * @returns String with form nr + suffix + ln, like "36r12", "IIrv13", etc.
    */
   public locationToString(location: MsLocation | null): string | null {
     if (!location || location.n === null || location.n === undefined) {
@@ -85,11 +73,8 @@ export class MsLocationService {
       sb.push(location.n.toString());
     }
 
-    if (location.s & MsLocationSides.Recto) {
-      sb.push('r');
-    }
-    if (location.s & MsLocationSides.Verso) {
-      sb.push('v');
+    if (location.s) {
+      sb.push(location.s);
     }
 
     if (location.l) {
