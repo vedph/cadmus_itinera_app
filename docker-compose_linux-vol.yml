@@ -46,7 +46,7 @@ services:
       - cadmus-network
 
   cadmus-api:
-    image: vedph2020/cadmus_itinera_api:1.0.21
+    image: vedph2020/cadmus_itinera_api:1.0.22
     ports:
       # https://stackoverflow.com/questions/48669548/why-does-aspnet-core-start-on-port-80-from-within-docker
       - 54183:80
@@ -68,13 +68,13 @@ services:
       - SENDGRID__SENDEREMAIL=info@cadmus.com
       - SENDGRID__SENDERNAME=cadmus
       - SENDGRID__APIKEY=todo
-      - SERILOG__CONNECTIONSTRING=mongodb://cadmus-mongo:27017/cadmus-itinera-log
+      - SERILOG__CONNECTIONSTRING=mongodb://cadmus-mongo:27017/{0}-log
       - STOCKUSERS__0__PASSWORD=P4ss-W0rd!
     networks:
       - cadmus-network
 
   cadmus-web:
-    image: vedph2020/cadmus-itinera-app:1.0.20
+    image: vedph2020/cadmus-itinera-app:1.0.21
     ports:
       - 4200:80
     depends_on:
