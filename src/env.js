@@ -5,5 +5,4 @@
   // environment-dependent settings
   window.__env.apiUrl = 'http://localhost:54183/api/';
   window.__env.databaseId = 'cadmus-itinera';
-  window.__env.name = 'Itinera';
 }(this));

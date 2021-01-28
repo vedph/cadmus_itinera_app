@@ -12,7 +12,6 @@ export class HomeComponent {
   public logged: boolean;
 
   constructor(env: EnvService, authService: AuthService) {
-    this.title = env.name;
     this.logged = authService.currentUserValue !== null;
   }
 }
