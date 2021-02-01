@@ -44,11 +44,7 @@ import { SubEditorsDemoComponent } from './sub-editors-demo/sub-editors-demo.com
 // import { CadmusItineraPartMsUiModule } from 'projects/myrmidon/cadmus-itinera-part-ms-ui/src/public-api';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HomeComponent,
-    SubEditorsDemoComponent
-  ],
+  declarations: [AppComponent, HomeComponent, SubEditorsDemoComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -63,7 +59,9 @@ import { SubEditorsDemoComponent } from './sub-editors-demo/sub-editors-demo.com
         {
           path: 'login',
           loadChildren: () =>
-            import('@myrmidon/cadmus-login').then((module) => module.CadmusLoginModule),
+            import('@myrmidon/cadmus-login').then(
+              (module) => module.CadmusLoginModule
+            ),
         },
         {
           path: 'items',
@@ -115,6 +113,14 @@ import { SubEditorsDemoComponent } from './sub-editors-demo/sub-editors-demo.com
           canActivate: [AuthGuardService],
         },
         {
+          path: 'items/:iid/biblio',
+          loadChildren: () =>
+            import('@myrmidon/cadmus-part-biblio-pg').then(
+              (module) => module.CadmusPartBiblioPgModule
+            ),
+          canActivate: [AuthGuardService],
+        },
+        {
           path: 'thesauri',
           loadChildren: () =>
             import('@myrmidon/cadmus-thesaurus-list').then(
@@ -133,13 +139,17 @@ import { SubEditorsDemoComponent } from './sub-editors-demo/sub-editors-demo.com
         {
           path: 'admin',
           loadChildren: () =>
-            import('@myrmidon/cadmus-admin').then((module) => module.CadmusAdminModule),
+            import('@myrmidon/cadmus-admin').then(
+              (module) => module.CadmusAdminModule
+            ),
           canActivate: [AdminGuardService],
         },
         {
           path: 'user',
           loadChildren: () =>
-            import('@myrmidon/cadmus-user').then((module) => module.CadmusUserModule),
+            import('@myrmidon/cadmus-user').then(
+              (module) => module.CadmusUserModule
+            ),
           canActivate: [AuthGuardService],
         },
         {
@@ -160,10 +170,10 @@ import { SubEditorsDemoComponent } from './sub-editors-demo/sub-editors-demo.com
         { path: '**', component: HomeComponent },
       ],
       {
-    initialNavigation: 'enabled',
-    useHash: true,
-    relativeLinkResolution: 'legacy'
-}
+        initialNavigation: 'enabled',
+        useHash: true,
+        relativeLinkResolution: 'legacy',
+      }
     ),
     // flex
     FlexLayoutModule,

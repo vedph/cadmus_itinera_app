@@ -7,7 +7,6 @@ import {
   TOKEN_TEXT_PART_TYPEID,
   TILED_TEXT_PART_TYPEID,
   COMMENT_FRAGMENT_TYPEID,
-  BIBLIOGRAPHY_PART_TYPEID,
   CHRONOLOGY_FRAGMENT_TYPEID,
 } from '@myrmidon/cadmus-part-general-ui';
 import {
@@ -28,7 +27,7 @@ import {
   LETTER_INFO_PART_TYPEID,
   CORR_EXCHANGES_PART_TYPEID,
   CHRONOTOPICS_PART_TYPEID,
-  ATTACHMENTS_PART_TYPEID
+  ATTACHMENTS_PART_TYPEID,
 } from '@myrmidon/cadmus-itinera-part-lt-ui';
 import {
   MSCOMPOSITION_PART_TYPEID,
@@ -47,11 +46,13 @@ import {
   MSHANDS_PART_TYPEID,
   MSDECORATIONS_PART_TYPEID,
   MSHISTORY_PART_TYPEID,
-  PERSON_HAND_PART_TYPEID
+  PERSON_HAND_PART_TYPEID,
 } from '@myrmidon/cadmus-itinera-part-ms-ui';
+import { EXT_BIBLIOGRAPHY_PART_TYPEID } from '@myrmidon/cadmus-part-biblio-ui';
 
 const GENERAL = 'general';
 const PHILOLOGY = 'philology';
+const BIBLIO = 'biblio';
 const ITINERA_LT = 'itinera-lt';
 const ITINERA_MS = 'itinera-ms';
 const TOKEN_TEXT_LAYER_PART_TYPEID = 'it.vedph.token-text-layer';
@@ -64,8 +65,8 @@ const TILED_TEXT_LAYER_PART_TYPEID = 'it.vedph.tiled-text-layer';
  * with the mappings between fragment type IDs and their editor keys.
  */
 export const PART_EDITOR_KEYS: PartEditorKeys = {
-  [BIBLIOGRAPHY_PART_TYPEID]: {
-    part: GENERAL,
+  [EXT_BIBLIOGRAPHY_PART_TYPEID]: {
+    part: BIBLIO,
   },
   [CATEGORIES_PART_TYPEID]: {
     part: GENERAL,
@@ -120,7 +121,7 @@ export const PART_EDITOR_KEYS: PartEditorKeys = {
     part: ITINERA_LT,
   },
   [ATTACHMENTS_PART_TYPEID]: {
-    part: ITINERA_LT
+    part: ITINERA_LT,
   },
   [MSSIGNATURES_PART_TYPEID]: {
     part: ITINERA_MS,
