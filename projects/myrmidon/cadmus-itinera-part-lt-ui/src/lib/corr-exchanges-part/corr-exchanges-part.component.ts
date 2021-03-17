@@ -9,7 +9,7 @@ import {
   HistoricalDateModel,
   ThesaurusEntry,
 } from '@myrmidon/cadmus-core';
-import { CorrExchange } from '@myrmidon/cadmus-itinera-core';
+import { Chronotope, CorrExchange } from '@myrmidon/cadmus-itinera-core';
 import {
   CorrExchangesPart,
   CORR_EXCHANGES_PART_TYPEID,
@@ -18,7 +18,8 @@ import { take } from 'rxjs/operators';
 
 /**
  * Correspondent's exchanges part.
- * Thesauri: doc-reference-tags, epist-attachment-types (all optional).
+ * Thesauri: doc-reference-tags, chronotope-tags, epist-attachment-types
+ * (all optional).
  */
 @Component({
   selector: 'itinera-corr-exchanges-part',
@@ -33,8 +34,9 @@ export class CorrExchangesPartComponent
   public tabIndex: number;
   public editedExchange: CorrExchange;
 
-  public tagEntries: ThesaurusEntry[];
-  public typeEntries: ThesaurusEntry[];
+  public tagEntries: ThesaurusEntry[] | undefined;
+  public ctTagEntries: ThesaurusEntry[] | undefined;
+  public typeEntries: ThesaurusEntry[] | undefined;
 
   public exchanges: CorrExchange[];
 
@@ -79,14 +81,21 @@ export class CorrExchangesPartComponent
     if (this.thesauri && this.thesauri[key]) {
       this.tagEntries = this.thesauri[key].entries;
     } else {
-      this.tagEntries = null;
+      this.tagEntries = undefined;
+    }
+
+    key = 'chronotope-tags';
+    if (this.thesauri && this.thesauri[key]) {
+      this.ctTagEntries = this.thesauri[key].entries;
+    } else {
+      this.ctTagEntries = undefined;
     }
 
     key = 'epist-attachment-types';
     if (this.thesauri && this.thesauri[key]) {
       this.typeEntries = this.thesauri[key].entries;
     } else {
-      this.typeEntries = null;
+      this.typeEntries = undefined;
     }
   }
 
@@ -110,10 +119,7 @@ export class CorrExchangesPartComponent
   }
 
   public addExchange(): void {
-    const exchange: CorrExchange = {
-      from: null,
-      to: null,
-    };
+    const exchange: CorrExchange = {};
     this.exchanges = [...this.exchanges, exchange];
     this.count.setValue(this.exchanges.length);
     this.count.markAsDirty();
@@ -185,7 +191,25 @@ export class CorrExchangesPartComponent
     this.form.markAsDirty();
   }
 
-  public dateToString(date: HistoricalDateModel | null): string {
-    return date ? new HistoricalDate(date).toString() : '';
+  public chronotopesToString(chronotopes: Chronotope[]): string {
+    if (!chronotopes?.length) {
+      return '';
+    }
+    const sb: string[] = [];
+
+    chronotopes.forEach((c, i) => {
+      if (i) {
+        sb.push('; ');
+      }
+      if (c.place) {
+        sb.push(c.place);
+        sb.push(', ');
+      }
+      if (c.date) {
+        sb.push(new HistoricalDate(c.date).toString());
+      }
+    });
+
+    return sb.join('');
   }
 }

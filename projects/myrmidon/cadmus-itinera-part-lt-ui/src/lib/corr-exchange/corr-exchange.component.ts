@@ -21,7 +21,7 @@ import {
   Chronotope,
   CorrExchange,
   DecoratedId,
-  EpistAttachment,
+  Attachment,
 } from '@myrmidon/cadmus-itinera-core';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
@@ -41,10 +41,15 @@ export class CorrExchangeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   // doc-reference-tags
   @Input()
-  public tagEntries: ThesaurusEntry[];
+  public tagEntries: ThesaurusEntry[] | undefined;
+
+  // chronotope-tags
+  @Input()
+  public ctTagEntries: ThesaurusEntry[] | undefined;
+
   // epist-attachment-types
   @Input()
-  public typeEntries: ThesaurusEntry[];
+  public typeEntries: ThesaurusEntry[] | undefined;
 
   @Output()
   public modelChange: EventEmitter<CorrExchange>;
@@ -61,8 +66,7 @@ export class CorrExchangeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public participants: DecoratedId[];
   public participants$: BehaviorSubject<DecoratedId[]>;
-  public from: Chronotope;
-  public to: Chronotope;
+  public chronotopes: Chronotope[] | undefined;
   public sources: DocReference[];
   public sources$: BehaviorSubject<DocReference[]>;
 
@@ -112,15 +116,13 @@ export class CorrExchangeComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!model) {
       this.participants$.next([]);
       this.sources$.next([]);
-      this.from = null;
-      this.to = null;
+      this.chronotopes = model.chronotopes;
       this.form.reset();
       return;
     }
     this.participants$.next(model.participants || []);
     this.sources$.next(model.sources || []);
-    this.from = model.from;
-    this.to = model.to;
+    this.chronotopes = model.chronotopes;
     this.dubious.setValue(model.isDubious);
     this.indirect.setValue(model.isIndirect);
     this.participant.setValue(model.isFromParticipant);
@@ -128,17 +130,7 @@ export class CorrExchangeComponent implements OnInit, AfterViewInit, OnDestroy {
     for (const a of model.attachments || []) {
       this.addAttachment(a);
     }
-    this.updateHasCt(model.from, model.to);
     this.form.markAsPristine();
-  }
-
-  private updateHasCt(from: Chronotope | null, to: Chronotope | null): void {
-    this.hasCt.setValue(
-      from?.date?.a?.value && from?.place && to?.date?.a?.value && to?.place
-        ? true
-        : false
-    );
-    this.form.markAsDirty();
   }
 
   private getModel(): CorrExchange {
@@ -146,8 +138,7 @@ export class CorrExchangeComponent implements OnInit, AfterViewInit, OnDestroy {
       isDubious: this.dubious.value,
       isIndirect: this.indirect.value,
       isFromParticipant: this.participant.value,
-      from: this.from,
-      to: this.to,
+      chronotopes: this.chronotopes?.length ? this.chronotopes : undefined,
       participants: this.participants?.length ? this.participants : undefined,
       sources: this.sources?.length ? this.sources : undefined,
     };
@@ -168,7 +159,7 @@ export class CorrExchangeComponent implements OnInit, AfterViewInit, OnDestroy {
     return model;
   }
 
-  private getAttachmentGroup(attachment?: EpistAttachment): FormGroup {
+  private getAttachmentGroup(attachment?: Attachment): FormGroup {
     return this._formBuilder.group({
       type: this._formBuilder.control(attachment?.type, [
         Validators.required,
@@ -189,7 +180,7 @@ export class CorrExchangeComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  public addAttachment(attachment?: EpistAttachment): void {
+  public addAttachment(attachment?: Attachment): void {
     this.attachments.push(this.getAttachmentGroup(attachment));
   }
 
@@ -225,14 +216,9 @@ export class CorrExchangeComponent implements OnInit, AfterViewInit, OnDestroy {
     this.sources = sources;
   }
 
-  public onFromChange(chronotope: Chronotope): void {
-    this.from = chronotope;
-    this.updateHasCt(chronotope, this.to);
-  }
-
-  public onToChange(chronotope: Chronotope): void {
-    this.to = chronotope;
-    this.updateHasCt(this.from, chronotope);
+  public onChronotopesChange(chronotopes: Chronotope[] | undefined): void {
+    this.chronotopes = chronotopes;
+    this.form.markAsDirty();
   }
 
   public cancel(): void {

@@ -19,8 +19,16 @@ import { BehaviorSubject } from 'rxjs';
   styleUrls: ['./chronotope.component.css'],
 })
 export class ChronotopeComponent implements OnInit {
+  private _chronotope: Chronotope | undefined;
+
   @Input()
-  public chronotope: Chronotope;
+  public get chronotope(): Chronotope | undefined {
+    return this._chronotope;
+  }
+  public set chronotope(value: Chronotope | undefined) {
+    this._chronotope = value;
+    this.updateForm(value);
+  }
 
   @Input()
   public tagEntries: ThesaurusEntry[];
@@ -54,10 +62,7 @@ export class ChronotopeComponent implements OnInit {
     // form
     this.sources$ = new BehaviorSubject<DocReference[]>([]);
     this.tag = formBuilder.control(null, Validators.maxLength(50));
-    this.place = formBuilder.control(null, [
-      Validators.required,
-      Validators.maxLength(50),
-    ]);
+    this.place = formBuilder.control(null, Validators.maxLength(50));
     this.textDate = formBuilder.control(null, Validators.maxLength(300));
     this.hasDate = formBuilder.control(false, Validators.requiredTrue);
     this.form = formBuilder.group({
@@ -69,7 +74,7 @@ export class ChronotopeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.updateForm(this.chronotope);
+    this.updateForm(this._chronotope);
   }
 
   public onSourcesChange(sources: DocReference[]): void {

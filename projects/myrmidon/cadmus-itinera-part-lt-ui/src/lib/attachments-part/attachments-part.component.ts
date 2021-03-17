@@ -19,7 +19,7 @@ import { deepCopy, ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { AttachmentsPart, ATTACHMENTS_PART_TYPEID } from '../attachments-part';
 import { Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-import { EpistAttachment } from '@myrmidon/cadmus-itinera-core';
+import { Attachment } from '@myrmidon/cadmus-itinera-core';
 
 /**
  * Attachments part editor.
@@ -123,7 +123,7 @@ export class AttachmentsPartComponent
     return part;
   }
 
-  private getAttachmentGroup(attachment?: EpistAttachment): FormGroup {
+  private getAttachmentGroup(attachment?: Attachment): FormGroup {
     return this._formBuilder.group({
       type: this._formBuilder.control(attachment?.type, [
         Validators.required,
@@ -144,7 +144,7 @@ export class AttachmentsPartComponent
     });
   }
 
-  public addAttachment(attachment?: EpistAttachment): void {
+  public addAttachment(attachment?: Attachment): void {
     this.attachments.push(this.getAttachmentGroup(attachment));
     this.form.markAsDirty();
   }

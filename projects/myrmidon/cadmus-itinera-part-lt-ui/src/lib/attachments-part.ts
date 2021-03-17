@@ -1,11 +1,11 @@
 import { Part } from '@myrmidon/cadmus-core';
-import { EpistAttachment } from '@myrmidon/cadmus-itinera-core';
+import { Attachment } from '@myrmidon/cadmus-itinera-core';
 
 /**
  * The Attachments part model.
  */
 export interface AttachmentsPart extends Part {
-  attachments: EpistAttachment[];
+  attachments: Attachment[];
 }
 
 /**

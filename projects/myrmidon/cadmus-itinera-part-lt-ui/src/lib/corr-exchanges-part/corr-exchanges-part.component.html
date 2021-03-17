@@ -24,9 +24,7 @@
               <tr>
                 <th></th>
                 <th>A/P</th>
-                <th>date</th>
-                <th>from</th>
-                <th>to</th>
+                <th>chronotopics</th>
               </tr>
             </thead>
             <tbody>
@@ -77,9 +75,7 @@
                   </button>
                 </td>
                 <td>{{ e.isFromParticipant ? "P" : "A" }}</td>
-                <td>{{ dateToString(e.from?.date) }}</td>
-                <td>{{ e.from?.place }}</td>
-                <td>{{ e.to?.place }}</td>
+                <td>{{ chronotopesToString(e.chronotopes) }}</td>
               </tr>
             </tbody>
           </table>

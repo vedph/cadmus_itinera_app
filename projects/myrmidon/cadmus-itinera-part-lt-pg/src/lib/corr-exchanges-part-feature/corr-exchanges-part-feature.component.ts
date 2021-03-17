@@ -39,6 +39,10 @@ export class CorrExchangesPartFeatureComponent
   }
 
   public ngOnInit(): void {
-    this.initEditor(['doc-reference-tags', 'epist-attachment-types']);
+    this.initEditor([
+      'doc-reference-tags',
+      'chronotope-tags',
+      'epist-attachment-types',
+    ]);
   }
 }

@@ -21,16 +21,11 @@
         >
       </mat-form-field>
     </ng-container>
-  </div>
+    &nbsp;
 
-  <!-- place -->
-  <div>
+    <!-- place -->
     <mat-form-field>
       <input matInput [formControl]="place" placeholder="place" />
-      <mat-error
-        *ngIf="place.hasError('required') && (place.dirty || place.touched)"
-        >place required</mat-error
-      >
       <mat-error
         *ngIf="place.hasError('max-length') && (place.dirty || place.touched)"
         >place too long</mat-error

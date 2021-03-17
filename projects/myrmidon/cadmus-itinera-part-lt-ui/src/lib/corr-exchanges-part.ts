@@ -83,222 +83,119 @@ export const CORR_EXCHANGES_PART_SCHEMA = {
               isFromParticipant: {
                 type: 'boolean',
               },
-              from: {
-                type: 'object',
-                required: ['place', 'date'],
-                properties: {
-                  tag: {
-                    type: 'string',
-                  },
-                  place: {
-                    type: 'string',
-                  },
-                  date: {
-                    type: 'object',
-                    required: ['a'],
-                    properties: {
-                      a: {
-                        type: 'object',
-                        required: ['value'],
-                        properties: {
-                          value: {
-                            type: 'integer',
-                          },
-                          isCentury: {
-                            type: 'boolean',
-                          },
-                          isSpan: {
-                            type: 'boolean',
-                          },
-                          isApproximate: {
-                            type: 'boolean',
-                          },
-                          isDubious: {
-                            type: 'boolean',
-                          },
-                          day: {
-                            type: 'integer',
-                          },
-                          month: {
-                            type: 'integer',
-                          },
-                          hint: {
-                            type: ['string', 'null'],
-                          },
+              chronotopes: {
+                type: 'array',
+                items: {
+                  anyOf: [
+                    {
+                      required: ['date'],
+                      properties: {
+                        tag: {
+                          type: 'string',
                         },
-                      },
-                      b: {
-                        type: 'object',
-                        required: ['value'],
-                        properties: {
-                          value: {
-                            type: 'integer',
-                          },
-                          isCentury: {
-                            type: 'boolean',
-                          },
-                          isSpan: {
-                            type: 'boolean',
-                          },
-                          isApproximate: {
-                            type: 'boolean',
-                          },
-                          isDubious: {
-                            type: 'boolean',
-                          },
-                          day: {
-                            type: 'integer',
-                          },
-                          month: {
-                            type: 'integer',
-                          },
-                          hint: {
-                            type: ['string', 'null'],
-                          },
+                        place: {
+                          type: 'string',
                         },
-                      },
-                    },
-                  },
-                  textDate: {
-                    type: 'string',
-                  },
-                  sources: {
-                    type: 'array',
-                    items: {
-                      anyOf: [
-                        {
+                        date: {
                           type: 'object',
-                          required: ['author', 'work'],
+                          required: ['a'],
                           properties: {
-                            tag: {
-                              type: 'string',
+                            a: {
+                              type: 'object',
+                              required: ['value'],
+                              properties: {
+                                value: {
+                                  type: 'integer',
+                                },
+                                isCentury: {
+                                  type: 'boolean',
+                                },
+                                isSpan: {
+                                  type: 'boolean',
+                                },
+                                isApproximate: {
+                                  type: 'boolean',
+                                },
+                                isDubious: {
+                                  type: 'boolean',
+                                },
+                                day: {
+                                  type: 'integer',
+                                },
+                                month: {
+                                  type: 'integer',
+                                },
+                                hint: {
+                                  type: ['string', 'null'],
+                                },
+                              },
                             },
-                            author: {
-                              type: 'string',
-                            },
-                            work: {
-                              type: 'string',
-                            },
-                            location: {
-                              type: 'string',
-                            },
-                            note: {
-                              type: 'string',
+                            b: {
+                              type: 'object',
+                              required: ['value'],
+                              properties: {
+                                value: {
+                                  type: 'integer',
+                                },
+                                isCentury: {
+                                  type: 'boolean',
+                                },
+                                isSpan: {
+                                  type: 'boolean',
+                                },
+                                isApproximate: {
+                                  type: 'boolean',
+                                },
+                                isDubious: {
+                                  type: 'boolean',
+                                },
+                                day: {
+                                  type: 'integer',
+                                },
+                                month: {
+                                  type: 'integer',
+                                },
+                                hint: {
+                                  type: ['string', 'null'],
+                                },
+                              },
                             },
                           },
                         },
-                      ],
-                    },
-                  },
-                },
-              },
-              to: {
-                type: 'object',
-                required: ['place', 'date'],
-                properties: {
-                  tag: {
-                    type: 'string',
-                  },
-                  place: {
-                    type: 'string',
-                  },
-                  date: {
-                    type: 'object',
-                    required: ['a'],
-                    properties: {
-                      a: {
-                        type: 'object',
-                        required: ['value'],
-                        properties: {
-                          value: {
-                            type: 'integer',
-                          },
-                          isCentury: {
-                            type: 'boolean',
-                          },
-                          isSpan: {
-                            type: 'boolean',
-                          },
-                          isApproximate: {
-                            type: 'boolean',
-                          },
-                          isDubious: {
-                            type: 'boolean',
-                          },
-                          day: {
-                            type: 'integer',
-                          },
-                          month: {
-                            type: 'integer',
-                          },
-                          hint: {
-                            type: ['string', 'null'],
-                          },
+                        textDate: {
+                          type: 'string',
                         },
-                      },
-                      b: {
-                        type: 'object',
-                        required: ['value'],
-                        properties: {
-                          value: {
-                            type: 'integer',
-                          },
-                          isCentury: {
-                            type: 'boolean',
-                          },
-                          isSpan: {
-                            type: 'boolean',
-                          },
-                          isApproximate: {
-                            type: 'boolean',
-                          },
-                          isDubious: {
-                            type: 'boolean',
-                          },
-                          day: {
-                            type: 'integer',
-                          },
-                          month: {
-                            type: 'integer',
-                          },
-                          hint: {
-                            type: ['string', 'null'],
+                        sources: {
+                          type: 'array',
+                          items: {
+                            anyOf: [
+                              {
+                                type: 'object',
+                                required: ['author', 'work'],
+                                properties: {
+                                  tag: {
+                                    type: 'string',
+                                  },
+                                  author: {
+                                    type: 'string',
+                                  },
+                                  work: {
+                                    type: 'string',
+                                  },
+                                  location: {
+                                    type: 'string',
+                                  },
+                                  note: {
+                                    type: 'string',
+                                  },
+                                },
+                              },
+                            ],
                           },
                         },
                       },
                     },
-                  },
-                  textDate: {
-                    type: 'string',
-                  },
-                  sources: {
-                    type: 'array',
-                    items: {
-                      anyOf: [
-                        {
-                          type: 'object',
-                          required: ['author', 'work'],
-                          properties: {
-                            tag: {
-                              type: 'string',
-                            },
-                            author: {
-                              type: 'string',
-                            },
-                            work: {
-                              type: 'string',
-                            },
-                            location: {
-                              type: 'string',
-                            },
-                            note: {
-                              type: 'string',
-                            },
-                          },
-                        },
-                      ],
-                    },
-                  },
+                  ],
                 },
               },
               participants: {

@@ -1,0 +1,70 @@
+<div>
+  <table *ngIf="chronotopes?.length">
+    <thead>
+      <tr>
+        <th></th>
+        <th>chronotope</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="
+          let c of chronotopes;
+          let i = index;
+          let first = first;
+          let last = last
+        "
+      >
+        <td>
+          <button
+            type="button"
+            mat-icon-button
+            color="primary"
+            matTooltip="Edit this chronotope"
+            (click)="editChronotope(i)"
+          >
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button
+            type="button"
+            mat-icon-button
+            matTooltip="Move this chronotope up"
+            [disabled]="first"
+            (click)="moveChronotopeUp(i)"
+          >
+            <mat-icon>arrow_upward</mat-icon>
+          </button>
+          <button
+            type="button"
+            mat-icon-button
+            matTooltip="Move this chronotope down"
+            [disabled]="last"
+            (click)="moveChronotopeDown(i)"
+          >
+            <mat-icon>arrow_downward</mat-icon>
+          </button>
+          <button
+            type="button"
+            mat-icon-button
+            color="warn"
+            matTooltip="Delete this chronotope"
+            (click)="deleteChronotope(i)"
+          >
+            <mat-icon>remove_circle</mat-icon>
+          </button>
+        </td>
+        <td>{{ chronotopeToString(c) }}</td>
+      </tr>
+    </tbody>
+  </table>
+  <mat-expansion-panel [expanded]="editedChronotope" [disabled]="!editedChronotope">
+    <mat-expansion-panel-header>Chronotope</mat-expansion-panel-header>
+    <itinera-chronotope
+      [chronotope]="editedChronotope"
+      [tagEntries]="tagEntries"
+      [docRefTagEntries]="docRefTagEntries"
+      (chronotopeChange)="onChronotopeSave($event)"
+      (editorClose)="onChronotopeClose()"
+    ></itinera-chronotope>
+  </mat-expansion-panel>
+</div>

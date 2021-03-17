@@ -111,7 +111,7 @@ export interface CorrPseudonym {
 /**
  * An attachment in a letters exchange.
  */
-export interface EpistAttachment {
+export interface Attachment {
   type: string;
   name: string;
   portion?: string;
@@ -125,11 +125,10 @@ export interface CorrExchange {
   isDubious?: boolean;
   isIndirect?: boolean;
   isFromParticipant?: boolean;
-  from: Chronotope;
-  to: Chronotope;
+  chronotopes?: Chronotope[];
   participants?: DecoratedId[];
   sources?: DocReference[];
-  attachments?: EpistAttachment[];
+  attachments?: Attachment[];
 }
 
 /**

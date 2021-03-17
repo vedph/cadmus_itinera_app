@@ -25,22 +25,13 @@
       ></itinera-decorated-ids>
     </mat-tab>
 
-    <mat-tab label="from">
-      <!-- from -->
-      <itinera-chronotope
-        [chronotope]="from"
-        [tagEntries]="tagEntries"
-        (chronotopeChange)="onFromChange($event)"
-      ></itinera-chronotope>
-    </mat-tab>
-
-    <mat-tab label="to">
-      <!-- to -->
-      <itinera-chronotope
-        [chronotope]="to"
-        [tagEntries]="tagEntries"
-        (chronotopeChange)="onToChange($event)"
-      ></itinera-chronotope>
+    <mat-tab label="chronotopics">
+      <itinera-chronotopes
+        [chronotopes]="chronotopes"
+        [tagEntries]="ctTagEntries"
+        [docRefTagEntries]="tagEntries"
+        (chronotopesChange)="onChronotopesChange($event)"
+      ></itinera-chronotopes>
     </mat-tab>
 
     <mat-tab label="sources">

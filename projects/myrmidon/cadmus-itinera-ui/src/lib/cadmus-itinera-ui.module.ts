@@ -10,10 +10,12 @@ import { CitedPersonComponent } from './components/cited-person/cited-person.com
 import { ChronotopeComponent } from './components/chronotope/chronotope.component';
 import { CadmusUiModule } from '@myrmidon/cadmus-ui';
 import { NoteSetComponent } from './components/note-set/note-set.component';
+import { ChronotopesComponent } from './components/chronotopes/chronotopes.component';
 
 @NgModule({
   declarations: [
     ChronotopeComponent,
+    ChronotopesComponent,
     CitedPersonComponent,
     DecoratedCountsComponent,
     DecoratedIdsComponent,
@@ -30,6 +32,7 @@ import { NoteSetComponent } from './components/note-set/note-set.component';
   ],
   exports: [
     ChronotopeComponent,
+    ChronotopesComponent,
     CitedPersonComponent,
     DecoratedCountsComponent,
     DecoratedIdsComponent,
