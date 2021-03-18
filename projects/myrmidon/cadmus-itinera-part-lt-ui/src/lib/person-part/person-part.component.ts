@@ -1,15 +1,19 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { AuthService } from '@myrmidon/cadmus-api';
-import { deepCopy, HistoricalDateModel, ThesaurusEntry } from '@myrmidon/cadmus-core';
-import { PersonName } from '@myrmidon/cadmus-itinera-core';
+import {
+  deepCopy,
+  ThesaurusEntry,
+} from '@myrmidon/cadmus-core';
+import { Chronotope, PersonName } from '@myrmidon/cadmus-itinera-core';
 import { ModelEditorComponentBase, DialogService } from '@myrmidon/cadmus-ui';
 import { BehaviorSubject } from 'rxjs';
 import { PersonPart, PERSON_PART_TYPEID } from '../person-part';
 
 /**
  * Person part.
- * Thesauri (all optional): languages, person-name-types, person-name-tags.
+ * Thesauri (all optional): languages, doc-reference-tags,
+ * person-name-types, chronotope-tags, person-name-tags.
  */
 @Component({
   selector: 'itinera-person-part',
@@ -22,9 +26,16 @@ export class PersonPartComponent
   private _externalIds: string[];
 
   public nameIndex: number;
-  public langEntries: ThesaurusEntry[];
-  public tagEntries: ThesaurusEntry[];
-  public typeEntries: ThesaurusEntry[];
+  // languages
+  public langEntries: ThesaurusEntry[] | undefined;
+  // doc-reference-tags
+  public tagEntries: ThesaurusEntry[] | undefined;
+  // person-name-tags
+  public pnTagEntries: ThesaurusEntry[] | undefined;
+  // chronotope-tags
+  public ctTagEntries: ThesaurusEntry[] | undefined;
+  // person-name-types
+  public pnTypeEntries: ThesaurusEntry[] | undefined;
 
   @ViewChild('editorbio') bioEditor: any;
 
@@ -39,15 +50,11 @@ export class PersonPartComponent
   public personId: FormControl;
   public sex: FormControl;
   public nameCount: FormControl;
-
-  public birthPlace: FormControl;
-  public deathPlace: FormControl;
-
   public bio: FormControl;
 
+  public chronotopes: Chronotope[] | undefined;
+
   public externalIds$: BehaviorSubject<string[]>;
-  public birthDate: HistoricalDateModel;
-  public deathDate: HistoricalDateModel;
   public names$: BehaviorSubject<PersonName[]>;
   public name$: BehaviorSubject<PersonName>;
 
@@ -74,17 +81,12 @@ export class PersonPartComponent
     this.sex = formBuilder.control(null, Validators.maxLength(1));
     this.nameCount = formBuilder.control(0, Validators.min(1));
 
-    this.birthPlace = formBuilder.control(null, Validators.maxLength(50));
-    this.deathPlace = formBuilder.control(null, Validators.maxLength(50));
-
     this.bio = formBuilder.control(null, Validators.maxLength(6000));
     this.form = formBuilder.group({
       personId: this.personId,
       sex: this.sex,
       nameCount: this.nameCount,
-      birthPlace: this.birthPlace,
-      deathPlace: this.deathPlace,
-      bio: this.bio
+      bio: this.bio,
     });
   }
 
@@ -105,6 +107,7 @@ export class PersonPartComponent
 
   private updateForm(model: PersonPart): void {
     if (!model) {
+      this.chronotopes = undefined;
       this.form.reset();
       return;
     }
@@ -113,10 +116,8 @@ export class PersonPartComponent
     this.names$.next(model.names || []);
     this.nameCount.setValue(model.names?.length || 0);
     this.sex.setValue(model.sex);
-    this.birthDate = model.birthDate;
-    this.birthPlace.setValue(model.birthPlace);
-    this.deathDate = model.deathDate;
-    this.deathPlace.setValue(model.deathPlace);
+
+    this.chronotopes = model.chronotopes;
     this.bio.setValue(model.bio);
     this.form.markAsPristine();
   }
@@ -131,21 +132,35 @@ export class PersonPartComponent
     if (this.thesauri && this.thesauri[key]) {
       this.langEntries = this.thesauri[key].entries;
     } else {
-      this.langEntries = null;
+      this.langEntries = undefined;
     }
     // person-name-types
     key = 'person-name-types';
     if (this.thesauri && this.thesauri[key]) {
-      this.typeEntries = this.thesauri[key].entries;
+      this.pnTypeEntries = this.thesauri[key].entries;
     } else {
-      this.typeEntries = null;
+      this.pnTypeEntries = undefined;
     }
     // person-name-tags
     key = 'person-name-tags';
     if (this.thesauri && this.thesauri[key]) {
+      this.pnTagEntries = this.thesauri[key].entries;
+    } else {
+      this.pnTagEntries = undefined;
+    }
+    // chronotope-tags
+    key = 'chronotope-tags';
+    if (this.thesauri && this.thesauri[key]) {
+      this.ctTagEntries = this.thesauri[key].entries;
+    } else {
+      this.ctTagEntries = undefined;
+    }
+    // doc-reference-tags
+    key = 'doc-reference-tags';
+    if (this.thesauri && this.thesauri[key]) {
       this.tagEntries = this.thesauri[key].entries;
     } else {
-      this.tagEntries = null;
+      this.tagEntries = undefined;
     }
   }
 
@@ -169,10 +184,7 @@ export class PersonPartComponent
     part.externalIds = this._externalIds;
     part.names = this.names$.value || [];
     part.sex = this.sex.value;
-    part.birthDate = this.birthDate;
-    part.birthPlace = this.birthPlace.value?.trim() || null;
-    part.deathDate = this.deathDate;
-    part.deathPlace = this.deathPlace.value?.trim() || null;
+    part.chronotopes = this.chronotopes?.length ? this.chronotopes : undefined;
     part.bio = this.bio.value?.trim() || null;
     return part;
   }
@@ -255,6 +267,11 @@ export class PersonPartComponent
     const updated: PersonName[] = this.names$.value;
     updated.splice(this.nameIndex, 1, name);
     this.names$.next(updated);
+    this.form.markAsDirty();
+  }
+
+  public onChronotopesChange(chronotopes: Chronotope[] | undefined): void {
+    this.chronotopes = chronotopes;
     this.form.markAsDirty();
   }
 }

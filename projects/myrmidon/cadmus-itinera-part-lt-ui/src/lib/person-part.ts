@@ -1,5 +1,5 @@
-import { HistoricalDateModel, Part } from '@myrmidon/cadmus-core';
-import { PersonName } from '@myrmidon/cadmus-itinera-core';
+import { Part } from '@myrmidon/cadmus-core';
+import { Chronotope, PersonName } from '@myrmidon/cadmus-itinera-core';
 
 /**
  * The Person part model.
@@ -9,10 +9,7 @@ export interface PersonPart extends Part {
   externalIds?: string[];
   names: PersonName[];
   sex?: string;
-  birthDate?: HistoricalDateModel;
-  birthPlace?: string;
-  deathDate?: HistoricalDateModel;
-  deathPlace?: string;
+  chronotopes?: Chronotope[];
   bio?: string;
 }
 
@@ -88,187 +85,120 @@ export const PERSON_PART_SCHEMA = {
       $id: '#/properties/sex',
       type: 'string',
     },
-    birthDate: {
-      $id: '#/properties/birthDate',
-      type: 'object',
-      required: ['a'],
-      properties: {
-        a: {
-          $id: '#/properties/birthDate/properties/a',
-          type: 'object',
-          required: ['value'],
-          properties: {
-            value: {
-              $id: '#/properties/birthDate/properties/a/properties/value',
-              type: 'integer',
-            },
-            isCentury: {
-              $id: '#/properties/birthDate/properties/a/properties/isCentury',
-              type: 'boolean',
-            },
-            isSpan: {
-              $id: '#/properties/birthDate/properties/a/properties/isSpan',
-              type: 'boolean',
-            },
-            isApproximate: {
-              $id:
-                '#/properties/birthDate/properties/a/properties/isApproximate',
-              type: 'boolean',
-            },
-            isDubious: {
-              $id: '#/properties/birthDate/properties/a/properties/isDubious',
-              type: 'boolean',
-            },
-            day: {
-              $id: '#/properties/birthDate/properties/a/properties/day',
-              type: 'integer',
-            },
-            month: {
-              $id: '#/properties/birthDate/properties/a/properties/month',
-              type: 'integer',
-            },
-            hint: {
-              $id: '#/properties/birthDate/properties/a/properties/hint',
-              type: 'string',
+    chronotopes: {
+      type: 'array',
+      items: {
+        anyOf: [
+          {
+            required: ['date'],
+            properties: {
+              tag: {
+                type: 'string',
+              },
+              place: {
+                type: 'string',
+              },
+              date: {
+                type: 'object',
+                required: ['a'],
+                properties: {
+                  a: {
+                    type: 'object',
+                    required: ['value'],
+                    properties: {
+                      value: {
+                        type: 'integer',
+                      },
+                      isCentury: {
+                        type: 'boolean',
+                      },
+                      isSpan: {
+                        type: 'boolean',
+                      },
+                      isApproximate: {
+                        type: 'boolean',
+                      },
+                      isDubious: {
+                        type: 'boolean',
+                      },
+                      day: {
+                        type: 'integer',
+                      },
+                      month: {
+                        type: 'integer',
+                      },
+                      hint: {
+                        type: ['string', 'null'],
+                      },
+                    },
+                  },
+                  b: {
+                    type: 'object',
+                    required: ['value'],
+                    properties: {
+                      value: {
+                        type: 'integer',
+                      },
+                      isCentury: {
+                        type: 'boolean',
+                      },
+                      isSpan: {
+                        type: 'boolean',
+                      },
+                      isApproximate: {
+                        type: 'boolean',
+                      },
+                      isDubious: {
+                        type: 'boolean',
+                      },
+                      day: {
+                        type: 'integer',
+                      },
+                      month: {
+                        type: 'integer',
+                      },
+                      hint: {
+                        type: ['string', 'null'],
+                      },
+                    },
+                  },
+                },
+              },
+              textDate: {
+                type: 'string',
+              },
+              sources: {
+                type: 'array',
+                items: {
+                  anyOf: [
+                    {
+                      type: 'object',
+                      required: ['author', 'work'],
+                      properties: {
+                        tag: {
+                          type: 'string',
+                        },
+                        author: {
+                          type: 'string',
+                        },
+                        work: {
+                          type: 'string',
+                        },
+                        location: {
+                          type: 'string',
+                        },
+                        note: {
+                          type: 'string',
+                        },
+                      },
+                    },
+                  ],
+                },
+              },
             },
           },
-        },
-        b: {
-          $id: '#/properties/birthDate/properties/b',
-          type: 'object',
-          required: ['value'],
-          properties: {
-            value: {
-              $id: '#/properties/birthDate/properties/b/properties/value',
-              type: 'integer',
-            },
-            isCentury: {
-              $id: '#/properties/birthDate/properties/b/properties/isCentury',
-              type: 'boolean',
-            },
-            isSpan: {
-              $id: '#/properties/birthDate/properties/b/properties/isSpan',
-              type: 'boolean',
-            },
-            isApproximate: {
-              $id:
-                '#/properties/birthDate/properties/b/properties/isApproximate',
-              type: 'boolean',
-            },
-            isDubious: {
-              $id: '#/properties/birthDate/properties/b/properties/isDubious',
-              type: 'boolean',
-            },
-            day: {
-              $id: '#/properties/birthDate/properties/b/properties/day',
-              type: 'integer',
-            },
-            month: {
-              $id: '#/properties/birthDate/properties/b/properties/month',
-              type: 'integer',
-            },
-            hint: {
-              $id: '#/properties/birthDate/properties/b/properties/hint',
-              type: 'string',
-            },
-          },
-        },
+        ],
       },
-    },
-    birthPlace: {
-      $id: '#/properties/birthPlace',
-      type: 'string',
-    },
-    deathDate: {
-      $id: '#/properties/deathDate',
-      type: 'object',
-      required: ['a'],
-      properties: {
-        a: {
-          $id: '#/properties/deathDate/properties/a',
-          type: 'object',
-          required: ['value'],
-          properties: {
-            value: {
-              $id: '#/properties/deathDate/properties/a/properties/value',
-              type: 'integer',
-            },
-            isCentury: {
-              $id: '#/properties/deathDate/properties/a/properties/isCentury',
-              type: 'boolean',
-            },
-            isSpan: {
-              $id: '#/properties/deathDate/properties/a/properties/isSpan',
-              type: 'boolean',
-            },
-            isApproximate: {
-              $id:
-                '#/properties/deathDate/properties/a/properties/isApproximate',
-              type: 'boolean',
-            },
-            isDubious: {
-              $id: '#/properties/deathDate/properties/a/properties/isDubious',
-              type: 'boolean',
-            },
-            day: {
-              $id: '#/properties/deathDate/properties/a/properties/day',
-              type: 'integer',
-            },
-            month: {
-              $id: '#/properties/deathDate/properties/a/properties/month',
-              type: 'integer',
-            },
-            hint: {
-              $id: '#/properties/deathDate/properties/a/properties/hint',
-              type: 'string',
-            },
-          },
-        },
-        b: {
-          $id: '#/properties/deathDate/properties/b',
-          type: 'object',
-          required: ['value'],
-          properties: {
-            value: {
-              $id: '#/properties/deathDate/properties/b/properties/value',
-              type: 'integer',
-            },
-            isCentury: {
-              $id: '#/properties/deathDate/properties/b/properties/isCentury',
-              type: 'boolean',
-            },
-            isSpan: {
-              $id: '#/properties/deathDate/properties/b/properties/isSpan',
-              type: 'boolean',
-            },
-            isApproximate: {
-              $id:
-                '#/properties/deathDate/properties/b/properties/isApproximate',
-              type: 'boolean',
-            },
-            isDubious: {
-              $id: '#/properties/deathDate/properties/b/properties/isDubious',
-              type: 'boolean',
-            },
-            day: {
-              $id: '#/properties/deathDate/properties/b/properties/day',
-              type: 'integer',
-            },
-            month: {
-              $id: '#/properties/deathDate/properties/b/properties/month',
-              type: 'integer',
-            },
-            hint: {
-              $id: '#/properties/deathDate/properties/b/properties/hint',
-              type: 'string',
-            },
-          },
-        },
-      },
-    },
-    deathPlace: {
-      $id: '#/properties/deathPlace',
-      type: 'string',
     },
     bio: {
       $id: '#/properties/bio',

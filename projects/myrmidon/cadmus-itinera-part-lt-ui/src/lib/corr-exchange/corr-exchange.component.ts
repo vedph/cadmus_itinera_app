@@ -116,7 +116,7 @@ export class CorrExchangeComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!model) {
       this.participants$.next([]);
       this.sources$.next([]);
-      this.chronotopes = model.chronotopes;
+      this.chronotopes = undefined;
       this.form.reset();
       return;
     }

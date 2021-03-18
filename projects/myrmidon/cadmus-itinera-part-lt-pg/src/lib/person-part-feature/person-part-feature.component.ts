@@ -40,6 +40,12 @@ export class PersonPartFeatureComponent
   }
 
   ngOnInit(): void {
-    this.initEditor(['languages', 'person-name-types', 'person-name-tags']);
+    this.initEditor([
+      'languages',
+      'person-name-types',
+      'person-name-tags',
+      'chronotope-tags',
+      'doc-reference-tags'
+    ]);
   }
 }

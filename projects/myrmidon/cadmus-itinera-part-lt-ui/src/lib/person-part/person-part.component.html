@@ -126,8 +126,8 @@
             <itinera-person-name
               [model$]="name$"
               [langEntries]="langEntries"
-              [typeEntries]="typeEntries"
-              [tagEntries]="tagEntries"
+              [typeEntries]="pnTypeEntries"
+              [tagEntries]="pnTagEntries"
               (modelChange)="onNameChange($event)"
             >
             </itinera-person-name>
@@ -150,55 +150,21 @@
           </mat-expansion-panel>
         </mat-tab>
 
-        <!-- BIRTH TAB -->
-        <mat-tab label="birth">
-          <!-- birth place -->
-          <div>
-            <mat-form-field>
-              <input matInput [formControl]="birthPlace" placeholder="place" />
-              <mat-error
-                *ngIf="
-                  birthPlace.hasError('max-length') &&
-                  (birthPlace.dirty || birthPlace.touched)
-                "
-                >birth place too long</mat-error
-              >
-            </mat-form-field>
-          </div>
-
-          <!-- birth date -->
-          <cadmus-historical-date-editor
-            [(date)]="birthDate"
-          ></cadmus-historical-date-editor>
-        </mat-tab>
-
-        <!-- DEATH TAB -->
-        <mat-tab label="death">
-          <!-- death place -->
-          <div>
-            <mat-form-field>
-              <input matInput [formControl]="deathPlace" placeholder="place" />
-              <mat-error
-                *ngIf="
-                  deathPlace.hasError('max-length') &&
-                  (deathPlace.dirty || deathPlace.touched)
-                "
-                >death place too long</mat-error
-              >
-            </mat-form-field>
-          </div>
-
-          <!-- death date -->
-          <cadmus-historical-date-editor
-            [(date)]="deathDate"
-          ></cadmus-historical-date-editor>
+        <!-- CHRONOTOPES TAB -->
+        <mat-tab label="chronotopes">
+          <itinera-chronotopes
+            [chronotopes]="chronotopes"
+            [tagEntries]="ctTagEntries"
+            [docRefTagEntries]="tagEntries"
+            (chronotopesChange)="onChronotopesChange($event)"
+          ></itinera-chronotopes>
         </mat-tab>
 
         <!-- BIO TAB -->
         <mat-tab label="biography">
           <!-- bio -->
           <ngx-monaco-editor
-            style="width:95%"
+            style="width: 95%"
             #editorbio
             [options]="editorOptions"
             [formControl]="bio"

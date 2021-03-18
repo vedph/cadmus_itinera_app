@@ -6,7 +6,6 @@ import { AuthService } from '@myrmidon/cadmus-api';
 import {
   deepCopy,
   HistoricalDate,
-  HistoricalDateModel,
   ThesaurusEntry,
 } from '@myrmidon/cadmus-core';
 import { Chronotope, CorrExchange } from '@myrmidon/cadmus-itinera-core';
