@@ -200,6 +200,10 @@ export class CorrExchangesPartComponent
       if (i) {
         sb.push('; ');
       }
+      if (c.tag) {
+        sb.push(c.tag);
+        sb.push(': ');
+      }
       if (c.place) {
         sb.push(c.place);
         sb.push(', ');

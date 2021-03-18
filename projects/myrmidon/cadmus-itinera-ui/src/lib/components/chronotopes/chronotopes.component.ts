@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
   HistoricalDate,
-  HistoricalDateModel,
   ThesaurusEntry,
 } from '@myrmidon/cadmus-core';
 import { Chronotope } from '@myrmidon/cadmus-itinera-core';
@@ -135,6 +134,11 @@ export class ChronotopesComponent implements OnInit {
       return '';
     }
     const sb: string[] = [];
+
+    if (chronotope.tag) {
+      sb.push(chronotope.tag);
+      sb.push(': ');
+    }
 
     if (chronotope.place) {
       sb.push(chronotope.place);
