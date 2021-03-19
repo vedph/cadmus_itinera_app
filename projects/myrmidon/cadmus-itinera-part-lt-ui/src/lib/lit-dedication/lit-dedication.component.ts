@@ -6,7 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { HistoricalDateModel, ThesaurusEntry, DocReference } from '@myrmidon/cadmus-core';
-import { LitDedication } from '@myrmidon/cadmus-itinera-core';
+import { DecoratedId, LitDedication } from '@myrmidon/cadmus-itinera-core';
 import { BehaviorSubject } from 'rxjs';
 
 @Component({
@@ -30,13 +30,13 @@ export class LitDedicationComponent implements OnInit {
   public editorClose: EventEmitter<any>;
 
   public title: FormControl;
-  public byAuthor: FormControl;
   public hasDate: FormControl;
   public hasDateSent: FormControl;
   public form: FormGroup;
 
   public date: HistoricalDateModel;
   public dateSent: HistoricalDateModel;
+  public participants: DecoratedId[];
   public sources$: BehaviorSubject<DocReference[]>;
 
   constructor(formBuilder: FormBuilder) {
@@ -50,12 +50,11 @@ export class LitDedicationComponent implements OnInit {
       Validators.required,
       Validators.maxLength(100),
     ]);
-    this.byAuthor = formBuilder.control(false);
+    this.participants = [];
     this.hasDate = formBuilder.control(false);
     this.hasDateSent = formBuilder.control(false);
     this.form = formBuilder.group({
       title: this.title,
-      byAuthor: this.byAuthor,
       hasDate: this.hasDate,
       hasDateSent: this.hasDateSent,
     });
@@ -70,6 +69,7 @@ export class LitDedicationComponent implements OnInit {
       this.sources$.next([]);
       this.date = null;
       this.dateSent = null;
+      this.participants = [];
       this.form.reset();
       return;
     }
@@ -77,7 +77,7 @@ export class LitDedicationComponent implements OnInit {
     this.date = model.date;
     this.dateSent = model.dateSent;
     this.title.setValue(model.title);
-    this.byAuthor.setValue(model.isByAuthor ? true : false);
+    this.participants = model.participants || [];
     this.hasDate.setValue(model.date ? true : false);
     this.hasDateSent.setValue(model.dateSent ? true : false);
 
@@ -89,7 +89,7 @@ export class LitDedicationComponent implements OnInit {
       title: this.title.value?.trim(),
       date: this.hasDate.value ? this.date : undefined,
       dateSent: this.hasDateSent.value ? this.dateSent : undefined,
-      isByAuthor: this.byAuthor.value,
+      participants: this.participants?.length ? this.participants : undefined,
       sources: this._sources?.length ? this._sources : undefined,
     };
   }
@@ -106,6 +106,11 @@ export class LitDedicationComponent implements OnInit {
 
   public onSourcesChanged(sources: DocReference[]): void {
     this._sources = sources;
+    this.form.markAsDirty();
+  }
+
+  public onParticipantsChange(ids: DecoratedId[]): void {
+    this.participants = ids;
     this.form.markAsDirty();
   }
 

@@ -12,10 +12,14 @@
         >title too long</mat-error
       >
     </mat-form-field>
-
-    <!-- byAuth -->
-    &nbsp;
-    <mat-checkbox [formControl]="byAuthor">by author</mat-checkbox>
+  </div>
+  <div>
+    <p>participants</p>
+    <itinera-decorated-ids
+      [ids]="participants"
+      [tagEntries]="tagEntries"
+      (idsChange)="onParticipantsChange($event)"
+    ></itinera-decorated-ids>
   </div>
   <div>
     <!-- date -->

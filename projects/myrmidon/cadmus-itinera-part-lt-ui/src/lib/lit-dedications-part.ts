@@ -208,8 +208,55 @@ export const LIT_DEDICATIONS_PART_SCHEMA = {
                   },
                 },
               },
-              isByAuthor: {
-                type: 'boolean',
+              participants: {
+                type: 'array',
+                items: {
+                  anyOf: [
+                    {
+                      type: 'object',
+                      required: ['id'],
+                      properties: {
+                        id: {
+                          type: 'string',
+                        },
+                        rank: {
+                          type: 'integer',
+                        },
+                        tag: {
+                          type: 'string',
+                        },
+                        sources: {
+                          type: 'array',
+                          items: {
+                            anyOf: [
+                              {
+                                type: 'object',
+                                required: ['author', 'work'],
+                                properties: {
+                                  tag: {
+                                    type: 'string',
+                                  },
+                                  author: {
+                                    type: 'string',
+                                  },
+                                  work: {
+                                    type: 'string',
+                                  },
+                                  location: {
+                                    type: 'string',
+                                  },
+                                  note: {
+                                    type: 'string',
+                                  },
+                                },
+                              },
+                            ],
+                          },
+                        },
+                      },
+                    },
+                  ],
+                },
               },
               sources: {
                 type: 'array',

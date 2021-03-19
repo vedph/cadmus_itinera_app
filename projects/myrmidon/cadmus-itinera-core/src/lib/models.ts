@@ -94,7 +94,7 @@ export interface LitDedication {
   title: string;
   date?: HistoricalDateModel;
   dateSent?: HistoricalDateModel;
-  isByAuthor?: boolean;
+  participants?: DecoratedId[];
   sources?: DocReference[];
 }
 
