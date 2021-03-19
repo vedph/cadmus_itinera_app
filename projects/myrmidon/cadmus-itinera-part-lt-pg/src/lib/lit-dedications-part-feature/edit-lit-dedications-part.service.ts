@@ -3,12 +3,12 @@ import { Injectable } from '@angular/core';
 import { ItemService, ThesaurusService } from '@myrmidon/cadmus-api';
 import { EditPartServiceBase } from '@myrmidon/cadmus-state';
 
-import { EditCorrDedicationsPartStore } from './edit-corr-dedications-part.store';
+import { EditLitDedicationsPartStore } from './edit-lit-dedications-part.store';
 
 @Injectable({ providedIn: 'root' })
-export class EditCorrDedicationsPartService extends EditPartServiceBase {
+export class EditLitDedicationsPartService extends EditPartServiceBase {
   constructor(
-    editPartStore: EditCorrDedicationsPartStore,
+    editPartStore: EditLitDedicationsPartStore,
     itemService: ItemService,
     thesaurusService: ThesaurusService
   ) {

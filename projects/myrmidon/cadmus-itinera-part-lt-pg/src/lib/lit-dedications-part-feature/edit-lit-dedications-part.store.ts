@@ -7,11 +7,11 @@ import {
   editPartInitialState,
 } from '@myrmidon/cadmus-state';
 
-import { CORR_DEDICATIONS_PART_TYPEID } from '@myrmidon/cadmus-itinera-part-lt-ui';
+import { LIT_DEDICATIONS_PART_TYPEID } from '@myrmidon/cadmus-itinera-part-lt-ui';
 
 @Injectable({ providedIn: 'root' })
-@StoreConfig({ name: CORR_DEDICATIONS_PART_TYPEID })
-export class EditCorrDedicationsPartStore
+@StoreConfig({ name: LIT_DEDICATIONS_PART_TYPEID })
+export class EditLitDedicationsPartStore
   extends Store<EditPartState>
   implements EditPartStoreApi {
   constructor() {

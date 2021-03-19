@@ -11,8 +11,8 @@ export * from './lib/chronotopics-part/chronotopics-part.component';
 export * from './lib/cited-persons-part';
 export * from './lib/cited-persons-part/cited-persons-part.component';
 
-export * from './lib/corr-dedications-part';
-export * from './lib/corr-dedications-part/corr-dedications-part.component';
+export * from './lib/lit-dedications-part';
+export * from './lib/lit-dedications-part/lit-dedications-part.component';
 export * from './lib/lit-dedication/lit-dedication.component';
 
 export * from './lib/corr-exchanges-part';

@@ -6,11 +6,11 @@ import {
   CadmusItineraPartLtUiModule,
   CHRONOTOPICS_PART_TYPEID,
   CITED_PERSONS_PART_TYPEID,
-  CORR_DEDICATIONS_PART_TYPEID,
   CORR_EXCHANGES_PART_TYPEID,
   CORR_PSEUDONYMS_PART_TYPEID,
   DOC_REFERENCES_PART_TYPEID,
   LETTER_INFO_PART_TYPEID,
+  LIT_DEDICATIONS_PART_TYPEID,
   PERSON_EVENTS_PART_TYPEID,
   PERSON_PART_TYPEID,
   POETIC_TEXT_INFO_PART_TYPEID,
@@ -22,7 +22,7 @@ import { CadmusUiPgModule } from '@myrmidon/cadmus-ui-pg';
 import { PersonPartFeatureComponent } from './person-part-feature/person-part-feature.component';
 import { PersonEventsPartFeatureComponent } from './person-events-part-feature/person-events-part-feature.component';
 import { DocReferencesPartFeatureComponent } from './doc-references-part-feature/doc-references-part-feature.component';
-import { CorrDedicationsPartFeatureComponent } from './corr-dedications-part-feature/corr-dedications-part-feature.component';
+import { LitDedicationsPartFeatureComponent } from './lit-dedications-part-feature/lit-dedications-part-feature.component';
 import { CorrPseudonymsPartFeatureComponent } from './corr-pseudonyms-part-feature/corr-pseudonyms-part-feature.component';
 import { CitedPersonsPartFeatureComponent } from './cited-persons-part-feature/cited-persons-part-feature.component';
 import { PoeticTextInfoPartFeatureComponent } from './poetic-text-info-part-feature/poetic-text-info-part-feature.component';
@@ -52,9 +52,9 @@ export const RouterModuleForChild = RouterModule.forChild([
     canDeactivate: [PendingChangesGuard],
   },
   {
-    path: `${CORR_DEDICATIONS_PART_TYPEID}/:pid`,
+    path: `${LIT_DEDICATIONS_PART_TYPEID}/:pid`,
     pathMatch: 'full',
-    component: CorrDedicationsPartFeatureComponent,
+    component: LitDedicationsPartFeatureComponent,
     canDeactivate: [PendingChangesGuard],
   },
   {
@@ -106,7 +106,7 @@ export const RouterModuleForChild = RouterModule.forChild([
     AttachmentsPartFeatureComponent,
     ChronotopicsPartFeatureComponent,
     CitedPersonsPartFeatureComponent,
-    CorrDedicationsPartFeatureComponent,
+    LitDedicationsPartFeatureComponent,
     CorrExchangesPartFeatureComponent,
     CorrPseudonymsPartFeatureComponent,
     DocReferencesPartFeatureComponent,
@@ -130,7 +130,7 @@ export const RouterModuleForChild = RouterModule.forChild([
     AttachmentsPartFeatureComponent,
     ChronotopicsPartFeatureComponent,
     CitedPersonsPartFeatureComponent,
-    CorrDedicationsPartFeatureComponent,
+    LitDedicationsPartFeatureComponent,
     CorrExchangesPartFeatureComponent,
     CorrPseudonymsPartFeatureComponent,
     DocReferencesPartFeatureComponent,

@@ -6,24 +6,24 @@ import {
   EditPartFeatureBase,
 } from '@myrmidon/cadmus-state';
 
-import { EditCorrDedicationsPartService } from './edit-corr-dedications-part.service';
-import { EditCorrDedicationsPartQuery } from './edit-corr-dedications-part.query';
+import { EditLitDedicationsPartService } from './edit-lit-dedications-part.service';
+import { EditLitDedicationsPartQuery } from './edit-lit-dedications-part.query';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
-  selector: 'itinera-corr-dedications-part-feature',
-  templateUrl: './corr-dedications-part-feature.component.html',
-  styleUrls: ['./corr-dedications-part-feature.component.css'],
+  selector: 'itinera-lit-dedications-part-feature',
+  templateUrl: './lit-dedications-part-feature.component.html',
+  styleUrls: ['./lit-dedications-part-feature.component.css'],
 })
-export class CorrDedicationsPartFeatureComponent
+export class LitDedicationsPartFeatureComponent
   extends EditPartFeatureBase
   implements OnInit {
   constructor(
     router: Router,
     route: ActivatedRoute,
     snackbar: MatSnackBar,
-    editPartQuery: EditCorrDedicationsPartQuery,
-    editPartService: EditCorrDedicationsPartService,
+    editPartQuery: EditLitDedicationsPartQuery,
+    editPartService: EditLitDedicationsPartService,
     editItemQuery: EditItemQuery,
     editItemService: EditItemService
   ) {

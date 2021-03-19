@@ -51,8 +51,6 @@ This list is built by inspecting the head comments of each part editor component
   - languages
   - person-name-types
   - person-id-tags
-- CorrDedicationsPart:
-  - doc-reference-tags
 - CorrExchangesPart:
   - doc-reference-tags
   - epist-attachment-types
@@ -63,6 +61,8 @@ This list is built by inspecting the head comments of each part editor component
   - doc-reference-tags
 - LetterInfoPart:
   - languages
+  - doc-reference-tags
+- LitDedicationsPart:
   - doc-reference-tags
 - PersonEventsPart:
   - bio-event-types

@@ -11,7 +11,7 @@ import { PersonEventsPartComponent } from './person-events-part/person-events-pa
 import { BioEventComponent } from './bio-event/bio-event.component';
 import { DocReferencesPartComponent } from './doc-references-part/doc-references-part.component';
 import { LitDedicationComponent } from './lit-dedication/lit-dedication.component';
-import { CorrDedicationsPartComponent } from './corr-dedications-part/corr-dedications-part.component';
+import { LitDedicationsPartComponent } from './lit-dedications-part/lit-dedications-part.component';
 import { CorrPseudonymComponent } from './corr-pseudonym/corr-pseudonym.component';
 import { CorrPseudonymsPartComponent } from './corr-pseudonyms-part/corr-pseudonyms-part.component';
 import { CitedPersonsPartComponent } from './cited-persons-part/cited-persons-part.component';
@@ -28,13 +28,13 @@ import { AttachmentsPartComponent } from './attachments-part/attachments-part.co
     BioEventComponent,
     ChronotopicsPartComponent,
     CitedPersonsPartComponent,
-    CorrDedicationsPartComponent,
     CorrExchangeComponent,
     CorrExchangesPartComponent,
     CorrPseudonymComponent,
     CorrPseudonymsPartComponent,
     DocReferencesPartComponent,
     LetterInfoPartComponent,
+    LitDedicationsPartComponent,
     LitDedicationComponent,
     PersonPartComponent,
     PersonEventsPartComponent,
@@ -57,7 +57,7 @@ import { AttachmentsPartComponent } from './attachments-part/attachments-part.co
     BioEventComponent,
     ChronotopicsPartComponent,
     CitedPersonsPartComponent,
-    CorrDedicationsPartComponent,
+    LitDedicationsPartComponent,
     CorrExchangeComponent,
     CorrExchangesPartComponent,
     CorrPseudonymComponent,

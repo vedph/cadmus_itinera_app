@@ -10,23 +10,23 @@ import {
   ThesaurusEntry,
 } from '@myrmidon/cadmus-core';
 import {
-  CorrDedicationsPart,
-  CORR_DEDICATIONS_PART_TYPEID,
-} from '../corr-dedications-part';
-import { LitDedication } from '@myrmidon/cadmus-itinera-core';
+  LitDedicationsPart,
+  LIT_DEDICATIONS_PART_TYPEID,
+} from '../lit-dedications-part';
 import { take } from 'rxjs/operators';
+import { LitDedication } from '@myrmidon/cadmus-itinera-core';
 
 /**
  * Correspondent's dedications part editor.
  * Thesauri: doc-reference-tags (optional).
  */
 @Component({
-  selector: 'itinera-corr-dedications-part',
-  templateUrl: './corr-dedications-part.component.html',
-  styleUrls: ['./corr-dedications-part.component.css'],
+  selector: 'itinera-lit-dedications-part',
+  templateUrl: './lit-dedications-part.component.html',
+  styleUrls: ['./lit-dedications-part.component.css'],
 })
-export class CorrDedicationsPartComponent
-  extends ModelEditorComponentBase<CorrDedicationsPart>
+export class LitDedicationsPartComponent
+  extends ModelEditorComponentBase<LitDedicationsPart>
   implements OnInit {
   private _editedIndex: number;
 
@@ -59,7 +59,7 @@ export class CorrDedicationsPartComponent
     this.initEditor();
   }
 
-  private updateForm(model: CorrDedicationsPart): void {
+  private updateForm(model: LitDedicationsPart): void {
     if (!model) {
       this.form.reset();
       return;
@@ -69,7 +69,7 @@ export class CorrDedicationsPartComponent
     this.form.markAsPristine();
   }
 
-  protected onModelSet(model: CorrDedicationsPart): void {
+  protected onModelSet(model: LitDedicationsPart): void {
     this.updateForm(deepCopy(model));
   }
 
@@ -82,13 +82,13 @@ export class CorrDedicationsPartComponent
     }
   }
 
-  protected getModelFromForm(): CorrDedicationsPart {
+  protected getModelFromForm(): LitDedicationsPart {
     let part = deepCopy(this.model);
     if (!part) {
       part = {
         itemId: this.itemId,
         id: null,
-        typeId: CORR_DEDICATIONS_PART_TYPEID,
+        typeId: LIT_DEDICATIONS_PART_TYPEID,
         roleId: this.roleId,
         timeCreated: new Date(),
         creatorId: null,

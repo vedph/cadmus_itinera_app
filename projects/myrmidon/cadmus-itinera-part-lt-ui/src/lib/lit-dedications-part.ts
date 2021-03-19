@@ -4,27 +4,26 @@ import { LitDedication } from '@myrmidon/cadmus-itinera-core';
 /**
  * The correspondent's dedications part model.
  */
-export interface CorrDedicationsPart extends Part {
+export interface LitDedicationsPart extends Part {
   dedications: LitDedication[];
 }
 
 /**
- * The type ID used to identify the CorrDedicationsPart type.
+ * The type ID used to identify the LitDedicationsPart type.
  */
-export const CORR_DEDICATIONS_PART_TYPEID = 'it.vedph.itinera.corr-dedications';
+export const LIT_DEDICATIONS_PART_TYPEID = 'it.vedph.itinera.lit-dedications';
 
 /**
- * JSON schema for the CorrDedications part. This is used in the editor demo.
+ * JSON schema for the LitDedications part. This is used in the editor demo.
  * You can use the JSON schema tool at https://jsonschema.net/.
  */
-export const CORR_DEDICATIONS_PART_SCHEMA = {
+export const LIT_DEDICATIONS_PART_SCHEMA = {
   $schema: 'http://json-schema.org/draft-07/schema#',
   $id:
     'www.vedph.it/cadmus/parts/itinera/lt/' +
-    CORR_DEDICATIONS_PART_TYPEID +
+    LIT_DEDICATIONS_PART_TYPEID +
     '.json',
   type: 'object',
-  title: 'CorrDedicationsPart',
   required: [
     'id',
     'itemId',
