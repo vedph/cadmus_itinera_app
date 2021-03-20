@@ -21,9 +21,11 @@ import { CorrExchangeComponent } from './corr-exchange/corr-exchange.component';
 import { CorrExchangesPartComponent } from './corr-exchanges-part/corr-exchanges-part.component';
 import { ChronotopicsPartComponent } from './chronotopics-part/chronotopics-part.component';
 import { AttachmentsPartComponent } from './attachments-part/attachments-part.component';
+import { AttachmentComponent } from './attachment/attachment.component';
 
 @NgModule({
   declarations: [
+    AttachmentComponent,
     AttachmentsPartComponent,
     BioEventComponent,
     ChronotopicsPartComponent,
@@ -53,6 +55,7 @@ import { AttachmentsPartComponent } from './attachments-part/attachments-part.co
     CadmusItineraUiModule
   ],
   exports: [
+    AttachmentComponent,
     AttachmentsPartComponent,
     BioEventComponent,
     ChronotopicsPartComponent,

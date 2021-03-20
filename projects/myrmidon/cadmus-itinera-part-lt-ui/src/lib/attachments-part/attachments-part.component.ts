@@ -6,12 +6,7 @@ import {
   QueryList,
   ViewChildren,
 } from '@angular/core';
-import {
-  FormBuilder,
-  Validators,
-  FormArray,
-  FormGroup,
-} from '@angular/forms';
+import { FormBuilder, Validators, FormControl } from '@angular/forms';
 import { ModelEditorComponentBase } from '@myrmidon/cadmus-ui';
 import { AuthService } from '@myrmidon/cadmus-api';
 import { deepCopy, ThesaurusEntry } from '@myrmidon/cadmus-core';
@@ -20,6 +15,7 @@ import { AttachmentsPart, ATTACHMENTS_PART_TYPEID } from '../attachments-part';
 import { Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { Attachment } from '@myrmidon/cadmus-itinera-core';
+import { moveItemInArray } from '@angular/cdk/drag-drop';
 
 /**
  * Attachments part editor.
@@ -37,17 +33,21 @@ export class AttachmentsPartComponent
 
   @ViewChildren('name') nameQueryList: QueryList<any>;
 
-  public attachments: FormArray;
+  public attachments: Attachment[];
+  public count: FormControl;
 
   // epist-attachment-types
   public typeEntries: ThesaurusEntry[];
 
-  constructor(authService: AuthService, private _formBuilder: FormBuilder) {
+  public editedAttachment: Attachment | undefined;
+
+  constructor(authService: AuthService, formBuilder: FormBuilder) {
     super(authService);
     // form
-    this.attachments = _formBuilder.array([], Validators.required);
-    this.form = _formBuilder.group({
-      attachments: this.attachments,
+    this.attachments = [];
+    this.count = formBuilder.control(0, Validators.min(1));
+    this.form = formBuilder.group({
+      count: this.count,
     });
   }
 
@@ -70,14 +70,12 @@ export class AttachmentsPartComponent
   }
 
   private updateForm(model: AttachmentsPart): void {
+    this.attachments = [];
     if (!model) {
       this.form.reset();
       return;
     }
-    this.attachments.clear();
-    for (const a of model.attachments || []) {
-      this.addAttachment(a);
-    }
+    this.attachments = model.attachments || [];
     this.form.markAsPristine();
   }
 
@@ -109,48 +107,42 @@ export class AttachmentsPartComponent
         attachments: [],
       };
     }
-    part.attachments = [];
-    for (let i = 0; i < this.attachments.length; i++) {
-      const g = this.attachments.controls[i] as FormGroup;
-      part.attachments.push({
-        type: g.controls.type.value?.trim(),
-        name: g.controls.name.value?.trim(),
-        portion: g.controls.portion.value?.trim(),
-        note: g.controls.note.value?.trim(),
-      });
-    }
-
+    part.attachments = this.attachments;
     return part;
   }
 
-  private getAttachmentGroup(attachment?: Attachment): FormGroup {
-    return this._formBuilder.group({
-      type: this._formBuilder.control(attachment?.type, [
-        Validators.required,
-        Validators.maxLength(50),
-      ]),
-      name: this._formBuilder.control(attachment?.name, [
-        Validators.required,
-        Validators.maxLength(100),
-      ]),
-      portion: this._formBuilder.control(
-        attachment?.portion,
-        Validators.maxLength(50)
-      ),
-      note: this._formBuilder.control(
-        attachment?.note,
-        Validators.maxLength(500)
-      ),
+  public editAttachment(attachment: Attachment): void {
+    this.editedAttachment = attachment;
+  }
+
+  public addAttachment(): void {
+    this.editAttachment({
+      type: null,
+      name: null,
     });
   }
 
-  public addAttachment(attachment?: Attachment): void {
-    this.attachments.push(this.getAttachmentGroup(attachment));
-    this.form.markAsDirty();
+  public onAttachmentChange(attachment: Attachment): void {
+    if (!this.editedAttachment) {
+      return;
+    }
+    const i = this.attachments.indexOf(this.editedAttachment);
+    if (i === -1) {
+      this.attachments.push(attachment);
+      this.count.setValue(this.attachments.length);
+    } else {
+      this.attachments[i] = attachment;
+    }
+    this.editedAttachment = undefined;
+  }
+
+  public onAttachmentEditorClose(): void {
+    this.editedAttachment = undefined;
   }
 
   public removeAttachment(index: number): void {
-    this.attachments.removeAt(index);
+    this.attachments.splice(index, 1);
+    this.count.setValue(this.attachments.length);
     this.form.markAsDirty();
   }
 
@@ -158,9 +150,7 @@ export class AttachmentsPartComponent
     if (index < 1) {
       return;
     }
-    const attachment = this.attachments.controls[index];
-    this.attachments.removeAt(index);
-    this.attachments.insert(index - 1, attachment);
+    moveItemInArray(this.attachments, index, index - 1);
     this.form.markAsDirty();
   }
 
@@ -168,9 +158,12 @@ export class AttachmentsPartComponent
     if (index + 1 >= this.attachments.length) {
       return;
     }
-    const attachment = this.attachments.controls[index];
-    this.attachments.removeAt(index);
-    this.attachments.insert(index + 1, attachment);
+    moveItemInArray(this.attachments, index, index + 1);
     this.form.markAsDirty();
+  }
+
+  public getAttachmentTypeName(type: string): string {
+    const entry = this.typeEntries?.find((e) => e.id === type);
+    return entry ? entry.value : type;
   }
 }

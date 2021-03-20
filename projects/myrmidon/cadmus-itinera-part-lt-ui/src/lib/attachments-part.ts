@@ -78,8 +78,27 @@ export const ATTACHMENTS_PART_SCHEMA = {
               name: {
                 type: 'string',
               },
+              id: {
+                type: 'string'
+              },
+              externalIds: {
+                type: 'array',
+                items: {
+                  anyOf: [
+                    {
+                      type: 'string',
+                    },
+                  ],
+                },
+              },
               portion: {
                 type: 'string',
+              },
+              isLost: {
+                type: 'boolean'
+              },
+              isUnknown: {
+                type: 'boolean'
               },
               note: {
                 type: 'string',

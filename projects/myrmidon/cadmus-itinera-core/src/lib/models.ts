@@ -114,7 +114,11 @@ export interface CorrPseudonym {
 export interface Attachment {
   type: string;
   name: string;
+  id?: string;
+  externalIds?: string[];
   portion?: string;
+  isLost?: boolean;
+  isUnknown?: boolean;
   note?: string;
 }
 

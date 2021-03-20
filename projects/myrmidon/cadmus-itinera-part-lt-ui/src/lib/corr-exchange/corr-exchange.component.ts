@@ -1,3 +1,4 @@
+import { moveItemInArray } from '@angular/cdk/drag-drop';
 import {
   AfterViewInit,
   Component,
@@ -60,7 +61,7 @@ export class CorrExchangeComponent implements OnInit, AfterViewInit, OnDestroy {
   public dubious: FormControl;
   public indirect: FormControl;
   public participant: FormControl;
-  public attachments: FormArray;
+  public attachments: FormControl;
   public hasCt: FormControl;
   public form: FormGroup;
 
@@ -69,6 +70,7 @@ export class CorrExchangeComponent implements OnInit, AfterViewInit, OnDestroy {
   public chronotopes: Chronotope[] | undefined;
   public sources: DocReference[];
   public sources$: BehaviorSubject<DocReference[]>;
+  public editedAttachment: Attachment | undefined;
 
   constructor(private _formBuilder: FormBuilder) {
     this.participants = [];
@@ -82,7 +84,7 @@ export class CorrExchangeComponent implements OnInit, AfterViewInit, OnDestroy {
     this.dubious = _formBuilder.control(false);
     this.indirect = _formBuilder.control(false);
     this.participant = _formBuilder.control(false);
-    this.attachments = _formBuilder.array([]);
+    this.attachments = _formBuilder.control([]);
     this.hasCt = _formBuilder.control(false, Validators.requiredTrue);
     this.form = _formBuilder.group({
       dubious: this.dubious,
@@ -126,10 +128,7 @@ export class CorrExchangeComponent implements OnInit, AfterViewInit, OnDestroy {
     this.dubious.setValue(model.isDubious);
     this.indirect.setValue(model.isIndirect);
     this.participant.setValue(model.isFromParticipant);
-    this.attachments.clear();
-    for (const a of model.attachments || []) {
-      this.addAttachment(a);
-    }
+    this.attachments.setValue(model.attachments || []);
     this.form.markAsPristine();
   }
 
@@ -141,71 +140,65 @@ export class CorrExchangeComponent implements OnInit, AfterViewInit, OnDestroy {
       chronotopes: this.chronotopes?.length ? this.chronotopes : undefined,
       participants: this.participants?.length ? this.participants : undefined,
       sources: this.sources?.length ? this.sources : undefined,
+      attachments: this.attachments.value.length
+        ? this.attachments.value
+        : undefined,
     };
-
-    if (this.attachments.length) {
-      model.attachments = [];
-      for (let i = 0; i < this.attachments.length; i++) {
-        const g = this.attachments.controls[i] as FormGroup;
-        model.attachments.push({
-          type: g.controls.type.value?.trim(),
-          name: g.controls.name.value?.trim(),
-          portion: g.controls.portion.value?.trim(),
-          note: g.controls.note.value?.trim(),
-        });
-      }
-    }
 
     return model;
   }
 
-  private getAttachmentGroup(attachment?: Attachment): FormGroup {
-    return this._formBuilder.group({
-      type: this._formBuilder.control(attachment?.type, [
-        Validators.required,
-        Validators.maxLength(50),
-      ]),
-      name: this._formBuilder.control(attachment?.name, [
-        Validators.required,
-        Validators.maxLength(100),
-      ]),
-      portion: this._formBuilder.control(
-        attachment?.portion,
-        Validators.maxLength(50)
-      ),
-      note: this._formBuilder.control(
-        attachment?.note,
-        Validators.maxLength(500)
-      ),
+  public editAttachment(attachment: Attachment): void {
+    this.editedAttachment = attachment;
+  }
+
+  public addAttachment(): void {
+    this.editAttachment({
+      type: null,
+      name: null,
     });
   }
 
-  public addAttachment(attachment?: Attachment): void {
-    this.attachments.push(this.getAttachmentGroup(attachment));
+  public onAttachmentChange(attachment: Attachment): void {
+    if (!this.editedAttachment) {
+      return;
+    }
+    const i = this.attachments.value.indexOf(this.editedAttachment);
+    if (i === -1) {
+      this.attachments.value.push(attachment);
+    } else {
+      this.attachments.value[i] = attachment;
+    }
+    this.editedAttachment = undefined;
+  }
+
+  public onAttachmentEditorClose(): void {
+    this.editedAttachment = undefined;
   }
 
   public removeAttachment(index: number): void {
-    this.attachments.removeAt(index);
+    this.attachments.value.splice(index, 1);
   }
 
   public moveAttachmentUp(index: number): void {
     if (index < 1) {
       return;
     }
-    const attachment = this.attachments.controls[index];
-    this.attachments.removeAt(index);
-    this.attachments.insert(index - 1, attachment);
+    moveItemInArray(this.attachments.value, index, index - 1);
     this.form.markAsDirty();
   }
 
   public moveAttachmentDown(index: number): void {
-    if (index + 1 >= this.attachments.length) {
+    if (index + 1 >= this.attachments.value.length) {
       return;
     }
-    const attachment = this.attachments.controls[index];
-    this.attachments.removeAt(index);
-    this.attachments.insert(index + 1, attachment);
+    moveItemInArray(this.attachments.value, index, index + 1);
     this.form.markAsDirty();
+  }
+
+  public getAttachmentTypeName(type: string): string {
+    const entry = this.typeEntries?.find((e) => e.id === type);
+    return entry ? entry.value : type;
   }
 
   public onParticipantsChange(participants: DecoratedId[]): void {
