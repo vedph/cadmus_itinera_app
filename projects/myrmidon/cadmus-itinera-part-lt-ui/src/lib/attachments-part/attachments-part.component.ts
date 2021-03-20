@@ -15,7 +15,6 @@ import { AttachmentsPart, ATTACHMENTS_PART_TYPEID } from '../attachments-part';
 import { Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { Attachment } from '@myrmidon/cadmus-itinera-core';
-import { moveItemInArray } from '@angular/cdk/drag-drop';
 
 /**
  * Attachments part editor.
@@ -33,21 +32,17 @@ export class AttachmentsPartComponent
 
   @ViewChildren('name') nameQueryList: QueryList<any>;
 
-  public attachments: Attachment[];
-  public count: FormControl;
+  public attachments: FormControl;
 
   // epist-attachment-types
   public typeEntries: ThesaurusEntry[];
 
-  public editedAttachment: Attachment | undefined;
-
   constructor(authService: AuthService, formBuilder: FormBuilder) {
     super(authService);
     // form
-    this.attachments = [];
-    this.count = formBuilder.control(0, Validators.min(1));
+    this.attachments = formBuilder.control([], Validators.required);
     this.form = formBuilder.group({
-      count: this.count,
+      attachments: this.attachments,
     });
   }
 
@@ -70,12 +65,11 @@ export class AttachmentsPartComponent
   }
 
   private updateForm(model: AttachmentsPart): void {
-    this.attachments = [];
     if (!model) {
       this.form.reset();
       return;
     }
-    this.attachments = model.attachments || [];
+    this.attachments.setValue(model.attachments || []);
     this.form.markAsPristine();
   }
 
@@ -111,59 +105,8 @@ export class AttachmentsPartComponent
     return part;
   }
 
-  public editAttachment(attachment: Attachment): void {
-    this.editedAttachment = attachment;
-  }
-
-  public addAttachment(): void {
-    this.editAttachment({
-      type: null,
-      name: null,
-    });
-  }
-
-  public onAttachmentChange(attachment: Attachment): void {
-    if (!this.editedAttachment) {
-      return;
-    }
-    const i = this.attachments.indexOf(this.editedAttachment);
-    if (i === -1) {
-      this.attachments.push(attachment);
-      this.count.setValue(this.attachments.length);
-    } else {
-      this.attachments[i] = attachment;
-    }
-    this.editedAttachment = undefined;
-  }
-
-  public onAttachmentEditorClose(): void {
-    this.editedAttachment = undefined;
-  }
-
-  public removeAttachment(index: number): void {
-    this.attachments.splice(index, 1);
-    this.count.setValue(this.attachments.length);
+  public onAttachmentsChange(attachments: Attachment[] | undefined): void {
+    this.attachments.setValue(attachments);
     this.form.markAsDirty();
-  }
-
-  public moveAttachmentUp(index: number): void {
-    if (index < 1) {
-      return;
-    }
-    moveItemInArray(this.attachments, index, index - 1);
-    this.form.markAsDirty();
-  }
-
-  public moveAttachmentDown(index: number): void {
-    if (index + 1 >= this.attachments.length) {
-      return;
-    }
-    moveItemInArray(this.attachments, index, index + 1);
-    this.form.markAsDirty();
-  }
-
-  public getAttachmentTypeName(type: string): string {
-    const entry = this.typeEntries?.find((e) => e.id === type);
-    return entry ? entry.value : type;
   }
 }

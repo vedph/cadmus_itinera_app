@@ -22,10 +22,12 @@ import { CorrExchangesPartComponent } from './corr-exchanges-part/corr-exchanges
 import { ChronotopicsPartComponent } from './chronotopics-part/chronotopics-part.component';
 import { AttachmentsPartComponent } from './attachments-part/attachments-part.component';
 import { AttachmentComponent } from './attachment/attachment.component';
+import { AttachmentsComponent } from './attachments/attachments.component';
 
 @NgModule({
   declarations: [
     AttachmentComponent,
+    AttachmentsComponent,
     AttachmentsPartComponent,
     BioEventComponent,
     ChronotopicsPartComponent,
@@ -56,6 +58,7 @@ import { AttachmentComponent } from './attachment/attachment.component';
   ],
   exports: [
     AttachmentComponent,
+    AttachmentsComponent,
     AttachmentsPartComponent,
     BioEventComponent,
     ChronotopicsPartComponent,

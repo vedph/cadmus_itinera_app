@@ -7,92 +7,11 @@
       <mat-card-title>Attachments Part</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <!-- attachments list -->
-      <button
-        type="button"
-        mat-stroked-button
-        color="primary"
-        (click)="addAttachment()"
-      >
-        <mat-icon>add_circle</mat-icon>
-        add attachment
-      </button>
-      <table>
-        <thead>
-          <tr>
-            <th></th>
-            <th>name</th>
-            <th>type</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr
-            *ngFor="
-              let a of attachments;
-              let i = index;
-              let first = first;
-              let last = last
-            "
-          >
-            <td>
-              <button
-                mat-icon-button
-                type="button"
-                matTooltip="Edit this attachment"
-                color="primary"
-                (click)="editAttachment(i)"
-              >
-                <mat-icon>remove_circle</mat-icon>
-              </button>
-              <button
-                mat-icon-button
-                type="button"
-                matTooltip="Remove this attachment"
-                color="warn"
-                (click)="removeAttachment(i)"
-              >
-                <mat-icon>remove_circle</mat-icon>
-              </button>
-              <button
-                [disabled]="first"
-                mat-icon-button
-                type="button"
-                matTooltip="Move attachment up"
-                (click)="moveAttachmentUp(i)"
-              >
-                <mat-icon>arrow_upward</mat-icon>
-              </button>
-              <button
-                [disabled]="last"
-                mat-icon-button
-                type="button"
-                matTooltip="Move attachment down"
-                (click)="moveAttachmentDown(i)"
-              >
-                <mat-icon>arrow_downward</mat-icon>
-              </button>
-            </td>
-            <td>{{ a.name }}</td>
-            <td>{{ getAttachmentTypeName(a.type) }}</td>
-          </tr>
-        </tbody>
-      </table>
-      <hr />
-      <!-- edited attachment -->
-      <mat-expansion-panel
-        [disabled]="!editedAttachment"
-        [expanded]="editedAttachment"
-      >
-        <mat-expansion-panel-header>
-          Attachment {{ editedAttachment?.name }}
-        </mat-expansion-panel-header>
-        <cadmus-attachment
-          [attTypeEntries]="typeEntries"
-          [attachment]="editedAttachment"
-          (attachmentChange)="onAttachmentChange($event)"
-          (editorClose)="onAttachmentEditorClose()"
-        ></cadmus-attachment>
-      </mat-expansion-panel>
+      <cadmus-attachments
+        [attTypeEntries]="typeEntries"
+        [attachments]="attachments.value"
+        (attachmentsChange)="onAttachmentsChange($event)"
+      ></cadmus-attachments>
     </mat-card-content>
     <mat-card-actions>
       <cadmus-close-save-buttons

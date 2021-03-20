@@ -3,6 +3,7 @@
  */
 
 export * from './lib/attachment/attachment.component';
+export * from './lib/attachments/attachments.component';
 export * from './lib/attachments-part';
 export * from './lib/attachments-part/attachments-part.component';
 
