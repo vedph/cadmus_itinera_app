@@ -15,7 +15,6 @@ import { LitDedicationsPartComponent } from './lit-dedications-part/lit-dedicati
 import { CorrPseudonymComponent } from './corr-pseudonym/corr-pseudonym.component';
 import { CorrPseudonymsPartComponent } from './corr-pseudonyms-part/corr-pseudonyms-part.component';
 import { CitedPersonsPartComponent } from './cited-persons-part/cited-persons-part.component';
-import { PoeticTextInfoPartComponent } from './poetic-text-info-part/poetic-text-info-part.component';
 import { SerialTextInfoPartComponent } from './serial-text-info-part/serial-text-info-part.component';
 import { CorrExchangeComponent } from './corr-exchange/corr-exchange.component';
 import { CorrExchangesPartComponent } from './corr-exchanges-part/corr-exchanges-part.component';
@@ -43,8 +42,7 @@ import { CitedPersonsComponent } from './cited-persons/cited-persons.component';
     LitDedicationsPartComponent,
     LitDedicationComponent,
     PersonPartComponent,
-    PersonEventsPartComponent,
-    PoeticTextInfoPartComponent,
+    PersonEventsPartComponent
   ],
   imports: [
     CommonModule,
@@ -75,8 +73,7 @@ import { CitedPersonsComponent } from './cited-persons/cited-persons.component';
     SerialTextInfoPartComponent,
     LitDedicationComponent,
     PersonPartComponent,
-    PersonEventsPartComponent,
-    PoeticTextInfoPartComponent,
+    PersonEventsPartComponent
   ],
 })
 export class CadmusItineraPartLtUiModule {}

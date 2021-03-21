@@ -13,8 +13,7 @@ import {
   LIT_DEDICATIONS_PART_TYPEID,
   PERSON_EVENTS_PART_TYPEID,
   PERSON_PART_TYPEID,
-  POETIC_TEXT_INFO_PART_TYPEID,
-  ATTACHMENTS_PART_TYPEID
+  ATTACHMENTS_PART_TYPEID,
 } from '@myrmidon/cadmus-itinera-part-lt-ui';
 import { RouterModule } from '@angular/router';
 import { PendingChangesGuard } from '@myrmidon/cadmus-core';
@@ -25,7 +24,6 @@ import { DocReferencesPartFeatureComponent } from './doc-references-part-feature
 import { LitDedicationsPartFeatureComponent } from './lit-dedications-part-feature/lit-dedications-part-feature.component';
 import { CorrPseudonymsPartFeatureComponent } from './corr-pseudonyms-part-feature/corr-pseudonyms-part-feature.component';
 import { CitedPersonsPartFeatureComponent } from './cited-persons-part-feature/cited-persons-part-feature.component';
-import { PoeticTextInfoPartFeatureComponent } from './poetic-text-info-part-feature/poetic-text-info-part-feature.component';
 import { SerialTextInfoPartFeatureComponent } from './serial-text-info-part-feature/serial-text-info-part-feature.component';
 import { CorrExchangesPartFeatureComponent } from './corr-exchanges-part-feature/corr-exchanges-part-feature.component';
 import { ChronotopicsPartFeatureComponent } from './chronotopics-part-feature/chronotopics-part-feature.component';
@@ -70,12 +68,6 @@ export const RouterModuleForChild = RouterModule.forChild([
     canDeactivate: [PendingChangesGuard],
   },
   {
-    path: `${POETIC_TEXT_INFO_PART_TYPEID}/:pid`,
-    pathMatch: 'full',
-    component: PoeticTextInfoPartFeatureComponent,
-    canDeactivate: [PendingChangesGuard],
-  },
-  {
     path: `${SERIAL_TEXT_INFO_PART_TYPEID}/:pid`,
     pathMatch: 'full',
     component: SerialTextInfoPartFeatureComponent,
@@ -113,7 +105,6 @@ export const RouterModuleForChild = RouterModule.forChild([
     SerialTextInfoPartFeatureComponent,
     PersonEventsPartFeatureComponent,
     PersonPartFeatureComponent,
-    PoeticTextInfoPartFeatureComponent,
   ],
   imports: [
     CommonModule,
@@ -137,7 +128,6 @@ export const RouterModuleForChild = RouterModule.forChild([
     SerialTextInfoPartFeatureComponent,
     PersonEventsPartFeatureComponent,
     PersonPartFeatureComponent,
-    PoeticTextInfoPartFeatureComponent,
   ],
 })
 export class CadmusItineraPartLtPgModule {}
