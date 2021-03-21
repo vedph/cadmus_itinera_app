@@ -16,7 +16,7 @@ import { CorrPseudonymComponent } from './corr-pseudonym/corr-pseudonym.componen
 import { CorrPseudonymsPartComponent } from './corr-pseudonyms-part/corr-pseudonyms-part.component';
 import { CitedPersonsPartComponent } from './cited-persons-part/cited-persons-part.component';
 import { PoeticTextInfoPartComponent } from './poetic-text-info-part/poetic-text-info-part.component';
-import { LetterInfoPartComponent } from './letter-info-part/letter-info-part.component';
+import { SerialTextInfoPartComponent } from './serial-text-info-part/serial-text-info-part.component';
 import { CorrExchangeComponent } from './corr-exchange/corr-exchange.component';
 import { CorrExchangesPartComponent } from './corr-exchanges-part/corr-exchanges-part.component';
 import { ChronotopicsPartComponent } from './chronotopics-part/chronotopics-part.component';
@@ -37,7 +37,7 @@ import { AttachmentsComponent } from './attachments/attachments.component';
     CorrPseudonymComponent,
     CorrPseudonymsPartComponent,
     DocReferencesPartComponent,
-    LetterInfoPartComponent,
+    SerialTextInfoPartComponent,
     LitDedicationsPartComponent,
     LitDedicationComponent,
     PersonPartComponent,
@@ -69,7 +69,7 @@ import { AttachmentsComponent } from './attachments/attachments.component';
     CorrPseudonymComponent,
     CorrPseudonymsPartComponent,
     DocReferencesPartComponent,
-    LetterInfoPartComponent,
+    SerialTextInfoPartComponent,
     LitDedicationComponent,
     PersonPartComponent,
     PersonEventsPartComponent,

@@ -3,34 +3,51 @@ import { FormControl, FormBuilder, Validators } from '@angular/forms';
 
 import { ModelEditorComponentBase } from '@myrmidon/cadmus-ui';
 import { AuthService } from '@myrmidon/cadmus-api';
-import { deepCopy, ThesaurusEntry } from '@myrmidon/cadmus-core';
+import { deepCopy, DocReference, ThesaurusEntry } from '@myrmidon/cadmus-core';
 
-import { LetterInfoPart, LETTER_INFO_PART_TYPEID } from '../letter-info-part';
-import { DecoratedId } from '@myrmidon/cadmus-itinera-core';
+import {
+  SerialTextInfoPart,
+  SERIAL_TEXT_INFO_PART_TYPEID,
+} from '../serial-text-info-part';
+import { CitedPerson, DecoratedId } from '@myrmidon/cadmus-itinera-core';
+import { BehaviorSubject } from 'rxjs';
 
 /**
- * Letter's information part editor component.
- * Thesauri: languages (optional), doc-reference-tags.
+ * Serial text's information part editor component.
+ * Thesauri: languages, doc-reference-tags, serial-text-genres, serial-text-verses
+ * (all optional).
  */
 @Component({
-  selector: 'itinera-letter-info-part',
-  templateUrl: './letter-info-part.component.html',
-  styleUrls: ['./letter-info-part.component.css'],
+  selector: 'itinera-serial-text-info-part',
+  templateUrl: './serial-text-info-part.component.html',
+  styleUrls: ['./serial-text-info-part.component.css'],
 })
-export class LetterInfoPartComponent
-  extends ModelEditorComponentBase<LetterInfoPart>
+export class SerialTextInfoPartComponent
+  extends ModelEditorComponentBase<SerialTextInfoPart>
   implements OnInit {
-  public letterId: FormControl;
+  public textId: FormControl;
   public language: FormControl;
   public subject: FormControl;
-  public authorId: FormControl;
+  public genre: FormControl;
+  public verse: FormControl;
+  public rhyme: FormControl;
   public headings: FormControl;
+  public received: FormControl;
   public note: FormControl;
+
+  public authors: CitedPerson[];
   public recipients: DecoratedId[];
   public replyingTo: DecoratedId[];
+  public related$: BehaviorSubject<DocReference[]>;
 
-  public langEntries: ThesaurusEntry[];
-  public tagEntries: ThesaurusEntry[];
+  // languages
+  public langEntries: ThesaurusEntry[] | undefined;
+  // doc-reference-tags
+  public tagEntries: ThesaurusEntry[] | undefined;
+  // serial-text-genres
+  public genreEntries: ThesaurusEntry[] | undefined;
+  // serial-text-verses
+  public verseEntries: ThesaurusEntry[] | undefined;
 
   public editorOptions = {
     theme: 'vs-light',
@@ -42,10 +59,12 @@ export class LetterInfoPartComponent
 
   constructor(authService: AuthService, formBuilder: FormBuilder) {
     super(authService);
+    this.authors = [];
     this.recipients = [];
     this.replyingTo = [];
+    this.related$ = new BehaviorSubject<DocReference[]>([]);
     // form
-    this.letterId = formBuilder.control(null, [
+    this.textId = formBuilder.control(null, [
       Validators.required,
       Validators.maxLength(50),
     ]);
@@ -53,22 +72,25 @@ export class LetterInfoPartComponent
       Validators.required,
       Validators.maxLength(50),
     ]);
-    this.authorId = formBuilder.control(null, [
-      Validators.required,
-      Validators.maxLength(50),
-    ]);
     this.subject = formBuilder.control(null, [
       Validators.required,
       Validators.maxLength(500),
     ]);
+    this.genre = formBuilder.control(null, Validators.maxLength(50));
+    this.verse = formBuilder.control(null, Validators.maxLength(50));
+    this.rhyme = formBuilder.control(null, Validators.maxLength(100));
     this.headings = formBuilder.control(null, Validators.maxLength(5000));
+    this.received = formBuilder.control(false);
     this.note = formBuilder.control(null, Validators.maxLength(1000));
     this.form = formBuilder.group({
-      letterId: this.letterId,
+      textId: this.textId,
       language: this.language,
       subject: this.subject,
-      authorId: this.authorId,
+      genre: this.genre,
+      verse: this.verse,
+      rhyme: this.rhyme,
       headings: this.headings,
+      received: this.received,
       note: this.note,
     });
   }
@@ -77,25 +99,33 @@ export class LetterInfoPartComponent
     this.initEditor();
   }
 
-  private updateForm(model: LetterInfoPart): void {
+  private updateForm(model: SerialTextInfoPart): void {
     if (!model) {
+      this.authors = [];
       this.recipients = [];
       this.replyingTo = [];
+      this.related$.next([]);
       this.form.reset();
       return;
     }
+    this.authors = model.authors || [];
     this.recipients = model.recipients || [];
     this.replyingTo = model.replyingTo || [];
-    this.letterId.setValue(model.letterId);
+    this.related$.next(model.related || []);
+
+    this.textId.setValue(model.textId);
     this.language.setValue(model.language);
     this.subject.setValue(model.subject);
-    this.authorId.setValue(model.authorId);
+    this.genre.setValue(model.genre);
+    this.verse.setValue(model.verse);
+    this.rhyme.setValue(model.rhyme);
     this.headings.setValue(model.headings?.join('\n'));
+    this.received.setValue(model.isReceived);
     this.note.setValue(model.note);
     this.form.markAsPristine();
   }
 
-  protected onModelSet(model: LetterInfoPart): void {
+  protected onModelSet(model: SerialTextInfoPart): void {
     this.updateForm(deepCopy(model));
   }
 
@@ -112,6 +142,20 @@ export class LetterInfoPartComponent
       this.tagEntries = this.thesauri[key].entries;
     } else {
       this.tagEntries = null;
+    }
+
+    key = 'serial-text-genres';
+    if (this.thesauri && this.thesauri[key]) {
+      this.genreEntries = this.thesauri[key].entries;
+    } else {
+      this.genreEntries = null;
+    }
+
+    key = 'serial-text-verses';
+    if (this.thesauri && this.thesauri[key]) {
+      this.verseEntries = this.thesauri[key].entries;
+    } else {
+      this.verseEntries = null;
     }
   }
 
@@ -134,13 +178,13 @@ export class LetterInfoPartComponent
     }
   }
 
-  protected getModelFromForm(): LetterInfoPart {
+  protected getModelFromForm(): SerialTextInfoPart {
     let part = deepCopy(this.model);
     if (!part) {
       part = {
         itemId: this.itemId,
         id: null,
-        typeId: LETTER_INFO_PART_TYPEID,
+        typeId: SERIAL_TEXT_INFO_PART_TYPEID,
         roleId: this.roleId,
         timeCreated: new Date(),
         creatorId: null,
@@ -152,14 +196,19 @@ export class LetterInfoPartComponent
         subject: null,
       };
     }
-    part.letterId = this.letterId.value?.trim();
+    part.textId = this.textId.value?.trim();
     part.language = this.language.value?.trim();
-    part.authorId = this.authorId.value?.trim();
     part.subject = this.subject.value?.trim();
     part.headings = this.parseIds(this.headings.value?.trim());
+    part.note = this.note.value?.trim();
+
+    part.authors = this.authors?.length ? this.authors : undefined;
     part.recipients = this.recipients?.length ? this.recipients : undefined;
     part.replyingTo = this.replyingTo?.length ? this.replyingTo : undefined;
-    part.note = this.note.value?.trim();
+    part.related = this.related$.value?.length
+      ? this.related$.value
+      : undefined;
+
     return part;
   }
 
@@ -170,6 +219,10 @@ export class LetterInfoPartComponent
 
   public onReplyingToChange(ids: DecoratedId[]): void {
     this.replyingTo = ids;
+    this.form.markAsDirty();
+  }
+
+  public onSourcesChange(sources: DocReference[]): void {
     this.form.markAsDirty();
   }
 }

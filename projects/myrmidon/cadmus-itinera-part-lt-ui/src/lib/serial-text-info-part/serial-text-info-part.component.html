@@ -4,53 +4,24 @@
       <div mat-card-avatar>
         <mat-icon>picture_in_picture</mat-icon>
       </div>
-      <mat-card-title>Letter's Information Part</mat-card-title>
+      <mat-card-title>Serial Text's Information Part</mat-card-title>
     </mat-card-header>
     <mat-card-content>
       <mat-tab-group>
         <mat-tab label="general">
           <div>
-            <!-- letterId -->
+            <!-- textId -->
             <mat-form-field>
-              <input
-                matInput
-                [formControl]="letterId"
-                placeholder="letter ID"
-              />
+              <input matInput [formControl]="textId" placeholder="text ID" />
               <mat-error
                 *ngIf="
-                  letterId.errors?.required &&
-                  (letterId.dirty || letterId.touched)
+                  textId.errors?.required && (textId.dirty || textId.touched)
                 "
                 >ID required</mat-error
               >
               <mat-error
                 *ngIf="
-                  letterId.errors?.maxLength &&
-                  (letterId.dirty || letterId.touched)
-                "
-                >ID too long</mat-error
-              >
-            </mat-form-field>
-
-            <!-- authorId -->
-            <mat-form-field style="width: 16em">
-              <input
-                matInput
-                [formControl]="authorId"
-                placeholder="author ID"
-              />
-              <mat-error
-                *ngIf="
-                  authorId.errors?.required &&
-                  (authorId.dirty || authorId.touched)
-                "
-                >ID required</mat-error
-              >
-              <mat-error
-                *ngIf="
-                  authorId.errors?.maxLength &&
-                  (authorId.dirty || authorId.touched)
+                  textId.errors?.maxLength && (textId.dirty || textId.touched)
                 "
                 >ID too long</mat-error
               >
@@ -91,7 +62,14 @@
                 >language too long</mat-error
               >
             </mat-form-field>
+
+            &nbsp;
+            <!-- received -->
+            <mat-checkbox [formControl]="received">received</mat-checkbox>
           </div>
+
+          <!-- authors -->
+          TODO
 
           <div>
             <!-- subject -->
@@ -112,6 +90,61 @@
               "
               >subject too long</mat-error
             >
+          </div>
+
+          <div>
+            <!-- genre (bound) -->
+            <mat-form-field *ngIf="genreEntries?.length" style="width: 8em">
+              <mat-select [formControl]="genre" placeholder="genre">
+                <mat-option *ngFor="let e of genreEntries" [value]="e.id">{{
+                  e.value
+                }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <!-- genre (free) -->
+            <mat-form-field *ngIf="!genreEntries?.length" style="width: 8em">
+              <input matInput [formControl]="genre" placeholder="genre" />
+              <mat-error
+                *ngIf="
+                  genre.errors?.maxLength && (genre.dirty || genre.touched)
+                "
+                >genre too long</mat-error
+              >
+            </mat-form-field>
+
+            &nbsp;
+            <!-- verse (bound) -->
+            <mat-form-field *ngIf="verseEntries?.length" style="width: 8em">
+              <mat-select [formControl]="verse" placeholder="verse">
+                <mat-option *ngFor="let e of verseEntries" [value]="e.id">{{
+                  e.value
+                }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <!-- verse (free) -->
+            <mat-form-field *ngIf="!verseEntries?.length" style="width: 8em">
+              <input matInput [formControl]="verse" placeholder="verse" />
+              <mat-error
+                *ngIf="
+                  verse.errors?.maxLength && (verse.dirty || verse.touched)
+                "
+                >verse too long</mat-error
+              >
+            </mat-form-field>
+
+            &nbsp;
+            <!-- rhyme -->
+            <mat-form-field class="long-text">
+              <input matInput [formControl]="rhyme" placeholder="rhyme" />
+              <mat-error
+                *ngIf="
+                  rhyme.errors?.maxLength && (rhyme.dirty || rhyme.touched)
+                "
+                >rhyme too long</mat-error
+              >
+            </mat-form-field>
           </div>
 
           <div>
@@ -148,6 +181,7 @@
           </div>
         </mat-tab>
 
+        <!-- recipients -->
         <mat-tab label="recipients">
           <itinera-decorated-ids
             [ids]="recipients"
@@ -156,12 +190,22 @@
           ></itinera-decorated-ids>
         </mat-tab>
 
+        <!-- replyingTo -->
         <mat-tab label="reply-to">
           <itinera-decorated-ids
             [ids]="replyingTo"
             [tagEntries]="tagEntries"
             (idsChange)="onReplyingToChange($event)"
           ></itinera-decorated-ids>
+        </mat-tab>
+
+        <!-- related -->
+        <mat-tab label="related">
+          <cadmus-doc-references
+            [tagEntries]="docRefTagEntries"
+            [model$]="sources$"
+            (modelChange)="onSourcesChange($event)"
+          ></cadmus-doc-references>
         </mat-tab>
       </mat-tab-group>
     </mat-card-content>

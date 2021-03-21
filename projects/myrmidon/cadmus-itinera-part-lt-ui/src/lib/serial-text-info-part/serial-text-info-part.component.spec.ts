@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LetterInfoPartComponent } from './letter-info-part.component';
+import { SerialTextInfoPartComponent } from './serial-text-info-part.component';
 
 describe('LetterInfoPartComponent', () => {
-  let component: LetterInfoPartComponent;
-  let fixture: ComponentFixture<LetterInfoPartComponent>;
+  let component: SerialTextInfoPartComponent;
+  let fixture: ComponentFixture<SerialTextInfoPartComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LetterInfoPartComponent ]
+      declarations: [ SerialTextInfoPartComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LetterInfoPartComponent);
+    fixture = TestBed.createComponent(SerialTextInfoPartComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
