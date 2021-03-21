@@ -62,25 +62,26 @@
     </mat-form-field>
   </div>
   <div>
+    <!-- note -->
+    <mat-form-field class="long-text">
+      <textarea
+      rows="2"
+      matInput
+      [formControl]="note"
+      placeholder="note"
+      ></textarea>
+      <mat-error *ngIf="note.errors?.maxLength && (note.dirty || note.touched)"
+      >note too long</mat-error
+      >
+    </mat-form-field>
+  </div>
+  <div>
     <!-- externalIds -->
+    <p>external IDs</p>
     <cadmus-external-ids
       [model$]="ids$"
       (modelChange)="onIdsChanged($event)"
     ></cadmus-external-ids>
-  </div>
-  <div>
-    <!-- note -->
-    <mat-form-field class="long-text">
-      <textarea
-        rows="2"
-        matInput
-        [formControl]="note"
-        placeholder="note"
-      ></textarea>
-      <mat-error *ngIf="note.errors?.maxLength && (note.dirty || note.touched)"
-        >note too long</mat-error
-      >
-    </mat-form-field>
   </div>
 
   <!-- buttons -->
