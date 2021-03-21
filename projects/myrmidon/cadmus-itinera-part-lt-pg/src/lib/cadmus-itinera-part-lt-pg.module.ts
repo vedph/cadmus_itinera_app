@@ -9,7 +9,7 @@ import {
   CORR_EXCHANGES_PART_TYPEID,
   CORR_PSEUDONYMS_PART_TYPEID,
   DOC_REFERENCES_PART_TYPEID,
-  LETTER_INFO_PART_TYPEID,
+  SERIAL_TEXT_INFO_PART_TYPEID,
   LIT_DEDICATIONS_PART_TYPEID,
   PERSON_EVENTS_PART_TYPEID,
   PERSON_PART_TYPEID,
@@ -26,7 +26,7 @@ import { LitDedicationsPartFeatureComponent } from './lit-dedications-part-featu
 import { CorrPseudonymsPartFeatureComponent } from './corr-pseudonyms-part-feature/corr-pseudonyms-part-feature.component';
 import { CitedPersonsPartFeatureComponent } from './cited-persons-part-feature/cited-persons-part-feature.component';
 import { PoeticTextInfoPartFeatureComponent } from './poetic-text-info-part-feature/poetic-text-info-part-feature.component';
-import { LetterInfoPartFeatureComponent } from './letter-info-part-feature/letter-info-part-feature.component';
+import { SerialTextInfoPartFeatureComponent } from './serial-text-info-part-feature/serial-text-info-part-feature.component';
 import { CorrExchangesPartFeatureComponent } from './corr-exchanges-part-feature/corr-exchanges-part-feature.component';
 import { ChronotopicsPartFeatureComponent } from './chronotopics-part-feature/chronotopics-part-feature.component';
 import { AttachmentsPartFeatureComponent } from './attachments-part-feature/attachments-part-feature.component';
@@ -76,9 +76,9 @@ export const RouterModuleForChild = RouterModule.forChild([
     canDeactivate: [PendingChangesGuard],
   },
   {
-    path: `${LETTER_INFO_PART_TYPEID}/:pid`,
+    path: `${SERIAL_TEXT_INFO_PART_TYPEID}/:pid`,
     pathMatch: 'full',
-    component: LetterInfoPartFeatureComponent,
+    component: SerialTextInfoPartFeatureComponent,
     canDeactivate: [PendingChangesGuard],
   },
   {
@@ -110,7 +110,7 @@ export const RouterModuleForChild = RouterModule.forChild([
     CorrExchangesPartFeatureComponent,
     CorrPseudonymsPartFeatureComponent,
     DocReferencesPartFeatureComponent,
-    LetterInfoPartFeatureComponent,
+    SerialTextInfoPartFeatureComponent,
     PersonEventsPartFeatureComponent,
     PersonPartFeatureComponent,
     PoeticTextInfoPartFeatureComponent,
@@ -134,7 +134,7 @@ export const RouterModuleForChild = RouterModule.forChild([
     CorrExchangesPartFeatureComponent,
     CorrPseudonymsPartFeatureComponent,
     DocReferencesPartFeatureComponent,
-    LetterInfoPartFeatureComponent,
+    SerialTextInfoPartFeatureComponent,
     PersonEventsPartFeatureComponent,
     PersonPartFeatureComponent,
     PoeticTextInfoPartFeatureComponent,

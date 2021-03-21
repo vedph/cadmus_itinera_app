@@ -54,6 +54,19 @@
     </mat-form-field>
   </div>
 
+  <!-- rank -->
+  <div>
+    <mat-form-field style="width: 4em;">
+      <input
+        type="number"
+        min="0"
+        matInput
+        [formControl]="rank"
+        placeholder="rank"
+      />
+    </mat-form-field>
+  </div>
+
   <!-- parts -->
   <div formArrayName="parts">
     <div>
@@ -173,6 +186,7 @@
   </div>
 
   <br />
+  <!-- ids -->
   <mat-expansion-panel>
     <mat-expansion-panel-header>
       <mat-panel-title>
@@ -188,6 +202,7 @@
   </mat-expansion-panel>
 
   <br />
+  <!-- sources -->
   <mat-expansion-panel>
     <mat-expansion-panel-header>
       <mat-panel-title>

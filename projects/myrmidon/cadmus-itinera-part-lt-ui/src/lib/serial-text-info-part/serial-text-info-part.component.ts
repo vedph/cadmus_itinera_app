@@ -14,8 +14,9 @@ import { BehaviorSubject } from 'rxjs';
 
 /**
  * Serial text's information part editor component.
- * Thesauri: languages, doc-reference-tags, serial-text-genres, serial-text-verses
- * (all optional).
+ * Thesauri: languages, doc-reference-tags, serial-text-genres,
+ * serial-text-verses, person-name-tags, person-name-types,
+ * person-id-tags (all optional).
  */
 @Component({
   selector: 'itinera-serial-text-info-part',
@@ -48,6 +49,12 @@ export class SerialTextInfoPartComponent
   public genreEntries: ThesaurusEntry[] | undefined;
   // serial-text-verses
   public verseEntries: ThesaurusEntry[] | undefined;
+  // person-name-tags
+  public nameTagEntries: ThesaurusEntry[];
+  // person-name-types
+  public nameTypeEntries: ThesaurusEntry[];
+  // person-id-tags
+  public idTagEntries: ThesaurusEntry[];
 
   public editorOptions = {
     theme: 'vs-light',
@@ -134,28 +141,49 @@ export class SerialTextInfoPartComponent
     if (this.thesauri && this.thesauri[key]) {
       this.langEntries = this.thesauri[key].entries;
     } else {
-      this.langEntries = null;
+      this.langEntries = undefined;
     }
 
     key = 'doc-reference-tags';
     if (this.thesauri && this.thesauri[key]) {
       this.tagEntries = this.thesauri[key].entries;
     } else {
-      this.tagEntries = null;
+      this.tagEntries = undefined;
     }
 
     key = 'serial-text-genres';
     if (this.thesauri && this.thesauri[key]) {
       this.genreEntries = this.thesauri[key].entries;
     } else {
-      this.genreEntries = null;
+      this.genreEntries = undefined;
     }
 
     key = 'serial-text-verses';
     if (this.thesauri && this.thesauri[key]) {
       this.verseEntries = this.thesauri[key].entries;
     } else {
-      this.verseEntries = null;
+      this.verseEntries = undefined;
+    }
+
+    key = 'person-name-tags';
+    if (this.thesauri && this.thesauri[key]) {
+      this.nameTagEntries = this.thesauri[key].entries;
+    } else {
+      this.nameTagEntries = undefined;
+    }
+
+    key = 'person-name-types';
+    if (this.thesauri && this.thesauri[key]) {
+      this.nameTypeEntries = this.thesauri[key].entries;
+    } else {
+      this.nameTypeEntries = undefined;
+    }
+
+    key = 'person-id-tags';
+    if (this.thesauri && this.thesauri[key]) {
+      this.idTagEntries = this.thesauri[key].entries;
+    } else {
+      this.idTagEntries = undefined;
     }
   }
 
@@ -210,6 +238,11 @@ export class SerialTextInfoPartComponent
       : undefined;
 
     return part;
+  }
+
+  public onPersonsChange(persons: CitedPerson[]): void {
+    this.authors = persons;
+    this.form.markAsDirty();
   }
 
   public onRecipientsChange(ids: DecoratedId[]): void {

@@ -47,6 +47,7 @@ export interface DecoratedId {
  */
 export interface CitedPerson {
   name: PersonName;
+  rank?: number;
   ids?: DecoratedId[];
   sources?: DocReference[];
 }

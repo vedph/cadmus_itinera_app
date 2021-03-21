@@ -7,91 +7,14 @@
       <mat-card-title>Cited Persons Part</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <mat-tab-group [(selectedIndex)]="tabIndex">
-        <mat-tab label="persons">
-          <div>
-            <button
-              type="button"
-              mat-icon-button
-              color="primary"
-              (click)="addPerson()"
-            >
-              <mat-icon>add_circle</mat-icon>
-              add person
-            </button>
-          </div>
-          <table *ngIf="persons?.length">
-            <thead>
-              <tr>
-                <th></th>
-                <th>name</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr
-                *ngFor="
-                  let p of persons;
-                  let i = index;
-                  let first = first;
-                  let last = last
-                "
-              >
-                <td>
-                  <button
-                    type="button"
-                    mat-icon-button
-                    color="primary"
-                    matTooltip="Edit this person"
-                    (click)="editPerson(i)"
-                  >
-                    <mat-icon>edit</mat-icon>
-                  </button>
-                  <button
-                    type="button"
-                    mat-icon-button
-                    matTooltip="Move this person up"
-                    [disabled]="first"
-                    (click)="movePersonUp(i)"
-                  >
-                    <mat-icon>arrow_upward</mat-icon>
-                  </button>
-                  <button
-                    type="button"
-                    mat-icon-button
-                    matTooltip="Move this person down"
-                    [disabled]="last"
-                    (click)="movePersonDown(i)"
-                  >
-                    <mat-icon>arrow_downward</mat-icon>
-                  </button>
-                  <button
-                    type="button"
-                    mat-icon-button
-                    color="warn"
-                    matTooltip="Delete this person"
-                    (click)="deletePerson(i)"
-                  >
-                    <mat-icon>remove_circle</mat-icon>
-                  </button>
-                </td>
-                <td>{{ getFullName(p.name) }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </mat-tab>
-
-        <mat-tab label="person" *ngIf="editedPerson">
-          <itinera-cited-person
-            [person]="editedPerson"
-            [langEntries]="langEntries"
-            [nameTagEntries]="nameTagEntries"
-            [nameTypeEntries]="nameTypeEntries"
-            [idTagEntries]="idTagEntries"
-            (personChange)="onPersonSaved($event)"
-            (editorClose)="onPersonClosed()"
-          ></itinera-cited-person>
-        </mat-tab>
-      </mat-tab-group>
+      <itinera-cited-persons
+        [langEntries]="langEntries"
+        [nameTagEntries]="nameTagEntries"
+        [nameTypeEntries]="nameTypeEntries"
+        [idTagEntries]="idTagEntries"
+        [persons]="persons.value"
+        (personsChange)="onPersonsChange($event)"
+      ></itinera-cited-persons>
     </mat-card-content>
     <mat-card-actions>
       <cadmus-close-save-buttons

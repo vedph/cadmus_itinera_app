@@ -27,26 +27,18 @@ export class CitedPersonComponent implements OnInit {
   @Input()
   public person: CitedPerson;
 
-  /**
-   * The optional thesaurus language entries.
-   */
+  // languages
   @Input()
-  public langEntries: ThesaurusEntry[];
-  /**
-   * The optional thesaurus name's tag entries.
-   */
+  public langEntries: ThesaurusEntry[] | undefined;
+  // person-name-tags
   @Input()
-  public nameTagEntries: ThesaurusEntry[];
-  /**
-   * The optional thesaurus name part's type entries.
-   */
+  public nameTagEntries: ThesaurusEntry[] | undefined;
+  // person-name-types
   @Input()
-  public nameTypeEntries: ThesaurusEntry[];
-  /**
-   * The optional IDs tag entries.
-   */
+  public nameTypeEntries: ThesaurusEntry[] | undefined;
+  // person-id-tags
   @Input()
-  public idTagEntries: ThesaurusEntry[];
+  public idTagEntries: ThesaurusEntry[] | undefined;
 
   @Output()
   public personChange: EventEmitter<CitedPerson>;
@@ -59,6 +51,7 @@ export class CitedPersonComponent implements OnInit {
   public form: FormGroup;
   public language: FormControl;
   public tag: FormControl;
+  public rank: FormControl;
   public parts: FormArray;
 
   constructor(private _formBuilder: FormBuilder) {
@@ -74,6 +67,7 @@ export class CitedPersonComponent implements OnInit {
       Validators.maxLength(50),
     ]);
     this.tag = _formBuilder.control(null, Validators.maxLength(50));
+    this.rank = _formBuilder.control(0);
     this.parts = _formBuilder.array([], Validators.required);
 
     // this is the parent form for both name and ids
@@ -97,6 +91,7 @@ export class CitedPersonComponent implements OnInit {
     } else {
       this.language.setValue(model.name?.language);
       this.tag.setValue(model.name?.tag);
+      this.rank.setValue(model.rank);
       this.parts.clear();
       for (const p of model.name?.parts || []) {
         this.addPart(p);
@@ -126,6 +121,7 @@ export class CitedPersonComponent implements OnInit {
   private getModel(): CitedPerson {
     return {
       name: this.getName(),
+      rank: this.rank.value,
       ids: this.ids?.length ? this.ids : undefined,
       sources: this.sources?.length ? this.sources : undefined,
     };

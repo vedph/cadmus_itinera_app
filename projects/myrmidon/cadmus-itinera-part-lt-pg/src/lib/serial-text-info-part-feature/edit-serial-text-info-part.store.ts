@@ -7,11 +7,11 @@ import {
   editPartInitialState,
 } from '@myrmidon/cadmus-state';
 
-import { LETTER_INFO_PART_TYPEID } from '@myrmidon/cadmus-itinera-part-lt-ui';
+import { SERIAL_TEXT_INFO_PART_TYPEID } from '@myrmidon/cadmus-itinera-part-lt-ui';
 
 @Injectable({ providedIn: 'root' })
-@StoreConfig({ name: LETTER_INFO_PART_TYPEID })
-export class EditLetterInfoPartStore
+@StoreConfig({ name: SERIAL_TEXT_INFO_PART_TYPEID })
+export class EditSerialTextInfoPartStore
   extends Store<EditPartState>
   implements EditPartStoreApi {
   constructor() {

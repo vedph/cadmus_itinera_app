@@ -69,7 +69,17 @@
           </div>
 
           <!-- authors -->
-          TODO
+          <div>
+            <h4>authors</h4>
+            <itinera-cited-persons
+              [langEntries]="langEntries"
+              [nameTagEntries]="nameTagEntries"
+              [nameTypeEntries]="nameTypeEntries"
+              [idTagEntries]="idTagEntries"
+              [persons]="persons.value"
+              (personsChange)="onPersonsChange($event)"
+            ></itinera-cited-persons>
+          </div>
 
           <div>
             <!-- subject -->

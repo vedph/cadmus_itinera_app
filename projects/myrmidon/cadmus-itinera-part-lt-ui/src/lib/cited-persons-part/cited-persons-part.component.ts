@@ -10,11 +10,11 @@ import {
   CITED_PERSONS_PART_TYPEID,
 } from '../cited-persons-part';
 import { CitedPerson, PersonName } from '@myrmidon/cadmus-itinera-core';
-import { take } from 'rxjs/operators';
 
 /**
  * Cited persons part editor.
- * Thesauri: doc-reference-tags, languages, person-name-types, person-id-tags (all optional).
+ * Thesauri: languages, person-name-tags, person-name-types,
+ * person-id-tags (all optional).
  */
 @Component({
   selector: 'itinera-cited-persons-part',
@@ -24,33 +24,31 @@ import { take } from 'rxjs/operators';
 export class CitedPersonsPartComponent
   extends ModelEditorComponentBase<CitedPersonsPart>
   implements OnInit {
-  private _editedIndex: number;
 
   public tabIndex: number;
   public editedPerson: CitedPerson;
 
+  // languages
   public langEntries: ThesaurusEntry[];
+  // person-name-tags
   public nameTagEntries: ThesaurusEntry[];
+  // person-name-types
   public nameTypeEntries: ThesaurusEntry[];
+  // person-id-tags
   public idTagEntries: ThesaurusEntry[];
 
-  public persons: CitedPerson[];
-
-  public count: FormControl;
+  public persons: FormControl;
 
   constructor(
     authService: AuthService,
-    formBuilder: FormBuilder,
-    private _dialogService: DialogService
+    formBuilder: FormBuilder
   ) {
     super(authService);
     this.tabIndex = 0;
-    this._editedIndex = -1;
-    this.persons = [];
     // form
-    this.count = formBuilder.control(0, Validators.min(1));
+    this.persons = formBuilder.control([], Validators.required);
     this.form = formBuilder.group({
-      count: this.count,
+      persons: this.persons
     });
   }
 
@@ -63,8 +61,7 @@ export class CitedPersonsPartComponent
       this.form.reset();
       return;
     }
-    this.count.setValue(model.persons?.length || 0);
-    this.persons = model.persons || [];
+    this.persons.setValue(model.persons || []);
     this.form.markAsPristine();
   }
 
@@ -73,18 +70,18 @@ export class CitedPersonsPartComponent
   }
 
   protected onThesauriSet(): void {
-    let key = 'doc-reference-tags';
-    if (this.thesauri && this.thesauri[key]) {
-      this.nameTagEntries = this.thesauri[key].entries;
-    } else {
-      this.nameTagEntries = null;
-    }
-
-    key = 'languages';
+    let key = 'languages';
     if (this.thesauri && this.thesauri[key]) {
       this.langEntries = this.thesauri[key].entries;
     } else {
       this.langEntries = null;
+    }
+
+    key = 'person-name-tags';
+    if (this.thesauri && this.thesauri[key]) {
+      this.nameTagEntries = this.thesauri[key].entries;
+    } else {
+      this.nameTagEntries = null;
     }
 
     key = 'person-name-types';
@@ -121,77 +118,9 @@ export class CitedPersonsPartComponent
     return part;
   }
 
-  public addPerson(): void {
-    const person: CitedPerson = {
-      name: null,
-    };
-    this.persons = [...this.persons, person];
-    this.count.setValue(this.persons.length);
-    this.count.markAsDirty();
-    this.editPerson(this.persons.length - 1);
-  }
-
-  public editPerson(index: number): void {
-    if (index < 0) {
-      this._editedIndex = -1;
-      this.tabIndex = 0;
-      this.editedPerson = null;
-    } else {
-      this._editedIndex = index;
-      this.editedPerson = this.persons[index];
-      setTimeout(() => {
-        this.tabIndex = 1;
-      }, 300);
-    }
-  }
-
-  public onPersonSaved(item: CitedPerson): void {
-    this.persons = this.persons.map((s, i) =>
-      i === this._editedIndex ? item : s
-    );
-    this.editPerson(-1);
-    this.count.markAsDirty();
-  }
-
-  public onPersonClosed(): void {
-    this.editPerson(-1);
-  }
-
-  public deletePerson(index: number): void {
-    this._dialogService
-      .confirm('Confirmation', 'Delete person?')
-      .pipe(take(1))
-      .subscribe((yes) => {
-        if (yes) {
-          const persons = [...this.persons];
-          persons.splice(index, 1);
-          this.persons = persons;
-          this.count.setValue(this.persons.length);
-          this.count.markAsDirty();
-        }
-      });
-  }
-
-  public movePersonUp(index: number): void {
-    if (index < 1) {
-      return;
-    }
-    const person = this.persons[index];
-    const persons = [...this.persons];
-    persons.splice(index, 1);
-    persons.splice(index - 1, 0, person);
-    this.persons = persons;
-  }
-
-  public movePersonDown(index: number): void {
-    if (index + 1 >= this.persons.length) {
-      return;
-    }
-    const person = this.persons[index];
-    const persons = [...this.persons];
-    persons.splice(index, 1);
-    persons.splice(index + 1, 0, person);
-    this.persons = persons;
+  public onPersonsChange(persons: CitedPerson[]): void {
+    this.persons.setValue(persons);
+    this.form.markAsDirty();
   }
 
   public getFullName(name: PersonName | null): string {

@@ -23,6 +23,7 @@ import { ChronotopicsPartComponent } from './chronotopics-part/chronotopics-part
 import { AttachmentsPartComponent } from './attachments-part/attachments-part.component';
 import { AttachmentComponent } from './attachment/attachment.component';
 import { AttachmentsComponent } from './attachments/attachments.component';
+import { CitedPersonsComponent } from './cited-persons/cited-persons.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { AttachmentsComponent } from './attachments/attachments.component';
     AttachmentsPartComponent,
     BioEventComponent,
     ChronotopicsPartComponent,
+    CitedPersonsComponent,
     CitedPersonsPartComponent,
     CorrExchangeComponent,
     CorrExchangesPartComponent,
@@ -62,6 +64,7 @@ import { AttachmentsComponent } from './attachments/attachments.component';
     AttachmentsPartComponent,
     BioEventComponent,
     ChronotopicsPartComponent,
+    CitedPersonsComponent,
     CitedPersonsPartComponent,
     LitDedicationsPartComponent,
     CorrExchangeComponent,

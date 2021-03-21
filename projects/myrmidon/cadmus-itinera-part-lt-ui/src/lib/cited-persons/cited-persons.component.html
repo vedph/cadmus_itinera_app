@@ -1,0 +1,86 @@
+<div>
+  <!-- persons list -->
+  <button
+    type="button"
+    mat-stroked-button
+    color="primary"
+    (click)="addPerson()"
+  >
+    <mat-icon>add_circle</mat-icon>
+    add person
+  </button>
+  <table>
+    <thead>
+      <tr>
+        <th></th>
+        <th>name</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="
+          let p of persons;
+          let i = index;
+          let first = first;
+          let last = last
+        "
+      >
+        <td>
+          <button
+            mat-icon-button
+            type="button"
+            matTooltip="Edit this person"
+            color="primary"
+            (click)="editPerson(a)"
+          >
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button
+            mat-icon-button
+            type="button"
+            matTooltip="Remove this person"
+            color="warn"
+            (click)="removePerson(i)"
+          >
+            <mat-icon>remove_circle</mat-icon>
+          </button>
+          <button
+            [disabled]="first"
+            mat-icon-button
+            type="button"
+            matTooltip="Move person up"
+            (click)="movePersonUp(i)"
+          >
+            <mat-icon>arrow_upward</mat-icon>
+          </button>
+          <button
+            [disabled]="last"
+            mat-icon-button
+            type="button"
+            matTooltip="Move person down"
+            (click)="movePersonDown(i)"
+          >
+            <mat-icon>arrow_downward</mat-icon>
+          </button>
+        </td>
+        <td>{{ personToString(p) }}</td>
+      </tr>
+    </tbody>
+  </table>
+  <hr />
+  <!-- edited person -->
+  <mat-expansion-panel [disabled]="!editedPerson" [expanded]="editedPerson">
+    <mat-expansion-panel-header>
+      Person {{ editedPerson?.name }}
+    </mat-expansion-panel-header>
+    <itinera-cited-person
+      [person]="editedPerson"
+      [langEntries]="langEntries"
+      [nameTagEntries]="nameTagEntries"
+      [nameTypeEntries]="nameTypeEntries"
+      [idTagEntries]="idTagEntries"
+      (personChange)="onPersonChange($event)"
+      (editorClose)="onPersonEditorClose()"
+    ></itinera-cited-person>
+  </mat-expansion-panel>
+</div>

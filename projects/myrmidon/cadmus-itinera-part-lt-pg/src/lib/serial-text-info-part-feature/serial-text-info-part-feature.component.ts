@@ -6,24 +6,24 @@ import {
   EditPartFeatureBase,
 } from '@myrmidon/cadmus-state';
 
-import { EditCitedPersonsPartService } from './edit-cited-persons-part.service';
-import { EditCitedPersonsPartQuery } from './edit-cited-persons-part.query';
+import { EditSerialTextInfoPartService } from './edit-serial-text-info-part.service';
+import { EditSerialTextInfoPartQuery } from './edit-serial-text-info-part.query';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
-  selector: 'itinera-cited-persons-part-feature',
-  templateUrl: './cited-persons-part-feature.component.html',
-  styleUrls: ['./cited-persons-part-feature.component.css'],
+  selector: 'itinera-serial-text-info-part-feature',
+  templateUrl: './serial-text-info-part-feature.component.html',
+  styleUrls: ['./serial-text-info-part-feature.component.css'],
 })
-export class CitedPersonsPartFeatureComponent
+export class SerialTextInfoPartFeatureComponent
   extends EditPartFeatureBase
   implements OnInit {
   constructor(
     router: Router,
     route: ActivatedRoute,
     snackbar: MatSnackBar,
-    editPartQuery: EditCitedPersonsPartQuery,
-    editPartService: EditCitedPersonsPartService,
+    editPartQuery: EditSerialTextInfoPartQuery,
+    editPartService: EditSerialTextInfoPartService,
     editItemQuery: EditItemQuery,
     editItemService: EditItemService
   ) {
@@ -37,9 +37,13 @@ export class CitedPersonsPartFeatureComponent
       editItemService
     );
   }
+
   public ngOnInit(): void {
     this.initEditor([
       'languages',
+      'doc-reference-tags',
+      'serial-text-genres',
+      'serial-text-verses',
       'person-name-tags',
       'person-name-types',
       'person-id-tags',
