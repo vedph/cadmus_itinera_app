@@ -16,8 +16,6 @@ import { MsLocationService, MsSection } from '@myrmidon/cadmus-itinera-core';
 export class MsSectionComponent implements OnInit {
   @Input()
   public model: MsSection;
-  @Input()
-  public eraEntries: ThesaurusEntry[] | undefined;
 
   @Output()
   public modelChange: EventEmitter<MsSection>;
@@ -30,7 +28,6 @@ export class MsSectionComponent implements OnInit {
   public label: FormControl;
   public start: FormControl;
   public end: FormControl;
-  public era: FormControl;
   public hasDate: FormControl;
   public date: HistoricalDateModel;
 
@@ -55,14 +52,12 @@ export class MsSectionComponent implements OnInit {
       Validators.required,
       Validators.pattern(MsLocationService.locRegexp),
     ]);
-    this.era = formBuilder.control(null, Validators.maxLength(50));
     this.hasDate = formBuilder.control(false);
     this.form = formBuilder.group({
       tag: this.tag,
       label: this.label,
       start: this.start,
       end: this.end,
-      era: this.era,
       hasDate: this.hasDate
     });
   }
@@ -84,7 +79,6 @@ export class MsSectionComponent implements OnInit {
     this.label.setValue(model.label);
     this.start.setValue(this._locService.locationToString(model.start));
     this.end.setValue(this._locService.locationToString(model.end));
-    this.era.setValue(model.era);
   }
 
   private getModel(): MsSection {
@@ -93,8 +87,7 @@ export class MsSectionComponent implements OnInit {
       tag: this.tag.value?.trim(),
       label: this.label.value?.trim(),
       start: this._locService.parseLocation(this.start.value),
-      end: this._locService.parseLocation(this.end.value),
-      era: this.era.value?.trim()
+      end: this._locService.parseLocation(this.end.value)
     };
   }
 

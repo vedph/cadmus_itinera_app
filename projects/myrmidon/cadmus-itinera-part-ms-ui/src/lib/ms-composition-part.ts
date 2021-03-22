@@ -216,9 +216,6 @@ export const MSCOMPOSITION_PART_SCHEMA = {
                   },
                 },
               },
-              era: {
-                type: 'string'
-              },
               date: {
                 type: 'object',
                 required: ['a'],

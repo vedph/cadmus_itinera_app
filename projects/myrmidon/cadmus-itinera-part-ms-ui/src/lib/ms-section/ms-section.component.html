@@ -45,24 +45,6 @@
         >invalid end</mat-error
       >
     </mat-form-field>
-
-    &nbsp;
-    <!-- era (bound) -->
-    <mat-form-field *ngIf="eraEntries?.length" style="width: 8em">
-      <mat-select [formControl]="era" placeholder="era">
-        <mat-option *ngFor="let e of eraEntries" [value]="e.id">{{
-          e.value
-        }}</mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <!-- era (free) -->
-    <mat-form-field *ngIf="!eraEntries?.length" style="width: 8em">
-      <input matInput [formControl]="era" placeholder="era" />
-      <mat-error *ngIf="era.errors?.maxLength && (era.dirty || era.touched)"
-        >era too long</mat-error
-      >
-    </mat-form-field>
   </div>
 
   <!-- date -->

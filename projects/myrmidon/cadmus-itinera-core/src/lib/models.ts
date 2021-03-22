@@ -176,7 +176,6 @@ export interface MsSection {
   label: string;
   start: MsLocation;
   end: MsLocation;
-  era?: string;
   date?: HistoricalDateModel;
 }
 
