@@ -8,7 +8,11 @@ import {
   MsMaterialDscPart,
   MSMATERIAL_DSC_PART_TYPEID,
 } from '../ms-material-dsc-part';
-import { MsLocation, MsLocationService, MsPalimpsest } from '@myrmidon/cadmus-itinera-core';
+import {
+  MsLocation,
+  MsLocationService,
+  MsPalimpsest,
+} from '@myrmidon/cadmus-itinera-core';
 import { take } from 'rxjs/operators';
 
 /**
@@ -53,10 +57,7 @@ export class MsMaterialDscPartComponent
       Validators.required,
       Validators.maxLength(50),
     ]);
-    this.format = formBuilder.control(null, [
-      Validators.required,
-      Validators.maxLength(50),
-    ]);
+    this.format = formBuilder.control(null, Validators.maxLength(50));
     this.state = formBuilder.control(null, [
       Validators.required,
       Validators.maxLength(50),

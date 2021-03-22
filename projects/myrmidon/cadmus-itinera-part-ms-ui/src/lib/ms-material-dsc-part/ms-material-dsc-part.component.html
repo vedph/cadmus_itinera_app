@@ -53,23 +53,11 @@
                   e.value
                 }}</mat-option>
               </mat-select>
-              <mat-error
-                *ngIf="
-                  format.errors?.required && (format.dirty || format.touched)
-                "
-                >format required</mat-error
-              >
             </mat-form-field>
 
             <!-- format (free) -->
             <mat-form-field *ngIf="!formatEntries?.length" style="width: 6em">
               <input matInput [formControl]="format" placeholder="format" />
-              <mat-error
-                *ngIf="
-                  format.errors?.required && (format.dirty || format.touched)
-                "
-                >format required</mat-error
-              >
               <mat-error
                 *ngIf="
                   format.errors?.maxLength && (format.dirty || format.touched)
