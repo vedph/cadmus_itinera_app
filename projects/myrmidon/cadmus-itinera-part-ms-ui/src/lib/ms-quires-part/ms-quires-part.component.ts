@@ -70,6 +70,7 @@ export class MsQuiresPartComponent
       startNr: group.controls.startNr.value,
       endNr: group.controls.endNr.value,
       sheetCount: group.controls.sheetCount.value,
+      sheetDelta: group.controls.sheetDelta.value,
       note: group.controls.note.value?.trim(),
     };
   }

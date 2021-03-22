@@ -106,7 +106,7 @@ export class MsQuiresService {
     sb.push(quire.sheetCount.toString());
     // ±delta
     if (quire.sheetDelta) {
-      sb.push(quire.sheetDelta < 0? '-' : '+');
+      sb.push(quire.sheetDelta < 0? '' : '+');
       sb.push(quire.sheetDelta.toString());
     }
     // {note}
