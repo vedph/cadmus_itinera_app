@@ -10,6 +10,7 @@ import { ThesaurusEntry } from '@myrmidon/cadmus-core';
 import {
   MsContent,
   MsContentUnit,
+  MsLocationRange,
   MsLocationService,
 } from '@myrmidon/cadmus-itinera-core';
 
@@ -35,15 +36,16 @@ export class MsContentComponent implements OnInit {
   public author: FormControl;
   public claimedAuthor: FormControl;
   public work: FormControl;
-  public start: FormControl;
-  public end: FormControl;
+  public ranges: FormControl;
   public state: FormControl;
+  public incipit: FormControl;
+  public explicit: FormControl;
   public note: FormControl;
   public units: FormArray;
 
   constructor(
     private _formBuilder: FormBuilder,
-    private _msLocationService: MsLocationService
+    private _locService: MsLocationService
   ) {
     // event
     this.modelChange = new EventEmitter<MsContent>();
@@ -55,24 +57,23 @@ export class MsContentComponent implements OnInit {
       Validators.required,
       Validators.maxLength(100),
     ]);
-    this.start = _formBuilder.control(
+    this.ranges = _formBuilder.control(
       null,
-      Validators.pattern(MsLocationService.locRegexp)
-    );
-    this.end = _formBuilder.control(
-      null,
-      Validators.pattern(MsLocationService.locRegexp)
+      Validators.pattern(MsLocationService.rangesRegexp)
     );
     this.state = _formBuilder.control(null, Validators.maxLength(50));
+    this.incipit = _formBuilder.control(null, Validators.maxLength(500));
+    this.explicit = _formBuilder.control(null, Validators.maxLength(500));
     this.note = _formBuilder.control(null, Validators.maxLength(500));
     this.units = _formBuilder.array([]);
     this.form = _formBuilder.group({
       author: this.author,
       claimedAuthor: this.claimedAuthor,
       work: this.work,
-      start: this.start,
-      end: this.end,
+      ranges: this.ranges,
       state: this.state,
+      incipit: this.incipit,
+      explicit: this.explicit,
       note: this.note,
       units: this.units,
     });
@@ -90,9 +91,16 @@ export class MsContentComponent implements OnInit {
     this.author.setValue(model.author);
     this.claimedAuthor.setValue(model.claimedAuthor);
     this.work.setValue(model.work);
-    this.start.setValue(this._msLocationService.locationToString(model.start));
-    this.end.setValue(this._msLocationService.locationToString(model.end));
+    this.ranges.setValue(model.ranges
+      ? model.ranges
+          .map((r) => {
+            return this._locService.rangeToString(r);
+          })
+          .join(' ')
+      : null);
     this.state.setValue(model.state);
+    this.incipit.setValue(model.incipit);
+    this.explicit.setValue(model.explicit);
     this.note.setValue(model.note);
     if (model.units?.length) {
       for (const unit of model.units) {
@@ -101,14 +109,51 @@ export class MsContentComponent implements OnInit {
     }
   }
 
+  private splitText(text: string, delimiter = ' '): string[] | undefined {
+    if (!text) {
+      return undefined;
+    }
+    const tokens = text
+      .split(delimiter)
+      .map((t) => {
+        return t.trim();
+      })
+      .filter((t) => {
+        return t.length > 0;
+      });
+    return tokens.length ? tokens : undefined;
+  }
+
+  private parseRanges(text: string): MsLocationRange[] | undefined {
+    const tokens = this.splitText(text);
+    if (!tokens) {
+      return undefined;
+    }
+    const ranges: MsLocationRange[] = tokens
+      .map((t) => {
+        const bounds = t.split('-');
+        const start = this._locService.parseLocation(bounds[0]);
+        return {
+          start: start,
+          end:
+            bounds.length > 1
+              ? this._locService.parseLocation(bounds[1])
+              : start,
+        };
+      })
+      .filter((r) => (r ? true : false));
+    return ranges.length ? ranges : undefined;
+  }
+
   private getModel(): MsContent {
     const model: MsContent = {
       author: this.author.value?.trim(),
       claimedAuthor: this.claimedAuthor.value?.trim(),
       work: this.work.value?.trim(),
-      start: this._msLocationService.parseLocation(this.start.value),
-      end: this._msLocationService.parseLocation(this.end.value),
+      ranges: this.parseRanges(this.ranges.value),
       state: this.state.value?.trim(),
+      incipit: this.incipit.value?.trim(),
+      explicit: this.explicit.value?.trim(),
       note: this.note.value?.trim(),
       units: []
     };
@@ -117,8 +162,8 @@ export class MsContentComponent implements OnInit {
       const g = this.units.controls[i] as FormGroup;
       model.units.push({
         label: g.controls.label.value?.trim(),
-        incipit: g.controls.incipit.value?.trim(),
-        explicit: g.controls.explicit.value?.trim(),
+        incipit: g.controls.unIncipit.value?.trim(),
+        explicit: g.controls.unExplicit.value?.trim(),
       });
     }
 
@@ -131,11 +176,11 @@ export class MsContentComponent implements OnInit {
         Validators.required,
         Validators.maxLength(100),
       ]),
-      incipit: this._formBuilder.control(
+      unIncipit: this._formBuilder.control(
         unit?.incipit,
         Validators.maxLength(500)
       ),
-      explicit: this._formBuilder.control(
+      unExplicit: this._formBuilder.control(
         unit?.explicit,
         Validators.maxLength(500)
       ),

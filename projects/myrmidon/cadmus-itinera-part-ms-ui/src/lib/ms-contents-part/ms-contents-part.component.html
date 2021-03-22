@@ -25,8 +25,7 @@
                 <th></th>
                 <th>author</th>
                 <th>work</th>
-                <th>start</th>
-                <th>end</th>
+                <th>ranges</th>
               </tr>
             </thead>
             <tbody>
@@ -78,8 +77,7 @@
                 </td>
                 <td>{{ c.author }}</td>
                 <td>{{ c.work }}</td>
-                <td>{{ locationToString(c.start) }}</td>
-                <td>{{ locationToString(c.end) }}</td>
+                <td>{{ rangesToString(c.ranges) }}</td>
               </tr>
             </tbody>
           </table>

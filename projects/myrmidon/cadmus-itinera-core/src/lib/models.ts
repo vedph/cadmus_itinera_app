@@ -253,9 +253,10 @@ export interface MsContent {
   author?: string;
   claimedAuthor?: string;
   work: string;
-  start?: MsLocation;
-  end?: MsLocation;
+  ranges?: MsLocationRange[];
   state?: string;
+  incipit?: string;
+  explicit?: string;
   note?: string;
   units?: MsContentUnit[];
 }

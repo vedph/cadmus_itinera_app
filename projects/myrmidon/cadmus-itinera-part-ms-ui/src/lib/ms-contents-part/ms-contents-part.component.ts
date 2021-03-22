@@ -5,7 +5,7 @@ import { ModelEditorComponentBase, DialogService } from '@myrmidon/cadmus-ui';
 import { AuthService } from '@myrmidon/cadmus-api';
 import { deepCopy, ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { MsContentsPart, MSCONTENTS_PART_TYPEID } from '../ms-contents-part';
-import { MsContent, MsLocation, MsLocationService } from '@myrmidon/cadmus-itinera-core';
+import { MsContent, MsLocation, MsLocationRange, MsLocationService } from '@myrmidon/cadmus-itinera-core';
 import { take } from 'rxjs/operators';
 
 /**
@@ -33,6 +33,7 @@ export class MsContentsPartComponent
   constructor(
     authService: AuthService,
     formBuilder: FormBuilder,
+    private _locService: MsLocationService,
     private _dialogService: DialogService,
     private _msLocationService: MsLocationService
   ) {
@@ -170,5 +171,17 @@ export class MsContentsPartComponent
 
   public locationToString(location: MsLocation): string {
     return this._msLocationService.locationToString(location);
+  }
+
+  public rangesToString(ranges: MsLocationRange[] | undefined): string {
+    if (!ranges?.length) {
+      return '';
+    }
+    const tokens = ranges.map((r) => {
+      return `${this._locService.locationToString(
+        r.start
+      )}-${this._locService.locationToString(r.end)}`;
+    });
+    return tokens.join(' ');
   }
 }

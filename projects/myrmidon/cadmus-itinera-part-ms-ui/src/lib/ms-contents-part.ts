@@ -81,44 +81,63 @@ export const MSCONTENTS_PART_SCHEMA = {
               work: {
                 type: 'string',
               },
-              start: {
-                type: 'object',
-                required: ['n'],
-                properties: {
-                  n: {
-                    type: 'integer',
-                  },
-                  r: {
-                    type: 'boolean',
-                  },
-                  s: {
-                    type: 'integer',
-                  },
-                  l: {
-                    type: 'integer',
-                  },
-                },
-              },
-              end: {
-                type: 'object',
-                required: ['n'],
-                properties: {
-                  n: {
-                    type: 'integer',
-                  },
-                  r: {
-                    type: 'boolean',
-                  },
-                  s: {
-                    type: 'integer',
-                  },
-                  l: {
-                    type: 'integer',
-                  },
+              ranges: {
+                type: 'array',
+                items: {
+                  anyOf: [
+                    {
+                      type: 'object',
+                      required: ['start', 'end'],
+                      properties: {
+                        start: {
+                          type: 'object',
+                          required: ['n'],
+                          properties: {
+                            n: {
+                              type: 'integer',
+                            },
+                            r: {
+                              type: 'boolean',
+                            },
+                            s: {
+                              type: 'integer',
+                            },
+                            l: {
+                              type: 'integer',
+                            },
+                          },
+                        },
+                        end: {
+                          type: 'object',
+                          required: ['n'],
+                          properties: {
+                            n: {
+                              type: 'integer',
+                            },
+                            r: {
+                              type: 'boolean',
+                            },
+                            s: {
+                              type: 'integer',
+                            },
+                            l: {
+                              type: 'integer',
+                            },
+                          },
+                        },
+                      },
+                    },
+                  ],
                 },
               },
               state: {
                 type: 'string',
+              },
+              incipit: {
+                type: 'string'
+              },
+              explicit: {
+                type: 'string'
               },
               note: {
                 type: 'string',

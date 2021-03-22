@@ -51,20 +51,46 @@
   </div>
 
   <div>
-    <!-- start -->
-    <mat-form-field style="width: 5em">
-      <input matInput [formControl]="start" placeholder="start" />
-      <mat-error *ngIf="start.errors?.pattern && (start.dirty || start.touched)"
-        >invalid start</mat-error
+    <!-- ranges -->
+    <mat-form-field class="long-text">
+      <input matInput [formControl]="ranges" placeholder="ranges" />
+      <mat-error
+        *ngIf="ranges.errors?.pattern && (ranges.dirty || ranges.touched)"
+        >invalid ranges</mat-error
       >
     </mat-form-field>
+  </div>
 
-    <!-- end -->
-    &nbsp;-&nbsp;
-    <mat-form-field style="width: 5em">
-      <input matInput [formControl]="end" placeholder="end" />
-      <mat-error *ngIf="end.errors?.pattern && (end.dirty || end.touched)"
-        >invalid end</mat-error
+  <div>
+    <!-- incipit -->
+    <mat-form-field class="long-text">
+      <textarea
+        matInput
+        rows="2"
+        [formControl]="incipit"
+        placeholder="incipit"
+      ></textarea>
+      <mat-error
+        *ngIf="incipit.errors?.maxLength && (incipit.dirty || incipit.touched)"
+        >incipit too long</mat-error
+      >
+    </mat-form-field>
+  </div>
+
+  <div>
+    <!-- explicit -->
+    <mat-form-field class="long-text">
+      <textarea
+        matInput
+        rows="2"
+        [formControl]="explicit"
+        placeholder="explicit"
+      ></textarea>
+      <mat-error
+        *ngIf="
+          explicit.errors?.maxLength && (explicit.dirty || explicit.touched)
+        "
+        >explicit too long</mat-error
       >
     </mat-form-field>
   </div>
@@ -162,14 +188,14 @@
             <mat-form-field class="long-text">
               <textarea
                 matInput
-                formControlName="incipit"
+                formControlName="unIncipit"
                 placeholder="incipit"
               ></textarea>
               <mat-error
                 *ngIf="
-                  unit['controls'].incipit.errors?.maxLength &&
-                  (unit['controls'].incipit.dirty ||
-                    unit['controls'].incipit.touched)
+                  unit['controls'].unIncipit.errors?.maxLength &&
+                  (unit['controls'].unIncipit.dirty ||
+                    unit['controls'].unIncipit.touched)
                 "
                 >incipit too long</mat-error
               >
@@ -180,14 +206,14 @@
             <mat-form-field class="long-text">
               <textarea
                 matInput
-                formControlName="explicit"
+                formControlName="unExplicit"
                 placeholder="explicit"
               ></textarea>
               <mat-error
                 *ngIf="
-                  unit['controls'].explicit.errors?.maxLength &&
-                  (unit['controls'].explicit.dirty ||
-                    unit['controls'].explicit.touched)
+                  unit['controls'].unExplicit.errors?.maxLength &&
+                  (unit['controls'].unExplicit.dirty ||
+                    unit['controls'].unExplicit.touched)
                 "
                 >explicit too long</mat-error
               >

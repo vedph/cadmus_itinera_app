@@ -234,6 +234,6 @@ export class MsHandsPartComponent
         r.start
       )}-${this._locService.locationToString(r.end)}`;
     });
-    return tokens.join(', ');
+    return tokens.join(' ');
   }
 }

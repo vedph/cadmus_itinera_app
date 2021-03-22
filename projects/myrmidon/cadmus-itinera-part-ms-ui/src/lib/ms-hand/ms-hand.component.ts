@@ -297,7 +297,7 @@ export class MsHandComponent implements OnInit {
               : start,
         };
       })
-      .filter((l) => (l ? true : false));
+      .filter((r) => (r ? true : false));
     return ranges.length ? ranges : undefined;
   }
 
