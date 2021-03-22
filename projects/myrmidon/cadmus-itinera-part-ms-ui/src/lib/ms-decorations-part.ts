@@ -33,7 +33,7 @@ export const MSDECORATIONS_PART_SCHEMA = {
     'creatorId',
     'timeModified',
     'userId',
-    'decorations'
+    'decorations',
   ],
   properties: {
     timeCreated: {
@@ -72,15 +72,15 @@ export const MSDECORATIONS_PART_SCHEMA = {
         anyOf: [
           {
             type: 'object',
-            required: ['type', 'subject', 'colors', 'layout', 'tool'],
+            required: ['id', 'name'],
             properties: {
-              type: {
+              id: {
                 type: 'string',
               },
-              subject: {
+              name: {
                 type: 'string',
               },
-              colors: {
+              flags: {
                 type: 'array',
                 items: {
                   anyOf: [
@@ -90,134 +90,7 @@ export const MSDECORATIONS_PART_SCHEMA = {
                   ],
                 },
               },
-              layout: {
-                type: 'string',
-              },
-              tool: {
-                type: 'string',
-              },
-              start: {
-                type: 'object',
-                required: ['n'],
-                properties: {
-                  n: {
-                    type: 'integer',
-                  },
-                  r: {
-                    type: 'boolean',
-                  },
-                  s: {
-                    type: 'integer',
-                  },
-                  l: {
-                    type: 'integer',
-                  },
-                },
-              },
-              end: {
-                type: 'object',
-                required: ['n'],
-                properties: {
-                  n: {
-                    type: 'integer',
-                  },
-                  r: {
-                    type: 'boolean',
-                  },
-                  s: {
-                    type: 'integer',
-                  },
-                  l: {
-                    type: 'integer',
-                  },
-                },
-              },
-              position: {
-                type: 'string',
-              },
-              size: {
-                type: 'object',
-                required: [],
-                properties: {
-                  tag: {
-                    type: 'string',
-                  },
-                  w: {
-                    type: 'object',
-                    required: ['value', 'unit'],
-                    properties: {
-                      tag: {
-                        type: 'string',
-                      },
-                      value: {
-                        type: 'number',
-                      },
-                      unit: {
-                        type: 'string',
-                      },
-                    },
-                  },
-                  d: {
-                    type: 'object',
-                    required: ['value', 'unit'],
-                    properties: {
-                      tag: {
-                        type: 'string',
-                      },
-                      value: {
-                        type: 'number',
-                      },
-                      unit: {
-                        type: 'string',
-                      },
-                    },
-                  },
-                  h: {
-                    type: 'object',
-                    required: ['value', 'unit'],
-                    properties: {
-                      tag: {
-                        type: 'string',
-                      },
-                      value: {
-                        type: 'number',
-                      },
-                      unit: {
-                        type: 'string',
-                      },
-                    },
-                  },
-                  note: {
-                    type: 'string',
-                  },
-                },
-              },
-              description: {
-                type: 'string',
-              },
-              textRelation: {
-                type: 'string',
-              },
-              guideLetters: {
-                type: 'array',
-                items: {
-                  anyOf: [
-                    {
-                      type: 'object',
-                      required: ['position'],
-                      properties: {
-                        position: {
-                          type: 'string',
-                        },
-                        morphology: {
-                          type: 'string',
-                        },
-                      },
-                    },
-                  ],
-                },
-              },
-              imageId: {
+              place: {
                 type: 'string',
               },
               artist: {
@@ -264,6 +137,161 @@ export const MSDECORATIONS_PART_SCHEMA = {
                       ],
                     },
                   },
+                },
+              },
+              note: {
+                type: 'string',
+              },
+              references: {
+                type: 'array',
+                items: {
+                  anyOf: [
+                    {
+                      type: 'object',
+                      required: ['author', 'work'],
+                      properties: {
+                        tag: {
+                          type: 'string',
+                        },
+                        author: {
+                          type: 'string',
+                        },
+                        work: {
+                          type: 'string',
+                        },
+                        location: {
+                          type: 'string',
+                        },
+                        note: {
+                          type: 'string',
+                        },
+                      },
+                    },
+                  ],
+                },
+              },
+              elements: {
+                type: 'array',
+                items: {
+                  anyOf: [
+                    {
+                      type: 'object',
+                      required: ['type', 'flags', 'ranges'],
+                      properties: {
+                        type: {
+                          type: 'string',
+                        },
+                        flags: {
+                          type: 'string',
+                        },
+                        ranges: {
+                          type: 'array',
+                          items: {
+                            anyOf: [
+                              {
+                                type: 'object',
+                                required: ['start', 'end'],
+                                properties: {
+                                  start: {
+                                    type: 'object',
+                                    required: ['n'],
+                                    properties: {
+                                      n: {
+                                        type: 'integer',
+                                      },
+                                      r: {
+                                        type: 'boolean',
+                                      },
+                                      s: {
+                                        type: 'integer',
+                                      },
+                                      l: {
+                                        type: 'integer',
+                                      },
+                                    },
+                                  },
+                                  end: {
+                                    type: 'object',
+                                    required: ['n'],
+                                    properties: {
+                                      n: {
+                                        type: 'integer',
+                                      },
+                                      r: {
+                                        type: 'boolean',
+                                      },
+                                      s: {
+                                        type: 'integer',
+                                      },
+                                      l: {
+                                        type: 'integer',
+                                      },
+                                    },
+                                  },
+                                },
+                              },
+                            ],
+                          },
+                        },
+                        key: {
+                          type: 'string',
+                        },
+                        parentKey: {
+                          type: 'string',
+                        },
+                        typologies: {
+                          type: 'array',
+                          items: {
+                            anyOf: [
+                              {
+                                type: 'string',
+                              },
+                            ],
+                          },
+                        },
+                        subject: {
+                          type: 'string',
+                        },
+                        colors: {
+                          type: 'array',
+                          items: {
+                            anyOf: [
+                              {
+                                type: 'string',
+                              },
+                            ],
+                          },
+                        },
+                        gilding: {
+                          type: 'string',
+                        },
+                        technique: {
+                          type: 'string',
+                        },
+                        tool: {
+                          type: 'string',
+                        },
+                        position: {
+                          type: 'string',
+                        },
+                        lineHeight: {
+                          type: 'integer',
+                        },
+                        textRelation: {
+                          type: 'string',
+                        },
+                        description: {
+                          type: 'string',
+                        },
+                        imageId: {
+                          type: 'string',
+                        },
+                        note: {
+                          type: 'string',
+                        },
+                      },
+                    },
+                  ],
                 },
               },
             },
