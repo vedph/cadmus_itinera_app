@@ -53,6 +53,8 @@ export class MsLayoutComponent implements OnInit {
   public sample: FormControl;
   public colCount: FormControl;
   public ruling: FormControl;
+  public derolez: FormControl;
+  public pricking: FormControl;
   public dimensions: FormArray;
   public counts$: BehaviorSubject<DecoratedCount[]>;
 
@@ -71,11 +73,15 @@ export class MsLayoutComponent implements OnInit {
     ]);
     this.colCount = _formBuilder.control(0, Validators.required);
     this.ruling = _formBuilder.control(null, Validators.maxLength(50));
+    this.derolez = _formBuilder.control(null, Validators.maxLength(50));
+    this.pricking = _formBuilder.control(null, Validators.maxLength(50));
     this.dimensions = _formBuilder.array([]);
     this.form = _formBuilder.group({
       sample: this.sample,
       colCount: this.colCount,
       ruling: this.ruling,
+      derolez: this.derolez,
+      pricking: this.pricking,
       dimensions: this.dimensions,
     });
   }
@@ -93,6 +99,8 @@ export class MsLayoutComponent implements OnInit {
     this.sample.setValue(this._locService.locationToString(model.sample));
     this.colCount.setValue(model.columnCount);
     this.ruling.setValue(model.rulingTechnique);
+    this.derolez.setValue(model.derolez);
+    this.pricking.setValue(model.pricking);
     this.dimensions.clear();
     for (let i = 0; i < model.dimensions?.length || 0; i++) {
       this.addDimension(model.dimensions[i]);
@@ -107,6 +115,8 @@ export class MsLayoutComponent implements OnInit {
       sample: this._locService.parseLocation(this.sample.value),
       columnCount: this.colCount.value,
       rulingTechnique: this.ruling.value?.trim(),
+      derolez: this.derolez.value?.trim(),
+      pricking: this.pricking.value?.trim(),
       dimensions: this.getDimensions(),
       counts: this._counts.length? this._counts : undefined
     };

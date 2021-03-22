@@ -21,11 +21,19 @@ import { BehaviorSubject } from 'rxjs';
   styleUrls: ['./cited-person.component.css'],
 })
 export class CitedPersonComponent implements OnInit {
+  private _person: CitedPerson | undefined;
+
   public sources: DocReference[];
   public ids: DecoratedId[];
 
   @Input()
-  public person: CitedPerson;
+  public get person(): CitedPerson | undefined {
+    return this._person;
+  }
+  public set person(value: CitedPerson | undefined) {
+    this._person = value;
+    this.updateForm(this._person);
+  }
 
   // languages
   @Input()
@@ -79,7 +87,7 @@ export class CitedPersonComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.updateForm(this.person);
+    this.updateForm(this._person);
   }
 
   private updateForm(model: CitedPerson): void {

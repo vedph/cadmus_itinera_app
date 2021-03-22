@@ -29,6 +29,7 @@ export class SerialTextInfoPartComponent
   public textId: FormControl;
   public language: FormControl;
   public subject: FormControl;
+  public authors: FormControl;
   public genre: FormControl;
   public verse: FormControl;
   public rhyme: FormControl;
@@ -36,7 +37,6 @@ export class SerialTextInfoPartComponent
   public received: FormControl;
   public note: FormControl;
 
-  public authors: CitedPerson[];
   public recipients: DecoratedId[];
   public replyingTo: DecoratedId[];
   public related$: BehaviorSubject<DocReference[]>;
@@ -66,7 +66,6 @@ export class SerialTextInfoPartComponent
 
   constructor(authService: AuthService, formBuilder: FormBuilder) {
     super(authService);
-    this.authors = [];
     this.recipients = [];
     this.replyingTo = [];
     this.related$ = new BehaviorSubject<DocReference[]>([]);
@@ -83,6 +82,7 @@ export class SerialTextInfoPartComponent
       Validators.required,
       Validators.maxLength(500),
     ]);
+    this.authors = formBuilder.control([]);
     this.genre = formBuilder.control(null, Validators.maxLength(50));
     this.verse = formBuilder.control(null, Validators.maxLength(50));
     this.rhyme = formBuilder.control(null, Validators.maxLength(100));
@@ -93,6 +93,7 @@ export class SerialTextInfoPartComponent
       textId: this.textId,
       language: this.language,
       subject: this.subject,
+      authors: this.authors,
       genre: this.genre,
       verse: this.verse,
       rhyme: this.rhyme,
@@ -108,14 +109,12 @@ export class SerialTextInfoPartComponent
 
   private updateForm(model: SerialTextInfoPart): void {
     if (!model) {
-      this.authors = [];
       this.recipients = [];
       this.replyingTo = [];
       this.related$.next([]);
       this.form.reset();
       return;
     }
-    this.authors = model.authors || [];
     this.recipients = model.recipients || [];
     this.replyingTo = model.replyingTo || [];
     this.related$.next(model.related || []);
@@ -123,6 +122,7 @@ export class SerialTextInfoPartComponent
     this.textId.setValue(model.textId);
     this.language.setValue(model.language);
     this.subject.setValue(model.subject);
+    this.authors.setValue(model.authors || []);
     this.genre.setValue(model.genre);
     this.verse.setValue(model.verse);
     this.rhyme.setValue(model.rhyme);
@@ -227,10 +227,10 @@ export class SerialTextInfoPartComponent
     part.textId = this.textId.value?.trim();
     part.language = this.language.value?.trim();
     part.subject = this.subject.value?.trim();
+    part.authors = this.authors.value?.length? this.authors.value : undefined;
     part.headings = this.parseIds(this.headings.value?.trim());
     part.note = this.note.value?.trim();
 
-    part.authors = this.authors?.length ? this.authors : undefined;
     part.recipients = this.recipients?.length ? this.recipients : undefined;
     part.replyingTo = this.replyingTo?.length ? this.replyingTo : undefined;
     part.related = this.related$.value?.length
@@ -241,7 +241,7 @@ export class SerialTextInfoPartComponent
   }
 
   public onPersonsChange(persons: CitedPerson[]): void {
-    this.authors = persons;
+    this.authors.setValue(persons);
     this.form.markAsDirty();
   }
 

@@ -8,6 +8,8 @@ export interface MsLayout {
   sample: MsLocation;
   columnCount: number;
   rulingTechnique?: string;
+  derolez?: string;
+  pricking?: string;
   dimensions?: PhysicalDimension[];
   counts?: DecoratedCount[];
 }
@@ -76,47 +78,23 @@ export const MSLAYOUTS_PART_SCHEMA = {
       pattern: '^([a-z][-0-9a-z._]*)?$',
     },
     layouts: {
-      $id: '#/properties/layouts',
       type: 'array',
-      title: 'The layouts schema',
-      description: 'An explanation about the purpose of this instance.',
-      default: [],
-      examples: [
-        [
-          {
-            sample: {},
-            columnCount: 1,
-            rulingTechnique: '',
-            dimensions: [{}],
-            counts: [{}],
-          },
-        ],
-      ],
-      additionalItems: true,
       items: {
-        $id: '#/properties/layouts/items',
         anyOf: [
           {
-            $id: '#/properties/layouts/items/anyOf/0',
             type: 'object',
-            title: 'The first anyOf schema',
-            description: 'An explanation about the purpose of this instance.',
-            default: {},
-            examples: [
-              {
-                sample: {},
-                columnCount: 1,
-                rulingTechnique: '',
-                dimensions: [{}],
-                counts: [{}],
-              },
-            ],
             required: ['sample', 'columnCount'],
             properties: {
               columnCount: {
                 type: 'integer',
               },
               rulingTechnique: {
+                type: 'string',
+              },
+              derolez: {
+                type: 'string',
+              },
+              pricking: {
                 type: 'string',
               },
               sample: {

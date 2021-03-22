@@ -31,7 +31,7 @@
             type="button"
             matTooltip="Edit this person"
             color="primary"
-            (click)="editPerson(a)"
+            (click)="editPerson(p)"
           >
             <mat-icon>edit</mat-icon>
           </button>
@@ -71,7 +71,7 @@
   <!-- edited person -->
   <mat-expansion-panel [disabled]="!editedPerson" [expanded]="editedPerson">
     <mat-expansion-panel-header>
-      Person {{ editedPerson?.name }}
+      Person {{ personToString(editedPerson) }}
     </mat-expansion-panel-header>
     <itinera-cited-person
       [person]="editedPerson"

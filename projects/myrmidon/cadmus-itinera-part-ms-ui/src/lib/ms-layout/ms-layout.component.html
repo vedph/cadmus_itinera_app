@@ -50,6 +50,29 @@
   </div>
 
   <div>
+    <!-- derolez -->
+    <mat-form-field>
+      <input matInput [formControl]="derolez" placeholder="derolez" />
+      <mat-error
+        *ngIf="derolez.errors?.maxLength && (derolez.dirty || derolez.touched)"
+        >derolez too long</mat-error
+      >
+    </mat-form-field>
+
+    &nbsp;
+    <!-- pricking -->
+    <mat-form-field>
+      <input matInput [formControl]="pricking" placeholder="pricking" />
+      <mat-error
+        *ngIf="
+          pricking.errors?.maxLength && (pricking.dirty || pricking.touched)
+        "
+        >pricking too long</mat-error
+      >
+    </mat-form-field>
+  </div>
+
+  <div>
     <h3>dimensions</h3>
     <div formArrayName="dimensions">
       <div>

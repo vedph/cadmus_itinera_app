@@ -110,7 +110,7 @@ export class CitedPersonsComponent implements OnInit {
     return sb.join(' ');
   }
 
-  public personToString(person: CitedPerson): string {
-    return this.getFullName(person.name);
+  public personToString(person?: CitedPerson): string {
+    return this.getFullName(person?.name);
   }
 }
