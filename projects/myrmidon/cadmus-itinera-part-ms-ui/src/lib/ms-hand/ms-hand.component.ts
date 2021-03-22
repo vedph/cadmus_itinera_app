@@ -280,6 +280,27 @@ export class MsHandComponent implements OnInit {
     return locations.length ? locations : undefined;
   }
 
+  private parseRanges(text: string): MsLocationRange[] | undefined {
+    const tokens = this.splitText(text);
+    if (!tokens) {
+      return undefined;
+    }
+    const ranges: MsLocationRange[] = tokens
+      .map((t) => {
+        const bounds = t.split('-');
+        const start = this._locService.parseLocation(bounds[0]);
+        return {
+          start: start,
+          end:
+            bounds.length > 1
+              ? this._locService.parseLocation(bounds[1])
+              : start,
+        };
+      })
+      .filter((l) => (l ? true : false));
+    return ranges.length ? ranges : undefined;
+  }
+
   private getSetNote(key: string): string | undefined {
     return this.noteSet.notes.has(key)
       ? this.noteSet.notes.get(key)
@@ -305,7 +326,7 @@ export class MsHandComponent implements OnInit {
       // rubrications
       rubrications: this.getRubrications(),
       // signs
-      signs: this.signs.length? this.signs : undefined
+      signs: this.signs.length ? this.signs : undefined,
     };
 
     // subscription (if checked)
@@ -443,18 +464,18 @@ export class MsHandComponent implements OnInit {
   //#region Rubrications
   private getRubricationGroup(rubrication?: MsRubrication): FormGroup {
     return this._formBuilder.group({
-      locations: this._formBuilder.control(
-        rubrication.locations
-          ? rubrication.locations
-              .map((l) => {
-                return this._locService.locationToString(l);
+      rubRanges: this._formBuilder.control(
+        rubrication.ranges
+          ? rubrication.ranges
+              .map((r) => {
+                return this._locService.rangeToString(r);
               })
               .join(' ')
           : null,
         [
           Validators.maxLength(500),
           Validators.required,
-          Validators.pattern(MsLocationService.locsRegexp),
+          Validators.pattern(MsLocationService.rangesRegexp),
         ]
       ),
       type: this._formBuilder.control(rubrication?.type, [
@@ -507,7 +528,7 @@ export class MsHandComponent implements OnInit {
     for (let i = 0; i < this.rubrications.length; i++) {
       const g = this.rubrications.at(i) as FormGroup;
       entries.push({
-        locations: this.parseLocations(g.controls.locations.value),
+        ranges: this.parseRanges(g.controls.rubRanges.value),
         type: g.controls.type.value?.trim(),
         description: g.controls.description.value?.trim(),
         issues: g.controls.issues.value?.trim(),

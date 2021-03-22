@@ -343,31 +343,31 @@
             </button>
 
             <!-- child controls -->
-            <!-- locations -->
+            <!-- ranges -->
             <mat-form-field style="width: 15em">
               <input
                 matInput
-                formControlName="locations"
-                placeholder="locations (space delimited)"
+                formControlName="rubRanges"
+                placeholder="ranges (space delimited)"
               />
               <mat-error
                 *ngIf="
-                  item['controls'].locations.errors?.required &&
-                  (item['controls'].locations.dirty ||
-                    item['controls'].locations.touched)
+                  item['controls'].rubRanges.errors?.required &&
+                  (item['controls'].rubRanges.dirty ||
+                    item['controls'].rubRanges.touched)
                 "
-                >locations required</mat-error
+                >ranges required</mat-error
               >
               <mat-error
                 *ngIf="
-                  item['controls'].locations.errors?.maxLength &&
-                  (item['controls'].locations.dirty ||
-                    item['controls'].locations.touched)
+                  item['controls'].rubRanges.errors?.maxLength &&
+                  (item['controls'].rubRanges.dirty ||
+                    item['controls'].rubRanges.touched)
                 "
-                >locations too long</mat-error
+                >ranges too long</mat-error
               >
-              <mat-error *ngIf="item['controls'].locations.errors?.pattern"
-                >invalid locations</mat-error
+              <mat-error *ngIf="item['controls'].rubRanges.errors?.pattern"
+                >invalid ranges</mat-error
               >
             </mat-form-field>
 

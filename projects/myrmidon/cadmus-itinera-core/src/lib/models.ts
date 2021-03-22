@@ -274,7 +274,7 @@ export interface MsContentLocus {
  * A manuscript's rubrication.
  */
 export interface MsRubrication {
-  locations: MsLocation[];
+  ranges: MsLocationRange[];
   type: string;
   description?: string;
   issues?: string;
