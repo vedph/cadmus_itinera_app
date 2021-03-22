@@ -39,6 +39,7 @@ import { MsWatermarkComponent } from './ms-watermark/ms-watermark.component';
 import { MsWatermarksPartComponent } from './ms-watermarks-part/ms-watermarks-part.component';
 import { PersonHandPartComponent } from './person-hand-part/person-hand-part.component';
 import { MsLayoutComponent } from './ms-layout/ms-layout.component';
+import { MsDecorationElementComponent } from './ms-decoration-element/ms-decoration-element.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { MsLayoutComponent } from './ms-layout/ms-layout.component';
     MsContentsPartComponent,
     MsDecorationArtistComponent,
     MsDecorationComponent,
+    MsDecorationElementComponent,
     MsDecorationsPartComponent,
     MsLayoutsPartComponent,
     MsGuardSheetComponent,
@@ -72,7 +74,7 @@ import { MsLayoutComponent } from './ms-layout/ms-layout.component';
     MsWatermarkComponent,
     MsWatermarksPartComponent,
     PersonHandPartComponent,
-    MsLayoutComponent
+    MsLayoutComponent,
   ],
   imports: [
     CommonModule,
@@ -97,6 +99,7 @@ import { MsLayoutComponent } from './ms-layout/ms-layout.component';
     MsContentsPartComponent,
     MsDecorationArtistComponent,
     MsDecorationComponent,
+    MsDecorationElementComponent,
     MsDecorationsPartComponent,
     MsLayoutsPartComponent,
     MsGuardSheetComponent,

@@ -349,23 +349,40 @@ export interface MsDecorationArtist {
 }
 
 /**
+ * An element of a MsDecoration.
+ */
+export interface MsDecorationElement {
+  type: string;
+  flags: string[];
+  ranges: MsLocationRange[];
+  key?: string;
+  parentKey?: string;
+  typologies?: string[];
+  subject?: string;
+  colors?: string[];
+  gilding?: string;
+  technique?: string;
+  tool?: string;
+  position?: string;
+  lineHeight?: number;
+  textRelation?: string;
+  description?: string;
+  imageId?: string;
+  note?: string;
+}
+
+/**
  * A decoration in a manuscript.
  */
 export interface MsDecoration {
-  type: string;
-  subject?: string;
-  colors: string[];
-  tool: string;
-  start?: MsLocation;
-  end?: MsLocation;
-  position?: string;
-  size?: PhysicalSize;
-  description?: string;
-  textRelation?: string;
-  guideLetters?: MsGuideLetter[];
-  imageId?: string;
+  id: string;
+  name: string;
+  flags?: string[];
+  place?: string;
   artist?: MsDecorationArtist;
   note?: string;
+  references?: DocReference[];
+  elements?: MsDecorationElement[];
 }
 
 /**

@@ -22,6 +22,7 @@ export * from './lib/ms-content-loci-part';
 export * from './lib/ms-content-loci-part/ms-content-loci-part.component';
 
 export * from './lib/ms-decorations-part';
+export * from './lib/ms-decoration-element/ms-decoration-element.component';
 export * from './lib/ms-decorations-part/ms-decorations-part.component';
 export * from './lib/ms-decoration/ms-decoration.component';
 export * from './lib/ms-decoration-artist/ms-decoration-artist.component';
