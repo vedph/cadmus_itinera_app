@@ -152,8 +152,11 @@ export class MsDecorationElementComponent implements OnInit {
 
   private buildSwitches(
     ids: string[] | undefined,
-    entries: ThesaurusEntry[]
+    entries: ThesaurusEntry[] | undefined
   ): boolean[] {
+    if (!entries) {
+      return [];
+    }
     const switches: boolean[] = [];
     entries.forEach((entry) => {
       switches.push(ids?.includes(entry.id));

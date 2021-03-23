@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormBuilder, Validators } from '@angular/forms';
 
 import { ModelEditorComponentBase, DialogService } from '@myrmidon/cadmus-ui';
@@ -6,7 +6,6 @@ import { AuthService } from '@myrmidon/cadmus-api';
 import { deepCopy, ThesaurusEntry } from '@myrmidon/cadmus-core';
 import {
   MsDecoration,
-  MsLocation,
   MsLocationService,
 } from '@myrmidon/cadmus-itinera-core';
 import { take } from 'rxjs/operators';
@@ -17,10 +16,12 @@ import {
 
 /**
  * Manuscript's decorations part.
- * Thesauri: ms-decoration-types, ms-decoration-tools,
- * ms-decoration-positions, ms-guide-positions, ms-artist-types,
- * ms-decoration-colors (all optional); physical-size-tags (optional),
- * physical-dimension-tags (optional), physical-size-units.
+ * Thesauri: ms-decoration-elem-types (required), and optional:
+ * ms-decoration-artist-types, ms-decoration-elem-flags,
+ * ms-decoration-elem-colors, ms-decoration-elem-gildings,
+ * ms-decoration-elem-techniques, ms-decoration-elem-positions,
+ * ms-decoration-elem-tools, ms-decoration-elem-typologies,
+ * ms-decoration-type-deps.
  */
 @Component({
   selector: 'itinera-ms-decorations-part',
@@ -32,48 +33,45 @@ export class MsDecorationsPartComponent
   implements OnInit {
   private _editedIndex: number;
 
+  // ms-decoration-artist-types
+  public decArtTypeEntries: ThesaurusEntry[] | undefined;
+  // ms-decoration-elem-types (required)
+  public decElemTypeEntries: ThesaurusEntry[] | undefined;
+  // ms-decoration-elem-flags
+  public decElemFlagEntries: ThesaurusEntry[] | undefined;
+  // ms-decoration-elem-colors
+  public decElemColorEntries: ThesaurusEntry[] | undefined;
+  // ms-decoration-elem-gildings
+  public decElemGildingEntries: ThesaurusEntry[] | undefined;
+  // ms-decoration-elem-techniques
+  public decElemTechEntries: ThesaurusEntry[] | undefined;
+  // ms-decoration-elem-positions
+  public decElemPosEntries: ThesaurusEntry[] | undefined;
+  // ms-decoration-elem-tools
+  public decElemToolEntries: ThesaurusEntry[] | undefined;
+  // ms-decoration-elem-typologies
+  public decElemTypolEntries: ThesaurusEntry[] | undefined;
+  // ms-decoration-type-deps
+  public decTypeDepEntries: ThesaurusEntry[] | undefined;
+
   public tabIndex: number;
   public editedDecoration: MsDecoration;
 
-  public subjectEntries: ThesaurusEntry[];
-
-  public decorations: MsDecoration[];
-
-  public count: FormControl;
-
-  @Input()
-  public typeEntries: ThesaurusEntry[];
-  @Input()
-  public toolEntries: ThesaurusEntry[];
-  @Input()
-  public posEntries: ThesaurusEntry[];
-  @Input()
-  public guidePosEntries: ThesaurusEntry[];
-  @Input()
-  public artTypeEntries: ThesaurusEntry[];
-  @Input()
-  public colorEntries: ThesaurusEntry[];
-  @Input()
-  public unitEntries: ThesaurusEntry[];
-  @Input()
-  public sizeTagEntries: ThesaurusEntry[];
-  @Input()
-  public dimTagEntries: ThesaurusEntry[];
+  public decorations: FormControl;
 
   constructor(
     authService: AuthService,
     formBuilder: FormBuilder,
     private _dialogService: DialogService,
-    private _msLocationService: MsLocationService
+    private _locService: MsLocationService
   ) {
     super(authService);
     this.tabIndex = 0;
     this._editedIndex = -1;
-    this.decorations = [];
     // form
-    this.count = formBuilder.control(0, Validators.min(1));
+    this.decorations = formBuilder.control([], Validators.required);
     this.form = formBuilder.group({
-      count: this.count,
+      decorations: this.decorations
     });
   }
 
@@ -86,8 +84,7 @@ export class MsDecorationsPartComponent
       this.form.reset();
       return;
     }
-    this.count.setValue(model.decorations?.length || 0);
-    this.decorations = model.decorations || [];
+    this.decorations.setValue(model.decorations || []);
     this.form.markAsPristine();
   }
 
@@ -96,67 +93,74 @@ export class MsDecorationsPartComponent
   }
 
   protected onThesauriSet(): void {
-    let key = 'ms-decoration-types';
+    let key = 'ms-decoration-artist-types';
     if (this.thesauri && this.thesauri[key]) {
-      this.typeEntries = this.thesauri[key].entries;
+      this.decArtTypeEntries = this.thesauri[key].entries;
     } else {
-      this.typeEntries = null;
+      this.decArtTypeEntries = undefined;
     }
 
-    key = 'ms-decoration-tools';
+    key = 'ms-decoration-elem-types';
     if (this.thesauri && this.thesauri[key]) {
-      this.toolEntries = this.thesauri[key].entries;
+      this.decElemTypeEntries = this.thesauri[key].entries;
     } else {
-      this.toolEntries = null;
+      this.decElemTypeEntries = undefined;
     }
 
-    key = 'ms-decoration-positions';
+    key = 'ms-decoration-elem-flags';
     if (this.thesauri && this.thesauri[key]) {
-      this.posEntries = this.thesauri[key].entries;
+      this.decElemFlagEntries = this.thesauri[key].entries;
     } else {
-      this.posEntries = null;
+      this.decElemFlagEntries = undefined;
     }
 
-    key = 'ms-guide-positions';
+    key = 'ms-decoration-elem-colors';
     if (this.thesauri && this.thesauri[key]) {
-      this.guidePosEntries = this.thesauri[key].entries;
+      this.decElemColorEntries = this.thesauri[key].entries;
     } else {
-      this.guidePosEntries = null;
+      this.decElemColorEntries = undefined;
     }
 
-    key = 'ms-artist-types';
+    key = 'ms-decoration-elem-gildings';
     if (this.thesauri && this.thesauri[key]) {
-      this.artTypeEntries = this.thesauri[key].entries;
+      this.decElemGildingEntries = this.thesauri[key].entries;
     } else {
-      this.artTypeEntries = null;
+      this.decElemGildingEntries = undefined;
     }
 
-    key = 'ms-decoration-colors';
+    key = 'ms-decoration-elem-techniques';
     if (this.thesauri && this.thesauri[key]) {
-      this.colorEntries = this.thesauri[key].entries;
+      this.decElemTechEntries = this.thesauri[key].entries;
     } else {
-      this.colorEntries = null;
+      this.decElemTechEntries = undefined;
     }
 
-    key = 'physical-size-tags';
+    key = 'ms-decoration-elem-positions';
     if (this.thesauri && this.thesauri[key]) {
-      this.sizeTagEntries = this.thesauri[key].entries;
+      this.decElemPosEntries = this.thesauri[key].entries;
     } else {
-      this.sizeTagEntries = null;
+      this.decElemPosEntries = undefined;
     }
 
-    key = 'physical-dimension-tags';
+    key = 'ms-decoration-elem-tools';
     if (this.thesauri && this.thesauri[key]) {
-      this.dimTagEntries = this.thesauri[key].entries;
+      this.decElemToolEntries = this.thesauri[key].entries;
     } else {
-      this.dimTagEntries = null;
+      this.decElemToolEntries = undefined;
     }
 
-    key = 'physical-size-units';
+    key = 'ms-decoration-elem-typologies';
     if (this.thesauri && this.thesauri[key]) {
-      this.unitEntries = this.thesauri[key].entries;
+      this.decElemTypolEntries = this.thesauri[key].entries;
     } else {
-      this.unitEntries = null;
+      this.decElemTypolEntries = undefined;
+    }
+
+    key = 'ms-decoration-type-deps';
+    if (this.thesauri && this.thesauri[key]) {
+      this.decTypeDepEntries = this.thesauri[key].entries;
+    } else {
+      this.decTypeDepEntries = undefined;
     }
   }
 
@@ -175,45 +179,46 @@ export class MsDecorationsPartComponent
         decorations: [],
       };
     }
-    part.decorations = this.decorations;
+    part.decorations = this.decorations.value || [];
     return part;
-  }
-
-  public addDecoration(): void {
-    const item: MsDecoration = {
-      type: null,
-      colors: [],
-      tool: null,
-    };
-    this.decorations = [...this.decorations, item];
-    this.count.setValue(this.decorations.length);
-    this.count.markAsDirty();
-    this.editDecoration(this.decorations.length - 1);
   }
 
   public editDecoration(index: number): void {
     if (index < 0) {
       this._editedIndex = -1;
       this.tabIndex = 0;
-      this.editedDecoration = null;
+      this.editedDecoration = undefined;
     } else {
       this._editedIndex = index;
-      this.editedDecoration = this.decorations[index];
+      this.editedDecoration = this.decorations.value[index];
       setTimeout(() => {
         this.tabIndex = 1;
       }, 300);
     }
   }
 
-  public onDecorationSaved(item: MsDecoration): void {
-    this.decorations = this.decorations.map((s, i) =>
-      i === this._editedIndex ? item : s
-    );
+  public addDecoration(): void {
+    this._editedIndex = -1;
+    this.editedDecoration = {
+      id: '',
+      name: ''
+    };
+    setTimeout(() => {
+      this.tabIndex = 1;
+    }, 300);
+}
+
+  public onDecorationChange(decoration: MsDecoration): void {
+    if (this._editedIndex === -1) {
+      this.decorations.value.push(decoration);
+    } else {
+      this.decorations.value.splice(this._editedIndex, 1, decoration);
+    }
     this.editDecoration(-1);
-    this.count.markAsDirty();
+    this.form.markAsDirty();
   }
 
-  public onDecorationClosed(): void {
+  public onDecorationClose(): void {
     this.editDecoration(-1);
   }
 
@@ -223,11 +228,8 @@ export class MsDecorationsPartComponent
       .pipe(take(1))
       .subscribe((yes) => {
         if (yes) {
-          const items = [...this.decorations];
-          items.splice(index, 1);
-          this.decorations = items;
-          this.count.setValue(this.decorations.length);
-          this.count.markAsDirty();
+          this.decorations.value.splice(index, 1);
+          this.form.markAsDirty();
         }
       });
   }
@@ -236,28 +238,20 @@ export class MsDecorationsPartComponent
     if (index < 1) {
       return;
     }
-    const item = this.decorations[index];
-    const sheets = [...this.decorations];
-    sheets.splice(index, 1);
-    sheets.splice(index - 1, 0, item);
-    this.decorations = sheets;
+    const decoration = this.decorations[index];
+    this.decorations.value.splice(index, 1);
+    this.decorations.value.splice(index - 1, 0, decoration);
     this.form.markAsDirty();
   }
 
   public moveDecorationDown(index: number): void {
-    if (index + 1 >= this.decorations.length) {
+    if (index + 1 >= this.decorations.value.length) {
       return;
     }
-    const item = this.decorations[index];
-    const items = [...this.decorations];
-    items.splice(index, 1);
-    items.splice(index + 1, 0, item);
-    this.decorations = items;
+    const decoration = this.decorations[index];
+    this.decorations.value.splice(index, 1);
+    this.decorations.value.splice(index + 1, 0, decoration);
     this.form.markAsDirty();
-  }
-
-  public locationToString(location: MsLocation): string {
-    return this._msLocationService.locationToString(location);
   }
 
   public typeIdToString(id: string): string {
@@ -265,7 +259,7 @@ export class MsDecorationsPartComponent
       return '';
     } else {
       return (
-        this.typeEntries.find((e) => {
+        this.decElemTypeEntries?.find((e) => {
           return e.id === id;
         })?.value || id
       );

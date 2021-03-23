@@ -36,11 +36,11 @@ export class MsBindingPartComponent
     automaticLayout: true,
   };
 
-  public materialEntries: ThesaurusEntry[];
-  public supportEntries: ThesaurusEntry[];
-  public sizeTagEntries: ThesaurusEntry[];
-  public dimTagEntries: ThesaurusEntry[];
-  public unitEntries: ThesaurusEntry[];
+  public materialEntries: ThesaurusEntry[] | undefined;
+  public supportEntries: ThesaurusEntry[] | undefined;
+  public sizeTagEntries: ThesaurusEntry[] | undefined;
+  public dimTagEntries: ThesaurusEntry[] | undefined;
+  public unitEntries: ThesaurusEntry[] | undefined;
 
   constructor(authService: AuthService, formBuilder: FormBuilder) {
     super(authService);
@@ -97,35 +97,35 @@ export class MsBindingPartComponent
     if (this.thesauri && this.thesauri[key]) {
       this.materialEntries = this.thesauri[key].entries;
     } else {
-      this.materialEntries = null;
+      this.materialEntries = undefined;
     }
 
     key = 'ms-binding-support-materials';
     if (this.thesauri && this.thesauri[key]) {
       this.supportEntries = this.thesauri[key].entries;
     } else {
-      this.supportEntries = null;
+      this.supportEntries = undefined;
     }
 
     key = 'physical-size-tags';
     if (this.thesauri && this.thesauri[key]) {
       this.sizeTagEntries = this.thesauri[key].entries;
     } else {
-      this.sizeTagEntries = null;
+      this.sizeTagEntries = undefined;
     }
 
     key = 'physical-dimension-tags';
     if (this.thesauri && this.thesauri[key]) {
       this.dimTagEntries = this.thesauri[key].entries;
     } else {
-      this.dimTagEntries = null;
+      this.dimTagEntries = undefined;
     }
 
     key = 'physical-size-units';
     if (this.thesauri && this.thesauri[key]) {
       this.unitEntries = this.thesauri[key].entries;
     } else {
-      this.unitEntries = null;
+      this.unitEntries = undefined;
     }
   }
 

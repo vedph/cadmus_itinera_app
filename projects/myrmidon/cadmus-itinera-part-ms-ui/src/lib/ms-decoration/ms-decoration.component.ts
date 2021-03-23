@@ -1,74 +1,86 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
-  FormArray,
   FormBuilder,
   FormControl,
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { ThesaurusEntry, PhysicalSize } from '@myrmidon/cadmus-core';
+import { DocReference, ThesaurusEntry } from '@myrmidon/cadmus-core';
 import {
   MsDecoration,
   MsDecorationArtist,
-  MsGuideLetter,
   MsLocationService,
+  MsDecorationElement,
+  MsLocationRange,
 } from '@myrmidon/cadmus-itinera-core';
+import { DialogService } from '@myrmidon/cadmus-ui';
+import { BehaviorSubject } from 'rxjs';
+import { take } from 'rxjs/operators';
 
+/**
+ * MsDecoration editor.
+ */
 @Component({
   selector: 'itinera-ms-decoration',
   templateUrl: './ms-decoration.component.html',
   styleUrls: ['./ms-decoration.component.css'],
 })
 export class MsDecorationComponent implements OnInit {
+  public editedElement: MsDecorationElement | undefined;
+
   @Input()
-  public model: MsDecoration;
+  public decoration: MsDecoration;
+
+  // ms-decoration-artist-types
+  @Input()
+  public artTypeEntries: ThesaurusEntry[] | undefined;
+  // ms-decoration-elem-types (required)
+  @Input()
+  public decElemTypeEntries: ThesaurusEntry[] | undefined;
+  // ms-decoration-elem-flags
+  @Input()
+  public decElemFlagEntries: ThesaurusEntry[] | undefined;
+  // ms-decoration-elem-colors
+  @Input()
+  public decElemColorEntries: ThesaurusEntry[] | undefined;
+  // ms-decoration-elem-gildings
+  @Input()
+  public decElemGildingEntries: ThesaurusEntry[] | undefined;
+  // ms-decoration-elem-techniques
+  @Input()
+  public decElemTechEntries: ThesaurusEntry[] | undefined;
+  // ms-decoration-elem-positions
+  @Input()
+  public decElemPosEntries: ThesaurusEntry[] | undefined;
+  // ms-decoration-elem-tools
+  @Input()
+  public decElemToolEntries: ThesaurusEntry[] | undefined;
+  // ms-decoration-elem-typologies
+  @Input()
+  public decElemTypolEntries: ThesaurusEntry[] | undefined;
+  // ms-decoration-type-deps
+  @Input()
+  public decTypeDepEntries: ThesaurusEntry[] | undefined;
 
   @Output()
-  public modelChange: EventEmitter<MsDecoration>;
+  public decorationChange: EventEmitter<MsDecoration>;
   @Output()
   public editorClose: EventEmitter<any>;
 
-  @Input()
-  public typeEntries: ThesaurusEntry[];
-  @Input()
-  public toolEntries: ThesaurusEntry[];
-  @Input()
-  public posEntries: ThesaurusEntry[];
-  @Input()
-  public guidePosEntries: ThesaurusEntry[];
-  @Input()
-  public artTypeEntries: ThesaurusEntry[];
-  @Input()
-  public colorEntries: ThesaurusEntry[];
-  @Input()
-  public unitEntries: ThesaurusEntry[];
-  @Input()
-  public sizeTagEntries: ThesaurusEntry[];
-  @Input()
-  public dimTagEntries: ThesaurusEntry[];
-
-  public type: FormControl;
-  public subject: FormControl;
-  public colors: FormArray;
-  public tool: FormControl;
-  public start: FormControl;
-  public end: FormControl;
-  public position: FormControl;
-  public description: FormControl;
-  public textRelation: FormControl;
-  public letters: FormArray;
-  public imageId: FormControl;
-  public sizePresent: FormControl;
-  public artistPresent: FormControl;
-  public sizeForm: FormGroup;
-  public artistForm: FormGroup;
+  public id: FormControl;
+  public name: FormControl;
+  public flags: FormControl;
+  public place: FormControl;
   public note: FormControl;
+  public elements: FormControl;
   public form: FormGroup;
 
-  public size: PhysicalSize;
+  public references$: BehaviorSubject<DocReference[]>;
+
+  public artistPresent: FormControl;
+  public artistForm: FormGroup;
   public artist: MsDecorationArtist;
 
-  public tabIndex: number;
   public editorOptions = {
     theme: 'vs-light',
     language: 'markdown',
@@ -77,78 +89,45 @@ export class MsDecorationComponent implements OnInit {
     automaticLayout: true,
   };
 
-  constructor(
-    private _formBuilder: FormBuilder,
-    private _msLocationService: MsLocationService
-  ) {
-    this.tabIndex = 0;
+  constructor(formBuilder: FormBuilder,
+    private _locService: MsLocationService,
+    private _dialogService: DialogService) {
+    this.references$ = new BehaviorSubject<DocReference[]>([]);
     // events
-    this.modelChange = new EventEmitter<MsDecoration>();
+    this.decorationChange = new EventEmitter<MsDecoration>();
     this.editorClose = new EventEmitter<any>();
     // form
-    this.type = _formBuilder.control(null, [
+    this.id = formBuilder.control(null, [
+      Validators.required,
+      Validators.pattern('^[-0-9a-zA-Z_]+$'),
+      Validators.maxLength(50),
+    ]);
+    this.name = formBuilder.control(null, [
       Validators.required,
       Validators.maxLength(50),
     ]);
-    this.subject = _formBuilder.control(null, Validators.maxLength(50));
-    this.colors = _formBuilder.array([], Validators.required);
-    this.tool = _formBuilder.control(null, [
-      Validators.required,
-      Validators.maxLength(50),
-    ]);
-    this.start = _formBuilder.control(null, [
-      Validators.required,
-      Validators.pattern(MsLocationService.locRegexp),
-    ]);
-    this.end = _formBuilder.control(null, [
-      Validators.required,
-      Validators.pattern(MsLocationService.locRegexp),
-    ]);
-    this.position = _formBuilder.control(null, [Validators.maxLength(50)]);
-    this.description = _formBuilder.control(null, [Validators.maxLength(1000)]);
-    this.textRelation = _formBuilder.control(null, [
-      Validators.maxLength(1000),
-    ]);
-    this.letters = _formBuilder.array([]);
-    this.imageId = _formBuilder.control(null, [Validators.maxLength(100)]);
-    this.sizePresent = _formBuilder.control(false);
-    this.artistPresent = _formBuilder.control(false);
-    this.note = _formBuilder.control(null, Validators.maxLength(500));
+    this.flags = formBuilder.control([]);
+    this.place = formBuilder.control(null, Validators.maxLength(50));
+    this.elements = formBuilder.control([]);
+    this.note = formBuilder.control(null, Validators.maxLength(500));
+    this.artistPresent = formBuilder.control(false);
 
     // children forms
-    this.sizeForm = _formBuilder.group({});
-    this.artistForm = _formBuilder.group({});
+    this.artistForm = formBuilder.group({});
 
     // root form
-    this.form = _formBuilder.group({
-      type: this.type,
-      subject: this.subject,
-      colors: this.colors,
-      tool: this.tool,
-      start: this.start,
-      end: this.end,
-      position: this.position,
-      description: this.description,
-      textRelation: this.textRelation,
-      letters: this.letters,
-      imageId: this.imageId,
-      sizePresent: this.sizePresent,
-      artistPresent: this.artistPresent,
-      sizeForm: this.sizeForm,
-      artistForm: this.artistForm,
-      note: this.note
+    this.form = formBuilder.group({
+      id: this.id,
+      name: this.name,
+      flags: this.flags,
+      place: this.place,
+      elements: this.elements,
+      note: this.note,
+      artistPresent: this.artistPresent
     });
   }
 
   ngOnInit(): void {
-    this.sizePresent.valueChanges.subscribe((on) => {
-      if (on) {
-        this.sizeForm.enable();
-      } else {
-        this.sizeForm.disable();
-      }
-    });
-
     this.artistPresent.valueChanges.subscribe((on) => {
       if (on) {
         this.artistForm.enable();
@@ -157,48 +136,43 @@ export class MsDecorationComponent implements OnInit {
       }
     });
 
-    this.updateForm(this.model);
+    this.updateForm(this.decoration);
   }
 
-  private updateForm(model: MsDecoration): void {
-    if (!model) {
+  private buildSwitches(
+    ids: string[] | undefined,
+    entries: ThesaurusEntry[] | undefined
+  ): boolean[] {
+    if (!entries) {
+      return [];
+    }
+    const switches: boolean[] = [];
+    entries.forEach((entry) => {
+      switches.push(ids?.includes(entry.id));
+    });
+    return switches;
+  }
+
+  private updateForm(decoration: MsDecoration): void {
+    if (!decoration) {
       this.form.reset();
       return;
     }
-    this.type.setValue(model.type);
-    this.subject.setValue(model.subject);
-    this.tool.setValue(model.tool);
-    this.start.setValue(this._msLocationService.locationToString(model.start));
-    this.end.setValue(this._msLocationService.locationToString(model.end));
-    this.position.setValue(model.position);
-    this.description.setValue(model.description);
-    this.textRelation.setValue(model.textRelation);
-    this.imageId.setValue(model.imageId);
-    this.note.setValue(model.note);
+    this.id.setValue(decoration.id);
+    this.name.setValue(decoration.name);
+    this.flags.setValue(
+      this.buildSwitches(decoration.flags, this.decElemFlagEntries)
+    );
+    this.place.setValue(decoration.place);
+    this.note.setValue(decoration.note);
 
-    // colors
-    this.colors.clear();
-    for (let i = 0; i < model.colors?.length || 0; i++) {
-      this.addColor(model.colors[i]);
-    }
+    // references
+    this.references$.next(decoration.references || []);
 
-    // guide letters
-    this.letters.clear();
-    for (let i = 0; i < model.guideLetters?.length || 0; i++) {
-      this.addLetter(model.guideLetters[i]);
-    }
-
-    // size, artist
-    if (model.size) {
-      this.sizePresent.setValue(true);
-      this.size = model.size;
-    } else {
-      this.sizePresent.setValue(false);
-    }
-
-    if (model.artist) {
+    // artist
+    if (decoration.artist) {
       this.artistPresent.setValue(true);
-      this.artist = model.artist;
+      this.artist = decoration.artist;
     } else {
       this.artistPresent.setValue(false);
     }
@@ -208,47 +182,19 @@ export class MsDecorationComponent implements OnInit {
 
   private getModel(): MsDecoration {
     const model: MsDecoration = {
-      type: this.type.value?.trim(),
-      subject: this.subject.value?.trim(),
-      tool: this.tool.value?.trim(),
-      start: this._msLocationService.parseLocation(this.start.value),
-      end: this._msLocationService.parseLocation(this.end.value),
-      position: this.position.value?.trim(),
-      description: this.description.value?.trim(),
-      textRelation: this.textRelation.value?.trim(),
-      imageId: this.imageId.value?.trim(),
+      id: this.id.value?.trim(),
+      name: this.name.value?.trim(),
+      flags: this.flags.value?.length ? this.flags.value : undefined,
+      place: this.place.value?.trim(),
       note: this.note.value?.trim(),
-      colors: undefined,
     };
 
-    // colors
-    if (this.colors.length) {
-      model.colors = [];
-      for (let i = 0; i < this.colors.length; i++) {
-        const g = this.colors.controls[i] as FormGroup;
-        const color = g.controls.color.value?.trim();
-        if (color) {
-          model.colors.push(color);
-        }
-      }
+    // references
+    if (this.references$.value.length) {
+      model.references = this.references$.value;
     }
 
-    // guide letters
-    if (this.letters.length) {
-      model.guideLetters = [];
-      for (let i = 0; i < this.letters.length; i++) {
-        const g = this.letters.controls[i] as FormGroup;
-        model.guideLetters.push({
-          position: g.controls.position.value?.trim(),
-          morphology: g.controls.morphology.value?.trim(),
-        });
-      }
-    }
-
-    // size, artist
-    if (this.sizePresent.value) {
-      model.size = this.size;
-    }
+    // artist
     if (this.artistPresent.value) {
       model.artist = this.artist;
     }
@@ -256,94 +202,75 @@ export class MsDecorationComponent implements OnInit {
     return model;
   }
 
-  private getColorGroup(color?: string): FormGroup {
-    return this._formBuilder.group({
-      color: this._formBuilder.control(color, [
-        Validators.required,
-        Validators.maxLength(50),
-      ]),
-    });
-  }
-
-  public addColor(item?: string): void {
-    this.colors.push(this.getColorGroup(item));
-  }
-
-  public removeColor(index: number): void {
-    this.colors.removeAt(index);
-    this.form.markAsDirty();
-  }
-
-  public moveColorUp(index: number): void {
-    if (index < 1) {
-      return;
-    }
-    const item = this.colors.controls[index];
-    this.colors.removeAt(index);
-    this.colors.insert(index - 1, item);
-    this.form.markAsDirty();
-  }
-
-  public moveColorDown(index: number): void {
-    if (index + 1 >= this.colors.length) {
-      return;
-    }
-    const item = this.colors.controls[index];
-    this.colors.removeAt(index);
-    this.colors.insert(index + 1, item);
-    this.form.markAsDirty();
-  }
-
-  private getLetterGroup(letter?: MsGuideLetter): FormGroup {
-    return this._formBuilder.group({
-      position: this._formBuilder.control(letter?.position, [
-        Validators.required,
-        Validators.maxLength(50),
-      ]),
-      morphology: this._formBuilder.control(
-        letter?.morphology,
-        Validators.maxLength(50)
-      ),
-    });
-  }
-
-  public addLetter(letter?: MsGuideLetter): void {
-    this.letters.push(this.getLetterGroup(letter));
-  }
-
-  public removeLetter(index: number): void {
-    this.letters.removeAt(index);
-    this.form.markAsDirty();
-  }
-
-  public moveLetterUp(index: number): void {
-    if (index < 1) {
-      return;
-    }
-    const item = this.letters.controls[index];
-    this.letters.removeAt(index);
-    this.letters.insert(index - 1, item);
-    this.form.markAsDirty();
-  }
-
-  public moveLetterDown(index: number): void {
-    if (index + 1 >= this.letters.length) {
-      return;
-    }
-    const item = this.letters.controls[index];
-    this.letters.removeAt(index);
-    this.letters.insert(index + 1, item);
-    this.form.markAsDirty();
-  }
-
-  public onSizeChanged(size: PhysicalSize): void {
-    this.size = size;
-    this.form.markAsDirty();
-  }
-
   public onArtistChanged(artist: MsDecorationArtist): void {
     this.artist = artist;
     this.form.markAsDirty();
+  }
+
+  public editElement(element: MsDecorationElement): void {
+    this.editedElement = element;
+  }
+
+  public addElement(): void {
+    this.editedElement = {
+      type: 'pag-inc',
+      flags: [],
+      ranges: [],
+    };
+  }
+
+  public onElementChange(element: MsDecorationElement): void {
+    const index = this.elements.value.indexOf(element);
+    if (index > -1) {
+      this.elements.value.splice(index, 1, element);
+    } else {
+      this.elements.value.push(element);
+    }
+    this.form.markAsDirty();
+  }
+
+  public removeElement(index: number): void {
+    this._dialogService
+    .confirm('Confirmation', 'Delete element?')
+    .pipe(take(1))
+    .subscribe((yes) => {
+      if (yes) {
+        this.elements.value.splice(index, 1);
+        this.form.markAsDirty();
+      }
+    });
+  }
+
+  public moveElementUp(index: number): void {
+    if (index < 1) {
+      return;
+    }
+    const element = this.elements.value[index];
+    this.elements.value.splice(index, 1);
+    this.elements.value.splice(index - 1, element);
+    this.form.markAsDirty();
+  }
+
+  public moveElementDown(index: number): void {
+    if (index + 1 >= this.elements.value.length) {
+      return;
+    }
+    const element = this.elements.value[index];
+    this.elements.value.splice(index, 1);
+    this.elements.value.splice(index + 1, element);
+    this.form.markAsDirty();
+  }
+
+  public rangesToString(ranges: MsLocationRange[] | undefined): string {
+    if (!ranges?.length) {
+      return '';
+    }
+    const tokens = ranges.map((r) => {
+      return `${this._locService.locationToString(
+        r.start
+      )}-${this._locService.locationToString(r.end)}`;
+    });
+    return tokens.join(' ');
   }
 
   public cancel(): void {
@@ -355,6 +282,6 @@ export class MsDecorationComponent implements OnInit {
       return;
     }
     const model = this.getModel();
-    this.modelChange.emit(model);
+    this.decorationChange.emit(model);
   }
 }

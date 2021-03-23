@@ -39,16 +39,16 @@ export class MsDecorationsPartFeatureComponent
 
   public ngOnInit(): void {
     this.initEditor([
-      'ms-decoration-types',
-      'ms-decoration-layouts',
-      'ms-decoration-tools',
-      'ms-decoration-positions',
-      'ms-guide-positions',
-      'ms-artist-types',
-      'ms-decoration-colors',
-      'physical-size-tags',
-      'physical-dimension-tags',
-      'physical-size-units',
+      'ms-decoration-elem-types',
+      'ms-decoration-artist-types',
+      'ms-decoration-elem-flags',
+      'ms-decoration-elem-colors',
+      'ms-decoration-elem-gildings',
+      'ms-decoration-elem-techniques',
+      'ms-decoration-elem-positions',
+      'ms-decoration-elem-tools',
+      'ms-decoration-elem-typologies',
+      'ms-decoration-type-deps',
     ]);
   }
 }

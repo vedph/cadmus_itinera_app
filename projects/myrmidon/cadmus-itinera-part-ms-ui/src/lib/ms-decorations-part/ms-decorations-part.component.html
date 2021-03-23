@@ -19,21 +19,20 @@
               <mat-icon>add_circle</mat-icon> add decoration
             </button>
           </div>
-          <table *ngIf="decorations?.length">
+          <table *ngIf="decorations?.value?.length">
             <thead>
               <tr>
                 <th></th>
-                <th>type</th>
-                <th>subject</th>
-                <th>start</th>
-                <th>end</th>
+                <th>ID</th>
+                <th>name</th>
+                <th>elems</th>
                 <th>artist</th>
               </tr>
             </thead>
             <tbody>
               <tr
                 *ngFor="
-                  let d of decorations;
+                  let d of decorations?.value;
                   let i = index;
                   let first = first;
                   let last = last
@@ -77,10 +76,9 @@
                     <mat-icon>remove_circle</mat-icon>
                   </button>
                 </td>
-                <td>{{ typeIdToString(d.type) }}</td>
-                <td>{{ d.subject }}</td>
-                <td>{{ locationToString(d.start) }}</td>
-                <td>{{ locationToString(d.end) }}</td>
+                <td>{{ d.id }}</td>
+                <td>{{ d.name }}</td>
+                <td>{{ d.elements?.length || 0 }}</td>
                 <td>{{ d.artist?.name }}</td>
               </tr>
             </tbody>
@@ -89,19 +87,19 @@
 
         <mat-tab label="decoration" *ngIf="editedDecoration">
           <itinera-ms-decoration
-            [model]="editedDecoration"
-            [typeEntries]="typeEntries"
-            [layoutEntries]="layoutEntries"
-            [toolEntries]="toolEntries"
-            [posEntries]="posEntries"
-            [guidePosEntries]="guidePosEntries"
-            [artTypeEntries]="artTypeEntries"
-            [colorEntries]="colorEntries"
-            [unitEntries]="unitEntries"
-            [sizeTagEntries]="sizeTagEntries"
-            [dimTagEntries]="dimTagEntries"
-            (modelChange)="onDecorationSaved($event)"
-            (editorClose)="onDecorationClosed()"
+            [decoration]="editedDecoration"
+            [decArtTypeEntries]="decArtTypeEntries"
+            [decElemTypeEntries]="decElemTypeEntries"
+            [decElemFlagEntries]="decElemFlagEntries"
+            [decElemColorEntries]="decElemColorEntries"
+            [decElemGildingEntries]="decElemGildingEntries"
+            [decElemTechEntries]="decElemTechEntries"
+            [decElemPosEntries]="decElemPosEntries"
+            [decElemToolEntries]="decElemToolEntries"
+            [decElemTypolEntries]="decElemTypolEntries"
+            [decTypeDepEntries]="decTypeDepEntries"
+            (decorationChange)="onDecorationChange($event)"
+            (editorClose)="onDecorationClose()"
           ></itinera-ms-decoration>
         </mat-tab>
       </mat-tab-group>
