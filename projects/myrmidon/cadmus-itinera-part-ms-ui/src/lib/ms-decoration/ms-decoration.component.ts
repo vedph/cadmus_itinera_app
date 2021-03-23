@@ -81,6 +81,8 @@ export class MsDecorationComponent implements OnInit {
   public artistForm: FormGroup;
   public artist: MsDecorationArtist;
 
+  public keys: string[];
+
   public editorOptions = {
     theme: 'vs-light',
     language: 'markdown',
@@ -89,10 +91,13 @@ export class MsDecorationComponent implements OnInit {
     automaticLayout: true,
   };
 
-  constructor(formBuilder: FormBuilder,
+  constructor(
+    formBuilder: FormBuilder,
     private _locService: MsLocationService,
-    private _dialogService: DialogService) {
+    private _dialogService: DialogService
+  ) {
     this.references$ = new BehaviorSubject<DocReference[]>([]);
+    this.keys = [];
     // events
     this.decorationChange = new EventEmitter<MsDecoration>();
     this.editorClose = new EventEmitter<any>();
@@ -123,7 +128,7 @@ export class MsDecorationComponent implements OnInit {
       place: this.place,
       elements: this.elements,
       note: this.note,
-      artistPresent: this.artistPresent
+      artistPresent: this.artistPresent,
     });
   }
 
@@ -153,6 +158,15 @@ export class MsDecorationComponent implements OnInit {
     return switches;
   }
 
+  private getKeys(elements: MsDecorationElement[] | undefined): string[] {
+    if (!elements) {
+      return [];
+    }
+    const keys = elements?.map((e) => e.key).filter((e) => (e ? true : false));
+    keys.sort();
+    return keys;
+  }
+
   private updateForm(decoration: MsDecoration): void {
     if (!decoration) {
       this.form.reset();
@@ -176,6 +190,9 @@ export class MsDecorationComponent implements OnInit {
     } else {
       this.artistPresent.setValue(false);
     }
+
+    // parent keys
+    this.keys = this.getKeys(decoration.elements);
 
     this.form.markAsPristine();
   }
@@ -226,19 +243,21 @@ export class MsDecorationComponent implements OnInit {
     } else {
       this.elements.value.push(element);
     }
+    this.keys = this.getKeys(this.elements.value);
     this.form.markAsDirty();
   }
 
   public removeElement(index: number): void {
     this._dialogService
-    .confirm('Confirmation', 'Delete element?')
-    .pipe(take(1))
-    .subscribe((yes) => {
-      if (yes) {
-        this.elements.value.splice(index, 1);
-        this.form.markAsDirty();
-      }
-    });
+      .confirm('Confirmation', 'Delete element?')
+      .pipe(take(1))
+      .subscribe((yes) => {
+        if (yes) {
+          this.elements.value.splice(index, 1);
+          this.keys = this.getKeys(this.elements.value);
+          this.form.markAsDirty();
+        }
+      });
   }
 
   public moveElementUp(index: number): void {

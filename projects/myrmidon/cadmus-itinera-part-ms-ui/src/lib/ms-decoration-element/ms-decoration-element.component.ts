@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -19,6 +26,15 @@ import {
 })
 export class MsDecorationElementComponent implements OnInit {
   private _element: MsDecorationElement | undefined;
+
+  @ViewChild('dsceditor', { static: false }) dscEditor: any;
+  public editorOptions = {
+    theme: 'vs-light',
+    language: 'markdown',
+    wordWrap: 'on',
+    // https://github.com/atularen/ngx-monaco-editor/issues/19
+    automaticLayout: true,
+  };
 
   @Input()
   public get element(): MsDecorationElement | undefined {
@@ -147,7 +163,19 @@ export class MsDecorationElementComponent implements OnInit {
 
   ngOnInit(): void {
     this.updateForm(this.element);
+    this.onTabIndexChanged(0);
     // TODO handle type change
+  }
+
+  public onTabIndexChanged(index: number): void {
+    // HACK
+    // https://github.com/atularen/ngx-monaco-editor/issues/19
+    // https://stackoverflow.com/questions/37412950/ngx-monaco-editor-unable-to-set-layout-size-when-container-changes-using-tab
+    if (index === 0) {
+      setTimeout(() => {
+        this.dscEditor._editor.layout();
+      }, 150);
+    }
   }
 
   private buildSwitches(

@@ -160,12 +160,9 @@
         </mat-form-field>
 
         <mat-form-field *ngIf="!decElemToolEntries?.length" style="width: 8em">
-          <input matInput formControlName="tool" placeholder="tool" />
+          <input matInput [formControl]="tool" placeholder="tool" />
           <mat-error
-            *ngIf="
-              item['controls'].tool.errors?.maxLength &&
-              (item['controls'].tool.dirty || item['controls'].tool.touched)
-            "
+            *ngIf="tool.errors?.maxLength && (tool.dirty || tool.touched)"
             >tool too long</mat-error
           >
         </mat-form-field>
@@ -182,12 +179,10 @@
 
         <!-- position (free) -->
         <mat-form-field *ngIf="!decElemPosEntries?.length" style="width: 8em">
-          <input matInput formControlName="position" placeholder="position" />
+          <input matInput [formControl]="position" placeholder="position" />
           <mat-error
             *ngIf="
-              item['controls'].position.errors?.maxLength &&
-              (item['controls'].position.dirty ||
-                item['controls'].position.touched)
+              position.errors?.maxLength && (position.dirty || position.touched)
             "
             >position too long</mat-error
           >
@@ -201,7 +196,7 @@
             type="number"
             min="0"
             [formControl]="lineHeight"
-            placeholder="ln.height"
+            placeholder="ln.h"
           />
         </mat-form-field>
       </div>
@@ -211,7 +206,7 @@
           <input
             matInput
             [formControl]="textRelation"
-            placeholder="textRelation"
+            placeholder="text relation"
           />
           <mat-error
             *ngIf="
@@ -225,8 +220,51 @@
     </mat-tab>
 
     <!-- description -->
-    <mat-tab label="description"></mat-tab>
+    <mat-tab label="description">
+      <div>
+        <ngx-monaco-editor
+          #dsceditor
+          [options]="editorOptions"
+          [formControl]="description"
+        ></ngx-monaco-editor>
+        <mat-error
+          *ngIf="
+            description.errors?.maxLength &&
+            (description.touched || description.dirty)
+          "
+          >description too long</mat-error
+        >
+      </div>
+      <div>
+        <!-- imageId -->
+        <mat-form-field>
+          <input matInput [formControl]="imageId" placeholder="imageId" />
+          <mat-error
+            *ngIf="
+              imageId.errors?.maxLength && (imageId.dirty || imageId.touched)
+            "
+            >imageId too long</mat-error
+          >
+        </mat-form-field>
+      </div>
+      <div>
+        <!-- note -->
+        <mat-form-field class="long-text">
+          <textarea
+            rows="2"
+            matInput
+            [formControl]="note"
+            placeholder="note"
+          ></textarea>
+          <mat-error
+            *ngIf="note.errors?.maxLength && (note.dirty || note.touched)"
+            >note too long</mat-error
+          >
+        </mat-form-field>
+      </div>
+    </mat-tab>
   </mat-tab-group>
+
   <!-- buttons -->
   <div>
     <button

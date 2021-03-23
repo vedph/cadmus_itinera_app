@@ -161,6 +161,7 @@
           [decElemToolEntries]="decElemToolEntries"
           [decElemTypolEntries]="decElemTypolEntries"
           [decTypeDepEntries]="decTypeDepEntries"
+          [parentKeys]="keys"
           [element]="editedElement"
           (elementChange)="onElementChange($event)"
         ></itinera-ms-decoration-element>
@@ -169,7 +170,9 @@
 
     <!-- artist -->
     <mat-tab label="artist">
-      <mat-checkbox [formControl]="artistPresent">artist</mat-checkbox>
+      <mat-checkbox style="margin-bottom: 6px" [formControl]="artistPresent"
+        >artist</mat-checkbox
+      >
       <form [formGroup]="artistForm">
         <itinera-ms-decoration-artist
           [parentForm]="artistForm"
