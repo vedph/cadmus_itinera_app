@@ -48,7 +48,7 @@ export class MsDecorationsPartFeatureComponent
       'ms-decoration-elem-positions',
       'ms-decoration-elem-tools',
       'ms-decoration-elem-typologies',
-      'ms-decoration-type-deps',
+      'ms-decoration-type-hidden',
     ]);
   }
 }

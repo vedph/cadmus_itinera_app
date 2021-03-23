@@ -21,7 +21,7 @@ import {
  * ms-decoration-elem-colors, ms-decoration-elem-gildings,
  * ms-decoration-elem-techniques, ms-decoration-elem-positions,
  * ms-decoration-elem-tools, ms-decoration-elem-typologies,
- * ms-decoration-type-deps.
+ * ms-decoration-type-hidden.
  */
 @Component({
   selector: 'itinera-ms-decorations-part',
@@ -51,7 +51,7 @@ export class MsDecorationsPartComponent
   public decElemToolEntries: ThesaurusEntry[] | undefined;
   // ms-decoration-elem-typologies
   public decElemTypolEntries: ThesaurusEntry[] | undefined;
-  // ms-decoration-type-deps
+  // ms-decoration-type-hidden
   public decTypeDepEntries: ThesaurusEntry[] | undefined;
 
   public tabIndex: number;
@@ -156,7 +156,7 @@ export class MsDecorationsPartComponent
       this.decElemTypolEntries = undefined;
     }
 
-    key = 'ms-decoration-type-deps';
+    key = 'ms-decoration-type-hidden';
     if (this.thesauri && this.thesauri[key]) {
       this.decTypeDepEntries = this.thesauri[key].entries;
     } else {
