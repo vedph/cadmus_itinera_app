@@ -174,9 +174,7 @@ export class MsDecorationComponent implements OnInit {
     }
     this.id.setValue(decoration.id);
     this.name.setValue(decoration.name);
-    this.flags.setValue(
-      this.buildSwitches(decoration.flags, this.decElemFlagEntries)
-    );
+    this.flags.setValue(decoration.flags);
     this.place.setValue(decoration.place);
     this.note.setValue(decoration.note);
 
@@ -247,7 +245,7 @@ export class MsDecorationComponent implements OnInit {
     this.form.markAsDirty();
   }
 
-  public removeElement(index: number): void {
+  public deleteElement(index: number): void {
     this._dialogService
       .confirm('Confirmation', 'Delete element?')
       .pipe(take(1))
@@ -290,6 +288,11 @@ export class MsDecorationComponent implements OnInit {
       )}-${this._locService.locationToString(r.end)}`;
     });
     return tokens.join(' ');
+  }
+
+  public onFlgSelectionChange(ids: string[]): void {
+    this.flags.setValue(ids);
+    this.form.markAsDirty();
   }
 
   public cancel(): void {

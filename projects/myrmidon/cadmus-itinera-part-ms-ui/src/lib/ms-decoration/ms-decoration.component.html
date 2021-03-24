@@ -30,15 +30,11 @@
 
       <div>
         <!-- flags -->
-        <mat-selection-list *ngIf="decElemFlagEntries?.length" dense>
-          <mat-list-option
-            *ngFor="let e of decElemFlagEntries"
-            [value]="e.id"
-            checkboxPosition="before"
-          >
-            {{ e.value }}
-          </mat-list-option>
-        </mat-selection-list>
+        <itinera-multi-entry-selector
+          [entries]="decElemFlagEntries"
+          [selectedIds]="flags?.value"
+          (selectionChange)="onFlgSelectionChange($event)"
+        ></itinera-multi-entry-selector>
       </div>
 
       <div>

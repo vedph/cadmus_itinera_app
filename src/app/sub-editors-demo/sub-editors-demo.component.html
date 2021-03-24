@@ -121,7 +121,8 @@
       <mat-tab label="Multi-select">
         <itinera-multi-entry-selector
           [numbering]="true"
-          [data]="multiSelData"
+          [entries]="langEntries"
+          [selectedIds]="selectedIds"
           (selectionChange)="onMultiSelectionChange($event)"
         ></itinera-multi-entry-selector>
         <div *ngIf="selectedIds">

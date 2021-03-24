@@ -7,20 +7,12 @@ import {
   Output,
 } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
-export interface SelectableEntry {
-  id: string;
-  name: string;
-}
-
 /**
- * A multiple entries selector. This gets a data object with the list
- * of all the entries available for selection, each with an ID and a name;
- * and a list of selected entry IDs. It then shows a list of checkboxes,
- * one for each entry, and allows users to check/uncheck them. Whenever
- * selection is changed, the selectionChange event is fired.
+ * A multiple entries selector.
  */
 @Component({
   selector: 'itinera-multi-entry-selector',
@@ -29,14 +21,17 @@ export interface SelectableEntry {
 })
 export class MultiEntrySelectorComponent implements OnInit, OnDestroy {
   private _ids: string[] | undefined;
-  private _entries: SelectableEntry[] | undefined;
+  private _entries: ThesaurusEntry[] | undefined;
   private _data$: BehaviorSubject<{
     selectedIds: string[];
-    entries: SelectableEntry[];
+    entries: ThesaurusEntry[];
   }>;
   private _subs: Subscription[];
   private _changeFrozen: boolean;
 
+  /**
+   * The IDs of the selected entries.
+   */
   @Input()
   public get selectedIds(): string[] | undefined {
     return this._ids;
@@ -49,11 +44,14 @@ export class MultiEntrySelectorComponent implements OnInit, OnDestroy {
     });
   }
 
+  /**
+   * All the available entries.
+   */
   @Input()
-  public get entries(): SelectableEntry[] | undefined {
+  public get entries(): ThesaurusEntry[] | undefined {
     return this._entries;
   }
-  public set entries(value: SelectableEntry[] | undefined) {
+  public set entries(value: ThesaurusEntry[] | undefined) {
     this._entries = value;
     this._data$.next({
       selectedIds: this._ids,
@@ -61,12 +59,21 @@ export class MultiEntrySelectorComponent implements OnInit, OnDestroy {
     });
   }
 
+  /**
+   * True to show the ordinal number next to each entry.
+   */
   @Input()
   public numbering = false;
 
+  /**
+   * True to show a toolbar above the entries.
+   */
   @Input()
   public toolbar = true;
 
+  /**
+   * Emitted whenever selected IDs change.
+   */
   @Output()
   public selectionChange: EventEmitter<string[]>;
 
@@ -74,17 +81,21 @@ export class MultiEntrySelectorComponent implements OnInit, OnDestroy {
   public form: FormGroup;
 
   constructor(private _formBuilder: FormBuilder) {
+    this._data$ = new BehaviorSubject<{
+      selectedIds: string[];
+      entries: ThesaurusEntry[];
+    }>({ selectedIds: [], entries: [] });
     this.selectionChange = new EventEmitter<string[]>();
     this._subs = [];
     // form
     this.entriesArr = _formBuilder.array([]);
     this.form = _formBuilder.group({
-      entries: this.entries,
+      entriesArr: this.entriesArr,
     });
   }
 
   ngOnInit(): void {
-    this._data$.subscribe(_ => {
+    this._data$.subscribe((_) => {
       this.updateForm();
     });
   }
@@ -114,7 +125,7 @@ export class MultiEntrySelectorComponent implements OnInit, OnDestroy {
     if (this._entries?.length) {
       this._entries.forEach((entry) => {
         this.entriesArr.controls.push(
-          this.getEntryGroup(this._ids.includes(entry.id))
+          this.getEntryGroup(this._ids?.includes(entry.id))
         );
       });
     }

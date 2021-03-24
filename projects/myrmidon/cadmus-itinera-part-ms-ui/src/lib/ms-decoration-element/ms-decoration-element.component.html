@@ -37,7 +37,8 @@
       <div>
         <!-- flags -->
         <itinera-multi-entry-selector
-          [data]="flgData"
+          [entries]="decElemFlagEntries"
+          [selectedIds]="flags?.value"
           (selectionChange)="onFlgSelectionChange($event)"
         ></itinera-multi-entry-selector>
       </div>
@@ -74,7 +75,8 @@
         }}</mat-panel-description>
         <!-- typologies -->
         <itinera-multi-entry-selector
-          [data]="typData"
+          [entries]="decElemTypolEntries"
+          [selectedIds]="typologies?.value"
           (selectionChange)="onTypSelectionChange($event)"
         ></itinera-multi-entry-selector>
       </mat-expansion-panel>
@@ -99,7 +101,8 @@
           colors?.value?.length || 0
         }}</mat-panel-description>
         <itinera-multi-entry-selector
-          [data]="clrData"
+          [entries]="decElemColorEntries"
+          [selectedIds]="colors?.value"
           (selectionChange)="onClrSelectionChange($event)"
         ></itinera-multi-entry-selector>
       </mat-expansion-panel>

@@ -12,14 +12,12 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { MatSelectionList, MatSelectionListChange } from '@angular/material/list';
 import { ThesaurusEntry } from '@myrmidon/cadmus-core';
 import {
   MsDecorationElement,
   MsLocationRange,
   MsLocationService,
 } from '@myrmidon/cadmus-itinera-core';
-import { MultiEntrySelectorData } from 'dist/myrmidon/cadmus-itinera-ui/public-api';
 
 @Component({
   selector: 'itinera-ms-decoration-element',
@@ -76,10 +74,6 @@ export class MsDecorationElementComponent implements OnInit {
   public imageId: FormControl;
   public note: FormControl;
   public form: FormGroup;
-
-  public typData: MultiEntrySelectorData | undefined;
-  public flgData: MultiEntrySelectorData | undefined;
-  public clrData: MultiEntrySelectorData | undefined;
 
   // ms-decoration-elem-types (required)
   @Input()
