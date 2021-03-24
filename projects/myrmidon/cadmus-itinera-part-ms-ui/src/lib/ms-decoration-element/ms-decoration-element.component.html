@@ -68,18 +68,12 @@
 
     <!-- typologies -->
     <mat-tab label="typologies">
-      <mat-expansion-panel *ngIf="decElemTypolEntries?.length">
-        <mat-panel-title>typologies</mat-panel-title>
-        <mat-panel-description>{{
-          typologies?.value?.length || 0
-        }}</mat-panel-description>
-        <!-- typologies -->
-        <itinera-multi-entry-selector
-          [entries]="decElemTypolEntries"
-          [selectedIds]="typologies?.value"
-          (selectionChange)="onTypSelectionChange($event)"
-        ></itinera-multi-entry-selector>
-      </mat-expansion-panel>
+      <!-- typologies -->
+      <itinera-multi-entry-selector
+        [entries]="decElemTypolEntries"
+        [selectedIds]="typologies?.value"
+        (selectionChange)="onTypSelectionChange($event)"
+      ></itinera-multi-entry-selector>
 
       <!-- subject -->
       <div>
@@ -95,17 +89,11 @@
       </div>
 
       <!-- colors -->
-      <mat-expansion-panel *ngIf="decElemColorEntries?.length">
-        <mat-panel-title>colors</mat-panel-title>
-        <mat-panel-description>{{
-          colors?.value?.length || 0
-        }}</mat-panel-description>
-        <itinera-multi-entry-selector
-          [entries]="decElemColorEntries"
-          [selectedIds]="colors?.value"
-          (selectionChange)="onClrSelectionChange($event)"
-        ></itinera-multi-entry-selector>
-      </mat-expansion-panel>
+      <itinera-multi-entry-selector
+        [entries]="decElemColorEntries"
+        [selectedIds]="colors?.value"
+        (selectionChange)="onClrSelectionChange($event)"
+      ></itinera-multi-entry-selector>
 
       <div>
         <!-- gilding (bound) -->
