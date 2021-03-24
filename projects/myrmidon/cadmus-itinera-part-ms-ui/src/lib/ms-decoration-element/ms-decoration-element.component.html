@@ -1,5 +1,5 @@
 <form [formGroup]="form" (submit)="save()">
-  <mat-tab-group>
+  <mat-tab-group (selectedIndexChange)="onTabIndexChanged($event)">
     <!-- general -->
     <mat-tab label="general">
       <div>
@@ -42,8 +42,8 @@
           (selectionChange)="onFlgSelectionChange($event)"
         >
           <mat-list-option
-            *ngFor="let e of decElemFlagEntries"
-            [value]="e.id"
+            *ngFor="let e of decElemFlagEntries; let i = index"
+            [value]="flags?.value ? flags.value[i] : false"
             checkboxPosition="before"
           >
             {{ e.value }}

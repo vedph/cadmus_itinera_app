@@ -172,9 +172,9 @@ export class MsDecorationElementComponent implements OnInit {
     // HACK
     // https://github.com/atularen/ngx-monaco-editor/issues/19
     // https://stackoverflow.com/questions/37412950/ngx-monaco-editor-unable-to-set-layout-size-when-container-changes-using-tab
-    if (index === 0) {
+    if (index === 2) {
       setTimeout(() => {
-        this.dscEditor._editor.layout();
+        this.dscEditor?._editor?.layout();
       }, 150);
     }
   }
@@ -295,7 +295,13 @@ export class MsDecorationElementComponent implements OnInit {
   }
 
   public onFlgSelectionChange(change: MatSelectionListChange): void {
-    this.flags.setValue(change.options.map((o) => o.value));
+    const ids: string[] = [];
+    for (let i = 0; i < change.options.length; i++) {
+      if (change.options[i].value) {
+        ids.push(this.decElemFlagEntries[i].id);
+      }
+    }
+    this.flags.setValue(ids);
     this.form.markAsDirty();
   }
 
