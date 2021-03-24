@@ -36,8 +36,16 @@
       </div>
       <div>
         <!-- flags -->
-        <mat-selection-list *ngIf="decElemFlagEntries?.length">
-          <mat-list-option *ngFor="e; of: decElemFlagEntries" [value]="e.id">
+        <mat-selection-list
+          *ngIf="decElemFlagEntries?.length"
+          dense
+          (selectionChange)="onFlgSelectionChange($event)"
+        >
+          <mat-list-option
+            *ngFor="let e of decElemFlagEntries"
+            [value]="e.id"
+            checkboxPosition="before"
+          >
             {{ e.value }}
           </mat-list-option>
         </mat-selection-list>
@@ -57,6 +65,7 @@
         <!-- parentKey -->
         <mat-form-field *ngIf="parentKeys?.length" style="width: 8em">
           <mat-select [formControl]="parentKey" placeholder="parent key">
+            <mat-option [value]="null">(none)</mat-option>
             <mat-option *ngFor="let k of parentKeys" [value]="k">{{
               k
             }}</mat-option>
@@ -67,14 +76,26 @@
 
     <!-- typologies -->
     <mat-tab label="typologies">
-      <div>
+      <mat-expansion-panel *ngIf="decElemTypolEntries?.length">
+        <mat-panel-title>typologies</mat-panel-title>
+        <mat-panel-description>{{
+          typologies?.value?.length || 0
+        }}</mat-panel-description>
         <!-- typologies -->
-        <mat-selection-list *ngIf="decElemTypolEntries?.length" dense>
-          <mat-list-option *ngFor="e; of: decElemTypolEntries" [value]="e.id">
+        <mat-selection-list
+          dense
+          (selectionChange)="onTypSelectionChange($event)"
+        >
+          <mat-list-option
+            *ngFor="let e of decElemTypolEntries"
+            [value]="e.id"
+            checkboxPosition="before"
+          >
             {{ e.value }}
           </mat-list-option>
         </mat-selection-list>
-      </div>
+      </mat-expansion-panel>
+
       <!-- subject -->
       <div>
         <mat-form-field>
@@ -87,14 +108,27 @@
           >
         </mat-form-field>
       </div>
+
       <!-- colors -->
-      <div>
-        <mat-selection-list *ngIf="decElemColorEntries?.length" dense>
-          <mat-list-option *ngFor="e; of: decElemColorEntries" [value]="e.id">
+      <mat-expansion-panel *ngIf="decElemColorEntries?.length">
+        <mat-panel-title>colors</mat-panel-title>
+        <mat-panel-description>{{
+          colors?.value?.length || 0
+        }}</mat-panel-description>
+        <mat-selection-list
+          dense
+          (selectionChange)="onClrSelectionChange($event)"
+        >
+          <mat-list-option
+            *ngFor="let e of decElemColorEntries"
+            [value]="e.id"
+            checkboxPosition="before"
+          >
             {{ e.value }}
           </mat-list-option>
         </mat-selection-list>
-      </div>
+      </mat-expansion-panel>
+
       <div>
         <!-- gilding (bound) -->
         <mat-form-field
@@ -138,7 +172,7 @@
         </mat-form-field>
 
         <!-- technique (free) -->
-        <mat-form-field>
+        <mat-form-field *ngIf="!decElemTechEntries?.length" style="width: 8em">
           <input matInput [formControl]="technique" placeholder="technique" />
           <mat-error
             *ngIf="

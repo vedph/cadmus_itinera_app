@@ -30,8 +30,12 @@
 
       <div>
         <!-- flags -->
-        <mat-selection-list *ngIf="decElemFlagEntries?.length">
-          <mat-list-option *ngFor="e; of: decElemFlagEntries" [value]="e.id">
+        <mat-selection-list *ngIf="decElemFlagEntries?.length" dense>
+          <mat-list-option
+            *ngFor="let e of decElemFlagEntries"
+            [value]="e.id"
+            checkboxPosition="before"
+          >
             {{ e.value }}
           </mat-list-option>
         </mat-selection-list>
@@ -177,7 +181,7 @@
         <itinera-ms-decoration-artist
           [parentForm]="artistForm"
           [(artist)]="artist"
-          [typeEntries]="artTypeEntries"
+          [typeEntries]="decArtTypeEntries"
         ></itinera-ms-decoration-artist>
       </form>
     </mat-tab>
@@ -208,6 +212,7 @@
       [disabled]="form.invalid || form.pristine"
     >
       <mat-icon>check_circle</mat-icon>
+      decoration
     </button>
   </div>
 </form>

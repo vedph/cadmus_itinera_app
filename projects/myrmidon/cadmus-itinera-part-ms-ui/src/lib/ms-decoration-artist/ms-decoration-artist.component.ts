@@ -24,8 +24,9 @@ export class MsDecorationArtistComponent implements OnInit {
   @Input()
   public artist: MsDecorationArtist;
 
+  // ms-decoration-artist-types
   @Input()
-  public typeEntries: ThesaurusEntry[];
+  public decArtTypeEntries: ThesaurusEntry[] | undefined;
 
   @Output()
   public artistChange: EventEmitter<MsDecorationArtist>;

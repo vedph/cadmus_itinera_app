@@ -12,6 +12,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { MatSelectionListChange } from '@angular/material/list';
 import { ThesaurusEntry } from '@myrmidon/cadmus-core';
 import {
   MsDecorationElement,
@@ -291,6 +292,21 @@ export class MsDecorationElementComponent implements OnInit {
       imageId: this.imageId.value?.trim(),
       note: this.note.value?.trim(),
     };
+  }
+
+  public onFlgSelectionChange(change: MatSelectionListChange): void {
+    this.flags.setValue(change.options.map((o) => o.value));
+    this.form.markAsDirty();
+  }
+
+  public onTypSelectionChange(change: MatSelectionListChange): void {
+    this.typologies.setValue(change.options.map((o) => o.value));
+    this.form.markAsDirty();
+  }
+
+  public onClrSelectionChange(change: MatSelectionListChange): void {
+    this.colors.setValue(change.options.map((o) => o.value));
+    this.form.markAsDirty();
   }
 
   public cancel(): void {

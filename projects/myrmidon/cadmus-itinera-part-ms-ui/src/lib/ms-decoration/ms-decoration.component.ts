@@ -33,7 +33,7 @@ export class MsDecorationComponent implements OnInit {
 
   // ms-decoration-artist-types
   @Input()
-  public artTypeEntries: ThesaurusEntry[] | undefined;
+  public decArtTypeEntries: ThesaurusEntry[] | undefined;
   // ms-decoration-elem-types (required)
   @Input()
   public decElemTypeEntries: ThesaurusEntry[] | undefined;
