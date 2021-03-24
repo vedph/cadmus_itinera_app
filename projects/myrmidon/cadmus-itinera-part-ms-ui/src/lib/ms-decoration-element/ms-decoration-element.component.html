@@ -36,19 +36,10 @@
       </div>
       <div>
         <!-- flags -->
-        <mat-selection-list #flaglst
-          *ngIf="decElemFlagEntries?.length"
-          dense
-          (selectionChange)="onFlgSelectionChange(flaglst, $event)"
-        >
-          <mat-list-option
-            *ngFor="let e of decElemFlagEntries; let i = index"
-            [value]="flags?.value ? flags.value[i] : false"
-            checkboxPosition="before"
-          >
-            {{ e.value }}
-          </mat-list-option>
-        </mat-selection-list>
+        <itinera-multi-entry-selector
+          [data]="flgData"
+          (selectionChange)="onFlgSelectionChange($event)"
+        ></itinera-multi-entry-selector>
       </div>
       <div>
         <!-- key -->
@@ -82,18 +73,10 @@
           typologies?.value?.length || 0
         }}</mat-panel-description>
         <!-- typologies -->
-        <mat-selection-list
-          dense
+        <itinera-multi-entry-selector
+          [data]="typData"
           (selectionChange)="onTypSelectionChange($event)"
-        >
-          <mat-list-option
-            *ngFor="let e of decElemTypolEntries"
-            [value]="e.id"
-            checkboxPosition="before"
-          >
-            {{ e.value }}
-          </mat-list-option>
-        </mat-selection-list>
+        ></itinera-multi-entry-selector>
       </mat-expansion-panel>
 
       <!-- subject -->
@@ -115,18 +98,10 @@
         <mat-panel-description>{{
           colors?.value?.length || 0
         }}</mat-panel-description>
-        <mat-selection-list
-          dense
+        <itinera-multi-entry-selector
+          [data]="clrData"
           (selectionChange)="onClrSelectionChange($event)"
-        >
-          <mat-list-option
-            *ngFor="let e of decElemColorEntries"
-            [value]="e.id"
-            checkboxPosition="before"
-          >
-            {{ e.value }}
-          </mat-list-option>
-        </mat-selection-list>
+        ></itinera-multi-entry-selector>
       </mat-expansion-panel>
 
       <div>

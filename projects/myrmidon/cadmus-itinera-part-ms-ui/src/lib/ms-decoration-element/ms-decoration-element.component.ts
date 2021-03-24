@@ -19,6 +19,7 @@ import {
   MsLocationRange,
   MsLocationService,
 } from '@myrmidon/cadmus-itinera-core';
+import { MultiEntrySelectorData } from 'dist/myrmidon/cadmus-itinera-ui/public-api';
 
 @Component({
   selector: 'itinera-ms-decoration-element',
@@ -74,8 +75,11 @@ export class MsDecorationElementComponent implements OnInit {
   public description: FormControl;
   public imageId: FormControl;
   public note: FormControl;
-
   public form: FormGroup;
+
+  public typData: MultiEntrySelectorData | undefined;
+  public flgData: MultiEntrySelectorData | undefined;
+  public clrData: MultiEntrySelectorData | undefined;
 
   // ms-decoration-elem-types (required)
   @Input()
@@ -179,20 +183,6 @@ export class MsDecorationElementComponent implements OnInit {
     }
   }
 
-  private buildSwitches(
-    ids: string[] | undefined,
-    entries: ThesaurusEntry[] | undefined
-  ): boolean[] {
-    if (!entries) {
-      return [];
-    }
-    const switches: boolean[] = [];
-    entries.forEach((entry) => {
-      switches.push(ids?.includes(entry.id));
-    });
-    return switches;
-  }
-
   private updateForm(element: MsDecorationElement | undefined): void {
     if (!element) {
       this.form.reset();
@@ -200,9 +190,7 @@ export class MsDecorationElementComponent implements OnInit {
     }
     // general
     this.type.setValue(element.type);
-    this.flags.setValue(
-      this.buildSwitches(element.flags, this.decElemFlagEntries)
-    );
+    this.flags.setValue(element.flags);
     this.ranges.setValue(
       element.ranges
         ? element.ranges
@@ -217,9 +205,7 @@ export class MsDecorationElementComponent implements OnInit {
     // typologies
     this.typologies.setValue(element.typologies);
     this.subject.setValue(element.subject);
-    this.colors.setValue(
-      this.buildSwitches(element.colors, this.decElemColorEntries)
-    );
+    this.colors.setValue(element.colors);
     this.gilding.setValue(element.gilding);
     this.technique.setValue(element.technique);
     this.tool.setValue(element.tool);
@@ -294,27 +280,18 @@ export class MsDecorationElementComponent implements OnInit {
     };
   }
 
-  public onFlgSelectionChange(
-    list: MatSelectionList,
-    change: MatSelectionListChange
-  ): void {
-    const ids: string[] = [];
-    for (let i = 0; i < change.options.length; i++) {
-      if (change.options[i].value) {
-        ids.push(this.decElemFlagEntries[i].id);
-      }
-    }
+  public onFlgSelectionChange(ids: string[]): void {
     this.flags.setValue(ids);
     this.form.markAsDirty();
   }
 
-  public onTypSelectionChange(change: MatSelectionListChange): void {
-    this.typologies.setValue(change.options.map((o) => o.value));
+  public onTypSelectionChange(ids: string[]): void {
+    this.typologies.setValue(ids);
     this.form.markAsDirty();
   }
 
-  public onClrSelectionChange(change: MatSelectionListChange): void {
-    this.colors.setValue(change.options.map((o) => o.value));
+  public onClrSelectionChange(ids: string[]): void {
+    this.colors.setValue(ids);
     this.form.markAsDirty();
   }
 

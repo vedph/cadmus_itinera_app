@@ -7,17 +7,12 @@ import {
   Output,
 } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 export interface SelectableEntry {
   id: string;
   name: string;
-}
-
-export interface MultiEntrySelectorData {
-  selectedIds: string[];
-  entries: SelectableEntry[];
 }
 
 /**
@@ -33,17 +28,37 @@ export interface MultiEntrySelectorData {
   styleUrls: ['./multi-entry-selector.component.css'],
 })
 export class MultiEntrySelectorComponent implements OnInit, OnDestroy {
-  private _data: MultiEntrySelectorData | undefined;
+  private _ids: string[] | undefined;
+  private _entries: SelectableEntry[] | undefined;
+  private _data$: BehaviorSubject<{
+    selectedIds: string[];
+    entries: SelectableEntry[];
+  }>;
   private _subs: Subscription[];
   private _changeFrozen: boolean;
 
   @Input()
-  public get data(): MultiEntrySelectorData | undefined {
-    return this._data;
+  public get selectedIds(): string[] | undefined {
+    return this._ids;
   }
-  public set data(value: MultiEntrySelectorData | undefined) {
-    this._data = value;
-    this.updateForm();
+  public set selectedIds(value: string[] | undefined) {
+    this._ids = value;
+    this._data$.next({
+      selectedIds: value,
+      entries: this._entries,
+    });
+  }
+
+  @Input()
+  public get entries(): SelectableEntry[] | undefined {
+    return this._entries;
+  }
+  public set entries(value: SelectableEntry[] | undefined) {
+    this._entries = value;
+    this._data$.next({
+      selectedIds: this._ids,
+      entries: value,
+    });
   }
 
   @Input()
@@ -55,20 +70,24 @@ export class MultiEntrySelectorComponent implements OnInit, OnDestroy {
   @Output()
   public selectionChange: EventEmitter<string[]>;
 
-  public entries: FormArray;
+  public entriesArr: FormArray;
   public form: FormGroup;
 
   constructor(private _formBuilder: FormBuilder) {
     this.selectionChange = new EventEmitter<string[]>();
     this._subs = [];
     // form
-    this.entries = _formBuilder.array([]);
+    this.entriesArr = _formBuilder.array([]);
     this.form = _formBuilder.group({
       entries: this.entries,
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this._data$.subscribe(_ => {
+      this.updateForm();
+    });
+  }
 
   ngOnDestroy(): void {
     this._subs.forEach((s) => s.unsubscribe());
@@ -91,11 +110,11 @@ export class MultiEntrySelectorComponent implements OnInit, OnDestroy {
   }
 
   private updateForm(): void {
-    this.entries.clear();
-    if (this._data?.entries?.length) {
-      this._data.entries.forEach((entry) => {
-        this.entries.controls.push(
-          this.getEntryGroup(this._data.selectedIds.includes(entry.id))
+    this.entriesArr.clear();
+    if (this._entries?.length) {
+      this._entries.forEach((entry) => {
+        this.entriesArr.controls.push(
+          this.getEntryGroup(this._ids.includes(entry.id))
         );
       });
     }
@@ -103,10 +122,10 @@ export class MultiEntrySelectorComponent implements OnInit, OnDestroy {
 
   private getSelectedIds(): string[] {
     const selectedIds: string[] = [];
-    for (let i = 0; i < this.entries.controls.length; i++) {
-      const g = this.entries.at(i) as FormGroup;
+    for (let i = 0; i < this.entriesArr.controls.length; i++) {
+      const g = this.entriesArr.at(i) as FormGroup;
       if (g.controls.entry.value) {
-        selectedIds.push(this._data.entries[i].id);
+        selectedIds.push(this._entries[i].id);
       }
     }
     return selectedIds;
@@ -114,8 +133,8 @@ export class MultiEntrySelectorComponent implements OnInit, OnDestroy {
 
   public toggleAll(): void {
     this._changeFrozen = true;
-    for (let i = 0; i < this.entries.controls.length; i++) {
-      const g = this.entries.at(i) as FormGroup;
+    for (let i = 0; i < this.entriesArr.controls.length; i++) {
+      const g = this.entriesArr.at(i) as FormGroup;
       g.controls.entry.setValue(!g.controls.entry.value);
     }
     this._changeFrozen = false;
@@ -124,8 +143,8 @@ export class MultiEntrySelectorComponent implements OnInit, OnDestroy {
 
   public deselectAll(): void {
     this._changeFrozen = true;
-    for (let i = 0; i < this.entries.controls.length; i++) {
-      const g = this.entries.at(i) as FormGroup;
+    for (let i = 0; i < this.entriesArr.controls.length; i++) {
+      const g = this.entriesArr.at(i) as FormGroup;
       g.controls.entry.setValue(false);
     }
     this._changeFrozen = false;
@@ -134,8 +153,8 @@ export class MultiEntrySelectorComponent implements OnInit, OnDestroy {
 
   public selectAll(): void {
     this._changeFrozen = true;
-    for (let i = 0; i < this.entries.controls.length; i++) {
-      const g = this.entries.at(i) as FormGroup;
+    for (let i = 0; i < this.entriesArr.controls.length; i++) {
+      const g = this.entriesArr.at(i) as FormGroup;
       g.controls.entry.setValue(true);
     }
     this._changeFrozen = false;

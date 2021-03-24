@@ -1,4 +1,4 @@
-<form [formGroup]="form" *ngIf="data?.entries?.length">
+<form [formGroup]="form" *ngIf="entries?.length">
   <div *ngIf="toolbar">
     <button
       type="button"
@@ -27,13 +27,13 @@
       <mat-icon>remove_done</mat-icon>
     </button>
   </div>
-  <div formArrayName="entries">
-    <div *ngFor="let item of entries.controls; let i = index">
+  <div formArrayName="entriesArr">
+    <div *ngFor="let item of entriesArr.controls; let i = index">
       <!-- child form -->
       <div [formGroupName]="i">
         <span class="numbering" *ngIf="numbering">{{ i + 1 }}.</span>
         <mat-checkbox formControlName="entry">{{
-          data.entries[i].name
+          entries[i].name
         }}</mat-checkbox>
       </div>
     </div>
