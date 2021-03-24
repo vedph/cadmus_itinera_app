@@ -11,6 +11,7 @@ import { ChronotopeComponent } from './components/chronotope/chronotope.componen
 import { CadmusUiModule } from '@myrmidon/cadmus-ui';
 import { NoteSetComponent } from './components/note-set/note-set.component';
 import { ChronotopesComponent } from './components/chronotopes/chronotopes.component';
+import { MultiEntrySelectorComponent } from './components/multi-entry-selector/multi-entry-selector.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { ChronotopesComponent } from './components/chronotopes/chronotopes.compo
     CitedPersonComponent,
     DecoratedCountsComponent,
     DecoratedIdsComponent,
+    MultiEntrySelectorComponent,
     NoteSetComponent,
     PersonNameComponent,
   ],
@@ -36,6 +38,7 @@ import { ChronotopesComponent } from './components/chronotopes/chronotopes.compo
     CitedPersonComponent,
     DecoratedCountsComponent,
     DecoratedIdsComponent,
+    MultiEntrySelectorComponent,
     NoteSetComponent,
     PersonNameComponent,
   ],

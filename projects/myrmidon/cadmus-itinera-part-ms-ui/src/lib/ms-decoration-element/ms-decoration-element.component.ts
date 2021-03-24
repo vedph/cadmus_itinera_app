@@ -12,7 +12,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { MatSelectionListChange } from '@angular/material/list';
+import { MatSelectionList, MatSelectionListChange } from '@angular/material/list';
 import { ThesaurusEntry } from '@myrmidon/cadmus-core';
 import {
   MsDecorationElement,
@@ -294,7 +294,10 @@ export class MsDecorationElementComponent implements OnInit {
     };
   }
 
-  public onFlgSelectionChange(change: MatSelectionListChange): void {
+  public onFlgSelectionChange(
+    list: MatSelectionList,
+    change: MatSelectionListChange
+  ): void {
     const ids: string[] = [];
     for (let i = 0; i < change.options.length; i++) {
       if (change.options[i].value) {

@@ -1,0 +1,13 @@
+<form [formGroup]="form" *ngIf="data?.entries?.length">
+  <div formArrayName="entries">
+    <div *ngFor="let item of entries.controls; let i = index">
+      <!-- child form -->
+      <div [formGroupName]="i">
+        <span class="numbering" *ngIf="numbering">{{ i + 1 }}.</span>
+        <mat-checkbox formControlName="entry">{{
+          data.entries[i].name
+        }}</mat-checkbox>
+      </div>
+    </div>
+  </div>
+</form>

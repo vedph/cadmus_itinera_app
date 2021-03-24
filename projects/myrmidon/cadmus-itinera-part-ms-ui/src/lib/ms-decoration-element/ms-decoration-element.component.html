@@ -36,10 +36,10 @@
       </div>
       <div>
         <!-- flags -->
-        <mat-selection-list
+        <mat-selection-list #flaglst
           *ngIf="decElemFlagEntries?.length"
           dense
-          (selectionChange)="onFlgSelectionChange($event)"
+          (selectionChange)="onFlgSelectionChange(flaglst, $event)"
         >
           <mat-list-option
             *ngFor="let e of decElemFlagEntries; let i = index"

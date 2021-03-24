@@ -117,6 +117,17 @@
           <pre>{{ lastNote | json }}</pre>
         </div>
       </mat-tab>
+
+      <mat-tab label="Multi-select">
+        <itinera-multi-entry-selector
+          [numbering]="true"
+          [data]="multiSelData"
+          (selectionChange)="onMultiSelectionChange($event)"
+        ></itinera-multi-entry-selector>
+        <div *ngIf="selectedIds">
+          <pre>{{ selectedIds | json }}</pre>
+        </div>
+      </mat-tab>
     </mat-tab-group>
   </mat-card-content>
 </mat-card>

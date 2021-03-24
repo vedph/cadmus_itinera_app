@@ -13,7 +13,7 @@ import {
   CitedPerson,
   DecoratedCount,
 } from '@myrmidon/cadmus-itinera-core';
-import { NoteSet } from '@myrmidon/cadmus-itinera-ui';
+import { NoteSet, MultiEntrySelectorData } from '@myrmidon/cadmus-itinera-ui';
 import {
   DecoratedId,
   PersonName,
@@ -55,6 +55,9 @@ export class SubEditorsDemoComponent implements OnInit {
 
   public set: NoteSet;
   public lastNote: KeyValue<string, string>;
+
+  public multiSelData: MultiEntrySelectorData;
+  public selectedIds: string[] | undefined;
 
   constructor() {}
 
@@ -153,6 +156,20 @@ export class SubEditorsDemoComponent implements OnInit {
         ['b', 'This is note __beta__, which uses _Markdown_.']
       ])
     };
+
+    this.selectedIds = [ 'a', 'g'];
+    this.multiSelData = {
+      selectedIds: this.selectedIds,
+      entries: [
+        { id: 'a', name: 'alpha' },
+        { id: 'b', name: 'beta' },
+        { id: 'g', name: 'gamma' },
+        { id: 'd', name: 'delta' },
+        { id: 'e', name: 'epsilon' },
+        { id: 'w', name: 'waw' },
+        { id: 'z', name: 'zeta' },
+      ]
+    };
   }
 
   public onPersonNameChange(model: PersonName): void {
@@ -185,5 +202,9 @@ export class SubEditorsDemoComponent implements OnInit {
 
   public onNoteChange(model: KeyValue<string,string>): void {
     this.lastNote = model;
+  }
+
+  public onMultiSelectionChange(selectedIds: string[]): void {
+    this.selectedIds = selectedIds;
   }
 }
