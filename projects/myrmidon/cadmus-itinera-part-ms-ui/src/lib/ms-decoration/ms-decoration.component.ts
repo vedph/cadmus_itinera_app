@@ -26,6 +26,7 @@ import { take } from 'rxjs/operators';
   styleUrls: ['./ms-decoration.component.css'],
 })
 export class MsDecorationComponent implements OnInit {
+  private _elementIndex: number;
   public editedElement: MsDecorationElement | undefined;
 
   @Input()
@@ -96,6 +97,7 @@ export class MsDecorationComponent implements OnInit {
     private _locService: MsLocationService,
     private _dialogService: DialogService
   ) {
+    this._elementIndex = -1;
     this.references$ = new BehaviorSubject<DocReference[]>([]);
     this.keys = [];
     // events
@@ -223,26 +225,32 @@ export class MsDecorationComponent implements OnInit {
   }
 
   public editElement(element: MsDecorationElement): void {
+    this._elementIndex = this.elements.value.indexOf(element);
     this.editedElement = element;
   }
 
   public addElement(): void {
-    this.editedElement = {
+    this.editElement({
       type: 'pag-inc',
       flags: [],
       ranges: [],
-    };
+    });
   }
 
   public onElementChange(element: MsDecorationElement): void {
-    const index = this.elements.value.indexOf(element);
-    if (index > -1) {
-      this.elements.value.splice(index, 1, element);
+    if (this._elementIndex > -1) {
+      this.elements.value.splice(this._elementIndex, 1, element);
     } else {
       this.elements.value.push(element);
     }
     this.keys = this.getKeys(this.elements.value);
+    this.onElementClose();
     this.form.markAsDirty();
+  }
+
+  public onElementClose(): void {
+    this._elementIndex = -1;
+    this.editedElement = undefined;
   }
 
   public deleteElement(index: number): void {

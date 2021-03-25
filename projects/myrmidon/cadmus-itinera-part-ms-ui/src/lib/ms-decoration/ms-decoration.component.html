@@ -164,6 +164,7 @@
           [parentKeys]="keys"
           [element]="editedElement"
           (elementChange)="onElementChange($event)"
+          (editorClose)="onElementClose()"
         ></itinera-ms-decoration-element>
       </mat-expansion-panel>
     </mat-tab>
@@ -177,7 +178,7 @@
         <itinera-ms-decoration-artist
           [parentForm]="artistForm"
           [(artist)]="artist"
-          [typeEntries]="decArtTypeEntries"
+          [decArtTypeEntries]="decArtTypeEntries"
         ></itinera-ms-decoration-artist>
       </form>
     </mat-tab>

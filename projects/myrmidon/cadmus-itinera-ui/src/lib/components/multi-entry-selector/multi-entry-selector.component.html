@@ -27,7 +27,7 @@
       <mat-icon>remove_done</mat-icon>
     </button>
   </div>
-  <div formArrayName="entriesArr">
+  <div formArrayName="entriesArr" class="cols">
     <div *ngFor="let item of entriesArr.controls; let i = index">
       <!-- child form -->
       <div [formGroupName]="i">
