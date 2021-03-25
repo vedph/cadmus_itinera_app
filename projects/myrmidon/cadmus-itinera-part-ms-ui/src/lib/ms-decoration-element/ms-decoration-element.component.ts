@@ -18,6 +18,7 @@ import {
   MsLocationRange,
   MsLocationService,
 } from '@myrmidon/cadmus-itinera-core';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'itinera-ms-decoration-element',
@@ -26,6 +27,13 @@ import {
 })
 export class MsDecorationElementComponent implements OnInit {
   private _element: MsDecorationElement | undefined;
+  private _elemFlagEntries: ThesaurusEntry[] | undefined;
+  private _elemColorEntries: ThesaurusEntry[] | undefined;
+  private _elemGildingEntries: ThesaurusEntry[] | undefined;
+  private _elemTechEntries: ThesaurusEntry[] | undefined;
+  private _elemPosEntries: ThesaurusEntry[] | undefined;
+  private _elemToolEntries: ThesaurusEntry[] | undefined;
+  private _elemTypolEntries: ThesaurusEntry[] | undefined;
 
   @ViewChild('dsceditor', { static: false }) dscEditor: any;
   public editorOptions = {
@@ -75,33 +83,93 @@ export class MsDecorationElementComponent implements OnInit {
   public note: FormControl;
   public form: FormGroup;
 
-  // ms-decoration-elem-types (required)
+  // ms-decoration-elem-types (required). All the other thesauri
+  // (except decTypeHiddenEntries) have their entries filtered
+  // by the value selected from this thesaurus.
   @Input()
   public decElemTypeEntries: ThesaurusEntry[] | undefined;
-  // ms-decoration-elem-flags
-  @Input()
-  public decElemFlagEntries: ThesaurusEntry[] | undefined;
-  // ms-decoration-elem-colors
-  @Input()
-  public decElemColorEntries: ThesaurusEntry[] | undefined;
-  // ms-decoration-elem-gildings
-  @Input()
-  public decElemGildingEntries: ThesaurusEntry[] | undefined;
-  // ms-decoration-elem-techniques
-  @Input()
-  public decElemTechEntries: ThesaurusEntry[] | undefined;
-  // ms-decoration-elem-positions
-  @Input()
-  public decElemPosEntries: ThesaurusEntry[] | undefined;
-  // ms-decoration-elem-tools
-  @Input()
-  public decElemToolEntries: ThesaurusEntry[] | undefined;
-  // ms-decoration-elem-typologies
-  @Input()
-  public decElemTypolEntries: ThesaurusEntry[] | undefined;
   // ms-decoration-type-hidden
   @Input()
-  public decTypeDepEntries: ThesaurusEntry[] | undefined;
+  public decTypeHiddenEntries: ThesaurusEntry[] | undefined;
+
+  // ms-decoration-elem-flags
+  @Input()
+  public get decElemFlagEntries(): ThesaurusEntry[] | undefined {
+    return this._elemFlagEntries;
+  }
+  public set decElemFlagEntries(value: ThesaurusEntry[] | undefined) {
+    this._elemFlagEntries = value;
+    this.elemFlagEntries = this.getFilteredEntries(value, this.type?.value);
+  }
+
+  // ms-decoration-elem-colors
+  @Input()
+  public get decElemColorEntries(): ThesaurusEntry[] | undefined {
+    return this._elemColorEntries;
+  }
+  public set decElemColorEntries(value: ThesaurusEntry[] | undefined) {
+    this._elemColorEntries = value;
+    this.elemColorEntries = this.getFilteredEntries(value, this.type?.value);
+  }
+
+  // ms-decoration-elem-gildings
+  @Input()
+  public get decElemGildingEntries(): ThesaurusEntry[] | undefined {
+    return this._elemGildingEntries;
+  }
+  public set decElemGildingEntries(value: ThesaurusEntry[] | undefined) {
+    this._elemGildingEntries = value;
+    this.elemGildingEntries = this.getFilteredEntries(value, this.type?.value);
+  }
+
+  // ms-decoration-elem-techniques
+  @Input()
+  public get decElemTechEntries(): ThesaurusEntry[] | undefined {
+    return this._elemTechEntries;
+  }
+  public set decElemTechEntries(value: ThesaurusEntry[] | undefined) {
+    this._elemTechEntries = value;
+    this.elemTechEntries = this.getFilteredEntries(value, this.type?.value);
+  }
+
+  // ms-decoration-elem-positions
+  @Input()
+  public get decElemPosEntries(): ThesaurusEntry[] | undefined {
+    return this._elemPosEntries;
+  }
+  public set decElemPosEntries(value: ThesaurusEntry[] | undefined) {
+    this._elemPosEntries = value;
+    this.elemPosEntries = this.getFilteredEntries(value, this.type?.value);
+  }
+
+  // ms-decoration-elem-tools
+  @Input()
+  public get decElemToolEntries(): ThesaurusEntry[] | undefined {
+    return this._elemToolEntries;
+  }
+  public set decElemToolEntries(value: ThesaurusEntry[] | undefined) {
+    this._elemToolEntries = value;
+    this.elemToolEntries = this.getFilteredEntries(value, this.type?.value);
+  }
+
+  // ms-decoration-elem-typologies
+  @Input()
+  public get decElemTypolEntries(): ThesaurusEntry[] | undefined {
+    return this._elemTypolEntries;
+  }
+  public set decElemTypolEntries(value: ThesaurusEntry[] | undefined) {
+    this._elemTypolEntries = value;
+    this.elemTypolEntries = this.getFilteredEntries(value, this.type?.value);
+  }
+
+  // the filtered entries:
+  public elemFlagEntries: ThesaurusEntry[] | undefined;
+  public elemColorEntries: ThesaurusEntry[] | undefined;
+  public elemGildingEntries: ThesaurusEntry[] | undefined;
+  public elemTechEntries: ThesaurusEntry[] | undefined;
+  public elemPosEntries: ThesaurusEntry[] | undefined;
+  public elemToolEntries: ThesaurusEntry[] | undefined;
+  public elemTypolEntries: ThesaurusEntry[] | undefined;
 
   constructor(
     formBuilder: FormBuilder,
@@ -163,7 +231,55 @@ export class MsDecorationElementComponent implements OnInit {
   ngOnInit(): void {
     this.updateForm(this.element);
     this.onTabIndexChanged(0);
-    // TODO handle type change
+
+    // filter thesauri according to element's type
+    this.type.valueChanges
+      .pipe(distinctUntilChanged(), debounceTime(300))
+      .subscribe(() => {
+        this.elemFlagEntries = this.getFilteredEntries(
+          this._elemFlagEntries,
+          this.type?.value
+        );
+        this.elemColorEntries = this.getFilteredEntries(
+          this._elemColorEntries,
+          this.type?.value
+        );
+        this.elemGildingEntries = this.getFilteredEntries(
+          this._elemGildingEntries,
+          this.type?.value
+        );
+        this.elemTechEntries = this.getFilteredEntries(
+          this._elemTechEntries,
+          this.type?.value
+        );
+        this.elemPosEntries = this.getFilteredEntries(
+          this._elemPosEntries,
+          this.type?.value
+        );
+        this.elemToolEntries = this.getFilteredEntries(
+          this._elemToolEntries,
+          this.type?.value
+        );
+        this.elemTypolEntries = this.getFilteredEntries(
+          this._elemTypolEntries,
+          this.type?.value
+        );
+        this.updateVisibility();
+      });
+  }
+
+  private getFilteredEntries(
+    entries: ThesaurusEntry[] | undefined,
+    prefix: string
+  ): ThesaurusEntry[] | undefined {
+    if (!entries) {
+      return undefined;
+    }
+    return entries.filter((e) => e.id.startsWith(prefix));
+  }
+
+  private updateVisibility(): void {
+    // TODO
   }
 
   public onTabIndexChanged(index: number): void {
