@@ -266,7 +266,7 @@ export class MsDecorationElementComponent implements OnInit {
       technique: this.technique.value?.trim(),
       tool: this.tool.value?.trim(),
       position: this.position.value?.trim(),
-      lineHeight: this.lineHeight.value?.trim(),
+      lineHeight: this.lineHeight.value,
       textRelation: this.textRelation.value?.trim(),
       description: this.description.value?.trim(),
       imageId: this.imageId.value?.trim(),
