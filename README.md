@@ -10,14 +10,15 @@ Quick Docker image build:
 
 ## Production
 
-The production version is labeled like this one, with `-prod` suffix, e.g. `docker build . -t cadmus-itinera-app:1.0.28-prod`.
-
-After building the app, change `env.js` in the `dist` folder for these variables:
+1. build the image as above.
+2. after building the app, change `env.js` in the `dist` folder for these variables:
 
 ```js
-window.__env.apiUrl = 'https://itinera.unisi.it:54184/api/';
-window.__env.biblioApiUrl = 'https://itinera.unisi.it:61692/api/';
+window.__env.apiUrl = "https://itinera.unisi.it:54184/api/";
+window.__env.biblioApiUrl = "https://itinera.unisi.it:61692/api/";
 ```
+
+3. build a new image for production: `docker build . -t vedph2020/cadmus-itinera-app:1.0.28-prod`. The production version is labeled like this one, with `-prod` suffix.
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.1.4.
 
@@ -83,6 +84,7 @@ This list is built by inspecting the head comments of each part editor component
   - person-name-types
   - person-name-tags
 - PoeticTextInfoPart:
+
   - languages
   - person-name-types
   - person-name-tags
@@ -321,14 +323,14 @@ public editorOptions = {
 The child component is in another tab and has ok/cancel buttons.
 
 ```ts
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit } from "@angular/core";
+import { FormControl, FormBuilder, Validators } from "@angular/forms";
 
-import { ModelEditorComponentBase, DialogService } from '@myrmidon/cadmus-ui';
-import { AuthService } from '@myrmidon/cadmus-api';
-import { ThesaurusEntry } from '@myrmidon/cadmus-core';
+import { ModelEditorComponentBase, DialogService } from "@myrmidon/cadmus-ui";
+import { AuthService } from "@myrmidon/cadmus-api";
+import { ThesaurusEntry } from "@myrmidon/cadmus-core";
 
-import { __PARTNAME__Part, __PARTNAME___PART_TYPEID } from '../YOURPARTFILE';
+import { __PARTNAME__Part, __PARTNAME___PART_TYPEID } from "../YOURPARTFILE";
 
 /**
  * __PARTNAME__ editor component.
