@@ -1,16 +1,23 @@
 # Cadmus Itinera App
 
+## Docker
+
 Quick Docker image build:
 
 1. `npm run build-all`
 2. `ng build --prod`
-3. `docker build . -t vedph2020/cadmus-itinera-app:1.0.25 -t vedph2020/cadmus-itinera-app:latest` (replace with the current version).
+3. `docker build . -t vedph2020/cadmus-itinera-app:1.0.28 -t vedph2020/cadmus-itinera-app:latest` (replace with the current version).
 
-Web application frontend for Cadmus _Itinera_. This application is built by packing together a number of components:
+## Production
 
-- _frontend_: the app includes the application and its specific libraries; shared Cadmus libraries (as defined in [Cadmus shell](https://github.com/vedph/cadmus_shell)) are used from NPM.
+The production version is labeled like this one, with `-prod` suffix, e.g. `docker build . -t cadmus-itinera-app:1.0.28-prod`.
 
-- _backend_: the corresponding backend API is [Cadmus Itinera API](https://github.com/vedph/cadmus_itinera_api), depending on [Cadmus Itinera](https://github.com/vedph/cadmus_itinera) for its specific parts.
+After building the app, change `env.js` in the `dist` folder for these variables:
+
+```js
+window.__env.apiUrl = 'https://itinera.unisi.it:54184/api/';
+window.__env.biblioApiUrl = 'https://itinera.unisi.it:61692/api/';
+```
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.1.4.
 
