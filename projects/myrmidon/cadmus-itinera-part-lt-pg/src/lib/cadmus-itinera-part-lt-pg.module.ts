@@ -8,7 +8,6 @@ import {
   CITED_PERSONS_PART_TYPEID,
   CORR_EXCHANGES_PART_TYPEID,
   CORR_PSEUDONYMS_PART_TYPEID,
-  DOC_REFERENCES_PART_TYPEID,
   SERIAL_TEXT_INFO_PART_TYPEID,
   LIT_DEDICATIONS_PART_TYPEID,
   PERSON_EVENTS_PART_TYPEID,
@@ -20,7 +19,6 @@ import { PendingChangesGuard } from '@myrmidon/cadmus-core';
 import { CadmusUiPgModule } from '@myrmidon/cadmus-ui-pg';
 import { PersonPartFeatureComponent } from './person-part-feature/person-part-feature.component';
 import { PersonEventsPartFeatureComponent } from './person-events-part-feature/person-events-part-feature.component';
-import { DocReferencesPartFeatureComponent } from './doc-references-part-feature/doc-references-part-feature.component';
 import { LitDedicationsPartFeatureComponent } from './lit-dedications-part-feature/lit-dedications-part-feature.component';
 import { CorrPseudonymsPartFeatureComponent } from './corr-pseudonyms-part-feature/corr-pseudonyms-part-feature.component';
 import { CitedPersonsPartFeatureComponent } from './cited-persons-part-feature/cited-persons-part-feature.component';

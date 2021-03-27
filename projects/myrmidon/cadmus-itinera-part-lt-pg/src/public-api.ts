@@ -7,7 +7,6 @@ export * from './lib/cited-persons-part-feature/cited-persons-part-feature.compo
 export * from './lib/lit-dedications-part-feature/lit-dedications-part-feature.component';
 export * from './lib/corr-exchanges-part-feature/corr-exchanges-part-feature.component';
 export * from './lib/corr-pseudonyms-part-feature/corr-pseudonyms-part-feature.component';
-export * from './lib/doc-references-part-feature/doc-references-part-feature.component';
 export * from './lib/person-events-part-feature/person-events-part-feature.component';
 export * from './lib/person-part-feature/person-part-feature.component';
 export * from './lib/serial-text-info-part-feature/serial-text-info-part-feature.component';

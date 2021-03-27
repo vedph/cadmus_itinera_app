@@ -25,9 +25,6 @@ export * from './lib/corr-pseudonyms-part';
 export * from './lib/corr-pseudonyms-part/corr-pseudonyms-part.component';
 export * from './lib/corr-pseudonym/corr-pseudonym.component';
 
-export * from './lib/doc-references-part';
-export * from './lib/doc-references-part/doc-references-part.component';
-
 export * from './lib/serial-text-info-part';
 export * from './lib/serial-text-info-part/serial-text-info-part.component';
 

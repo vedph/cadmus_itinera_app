@@ -9,7 +9,6 @@ import { PersonPartComponent } from './person-part/person-part.component';
 import { CadmusUiModule } from '@myrmidon/cadmus-ui';
 import { PersonEventsPartComponent } from './person-events-part/person-events-part.component';
 import { BioEventComponent } from './bio-event/bio-event.component';
-import { DocReferencesPartComponent } from './doc-references-part/doc-references-part.component';
 import { LitDedicationComponent } from './lit-dedication/lit-dedication.component';
 import { LitDedicationsPartComponent } from './lit-dedications-part/lit-dedications-part.component';
 import { CorrPseudonymComponent } from './corr-pseudonym/corr-pseudonym.component';
@@ -37,7 +36,6 @@ import { CitedPersonsComponent } from './cited-persons/cited-persons.component';
     CorrExchangesPartComponent,
     CorrPseudonymComponent,
     CorrPseudonymsPartComponent,
-    DocReferencesPartComponent,
     SerialTextInfoPartComponent,
     LitDedicationsPartComponent,
     LitDedicationComponent,
@@ -69,7 +67,6 @@ import { CitedPersonsComponent } from './cited-persons/cited-persons.component';
     CorrExchangesPartComponent,
     CorrPseudonymComponent,
     CorrPseudonymsPartComponent,
-    DocReferencesPartComponent,
     SerialTextInfoPartComponent,
     LitDedicationComponent,
     PersonPartComponent,
