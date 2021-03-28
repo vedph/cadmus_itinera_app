@@ -1,5 +1,6 @@
 import {
   CATEGORIES_PART_TYPEID,
+  DOC_REFERENCES_PART_TYPEID,
   HISTORICAL_DATE_PART_TYPEID,
   KEYWORDS_PART_TYPEID,
   INDEX_KEYWORDS_PART_TYPEID,
@@ -17,7 +18,6 @@ import {
 } from '@myrmidon/cadmus-part-philology-ui';
 import { PartEditorKeys } from '@myrmidon/cadmus-core';
 import {
-  DOC_REFERENCES_PART_TYPEID,
   PERSON_EVENTS_PART_TYPEID,
   PERSON_PART_TYPEID,
   CORR_PSEUDONYMS_PART_TYPEID,
@@ -70,6 +70,9 @@ export const PART_EDITOR_KEYS: PartEditorKeys = {
   [CATEGORIES_PART_TYPEID]: {
     part: GENERAL,
   },
+  [DOC_REFERENCES_PART_TYPEID]: {
+    part: GENERAL,
+  },
   [HISTORICAL_DATE_PART_TYPEID]: {
     part: GENERAL,
   },
@@ -93,9 +96,6 @@ export const PART_EDITOR_KEYS: PartEditorKeys = {
     part: ITINERA_LT,
   },
   [PERSON_EVENTS_PART_TYPEID]: {
-    part: ITINERA_LT,
-  },
-  [DOC_REFERENCES_PART_TYPEID]: {
     part: ITINERA_LT,
   },
   [LIT_DEDICATIONS_PART_TYPEID]: {

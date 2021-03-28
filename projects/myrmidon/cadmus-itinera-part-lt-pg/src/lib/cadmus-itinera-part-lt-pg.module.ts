@@ -42,12 +42,6 @@ export const RouterModuleForChild = RouterModule.forChild([
     canDeactivate: [PendingChangesGuard],
   },
   {
-    path: `${DOC_REFERENCES_PART_TYPEID}/:pid`,
-    pathMatch: 'full',
-    component: DocReferencesPartFeatureComponent,
-    canDeactivate: [PendingChangesGuard],
-  },
-  {
     path: `${LIT_DEDICATIONS_PART_TYPEID}/:pid`,
     pathMatch: 'full',
     component: LitDedicationsPartFeatureComponent,
@@ -99,7 +93,6 @@ export const RouterModuleForChild = RouterModule.forChild([
     LitDedicationsPartFeatureComponent,
     CorrExchangesPartFeatureComponent,
     CorrPseudonymsPartFeatureComponent,
-    DocReferencesPartFeatureComponent,
     SerialTextInfoPartFeatureComponent,
     PersonEventsPartFeatureComponent,
     PersonPartFeatureComponent,
@@ -122,7 +115,6 @@ export const RouterModuleForChild = RouterModule.forChild([
     LitDedicationsPartFeatureComponent,
     CorrExchangesPartFeatureComponent,
     CorrPseudonymsPartFeatureComponent,
-    DocReferencesPartFeatureComponent,
     SerialTextInfoPartFeatureComponent,
     PersonEventsPartFeatureComponent,
     PersonPartFeatureComponent,
