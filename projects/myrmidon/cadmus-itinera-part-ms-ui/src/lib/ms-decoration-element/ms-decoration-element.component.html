@@ -36,11 +36,11 @@
       </div>
       <div>
         <!-- flags -->
-        <itinera-multi-entry-selector
+        <cadmus-multi-entry-selector
           [entries]="decElemFlagEntries"
           [selectedIds]="flags?.value"
           (selectionChange)="onFlgSelectionChange($event)"
-        ></itinera-multi-entry-selector>
+        ></cadmus-multi-entry-selector>
       </div>
       <div>
         <!-- key -->
@@ -69,11 +69,11 @@
     <!-- typologies -->
     <mat-tab label="typologies">
       <!-- typologies -->
-      <itinera-multi-entry-selector
+      <cadmus-multi-entry-selector
         [entries]="decElemTypolEntries"
         [selectedIds]="typologies?.value"
         (selectionChange)="onTypSelectionChange($event)"
-      ></itinera-multi-entry-selector>
+      ></cadmus-multi-entry-selector>
 
       <!-- subject -->
       <div>
@@ -89,11 +89,11 @@
       </div>
 
       <!-- colors -->
-      <itinera-multi-entry-selector
+      <cadmus-multi-entry-selector
         [entries]="decElemColorEntries"
         [selectedIds]="colors?.value"
         (selectionChange)="onClrSelectionChange($event)"
-      ></itinera-multi-entry-selector>
+      ></cadmus-multi-entry-selector>
 
       <div>
         <!-- gilding (bound) -->

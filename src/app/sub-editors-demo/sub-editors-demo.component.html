@@ -119,12 +119,12 @@
       </mat-tab>
 
       <mat-tab label="Multi-select">
-        <itinera-multi-entry-selector
+        <cadmus-multi-entry-selector
           [numbering]="true"
           [entries]="langEntries"
           [selectedIds]="selectedIds"
           (selectionChange)="onMultiSelectionChange($event)"
-        ></itinera-multi-entry-selector>
+        ></cadmus-multi-entry-selector>
         <div *ngIf="selectedIds">
           <pre>{{ selectedIds | json }}</pre>
         </div>
