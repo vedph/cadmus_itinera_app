@@ -1,0 +1,28 @@
+<form [formGroup]="form">
+  <!-- bound -->
+  <mat-form-field *ngIf="!free && entries?.length">
+    <mat-select [formControl]="idCtl" [placeholder]="label">
+      <mat-option *ngFor="let e of entries" [value]="e.id">{{
+        e.value
+      }}</mat-option>
+    </mat-select>
+    <mat-error *ngIf="idCtl.errors?.required && (idCtl.dirty || idCtl.touched)"
+      >required</mat-error
+    >
+  </mat-form-field>
+
+  <!-- free -->
+  <mat-form-field *ngIf="free || !entries?.length">
+    <input matInput [formControl]="idCtl" [placeholder]="label" />
+    <mat-error *ngIf="idCtl.errors?.required && (idCtl.dirty || idCtl.touched)"
+      >required</mat-error
+    >
+    <mat-error *ngIf="idCtl.errors?.maxLength && (idCtl.dirty || idCtl.touched)"
+      >too long</mat-error
+    >
+    <mat-error
+      *ngIf="idCtl.errors?.invalidCtl && (idCtl.dirty || idCtl.touched)"
+      >invalid</mat-error
+    >
+  </mat-form-field>
+</form>

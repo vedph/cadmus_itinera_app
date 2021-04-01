@@ -14,11 +14,9 @@ import {
   DecoratedCount,
 } from '@myrmidon/cadmus-itinera-core';
 import { NoteSet } from '@myrmidon/cadmus-itinera-ui';
-import {
-  DecoratedId,
-  PersonName,
-} from '@myrmidon/cadmus-itinera-core';
+import { DecoratedId, PersonName } from '@myrmidon/cadmus-itinera-core';
 import { BehaviorSubject } from 'rxjs';
+import { FormBuilder, FormControl, ValidatorFn, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-sub-editors-demo',
@@ -58,7 +56,18 @@ export class SubEditorsDemoComponent implements OnInit {
 
   public selectedIds: string[] | undefined;
 
-  constructor() {}
+  public free: FormControl;
+  public id: string | undefined;
+  public teValidators: ValidatorFn[];
+
+  constructor(formBuilder: FormBuilder) {
+    this.free = formBuilder.control(false);
+    this.teValidators = [
+      Validators.required,
+      Validators.maxLength(20),
+      Validators.pattern('^[-a-zA-Z_0-9]+$'),
+    ];
+  }
 
   ngOnInit(): void {
     this.langEntries = [
@@ -137,26 +146,26 @@ export class SubEditorsDemoComponent implements OnInit {
           key: 'a',
           label: 'alpha',
           required: true,
-          maxLength: 50
+          maxLength: 50,
         },
         {
           key: 'b',
           label: 'beta',
           markdown: true,
-          maxLength: 100
+          maxLength: 100,
         },
         {
           key: 'g',
-          label: 'gamma'
-        }
+          label: 'gamma',
+        },
       ],
       notes: new Map<string, string>([
         ['a', 'This is note alpha.'],
-        ['b', 'This is note __beta__, which uses _Markdown_.']
-      ])
+        ['b', 'This is note __beta__, which uses _Markdown_.'],
+      ]),
     };
 
-    this.selectedIds = [ 'eng', 'ita', 'lat'];
+    this.selectedIds = ['eng', 'ita', 'lat'];
   }
 
   public onPersonNameChange(model: PersonName): void {
@@ -187,11 +196,15 @@ export class SubEditorsDemoComponent implements OnInit {
     this.lastChronotope = model;
   }
 
-  public onNoteChange(model: KeyValue<string,string>): void {
+  public onNoteChange(model: KeyValue<string, string>): void {
     this.lastNote = model;
   }
 
   public onMultiSelectionChange(selectedIds: string[]): void {
     this.selectedIds = selectedIds;
+  }
+
+  public onIdChange(id: string | undefined): void {
+    this.id = id;
   }
 }

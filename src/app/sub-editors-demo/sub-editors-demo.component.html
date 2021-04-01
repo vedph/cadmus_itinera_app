@@ -129,6 +129,20 @@
           <pre>{{ selectedIds | json }}</pre>
         </div>
       </mat-tab>
+
+      <mat-tab label="Text/Entry">
+        <itinera-text-or-entry-selector
+          [free]="free.value"
+          [id]="'eng'"
+          [entries]="langEntries"
+          [validators]="teValidators"
+          (idChange)="onIdChange($event)"
+        ></itinera-text-or-entry-selector>
+        <mat-checkbox [formControl]="free">free</mat-checkbox>
+        <div *ngIf="id">
+          <pre>{{ id }}</pre>
+        </div>
+      </mat-tab>
     </mat-tab-group>
   </mat-card-content>
 </mat-card>

@@ -11,6 +11,7 @@ import { ChronotopeComponent } from './components/chronotope/chronotope.componen
 import { CadmusUiModule } from '@myrmidon/cadmus-ui';
 import { NoteSetComponent } from './components/note-set/note-set.component';
 import { ChronotopesComponent } from './components/chronotopes/chronotopes.component';
+import { TextOrEntrySelectorComponent } from './components/text-or-entry-selector/text-or-entry-selector.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { ChronotopesComponent } from './components/chronotopes/chronotopes.compo
     DecoratedIdsComponent,
     NoteSetComponent,
     PersonNameComponent,
+    TextOrEntrySelectorComponent,
   ],
   imports: [
     CommonModule,
@@ -38,6 +40,7 @@ import { ChronotopesComponent } from './components/chronotopes/chronotopes.compo
     DecoratedIdsComponent,
     NoteSetComponent,
     PersonNameComponent,
+    TextOrEntrySelectorComponent,
   ],
 })
 export class CadmusItineraUiModule {}

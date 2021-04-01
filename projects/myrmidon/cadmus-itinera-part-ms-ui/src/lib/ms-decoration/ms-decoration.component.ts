@@ -146,20 +146,6 @@ export class MsDecorationComponent implements OnInit {
     this.updateForm(this.decoration);
   }
 
-  private buildSwitches(
-    ids: string[] | undefined,
-    entries: ThesaurusEntry[] | undefined
-  ): boolean[] {
-    if (!entries) {
-      return [];
-    }
-    const switches: boolean[] = [];
-    entries.forEach((entry) => {
-      switches.push(ids?.includes(entry.id));
-    });
-    return switches;
-  }
-
   private getKeys(elements: MsDecorationElement[] | undefined): string[] {
     if (!elements) {
       return [];
