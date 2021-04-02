@@ -290,6 +290,18 @@ export class MsDecorationElementComponent implements OnInit {
     this.type.valueChanges
       .pipe(distinctUntilChanged(), debounceTime(300))
       .subscribe(() => {
+        // reset type-dependent values
+        this.flags.reset();
+        this.typologies.reset();
+        this.subject.reset();
+        this.colors.reset();
+        this.gilding.reset();
+        this.technique.reset();
+        this.tool.reset();
+        this.position.reset();
+        this.lineHeight.reset();
+        this.textRelation.reset();
+
         // filter entries for multiple-selections
         this.elemFlagEntries = this.getFilteredEntries(
           this._elemFlagEntries,
@@ -354,6 +366,7 @@ export class MsDecorationElementComponent implements OnInit {
     }
     // general
     this.type.setValue(element.type);
+
     this.flags.setValue(element.flags);
     this.ranges.setValue(
       element.ranges

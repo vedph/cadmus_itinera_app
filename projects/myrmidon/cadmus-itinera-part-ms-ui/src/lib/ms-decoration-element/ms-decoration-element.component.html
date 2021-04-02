@@ -5,7 +5,11 @@
     <mat-tab label="general">
       <div>
         <!-- type (bound) -->
-        <mat-form-field *ngIf="decElemTypeEntries?.length" style="width: 8em">
+        <mat-form-field
+          *ngIf="decElemTypeEntries?.length"
+          style="width: 14em"
+          appearance="fill"
+        >
           <mat-select [formControl]="type" placeholder="type">
             <mat-option *ngFor="let e of decElemTypeEntries" [value]="e.id">{{
               e.value
