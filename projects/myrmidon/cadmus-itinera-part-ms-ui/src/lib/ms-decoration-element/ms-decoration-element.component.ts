@@ -171,6 +171,19 @@ export class MsDecorationElementComponent implements OnInit {
   public elemToolEntries: ThesaurusEntry[] | undefined;
   public elemTypolEntries: ThesaurusEntry[] | undefined;
 
+  public elemGildingFree: boolean | undefined;
+  public elemTechFree: boolean | undefined;
+  public elemPosFree: boolean | undefined;
+  public elemToolFree: boolean | undefined;
+  public elemTypolFree: boolean | undefined;
+
+  // this object has a property for each control
+  // to be hidden, having the same name of the control
+  // and value=true. Names you can use are: flags,
+  // typologies, subject, colors, gilding, technique,
+  // tool, position, lineHeight, textRelation.
+  public hidden: any | undefined;
+
   constructor(
     formBuilder: FormBuilder,
     private _locService: MsLocationService
@@ -228,6 +241,22 @@ export class MsDecorationElementComponent implements OnInit {
     });
   }
 
+  /**
+   * Determine if the specified thesaurus entries represent a free set.
+   * This happens when we just have a single entry with a single dot
+   * followed by "-".
+   *
+   * @param entries The thesaurus entries to test.
+   * @returns True if the entries represent a free set.
+   */
+  private isFreeSet(entries: ThesaurusEntry[]): boolean {
+    if (entries?.length !== 1) {
+      return false;
+    }
+    const tokens = entries[0].id.split('.');
+    return tokens.length === 2 && tokens[1] === '-';
+  }
+
   ngOnInit(): void {
     this.updateForm(this.element);
     this.onTabIndexChanged(0);
@@ -236,6 +265,7 @@ export class MsDecorationElementComponent implements OnInit {
     this.type.valueChanges
       .pipe(distinctUntilChanged(), debounceTime(300))
       .subscribe(() => {
+        // filter entries for multiple-selections
         this.elemFlagEntries = this.getFilteredEntries(
           this._elemFlagEntries,
           this.type?.value
@@ -244,26 +274,39 @@ export class MsDecorationElementComponent implements OnInit {
           this._elemColorEntries,
           this.type?.value
         );
+
+        // filter entries and set free for single-selections
         this.elemGildingEntries = this.getFilteredEntries(
           this._elemGildingEntries,
           this.type?.value
         );
+        this.elemGildingFree = this.isFreeSet(this.elemGildingEntries);
+
         this.elemTechEntries = this.getFilteredEntries(
           this._elemTechEntries,
           this.type?.value
         );
+        this.elemTechFree = this.isFreeSet(this.elemTechEntries);
+
         this.elemPosEntries = this.getFilteredEntries(
           this._elemPosEntries,
           this.type?.value
         );
+        this.elemPosFree = this.isFreeSet(this.elemPosEntries);
+
         this.elemToolEntries = this.getFilteredEntries(
           this._elemToolEntries,
           this.type?.value
         );
+        this.elemToolFree = this.isFreeSet(this.elemToolEntries);
+
         this.elemTypolEntries = this.getFilteredEntries(
           this._elemTypolEntries,
           this.type?.value
         );
+        this.elemTypolFree = this.isFreeSet(this.elemTypolEntries);
+
+        // visibility
         this.updateVisibility();
       });
   }
@@ -279,7 +322,17 @@ export class MsDecorationElementComponent implements OnInit {
   }
 
   private updateVisibility(): void {
-    // TODO
+    const hidden = {};
+    const entry = this.decTypeHiddenEntries?.find(
+      (e) => e.id === this.type.value
+    );
+    if (entry) {
+      const names = entry.value.split(' ').filter(s => s);
+      names.forEach(n => {
+        hidden[n] = true;
+      });
+    }
+    this.hidden = hidden;
   }
 
   public onTabIndexChanged(index: number): void {

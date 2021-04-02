@@ -37,6 +37,7 @@
       <div>
         <!-- flags -->
         <cadmus-multi-entry-selector
+          *ngIf="!hidden?.flags"
           [entries]="decElemFlagEntries"
           [selectedIds]="flags?.value"
           (selectionChange)="onFlgSelectionChange($event)"
@@ -70,13 +71,14 @@
     <mat-tab label="typologies">
       <!-- typologies -->
       <cadmus-multi-entry-selector
+        *ngIf="!hidden?.typologies"
         [entries]="decElemTypolEntries"
         [selectedIds]="typologies?.value"
         (selectionChange)="onTypSelectionChange($event)"
       ></cadmus-multi-entry-selector>
 
       <!-- subject -->
-      <div>
+      <div *ngIf="!hidden?.subject">
         <mat-form-field>
           <input matInput [formControl]="subject" placeholder="subject" />
           <mat-error
@@ -90,107 +92,124 @@
 
       <!-- colors -->
       <cadmus-multi-entry-selector
+        *ngIf="!hidden?.colors"
         [entries]="decElemColorEntries"
         [selectedIds]="colors?.value"
         (selectionChange)="onClrSelectionChange($event)"
       ></cadmus-multi-entry-selector>
 
       <div>
-        <!-- gilding (bound) -->
-        <mat-form-field
-          *ngIf="decElemGildingEntries?.length"
-          style="width: 8em"
-        >
-          <mat-select [formControl]="gilding" placeholder="gilding">
-            <mat-option
-              *ngFor="let e of decElemGildingEntries"
-              [value]="e.id"
-              >{{ e.value }}</mat-option
+        <ng-container *ngIf="!hidden?.gilding">
+          <!-- gilding (bound) -->
+          <mat-form-field
+            *ngIf="decElemGildingEntries?.length"
+            style="width: 8em"
+          >
+            <mat-select [formControl]="gilding" placeholder="gilding">
+              <mat-option
+                *ngFor="let e of decElemGildingEntries"
+                [value]="e.id"
+                >{{ e.value }}</mat-option
+              >
+            </mat-select>
+            <mat-error
+              *ngIf="
+                gilding.errors?.required && (gilding.dirty || gilding.touched)
+              "
+              >gilding required</mat-error
             >
-          </mat-select>
-          <mat-error
-            *ngIf="
-              gilding.errors?.required && (gilding.dirty || gilding.touched)
-            "
-            >gilding required</mat-error
-          >
-        </mat-form-field>
+          </mat-form-field>
 
-        <!-- gilding (free) -->
-        <mat-form-field *ngIf="!decElemGildingEntries?.length">
-          <input matInput [formControl]="gilding" placeholder="gilding" />
-          <mat-error
-            *ngIf="
-              gilding.errors?.maxLength && (gilding.dirty || gilding.touched)
-            "
-            >gilding too long</mat-error
-          >
-        </mat-form-field>
+          <!-- gilding (free) -->
+          <mat-form-field *ngIf="!decElemGildingEntries?.length">
+            <input matInput [formControl]="gilding" placeholder="gilding" />
+            <mat-error
+              *ngIf="
+                gilding.errors?.maxLength && (gilding.dirty || gilding.touched)
+              "
+              >gilding too long</mat-error
+            >
+          </mat-form-field>
+        </ng-container>
 
-        &nbsp;
         <!-- technique (bound) -->
-        <mat-form-field *ngIf="decElemTechEntries?.length" style="width: 8em">
-          <mat-select [formControl]="technique" placeholder="technique">
-            <mat-option *ngFor="let e of decElemTechEntries" [value]="e.id">{{
-              e.value
-            }}</mat-option>
-          </mat-select>
-        </mat-form-field>
+        <ng-container *ngIf="!hidden?.technique">
+          &nbsp;
+          <mat-form-field *ngIf="decElemTechEntries?.length" style="width: 8em">
+            <mat-select [formControl]="technique" placeholder="technique">
+              <mat-option *ngFor="let e of decElemTechEntries" [value]="e.id">{{
+                e.value
+              }}</mat-option>
+            </mat-select>
+          </mat-form-field>
 
-        <!-- technique (free) -->
-        <mat-form-field *ngIf="!decElemTechEntries?.length" style="width: 8em">
-          <input matInput [formControl]="technique" placeholder="technique" />
-          <mat-error
-            *ngIf="
-              technique.errors?.maxLength &&
-              (technique.dirty || technique.touched)
-            "
-            >technique too long</mat-error
+          <!-- technique (free) -->
+          <mat-form-field
+            *ngIf="!decElemTechEntries?.length"
+            style="width: 8em"
           >
-        </mat-form-field>
+            <input matInput [formControl]="technique" placeholder="technique" />
+            <mat-error
+              *ngIf="
+                technique.errors?.maxLength &&
+                (technique.dirty || technique.touched)
+              "
+              >technique too long</mat-error
+            >
+          </mat-form-field>
+        </ng-container>
 
         &nbsp;
-        <!-- tool -->
-        <mat-form-field *ngIf="decElemToolEntries?.length" style="width: 8em">
-          <mat-select [formControl]="tool" placeholder="tool">
-            <mat-option *ngFor="let e of decElemToolEntries" [value]="e.id">{{
-              e.value
-            }}</mat-option>
-          </mat-select>
-        </mat-form-field>
+        <ng-container *ngIf="!hidden?.tool">
+          <!-- tool (bound) -->
+          <mat-form-field *ngIf="decElemToolEntries?.length" style="width: 8em">
+            <mat-select [formControl]="tool" placeholder="tool">
+              <mat-option *ngFor="let e of decElemToolEntries" [value]="e.id">{{
+                e.value
+              }}</mat-option>
+            </mat-select>
+          </mat-form-field>
 
-        <mat-form-field *ngIf="!decElemToolEntries?.length" style="width: 8em">
-          <input matInput [formControl]="tool" placeholder="tool" />
-          <mat-error
-            *ngIf="tool.errors?.maxLength && (tool.dirty || tool.touched)"
-            >tool too long</mat-error
+          <!-- tool (free) -->
+          <mat-form-field
+            *ngIf="!decElemToolEntries?.length"
+            style="width: 8em"
           >
-        </mat-form-field>
+            <input matInput [formControl]="tool" placeholder="tool" />
+            <mat-error
+              *ngIf="tool.errors?.maxLength && (tool.dirty || tool.touched)"
+              >tool too long</mat-error
+            >
+          </mat-form-field>
+        </ng-container>
       </div>
       <div>
-        <!-- position (bound) -->
-        <mat-form-field *ngIf="decElemPosEntries?.length" style="width: 8em">
-          <mat-select [formControl]="position" placeholder="position">
-            <mat-option *ngFor="let e of decElemPosEntries" [value]="e.id">{{
-              e.value
-            }}</mat-option>
-          </mat-select>
-        </mat-form-field>
+        <ng-container *ngIf="!hidden?.position">
+          <!-- position (bound) -->
+          <mat-form-field *ngIf="decElemPosEntries?.length" style="width: 8em">
+            <mat-select [formControl]="position" placeholder="position">
+              <mat-option *ngFor="let e of decElemPosEntries" [value]="e.id">{{
+                e.value
+              }}</mat-option>
+            </mat-select>
+          </mat-form-field>
 
-        <!-- position (free) -->
-        <mat-form-field *ngIf="!decElemPosEntries?.length" style="width: 8em">
-          <input matInput [formControl]="position" placeholder="position" />
-          <mat-error
-            *ngIf="
-              position.errors?.maxLength && (position.dirty || position.touched)
-            "
-            >position too long</mat-error
-          >
-        </mat-form-field>
+          <!-- position (free) -->
+          <mat-form-field *ngIf="!decElemPosEntries?.length" style="width: 8em">
+            <input matInput [formControl]="position" placeholder="position" />
+            <mat-error
+              *ngIf="
+                position.errors?.maxLength &&
+                (position.dirty || position.touched)
+              "
+              >position too long</mat-error
+            >
+          </mat-form-field>
+        </ng-container>
 
         &nbsp;
         <!-- lineHeight -->
-        <mat-form-field style="width: 4em">
+        <mat-form-field style="width: 4em" *ngIf="!hidden?.lineHeight">
           <input
             matInput
             type="number"
@@ -202,7 +221,7 @@
       </div>
       <div>
         <!-- textRelation -->
-        <mat-form-field>
+        <mat-form-field *ngIf="!hidden?.textRelation">
           <input
             matInput
             [formControl]="textRelation"

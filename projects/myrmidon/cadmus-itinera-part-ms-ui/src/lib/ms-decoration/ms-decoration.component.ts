@@ -18,7 +18,31 @@ import { BehaviorSubject } from 'rxjs';
 import { take } from 'rxjs/operators';
 
 /**
- * MsDecoration editor.
+ * Manuscript's decoration editor.
+ * This component requires the ms-decoration-elem types thesaurus.
+ * According to the type selected, it changes its UI by:
+ * - filtering the content of all the other thesauri (except
+ * ms-decoration-type-hidden, which has a special meaning),
+ * when they have a hierarchy (i.e. their IDs contain a dot).
+ * Such type-dependent thesauri have their entries IDs prefixed
+ * with the type ID followed by dot. For instance, type "ill"
+ * has some corresponding entries in a type-dependent thesaurus
+ * like ms-decoration-elem-typologies, like "ill.miniature",
+ * "ill.drawing", etc.
+ * Also, if the filtered content of a thesaurus happens to have
+ * an entry ID equal to "-" once the type prefix has been stripped
+ * out, this means that in this case the corresponding control
+ * should be a free text box rather than a selector.
+ * This anyway does not apply to those controls allowing multiple
+ * selections, like flags or colors.
+ * - hiding some controls. When a type is selected, the thesaurus
+ * ms-decoration-type-hidden is looked up to find an entry
+ * with ID equal to the selected type ID. If found, it is assumed
+ * that its value is a space-delimited list of names of those
+ * controls which should be hidden.
+ * This logic is effectively implemented by
+ * MsDecorationElementComponent, which receives the thesauri set
+ * on this parent component.
  */
 @Component({
   selector: 'itinera-ms-decoration',
@@ -32,16 +56,16 @@ export class MsDecorationComponent implements OnInit {
   @Input()
   public decoration: MsDecoration;
 
-  // ms-decoration-artist-types
-  @Input()
-  public decArtTypeEntries: ThesaurusEntry[] | undefined;
   // ms-decoration-elem-types (required)
   @Input()
   public decElemTypeEntries: ThesaurusEntry[] | undefined;
-  // ms-decoration-elem-flags
+  // ms-decoration-artist-types
+  @Input()
+  public decArtTypeEntries: ThesaurusEntry[] | undefined;
+  // ms-decoration-elem-flags (multi)
   @Input()
   public decElemFlagEntries: ThesaurusEntry[] | undefined;
-  // ms-decoration-elem-colors
+  // ms-decoration-elem-colors (multi)
   @Input()
   public decElemColorEntries: ThesaurusEntry[] | undefined;
   // ms-decoration-elem-gildings
@@ -59,7 +83,7 @@ export class MsDecorationComponent implements OnInit {
   // ms-decoration-elem-typologies
   @Input()
   public decElemTypolEntries: ThesaurusEntry[] | undefined;
-  // ms-decoration-type-hidden
+  // ms-decoration-type-hidden (special)
   @Input()
   public decTypeDepEntries: ThesaurusEntry[] | undefined;
 
