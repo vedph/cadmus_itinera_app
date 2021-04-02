@@ -85,7 +85,7 @@ export class MsDecorationComponent implements OnInit {
   public decElemTypolEntries: ThesaurusEntry[] | undefined;
   // ms-decoration-type-hidden (special)
   @Input()
-  public decTypeDepEntries: ThesaurusEntry[] | undefined;
+  public decTypeHiddenEntries: ThesaurusEntry[] | undefined;
 
   @Output()
   public decorationChange: EventEmitter<MsDecoration>;

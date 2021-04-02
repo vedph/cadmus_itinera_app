@@ -52,7 +52,7 @@ export class MsDecorationsPartComponent
   // ms-decoration-elem-typologies
   public decElemTypolEntries: ThesaurusEntry[] | undefined;
   // ms-decoration-type-hidden
-  public decTypeDepEntries: ThesaurusEntry[] | undefined;
+  public decTypeHiddenEntries: ThesaurusEntry[] | undefined;
 
   public tabIndex: number;
   public editedDecoration: MsDecoration;
@@ -158,9 +158,9 @@ export class MsDecorationsPartComponent
 
     key = 'ms-decoration-type-hidden';
     if (this.thesauri && this.thesauri[key]) {
-      this.decTypeDepEntries = this.thesauri[key].entries;
+      this.decTypeHiddenEntries = this.thesauri[key].entries;
     } else {
-      this.decTypeDepEntries = undefined;
+      this.decTypeHiddenEntries = undefined;
     }
   }
 

@@ -1,4 +1,5 @@
 <form [formGroup]="form" (submit)="save()">
+  <div class="type-head">{{ typeIdToString(type?.value) }}</div>
   <mat-tab-group (selectedIndexChange)="onTabIndexChanged($event)">
     <!-- general -->
     <mat-tab label="general">
@@ -37,8 +38,8 @@
       <div>
         <!-- flags -->
         <cadmus-multi-entry-selector
-          *ngIf="!hidden?.flags"
-          [entries]="decElemFlagEntries"
+          *ngIf="!hidden?.flags && elemFlagEntries?.length"
+          [entries]="elemFlagEntries"
           [selectedIds]="flags?.value"
           (selectionChange)="onFlgSelectionChange($event)"
         ></cadmus-multi-entry-selector>
@@ -72,7 +73,7 @@
       <!-- typologies -->
       <cadmus-multi-entry-selector
         *ngIf="!hidden?.typologies"
-        [entries]="decElemTypolEntries"
+        [entries]="elemTypolEntries"
         [selectedIds]="typologies?.value"
         (selectionChange)="onTypSelectionChange($event)"
       ></cadmus-multi-entry-selector>
@@ -92,8 +93,8 @@
 
       <!-- colors -->
       <cadmus-multi-entry-selector
-        *ngIf="!hidden?.colors"
-        [entries]="decElemColorEntries"
+        *ngIf="!hidden?.colors && elemColorEntries?.length"
+        [entries]="elemColorEntries"
         [selectedIds]="colors?.value"
         (selectionChange)="onClrSelectionChange($event)"
       ></cadmus-multi-entry-selector>
@@ -101,16 +102,11 @@
       <div>
         <ng-container *ngIf="!hidden?.gilding">
           <!-- gilding (bound) -->
-          <mat-form-field
-            *ngIf="decElemGildingEntries?.length"
-            style="width: 8em"
-          >
+          <mat-form-field *ngIf="elemGildingEntries?.length" style="width: 8em">
             <mat-select [formControl]="gilding" placeholder="gilding">
-              <mat-option
-                *ngFor="let e of decElemGildingEntries"
-                [value]="e.id"
-                >{{ e.value }}</mat-option
-              >
+              <mat-option *ngFor="let e of elemGildingEntries" [value]="e.id">{{
+                e.value
+              }}</mat-option>
             </mat-select>
             <mat-error
               *ngIf="
@@ -121,7 +117,7 @@
           </mat-form-field>
 
           <!-- gilding (free) -->
-          <mat-form-field *ngIf="!decElemGildingEntries?.length">
+          <mat-form-field *ngIf="!elemGildingEntries?.length">
             <input matInput [formControl]="gilding" placeholder="gilding" />
             <mat-error
               *ngIf="
@@ -135,19 +131,16 @@
         <!-- technique (bound) -->
         <ng-container *ngIf="!hidden?.technique">
           &nbsp;
-          <mat-form-field *ngIf="decElemTechEntries?.length" style="width: 8em">
+          <mat-form-field *ngIf="elemTechEntries?.length" style="width: 8em">
             <mat-select [formControl]="technique" placeholder="technique">
-              <mat-option *ngFor="let e of decElemTechEntries" [value]="e.id">{{
+              <mat-option *ngFor="let e of elemTechEntries" [value]="e.id">{{
                 e.value
               }}</mat-option>
             </mat-select>
           </mat-form-field>
 
           <!-- technique (free) -->
-          <mat-form-field
-            *ngIf="!decElemTechEntries?.length"
-            style="width: 8em"
-          >
+          <mat-form-field *ngIf="!elemTechEntries?.length" style="width: 8em">
             <input matInput [formControl]="technique" placeholder="technique" />
             <mat-error
               *ngIf="
@@ -162,19 +155,16 @@
         &nbsp;
         <ng-container *ngIf="!hidden?.tool">
           <!-- tool (bound) -->
-          <mat-form-field *ngIf="decElemToolEntries?.length" style="width: 8em">
+          <mat-form-field *ngIf="elemToolEntries?.length" style="width: 8em">
             <mat-select [formControl]="tool" placeholder="tool">
-              <mat-option *ngFor="let e of decElemToolEntries" [value]="e.id">{{
+              <mat-option *ngFor="let e of elemToolEntries" [value]="e.id">{{
                 e.value
               }}</mat-option>
             </mat-select>
           </mat-form-field>
 
           <!-- tool (free) -->
-          <mat-form-field
-            *ngIf="!decElemToolEntries?.length"
-            style="width: 8em"
-          >
+          <mat-form-field *ngIf="!elemToolEntries?.length" style="width: 8em">
             <input matInput [formControl]="tool" placeholder="tool" />
             <mat-error
               *ngIf="tool.errors?.maxLength && (tool.dirty || tool.touched)"
@@ -186,16 +176,16 @@
       <div>
         <ng-container *ngIf="!hidden?.position">
           <!-- position (bound) -->
-          <mat-form-field *ngIf="decElemPosEntries?.length" style="width: 8em">
+          <mat-form-field *ngIf="elemPosEntries?.length" style="width: 8em">
             <mat-select [formControl]="position" placeholder="position">
-              <mat-option *ngFor="let e of decElemPosEntries" [value]="e.id">{{
+              <mat-option *ngFor="let e of elemPosEntries" [value]="e.id">{{
                 e.value
               }}</mat-option>
             </mat-select>
           </mat-form-field>
 
           <!-- position (free) -->
-          <mat-form-field *ngIf="!decElemPosEntries?.length" style="width: 8em">
+          <mat-form-field *ngIf="!elemPosEntries?.length" style="width: 8em">
             <input matInput [formControl]="position" placeholder="position" />
             <mat-error
               *ngIf="

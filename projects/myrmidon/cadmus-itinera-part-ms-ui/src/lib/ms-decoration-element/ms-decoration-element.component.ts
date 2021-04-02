@@ -257,6 +257,31 @@ export class MsDecorationElementComponent implements OnInit {
     return tokens.length === 2 && tokens[1] === '-';
   }
 
+  private getFilteredEntries(
+    entries: ThesaurusEntry[] | undefined,
+    prefix: string
+  ): ThesaurusEntry[] | undefined {
+    if (!prefix || !entries?.some((e) => e.id.indexOf('.') > -1)) {
+      return entries;
+    }
+    const p = prefix + '.';
+    return entries.filter((e) => e.id.startsWith(p));
+  }
+
+  private updateVisibility(): void {
+    const hidden = {};
+    const entry = this.decTypeHiddenEntries?.find(
+      (e) => e.id === this.type.value
+    );
+    if (entry) {
+      const names = entry.value.split(' ').filter((s) => s);
+      names.forEach((n) => {
+        hidden[n] = true;
+      });
+    }
+    this.hidden = hidden;
+  }
+
   ngOnInit(): void {
     this.updateForm(this.element);
     this.onTabIndexChanged(0);
@@ -309,30 +334,6 @@ export class MsDecorationElementComponent implements OnInit {
         // visibility
         this.updateVisibility();
       });
-  }
-
-  private getFilteredEntries(
-    entries: ThesaurusEntry[] | undefined,
-    prefix: string
-  ): ThesaurusEntry[] | undefined {
-    if (!entries) {
-      return undefined;
-    }
-    return entries.filter((e) => e.id.startsWith(prefix));
-  }
-
-  private updateVisibility(): void {
-    const hidden = {};
-    const entry = this.decTypeHiddenEntries?.find(
-      (e) => e.id === this.type.value
-    );
-    if (entry) {
-      const names = entry.value.split(' ').filter(s => s);
-      names.forEach(n => {
-        hidden[n] = true;
-      });
-    }
-    this.hidden = hidden;
   }
 
   public onTabIndexChanged(index: number): void {
@@ -456,6 +457,11 @@ export class MsDecorationElementComponent implements OnInit {
   public onClrSelectionChange(ids: string[]): void {
     this.colors.setValue(ids);
     this.form.markAsDirty();
+  }
+
+  public typeIdToString(id: string): string {
+    const entry = this.decElemTypeEntries?.find((e) => e.id === id);
+    return entry ? entry.value : id;
   }
 
   public cancel(): void {
