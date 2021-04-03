@@ -104,102 +104,49 @@
       ></cadmus-multi-entry-selector>
 
       <div>
-        <ng-container *ngIf="!hidden?.gilding">
-          <!-- gilding (bound) -->
-          <mat-form-field *ngIf="elemGildingEntries?.length" style="width: 8em">
-            <mat-select [formControl]="gilding" placeholder="gilding">
-              <mat-option *ngFor="let e of elemGildingEntries" [value]="e.id">{{
-                e.value
-              }}</mat-option>
-            </mat-select>
-            <mat-error
-              *ngIf="
-                gilding.errors?.required && (gilding.dirty || gilding.touched)
-              "
-              >gilding required</mat-error
-            >
-          </mat-form-field>
-
-          <!-- gilding (free) -->
-          <mat-form-field *ngIf="!elemGildingEntries?.length">
-            <input matInput [formControl]="gilding" placeholder="gilding" />
-            <mat-error
-              *ngIf="
-                gilding.errors?.maxLength && (gilding.dirty || gilding.touched)
-              "
-              >gilding too long</mat-error
-            >
-          </mat-form-field>
-        </ng-container>
+        <!-- gilding -->
+        <itinera-text-or-entry-selector
+          *ngIf="!hidden?.gilding"
+          label="gilding"
+          [entries]="elemGildingEntries"
+          [free]="elemGildingFree"
+          [id]="gilding?.value"
+          (idChange)="onGildingChange($event)"
+        >
+        </itinera-text-or-entry-selector>
 
         <!-- technique (bound) -->
-        <ng-container *ngIf="!hidden?.technique">
-          &nbsp;
-          <mat-form-field *ngIf="elemTechEntries?.length" style="width: 8em">
-            <mat-select [formControl]="technique" placeholder="technique">
-              <mat-option *ngFor="let e of elemTechEntries" [value]="e.id">{{
-                e.value
-              }}</mat-option>
-            </mat-select>
-          </mat-form-field>
-
-          <!-- technique (free) -->
-          <mat-form-field *ngIf="!elemTechEntries?.length" style="width: 8em">
-            <input matInput [formControl]="technique" placeholder="technique" />
-            <mat-error
-              *ngIf="
-                technique.errors?.maxLength &&
-                (technique.dirty || technique.touched)
-              "
-              >technique too long</mat-error
-            >
-          </mat-form-field>
-        </ng-container>
+        <itinera-text-or-entry-selector
+          *ngIf="!hidden?.technique"
+          label="technique"
+          [entries]="elemTechniqueEntries"
+          [free]="elemTechniqueFree"
+          [id]="technique?.value"
+          (idChange)="onTechniqueChange($event)"
+        >
+        </itinera-text-or-entry-selector>
 
         &nbsp;
-        <ng-container *ngIf="!hidden?.tool">
-          <!-- tool (bound) -->
-          <mat-form-field *ngIf="elemToolEntries?.length" style="width: 8em">
-            <mat-select [formControl]="tool" placeholder="tool">
-              <mat-option *ngFor="let e of elemToolEntries" [value]="e.id">{{
-                e.value
-              }}</mat-option>
-            </mat-select>
-          </mat-form-field>
-
-          <!-- tool (free) -->
-          <mat-form-field *ngIf="!elemToolEntries?.length" style="width: 8em">
-            <input matInput [formControl]="tool" placeholder="tool" />
-            <mat-error
-              *ngIf="tool.errors?.maxLength && (tool.dirty || tool.touched)"
-              >tool too long</mat-error
-            >
-          </mat-form-field>
-        </ng-container>
+        <itinera-text-or-entry-selector
+          *ngIf="!hidden?.tool"
+          label="tool"
+          [entries]="elemToolEntries"
+          [free]="elemToolFree"
+          [id]="tool?.value"
+          (idChange)="onToolChange($event)"
+        >
+        </itinera-text-or-entry-selector>
       </div>
       <div>
-        <ng-container *ngIf="!hidden?.position">
-          <!-- position (bound) -->
-          <mat-form-field *ngIf="elemPosEntries?.length" style="width: 8em">
-            <mat-select [formControl]="position" placeholder="position">
-              <mat-option *ngFor="let e of elemPosEntries" [value]="e.id">{{
-                e.value
-              }}</mat-option>
-            </mat-select>
-          </mat-form-field>
-
-          <!-- position (free) -->
-          <mat-form-field *ngIf="!elemPosEntries?.length" style="width: 8em">
-            <input matInput [formControl]="position" placeholder="position" />
-            <mat-error
-              *ngIf="
-                position.errors?.maxLength &&
-                (position.dirty || position.touched)
-              "
-              >position too long</mat-error
-            >
-          </mat-form-field>
-        </ng-container>
+        <itinera-text-or-entry-selector
+          *ngIf="!hidden?.position"
+          label="position"
+          [entries]="elemPositionEntries"
+          [free]="elemPositionFree"
+          [id]="position?.value"
+          (idChange)="onPositionChange($event)"
+        >
+        </itinera-text-or-entry-selector>
 
         &nbsp;
         <!-- lineHeight -->

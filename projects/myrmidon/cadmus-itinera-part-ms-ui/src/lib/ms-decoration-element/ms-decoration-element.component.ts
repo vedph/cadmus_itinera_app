@@ -129,7 +129,7 @@ export class MsDecorationElementComponent implements OnInit {
   }
   public set decElemTechEntries(value: ThesaurusEntry[] | undefined) {
     this._elemTechEntries = value;
-    this.elemTechEntries = this.getFilteredEntries(value, this.type?.value);
+    this.elemTechniqueEntries = this.getFilteredEntries(value, this.type?.value);
   }
 
   // ms-decoration-elem-positions
@@ -139,7 +139,7 @@ export class MsDecorationElementComponent implements OnInit {
   }
   public set decElemPosEntries(value: ThesaurusEntry[] | undefined) {
     this._elemPosEntries = value;
-    this.elemPosEntries = this.getFilteredEntries(value, this.type?.value);
+    this.elemPositionEntries = this.getFilteredEntries(value, this.type?.value);
   }
 
   // ms-decoration-elem-tools
@@ -166,16 +166,15 @@ export class MsDecorationElementComponent implements OnInit {
   public elemFlagEntries: ThesaurusEntry[] | undefined;
   public elemColorEntries: ThesaurusEntry[] | undefined;
   public elemGildingEntries: ThesaurusEntry[] | undefined;
-  public elemTechEntries: ThesaurusEntry[] | undefined;
-  public elemPosEntries: ThesaurusEntry[] | undefined;
+  public elemTechniqueEntries: ThesaurusEntry[] | undefined;
+  public elemPositionEntries: ThesaurusEntry[] | undefined;
   public elemToolEntries: ThesaurusEntry[] | undefined;
   public elemTypolEntries: ThesaurusEntry[] | undefined;
 
   public elemGildingFree: boolean | undefined;
-  public elemTechFree: boolean | undefined;
-  public elemPosFree: boolean | undefined;
+  public elemTechniqueFree: boolean | undefined;
+  public elemPositionFree: boolean | undefined;
   public elemToolFree: boolean | undefined;
-  public elemTypolFree: boolean | undefined;
 
   // this object has a property for each control
   // to be hidden, having the same name of the control
@@ -319,17 +318,17 @@ export class MsDecorationElementComponent implements OnInit {
         );
         this.elemGildingFree = this.isFreeSet(this.elemGildingEntries);
 
-        this.elemTechEntries = this.getFilteredEntries(
+        this.elemTechniqueEntries = this.getFilteredEntries(
           this._elemTechEntries,
           this.type?.value
         );
-        this.elemTechFree = this.isFreeSet(this.elemTechEntries);
+        this.elemTechniqueFree = this.isFreeSet(this.elemTechniqueEntries);
 
-        this.elemPosEntries = this.getFilteredEntries(
+        this.elemPositionEntries = this.getFilteredEntries(
           this._elemPosEntries,
           this.type?.value
         );
-        this.elemPosFree = this.isFreeSet(this.elemPosEntries);
+        this.elemPositionFree = this.isFreeSet(this.elemPositionEntries);
 
         this.elemToolEntries = this.getFilteredEntries(
           this._elemToolEntries,
@@ -341,7 +340,6 @@ export class MsDecorationElementComponent implements OnInit {
           this._elemTypolEntries,
           this.type?.value
         );
-        this.elemTypolFree = this.isFreeSet(this.elemTypolEntries);
 
         // visibility
         this.updateVisibility();
@@ -475,6 +473,26 @@ export class MsDecorationElementComponent implements OnInit {
   public typeIdToString(id: string): string {
     const entry = this.decElemTypeEntries?.find((e) => e.id === id);
     return entry ? entry.value : id;
+  }
+
+  public onGildingChange(id: string): void {
+    this.gilding.setValue(id);
+    this.form.markAsDirty();
+  }
+
+  public onTechniqueChange(id: string): void {
+    this.technique.setValue(id);
+    this.form.markAsDirty();
+  }
+
+  public onPositionChange(id: string): void {
+    this.position.setValue(id);
+    this.form.markAsDirty();
+  }
+
+  public onToolChange(id: string): void {
+    this.tool.setValue(id);
+    this.form.markAsDirty();
   }
 
   public cancel(): void {
