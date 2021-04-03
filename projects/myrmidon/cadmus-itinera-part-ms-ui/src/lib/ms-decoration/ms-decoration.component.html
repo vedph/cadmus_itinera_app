@@ -133,10 +133,10 @@
               </button>
             </td>
             <td>
-              {{ e.type }}
+              {{ typeToString(e.type) }}
             </td>
             <td>
-              {{ rangesToString(e?.ranges) }}
+              {{ rangesToString(e.ranges) }}
             </td>
             <td>
               {{ e.flags?.join(", ") }}

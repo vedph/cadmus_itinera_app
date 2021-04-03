@@ -309,6 +309,11 @@ export class MsDecorationComponent implements OnInit {
     return tokens.join(' ');
   }
 
+  public typeToString(id: string): string {
+    const entry = this.decElemTypeEntries?.find((e) => e.id === id);
+    return entry ? entry.value : id;
+  }
+
   public onFlgSelectionChange(ids: string[]): void {
     this.flags.setValue(ids);
     this.form.markAsDirty();
