@@ -13,7 +13,7 @@ import { CitedPerson, PersonName } from '@myrmidon/cadmus-itinera-core';
 
 /**
  * Cited persons part editor.
- * Thesauri: languages, person-name-tags, person-name-types,
+ * Thesauri: person-name-languages, person-name-tags, person-name-types,
  * person-id-tags (all optional).
  */
 @Component({
@@ -28,7 +28,7 @@ export class CitedPersonsPartComponent
   public tabIndex: number;
   public editedPerson: CitedPerson;
 
-  // languages
+  // person-name-languages
   public langEntries: ThesaurusEntry[];
   // person-name-tags
   public nameTagEntries: ThesaurusEntry[];

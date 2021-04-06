@@ -39,7 +39,7 @@ export class CitedPersonsPartFeatureComponent
   }
   public ngOnInit(): void {
     this.initEditor([
-      'languages',
+      'person-name-languages',
       'person-name-tags',
       'person-name-types',
       'person-id-tags',

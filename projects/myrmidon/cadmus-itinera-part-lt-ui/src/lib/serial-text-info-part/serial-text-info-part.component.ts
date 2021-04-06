@@ -14,7 +14,7 @@ import { BehaviorSubject } from 'rxjs';
 
 /**
  * Serial text's information part editor component.
- * Thesauri: languages, doc-reference-tags, serial-text-genres,
+ * Thesauri: serial-text-languages, doc-reference-tags, serial-text-genres,
  * serial-text-verses, person-name-tags, person-name-types,
  * person-id-tags (all optional).
  */
@@ -41,7 +41,7 @@ export class SerialTextInfoPartComponent
   public replyingTo: DecoratedId[];
   public related$: BehaviorSubject<DocReference[]>;
 
-  // languages
+  // serial-text-languages
   public langEntries: ThesaurusEntry[] | undefined;
   // doc-reference-tags
   public tagEntries: ThesaurusEntry[] | undefined;
@@ -137,7 +137,7 @@ export class SerialTextInfoPartComponent
   }
 
   protected onThesauriSet(): void {
-    let key = 'languages';
+    let key = 'serial-text-languages';
     if (this.thesauri && this.thesauri[key]) {
       this.langEntries = this.thesauri[key].entries;
     } else {

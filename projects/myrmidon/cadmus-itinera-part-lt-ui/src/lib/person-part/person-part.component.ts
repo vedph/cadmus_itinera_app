@@ -12,7 +12,7 @@ import { PersonPart, PERSON_PART_TYPEID } from '../person-part';
 
 /**
  * Person part.
- * Thesauri (all optional): languages, doc-reference-tags,
+ * Thesauri (all optional): person-name-languages, doc-reference-tags,
  * person-name-types, chronotope-tags, person-name-tags.
  */
 @Component({
@@ -26,7 +26,7 @@ export class PersonPartComponent
   private _externalIds: string[];
 
   public nameIndex: number;
-  // languages
+  // person-name-languages
   public langEntries: ThesaurusEntry[] | undefined;
   // doc-reference-tags
   public tagEntries: ThesaurusEntry[] | undefined;
@@ -127,8 +127,8 @@ export class PersonPartComponent
   }
 
   protected onThesauriSet(): void {
-    // languages
-    let key = 'languages';
+    // person-name-languages
+    let key = 'person-name-languages';
     if (this.thesauri && this.thesauri[key]) {
       this.langEntries = this.thesauri[key].entries;
     } else {

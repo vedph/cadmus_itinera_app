@@ -41,7 +41,7 @@ export class PersonPartFeatureComponent
 
   ngOnInit(): void {
     this.initEditor([
-      'languages',
+      'person-name-languages',
       'person-name-types',
       'person-name-tags',
       'chronotope-tags',

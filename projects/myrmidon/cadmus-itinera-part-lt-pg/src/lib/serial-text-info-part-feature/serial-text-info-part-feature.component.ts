@@ -40,7 +40,7 @@ export class SerialTextInfoPartFeatureComponent
 
   public ngOnInit(): void {
     this.initEditor([
-      'languages',
+      'serial-text-languages',
       'doc-reference-tags',
       'serial-text-genres',
       'serial-text-verses',
