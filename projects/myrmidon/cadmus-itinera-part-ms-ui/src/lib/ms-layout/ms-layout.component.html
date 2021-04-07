@@ -199,10 +199,21 @@
     <div>
       <form [formGroup]="formulaForm" (submit)="addFormulaCounts()">
         <mat-form-field class="long-text">
-          <textarea
+          <input
+            type="text"
+            matInput
             [formControl]="formula"
             placeholder="layout formula"
-          ></textarea>
+          />
+          <button
+            type="submit"
+            mat-icon-button
+            matSuffix
+            [disabled]="formulaForm.invalid"
+            color="primary"
+          >
+            <mat-icon>done</mat-icon>
+          </button>
           <mat-error
             *ngIf="
               formula.errors?.pattern && (formula.dirty || formula.touched)
