@@ -6,16 +6,14 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import {
-  PhysicalDimension,
-  ThesaurusEntry,
-} from '@myrmidon/cadmus-core';
+import { PhysicalDimension, ThesaurusEntry } from '@myrmidon/cadmus-core';
 import {
   DecoratedCount,
   MsLocationService,
 } from '@myrmidon/cadmus-itinera-core';
 import { BehaviorSubject } from 'rxjs';
 import { MsLayout } from '../ms-layouts-part';
+import { MsLayoutFormulaService } from './ms-layout-formula.service';
 
 @Component({
   selector: 'itinera-ms-layout',
@@ -58,9 +56,13 @@ export class MsLayoutComponent implements OnInit {
   public dimensions: FormArray;
   public counts$: BehaviorSubject<DecoratedCount[]>;
 
+  public formula: FormControl;
+  public formulaForm: FormGroup;
+
   constructor(
     private _formBuilder: FormBuilder,
-    private _locService: MsLocationService
+    private _locService: MsLocationService,
+    private _layoutService: MsLayoutFormulaService
   ) {
     this.modelChange = new EventEmitter<MsLayout>();
     this.editorClose = new EventEmitter<any>();
@@ -83,6 +85,14 @@ export class MsLayoutComponent implements OnInit {
       derolez: this.derolez,
       pricking: this.pricking,
       dimensions: this.dimensions,
+    });
+    // layout formula
+    this.formula = _formBuilder.control(
+      null,
+      Validators.pattern(MsLayoutFormulaService.layRegexp)
+    );
+    this.formulaForm = _formBuilder.group({
+      formula: this.formula,
     });
   }
 
@@ -118,7 +128,7 @@ export class MsLayoutComponent implements OnInit {
       derolez: this.derolez.value?.trim(),
       pricking: this.pricking.value?.trim(),
       dimensions: this.getDimensions(),
-      counts: this._counts.length? this._counts : undefined
+      counts: this._counts.length ? this._counts : undefined,
     };
   }
 
@@ -187,6 +197,29 @@ export class MsLayoutComponent implements OnInit {
   public onCountsChanged(counts: DecoratedCount[]): void {
     this._counts = counts || [];
     this.form.markAsDirty();
+  }
+
+  public addFormulaCounts(): void {
+    if (this.formulaForm.invalid) {
+      return;
+    }
+    const map = this._layoutService.parseFormula(this.formula.value);
+    if (!map) {
+      return;
+    }
+    this._counts.forEach((c) => {
+      if (!map.has(c.id)) {
+        map.set(c.id, c.value);
+      }
+    });
+    const newCounts = [];
+    map.forEach((value, key) => {
+      newCounts.push({
+        id: key,
+        value: value,
+      });
+    });
+    this.counts$.next(newCounts);
   }
 
   public cancel(): void {

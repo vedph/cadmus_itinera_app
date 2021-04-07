@@ -196,6 +196,22 @@
 
   <div>
     <h3>counts</h3>
+    <div>
+      <form [formGroup]="formulaForm" (submit)="addFormulaCounts()">
+        <mat-form-field class="long-text">
+          <textarea
+            [formControl]="formula"
+            placeholder="layout formula"
+          ></textarea>
+          <mat-error
+            *ngIf="
+              formula.errors?.pattern && (formula.dirty || formula.touched)
+            "
+            >invalid formula</mat-error
+          >
+        </mat-form-field>
+      </form>
+    </div>
     <itinera-decorated-counts
       [idEntries]="countEntries"
       [model$]="counts$"
