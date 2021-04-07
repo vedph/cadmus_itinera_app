@@ -110,11 +110,19 @@
                   e.value
                 }}</mat-option>
               </mat-select>
+              <mat-error
+                *ngIf="genre.errors?.required && (genre.dirty || genre.touched)"
+                >genre required</mat-error
+              >
             </mat-form-field>
 
             <!-- genre (free) -->
             <mat-form-field *ngIf="!genreEntries?.length" style="width: 8em">
               <input matInput [formControl]="genre" placeholder="genre" />
+              <mat-error
+                *ngIf="genre.errors?.required && (genre.dirty || genre.touched)"
+                >genre required</mat-error
+              >
               <mat-error
                 *ngIf="
                   genre.errors?.maxLength && (genre.dirty || genre.touched)
@@ -131,11 +139,19 @@
                   e.value
                 }}</mat-option>
               </mat-select>
+              <mat-error
+                *ngIf="verse.errors?.required && (verse.dirty || verse.touched)"
+                >verse required</mat-error
+              >
             </mat-form-field>
 
             <!-- verse (free) -->
             <mat-form-field *ngIf="!verseEntries?.length" style="width: 8em">
               <input matInput [formControl]="verse" placeholder="verse" />
+              <mat-error
+                *ngIf="verse.errors?.required && (verse.dirty || verse.touched)"
+                >verse required</mat-error
+              >
               <mat-error
                 *ngIf="
                   verse.errors?.maxLength && (verse.dirty || verse.touched)
@@ -212,8 +228,8 @@
         <!-- related -->
         <mat-tab label="related">
           <cadmus-doc-references
-            [tagEntries]="docRefTagEntries"
-            [model$]="sources$"
+            [tagEntries]="tagEntries"
+            [model$]="related$"
             (modelChange)="onSourcesChange($event)"
           ></cadmus-doc-references>
         </mat-tab>

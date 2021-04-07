@@ -49,6 +49,8 @@ export const SERIAL_TEXT_INFO_PART_SCHEMA = {
     'language',
     'subject',
     'authorId',
+    'genre',
+    'verse'
   ],
   properties: {
     timeCreated: {

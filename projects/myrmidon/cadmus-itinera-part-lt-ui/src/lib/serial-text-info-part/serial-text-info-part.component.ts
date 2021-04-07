@@ -83,8 +83,14 @@ export class SerialTextInfoPartComponent
       Validators.maxLength(500),
     ]);
     this.authors = formBuilder.control([]);
-    this.genre = formBuilder.control(null, Validators.maxLength(50));
-    this.verse = formBuilder.control(null, Validators.maxLength(50));
+    this.genre = formBuilder.control(null, [
+      Validators.required,
+      Validators.maxLength(50),
+    ]);
+    this.verse = formBuilder.control(null, [
+      Validators.required,
+      Validators.maxLength(50),
+    ]);
     this.rhyme = formBuilder.control(null, Validators.maxLength(100));
     this.headings = formBuilder.control(null, Validators.maxLength(5000));
     this.received = formBuilder.control(false);
@@ -227,7 +233,7 @@ export class SerialTextInfoPartComponent
     part.textId = this.textId.value?.trim();
     part.language = this.language.value?.trim();
     part.subject = this.subject.value?.trim();
-    part.authors = this.authors.value?.length? this.authors.value : undefined;
+    part.authors = this.authors.value?.length ? this.authors.value : undefined;
     part.headings = this.parseIds(this.headings.value?.trim());
     part.note = this.note.value?.trim();
 
