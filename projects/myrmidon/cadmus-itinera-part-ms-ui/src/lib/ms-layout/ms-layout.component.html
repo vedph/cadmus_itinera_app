@@ -203,7 +203,7 @@
             type="text"
             matInput
             [formControl]="formula"
-            placeholder="layout formula"
+            placeholder="layout formula (e.g. 250x170=30 [180] 40x15 [5/ 52 (20) 5/ 53] 20)"
           />
           <button
             type="submit"
@@ -212,7 +212,7 @@
             [disabled]="formulaForm.invalid"
             color="primary"
           >
-            <mat-icon>done</mat-icon>
+            <mat-icon>check_circle</mat-icon>
           </button>
           <mat-error
             *ngIf="
