@@ -70,7 +70,7 @@ export class CitedPersonsPartComponent
   }
 
   protected onThesauriSet(): void {
-    let key = 'languages';
+    let key = 'person-name-languages';
     if (this.thesauri && this.thesauri[key]) {
       this.langEntries = this.thesauri[key].entries;
     } else {

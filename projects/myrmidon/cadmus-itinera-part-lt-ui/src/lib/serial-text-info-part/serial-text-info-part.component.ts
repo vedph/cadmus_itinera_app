@@ -15,7 +15,7 @@ import { CitedPerson, DecoratedId } from '@myrmidon/cadmus-itinera-core';
  * Serial text's information part editor component.
  * Thesauri: serial-text-languages, doc-reference-tags, serial-text-genres,
  * serial-text-verses, person-name-tags, person-name-types,
- * person-id-tags (all optional).
+ * person-id-tags, person-name-languages (all optional).
  */
 @Component({
   selector: 'itinera-serial-text-info-part',
@@ -55,6 +55,8 @@ export class SerialTextInfoPartComponent
   public nameTypeEntries: ThesaurusEntry[] | undefined;
   // person-id-tags
   public idTagEntries: ThesaurusEntry[] | undefined;
+  // person-name-languages
+  public nameLangEntries: ThesaurusEntry[] | undefined;
 
   public editorOptions = {
     theme: 'vs-light',
@@ -83,14 +85,8 @@ export class SerialTextInfoPartComponent
       Validators.maxLength(500),
     ]);
     this.authors = formBuilder.control([]);
-    this.genre = formBuilder.control(null, [
-      Validators.required,
-      Validators.maxLength(50),
-    ]);
-    this.verse = formBuilder.control(null, [
-      Validators.required,
-      Validators.maxLength(50),
-    ]);
+    this.genre = formBuilder.control(null, Validators.maxLength(50));
+    this.verse = formBuilder.control(null, Validators.maxLength(50));
     this.rhyme = formBuilder.control(null, Validators.maxLength(100));
     this.headings = formBuilder.control(null, Validators.maxLength(5000));
     this.received = formBuilder.control(false);
@@ -193,6 +189,13 @@ export class SerialTextInfoPartComponent
     } else {
       this.idTagEntries = undefined;
     }
+
+    key = 'person-name-languages';
+    if (this.thesauri && this.thesauri[key]) {
+      this.nameLangEntries = this.thesauri[key].entries;
+    } else {
+      this.nameLangEntries = undefined;
+    }
   }
 
   private parseIds(text: string): string[] {
@@ -236,7 +239,11 @@ export class SerialTextInfoPartComponent
     part.language = this.language.value?.trim();
     part.subject = this.subject.value?.trim();
     part.authors = this.authors.value?.length ? this.authors.value : undefined;
+    part.genre = this.genre.value?.trim();
+    part.verse = this.verse.value?.trim();
+    part.rhyme = this.rhyme.value?.trim();
     part.headings = this.parseIds(this.headings.value?.trim());
+    part.received = this.received.value? true : undefined;
     part.note = this.note.value?.trim();
 
     part.recipients = this.recipients?.length ? this.recipients : undefined;

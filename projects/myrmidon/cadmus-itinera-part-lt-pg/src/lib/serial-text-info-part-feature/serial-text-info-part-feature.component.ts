@@ -46,6 +46,7 @@ export class SerialTextInfoPartFeatureComponent
       'serial-text-verses',
       'person-name-tags',
       'person-name-types',
+      'person-name-languages',
       'person-id-tags',
     ]);
   }

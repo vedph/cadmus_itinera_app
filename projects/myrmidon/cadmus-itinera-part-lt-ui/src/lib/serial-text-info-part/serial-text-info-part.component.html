@@ -72,7 +72,7 @@
           <div>
             <h4>authors</h4>
             <itinera-cited-persons
-              [langEntries]="langEntries"
+              [langEntries]="nameLangEntries"
               [nameTagEntries]="nameTagEntries"
               [nameTypeEntries]="nameTypeEntries"
               [idTagEntries]="idTagEntries"
@@ -110,19 +110,11 @@
                   e.value
                 }}</mat-option>
               </mat-select>
-              <mat-error
-                *ngIf="genre.errors?.required && (genre.dirty || genre.touched)"
-                >genre required</mat-error
-              >
             </mat-form-field>
 
             <!-- genre (free) -->
             <mat-form-field *ngIf="!genreEntries?.length" style="width: 8em">
               <input matInput [formControl]="genre" placeholder="genre" />
-              <mat-error
-                *ngIf="genre.errors?.required && (genre.dirty || genre.touched)"
-                >genre required</mat-error
-              >
               <mat-error
                 *ngIf="
                   genre.errors?.maxLength && (genre.dirty || genre.touched)
@@ -139,19 +131,11 @@
                   e.value
                 }}</mat-option>
               </mat-select>
-              <mat-error
-                *ngIf="verse.errors?.required && (verse.dirty || verse.touched)"
-                >verse required</mat-error
-              >
             </mat-form-field>
 
             <!-- verse (free) -->
             <mat-form-field *ngIf="!verseEntries?.length" style="width: 8em">
               <input matInput [formControl]="verse" placeholder="verse" />
-              <mat-error
-                *ngIf="verse.errors?.required && (verse.dirty || verse.touched)"
-                >verse required</mat-error
-              >
               <mat-error
                 *ngIf="
                   verse.errors?.maxLength && (verse.dirty || verse.touched)
