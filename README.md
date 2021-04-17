@@ -6,7 +6,7 @@ Quick Docker image build:
 
 1. `npm run build-all`
 2. `ng build --prod`
-3. `docker build . -t vedph2020/cadmus-itinera-app:1.0.29 -t vedph2020/cadmus-itinera-app:latest` (replace with the current version).
+3. `docker build . -t vedph2020/cadmus-itinera-app:1.0.30 -t vedph2020/cadmus-itinera-app:latest` (replace with the current version).
 
 ## Production
 
