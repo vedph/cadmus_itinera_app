@@ -1,10 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { AuthService } from '@myrmidon/cadmus-api';
-import {
-  deepCopy,
-  ThesaurusEntry,
-} from '@myrmidon/cadmus-core';
+import { deepCopy, ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { Chronotope, PersonName } from '@myrmidon/cadmus-itinera-core';
 import { ModelEditorComponentBase, DialogService } from '@myrmidon/cadmus-ui';
 import { BehaviorSubject } from 'rxjs';
@@ -23,8 +20,6 @@ import { PersonPart, PERSON_PART_TYPEID } from '../person-part';
 export class PersonPartComponent
   extends ModelEditorComponentBase<PersonPart>
   implements OnInit {
-  private _externalIds: string[];
-
   public nameIndex: number;
   // person-name-languages
   public langEntries: ThesaurusEntry[] | undefined;
@@ -51,12 +46,13 @@ export class PersonPartComponent
   public sex: FormControl;
   public nameCount: FormControl;
   public bio: FormControl;
+  public ids: FormControl;
 
   public chronotopes: Chronotope[] | undefined;
 
-  public externalIds$: BehaviorSubject<string[]>;
+  public initialIds: string[];
   public names$: BehaviorSubject<PersonName[]>;
-  public name$: BehaviorSubject<PersonName>;
+  public initialName: PersonName | undefined;
 
   constructor(
     authService: AuthService,
@@ -65,12 +61,7 @@ export class PersonPartComponent
   ) {
     super(authService);
     this.nameIndex = -1;
-    // subjects
-    this.externalIds$ = new BehaviorSubject<string[]>([]);
-    this.name$ = new BehaviorSubject<PersonName>({
-      language: 'ita',
-      parts: [],
-    });
+    this.initialIds = [];
     this.names$ = new BehaviorSubject<PersonName[]>([]);
 
     // form
@@ -80,13 +71,14 @@ export class PersonPartComponent
     ]);
     this.sex = formBuilder.control(null, Validators.maxLength(1));
     this.nameCount = formBuilder.control(0, Validators.min(1));
-
     this.bio = formBuilder.control(null, Validators.maxLength(6000));
+    this.ids = formBuilder.control([]);
     this.form = formBuilder.group({
       personId: this.personId,
       sex: this.sex,
       nameCount: this.nameCount,
       bio: this.bio,
+      ids: this.ids,
     });
   }
 
@@ -108,11 +100,12 @@ export class PersonPartComponent
   private updateForm(model: PersonPart): void {
     if (!model) {
       this.chronotopes = undefined;
+      this.initialIds = [];
       this.form.reset();
       return;
     }
     this.personId.setValue(model.personId);
-    this.externalIds$.next(model.externalIds || []);
+    this.initialIds = model.externalIds || [];
     this.names$.next(model.names || []);
     this.nameCount.setValue(model.names?.length || 0);
     this.sex.setValue(model.sex);
@@ -181,7 +174,7 @@ export class PersonPartComponent
       };
     }
     part.personId = this.personId.value;
-    part.externalIds = this._externalIds;
+    part.externalIds = this.ids.value?.length ? this.ids.value : undefined;
     part.names = this.names$.value || [];
     part.sex = this.sex.value;
     part.chronotopes = this.chronotopes?.length ? this.chronotopes : undefined;
@@ -189,8 +182,9 @@ export class PersonPartComponent
     return part;
   }
 
-  public onExternalIdsChange(ids: string[]): void {
-    this._externalIds = ids || [];
+  public onIdsChange(ids: string[]): void {
+    this.ids.setValue(ids);
+    this.form.markAsDirty();
   }
 
   public getFullName(name: PersonName | null): string {
@@ -205,7 +199,7 @@ export class PersonPartComponent
   }
 
   public editNameAt(index: number): void {
-    this.name$.next(this.names$.value[index]);
+    this.initialName = this.names$.value[index];
     this.nameIndex = index;
   }
 

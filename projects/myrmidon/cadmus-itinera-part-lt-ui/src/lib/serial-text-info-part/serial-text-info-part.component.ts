@@ -10,7 +10,6 @@ import {
   SERIAL_TEXT_INFO_PART_TYPEID,
 } from '../serial-text-info-part';
 import { CitedPerson, DecoratedId } from '@myrmidon/cadmus-itinera-core';
-import { BehaviorSubject } from 'rxjs';
 
 /**
  * Serial text's information part editor component.
@@ -36,10 +35,11 @@ export class SerialTextInfoPartComponent
   public headings: FormControl;
   public received: FormControl;
   public note: FormControl;
+  public related: FormControl;
 
   public recipients: DecoratedId[];
   public replyingTo: DecoratedId[];
-  public related$: BehaviorSubject<DocReference[]>;
+  public initialRelated: DocReference[];
 
   // serial-text-languages
   public langEntries: ThesaurusEntry[] | undefined;
@@ -50,11 +50,11 @@ export class SerialTextInfoPartComponent
   // serial-text-verses
   public verseEntries: ThesaurusEntry[] | undefined;
   // person-name-tags
-  public nameTagEntries: ThesaurusEntry[];
+  public nameTagEntries: ThesaurusEntry[] | undefined;
   // person-name-types
-  public nameTypeEntries: ThesaurusEntry[];
+  public nameTypeEntries: ThesaurusEntry[] | undefined;
   // person-id-tags
-  public idTagEntries: ThesaurusEntry[];
+  public idTagEntries: ThesaurusEntry[] | undefined;
 
   public editorOptions = {
     theme: 'vs-light',
@@ -68,7 +68,7 @@ export class SerialTextInfoPartComponent
     super(authService);
     this.recipients = [];
     this.replyingTo = [];
-    this.related$ = new BehaviorSubject<DocReference[]>([]);
+    this.initialRelated = [];
     // form
     this.textId = formBuilder.control(null, [
       Validators.required,
@@ -95,6 +95,7 @@ export class SerialTextInfoPartComponent
     this.headings = formBuilder.control(null, Validators.maxLength(5000));
     this.received = formBuilder.control(false);
     this.note = formBuilder.control(null, Validators.maxLength(1000));
+    this.related = formBuilder.control([]);
     this.form = formBuilder.group({
       textId: this.textId,
       language: this.language,
@@ -106,6 +107,7 @@ export class SerialTextInfoPartComponent
       headings: this.headings,
       received: this.received,
       note: this.note,
+      related: this.related,
     });
   }
 
@@ -117,13 +119,13 @@ export class SerialTextInfoPartComponent
     if (!model) {
       this.recipients = [];
       this.replyingTo = [];
-      this.related$.next([]);
+      this.initialRelated = [];
       this.form.reset();
       return;
     }
     this.recipients = model.recipients || [];
     this.replyingTo = model.replyingTo || [];
-    this.related$.next(model.related || []);
+    this.initialRelated = model.related || [];
 
     this.textId.setValue(model.textId);
     this.language.setValue(model.language);
@@ -239,9 +241,7 @@ export class SerialTextInfoPartComponent
 
     part.recipients = this.recipients?.length ? this.recipients : undefined;
     part.replyingTo = this.replyingTo?.length ? this.replyingTo : undefined;
-    part.related = this.related$.value?.length
-      ? this.related$.value
-      : undefined;
+    part.related = this.related.value?.length ? this.related.value : undefined;
 
     return part;
   }
@@ -261,7 +261,8 @@ export class SerialTextInfoPartComponent
     this.form.markAsDirty();
   }
 
-  public onSourcesChange(sources: DocReference[]): void {
+  public onRelatedChange(related: DocReference[]): void {
+    this.related.setValue(related);
     this.form.markAsDirty();
   }
 }

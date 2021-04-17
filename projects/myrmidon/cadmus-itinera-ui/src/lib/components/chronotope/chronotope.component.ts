@@ -8,10 +8,9 @@ import {
 import {
   HistoricalDateModel,
   ThesaurusEntry,
-  DocReference
+  DocReference,
 } from '@myrmidon/cadmus-core';
 import { Chronotope } from '@myrmidon/cadmus-itinera-core';
-import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'itinera-chronotope',
@@ -31,9 +30,9 @@ export class ChronotopeComponent implements OnInit {
   }
 
   @Input()
-  public tagEntries: ThesaurusEntry[];
+  public tagEntries: ThesaurusEntry[] | undefined;
   @Input()
-  public docRefTagEntries: ThesaurusEntry[];
+  public docRefTagEntries: ThesaurusEntry[] | undefined;
 
   @Output()
   public chronotopeChange: EventEmitter<Chronotope>;
@@ -41,35 +40,35 @@ export class ChronotopeComponent implements OnInit {
   @Output()
   public editorClose: EventEmitter<any>;
 
-  // date
-  public date: HistoricalDateModel;
-
-  // sources
-  public sources$: BehaviorSubject<DocReference[]>;
-  public sources: DocReference[];
-
-  public form: FormGroup;
   public tag: FormControl;
   public place: FormControl;
   public textDate: FormControl;
   public hasDate: FormControl;
+  public sources: FormControl;
+  public form: FormGroup;
+
+  public date: HistoricalDateModel;
+  public initialSources: DocReference[];
 
   constructor(formBuilder: FormBuilder) {
+    this.initialSources = [];
+
     // events
     this.chronotopeChange = new EventEmitter<Chronotope>();
     this.editorClose = new EventEmitter();
 
     // form
-    this.sources$ = new BehaviorSubject<DocReference[]>([]);
     this.tag = formBuilder.control(null, Validators.maxLength(50));
     this.place = formBuilder.control(null, Validators.maxLength(50));
     this.textDate = formBuilder.control(null, Validators.maxLength(300));
     this.hasDate = formBuilder.control(false, Validators.requiredTrue);
+    this.sources = formBuilder.control([]);
     this.form = formBuilder.group({
       tag: this.tag,
       place: this.place,
       textDate: this.textDate,
       hasDate: this.hasDate,
+      sources: this.sources,
     });
   }
 
@@ -78,7 +77,7 @@ export class ChronotopeComponent implements OnInit {
   }
 
   public onSourcesChange(sources: DocReference[]): void {
-    this.sources = sources;
+    this.sources.setValue(sources);
     this.form.markAsDirty();
   }
 
@@ -91,11 +90,11 @@ export class ChronotopeComponent implements OnInit {
   private updateForm(model: Chronotope): void {
     if (!model) {
       this.date = null;
-      this.sources$.next([]);
+      this.initialSources = [];
       this.form.reset();
       return;
     } else {
-      this.sources$.next(model.sources || []);
+      this.initialSources = model.sources || [];
       this.date = model.date;
       this.tag.setValue(model.tag);
       this.place.setValue(model.place);
@@ -111,7 +110,7 @@ export class ChronotopeComponent implements OnInit {
       place: this.place.value?.trim(),
       date: this.date,
       textDate: this.textDate.value?.trim(),
-      sources: this.sources?.length ? this.sources : null,
+      sources: this.sources.value?.length ? this.sources.value : undefined,
     };
   }
 

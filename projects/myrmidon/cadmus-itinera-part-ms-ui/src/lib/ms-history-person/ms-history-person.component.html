@@ -30,11 +30,11 @@
   <!-- name -->
   <h4>name</h4>
   <itinera-person-name
-    [model$]="name$"
     [langEntries]="langEntries"
     [tagEntries]="nameTagEntries"
     [typeEntries]="nameTypeEntries"
-    (modelChange)="onNameChanged($event)"
+    [name]="initialName"
+    (nameChange)="onNameChange($event)"
   ></itinera-person-name>
 
   <!-- date -->
@@ -47,13 +47,13 @@
   <br />
   <h4>external IDs</h4>
   <cadmus-external-ids
-    [model$]="ids$"
-    (modelChange)="onIdsChanged($event)"
+    [ids]="initialIds"
+    (idsChange)="onIdsChange($event)"
   ></cadmus-external-ids>
 
   <!-- note -->
   <div>
-    <mat-form-field style="width: 90%;max-width: 800px;">
+    <mat-form-field style="width: 90%; max-width: 800px">
       <textarea
         rows="2"
         matInput
@@ -64,6 +64,16 @@
         >note too long</mat-error
       >
     </mat-form-field>
+  </div>
+
+  <!-- sources -->
+  <h4>sources</h4>
+  <div>
+    <cadmus-doc-references
+      [tagEntries]="docRefTagEntries"
+      [references]="initialSources"
+      (referencesChange)="onSourcesChange($event)"
+    ></cadmus-doc-references>
   </div>
 
   <!-- buttons -->

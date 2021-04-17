@@ -7,15 +7,13 @@
         <input matInput placeholder="language" [formControl]="language" />
         <mat-error
           *ngIf="
-            language.hasError('required') &&
-            (language.dirty || language.touched)
+            language.errors?.required && (language.dirty || language.touched)
           "
           >enter a language</mat-error
         >
         <mat-error
           *ngIf="
-            language.hasError('max-length') &&
-            (language.dirty || language.touched)
+            language.errors?.maxLength && (language.dirty || language.touched)
           "
           >language too long</mat-error
         >
@@ -36,11 +34,10 @@
     <!-- tag (free) -->
     <mat-form-field style="width: 8em" *ngIf="!nameTagEntries?.length">
       <input matInput placeholder="tag" [formControl]="tag" />
-      <mat-error *ngIf="tag.hasError('required') && (tag.dirty || tag.touched)"
+      <mat-error *ngIf="tag.errors?.required && (tag.dirty || tag.touched)"
         >enter a tag</mat-error
       >
-      <mat-error
-        *ngIf="tag.hasError('max-length') && (tag.dirty || tag.touched)"
+      <mat-error *ngIf="tag.errors?.maxLength && (tag.dirty || tag.touched)"
         >tag too long</mat-error
       >
     </mat-form-field>
@@ -52,11 +49,10 @@
         }}</mat-option>
       </mat-select>
     </mat-form-field>
-  </div>
 
-  <!-- rank -->
-  <div>
-    <mat-form-field style="width: 4em;">
+    <!-- rank -->
+    &nbsp;
+    <mat-form-field style="width: 4em">
       <input
         type="number"
         min="0"
@@ -130,7 +126,7 @@
           </mat-select>
           <mat-error
             *ngIf="
-              item['controls'].type.hasError('required') &&
+              item['controls'].type.errors?.required &&
               (item['controls'].type.dirty || item['controls'].type.touched)
             "
             >select a type
@@ -142,14 +138,14 @@
           <input matInput formControlName="type" placeholder="type" />
           <mat-error
             *ngIf="
-              item['controls'].type.hasError('required') &&
+              item['controls'].type.errors?.required &&
               (item['controls'].type.dirty || item['controls'].type.touched)
             "
             >enter a type
           </mat-error>
           <mat-error
             *ngIf="
-              item['controls'].type.hasError('max-length') &&
+              item['controls'].type.errors?.maxLength &&
               (item['controls'].type.dirty || item['controls'].type.touched)
             "
             >type too long
@@ -168,14 +164,14 @@
           />
           <mat-error
             *ngIf="
-              item['controls'].value.hasError('required') &&
+              item['controls'].value.errors?.required &&
               (item['controls'].value.dirty || item['controls'].value.touched)
             "
             >enter a value
           </mat-error>
           <mat-error
             *ngIf="
-              item['controls'].value.hasError('max-length') &&
+              item['controls'].value.errors?.maxLength &&
               (item['controls'].value.dirty || item['controls'].value.touched)
             "
             >value too long
@@ -192,11 +188,10 @@
       <mat-panel-title>
         <h4>identifications</h4>
       </mat-panel-title>
-      <mat-panel-description>{{ this.ids?.length || 0 }}</mat-panel-description>
     </mat-expansion-panel-header>
     <itinera-decorated-ids
-      [ids]="ids"
       [tagEntries]="idTagEntries"
+      [ids]="initialIds"
       (idsChange)="onIdsChange($event)"
     ></itinera-decorated-ids>
   </mat-expansion-panel>
@@ -208,14 +203,11 @@
       <mat-panel-title>
         <h4>sources</h4>
       </mat-panel-title>
-      <mat-panel-description>{{
-        this.sources?.length || 0
-      }}</mat-panel-description>
     </mat-expansion-panel-header>
     <cadmus-doc-references
-      [model$]="sources$"
       [tagEntries]="idTagEntries"
-      (modelChange)="onSourcesChange($event)"
+      [references]="initialSources"
+      (referencesChange)="onSourcesChange($event)"
     ></cadmus-doc-references>
   </mat-expansion-panel>
 

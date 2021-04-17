@@ -4,10 +4,7 @@ import { FormControl, FormBuilder, Validators } from '@angular/forms';
 import { ModelEditorComponentBase, DialogService } from '@myrmidon/cadmus-ui';
 import { AuthService } from '@myrmidon/cadmus-api';
 import { deepCopy, ThesaurusEntry } from '@myrmidon/cadmus-core';
-import {
-  MsDecoration,
-  MsLocationService,
-} from '@myrmidon/cadmus-itinera-core';
+import { MsDecoration, MsLocationService } from '@myrmidon/cadmus-itinera-core';
 import { take } from 'rxjs/operators';
 import {
   MsDecorationsPart,
@@ -21,7 +18,7 @@ import {
  * ms-decoration-elem-colors, ms-decoration-elem-gildings,
  * ms-decoration-elem-techniques, ms-decoration-elem-positions,
  * ms-decoration-elem-tools, ms-decoration-elem-typologies,
- * ms-decoration-type-hidden.
+ * ms-decoration-type-hidden, doc-reference-tags.
  */
 @Component({
   selector: 'itinera-ms-decorations-part',
@@ -53,6 +50,8 @@ export class MsDecorationsPartComponent
   public decElemTypolEntries: ThesaurusEntry[] | undefined;
   // ms-decoration-type-hidden
   public decTypeHiddenEntries: ThesaurusEntry[] | undefined;
+  // doc-reference-tags
+  public docRefTagEntries: ThesaurusEntry[] | undefined;
 
   public tabIndex: number;
   public editedDecoration: MsDecoration;
@@ -71,7 +70,7 @@ export class MsDecorationsPartComponent
     // form
     this.decorations = formBuilder.control([], Validators.required);
     this.form = formBuilder.group({
-      decorations: this.decorations
+      decorations: this.decorations,
     });
   }
 
@@ -162,6 +161,13 @@ export class MsDecorationsPartComponent
     } else {
       this.decTypeHiddenEntries = undefined;
     }
+
+    key = 'doc-reference-tags';
+    if (this.thesauri && this.thesauri[key]) {
+      this.docRefTagEntries = this.thesauri[key].entries;
+    } else {
+      this.docRefTagEntries = undefined;
+    }
   }
 
   protected getModelFromForm(): MsDecorationsPart {
@@ -201,12 +207,12 @@ export class MsDecorationsPartComponent
     this._editedIndex = -1;
     this.editedDecoration = {
       id: '',
-      name: ''
+      name: '',
     };
     setTimeout(() => {
       this.tabIndex = 1;
     }, 300);
-}
+  }
 
   public onDecorationChange(decoration: MsDecoration): void {
     if (this._editedIndex === -1) {

@@ -49,6 +49,7 @@ export class MsDecorationsPartFeatureComponent
       'ms-decoration-elem-tools',
       'ms-decoration-elem-typologies',
       'ms-decoration-type-hidden',
+      'doc-reference-tags'
     ]);
   }
 }

@@ -124,11 +124,11 @@
               <mat-panel-title>name</mat-panel-title>
             </mat-expansion-panel-header>
             <itinera-person-name
-              [model$]="name$"
               [langEntries]="langEntries"
               [typeEntries]="pnTypeEntries"
               [tagEntries]="pnTagEntries"
-              (modelChange)="onNameChange($event)"
+              [name]="initialName"
+              (nameChange)="onNameChange($event)"
             >
             </itinera-person-name>
           </mat-expansion-panel>
@@ -138,13 +138,10 @@
           <mat-expansion-panel>
             <mat-expansion-panel-header>
               <mat-panel-title>external IDs</mat-panel-title>
-              <mat-panel-description>
-                {{ externalIds$?.value.length || 0 }}
-              </mat-panel-description>
             </mat-expansion-panel-header>
             <cadmus-external-ids
-              [model$]="externalIds$"
-              (modelChange)="onExternalIdsChange($event)"
+              [ids]="initialIds"
+              (idsChange)="onIdsChange($event)"
             >
             </cadmus-external-ids>
           </mat-expansion-panel>

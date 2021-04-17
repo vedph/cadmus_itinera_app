@@ -62,8 +62,8 @@
   <!-- sources -->
   <cadmus-doc-references
     [tagEntries]="docRefTagEntries"
-    [model$]="sources$"
-    (modelChange)="onSourcesChanged($event)"
+    [references]="initialSources"
+    (referencesChange)="onSourcesChanged($event)"
   ></cadmus-doc-references>
 
   <!-- buttons -->

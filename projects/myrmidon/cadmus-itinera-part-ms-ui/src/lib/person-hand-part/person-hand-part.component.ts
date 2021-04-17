@@ -6,7 +6,6 @@ import { AuthService } from '@myrmidon/cadmus-api';
 import { deepCopy, DocReference, ThesaurusEntry } from '@myrmidon/cadmus-core';
 
 import { PersonHandPart, PERSON_HAND_PART_TYPEID } from '../person-hand-part';
-import { BehaviorSubject } from 'rxjs';
 
 /**
  * PersonHand editor component.
@@ -22,17 +21,16 @@ export class PersonHandPartComponent
   implements OnInit {
   public personId: FormControl;
   public job: FormControl;
+  public others: FormControl;
 
-  public others$: BehaviorSubject<DocReference[]>;
-  public others: DocReference[];
+  public initialOthers: DocReference[];
 
-  public handJobEntries: ThesaurusEntry[];
-  public docRefTagEntries: ThesaurusEntry[];
+  public handJobEntries: ThesaurusEntry[] | undefined;
+  public docRefTagEntries: ThesaurusEntry[] | undefined;
 
   constructor(authService: AuthService, formBuilder: FormBuilder) {
     super(authService);
-    this.others$ = new BehaviorSubject<DocReference[]>([]);
-    this.others = [];
+    this.initialOthers = [];
     // form
     this.personId = formBuilder.control(null, [
       Validators.required,
@@ -42,9 +40,11 @@ export class PersonHandPartComponent
       Validators.required,
       Validators.maxLength(50),
     ]);
+    this.others = formBuilder.control([]);
     this.form = formBuilder.group({
       personId: this.personId,
       job: this.job,
+      others: this.others,
     });
   }
 
@@ -54,12 +54,13 @@ export class PersonHandPartComponent
 
   private updateForm(model: PersonHandPart): void {
     if (!model) {
+      this.initialOthers = [];
       this.form.reset();
       return;
     }
     this.personId.setValue(model.personId);
     this.job.setValue(model.job);
-    this.others = model.others || [];
+    this.initialOthers = model.others || [];
 
     this.form.markAsPristine();
   }
@@ -73,14 +74,14 @@ export class PersonHandPartComponent
     if (this.thesauri && this.thesauri[key]) {
       this.handJobEntries = this.thesauri[key].entries;
     } else {
-      this.handJobEntries = null;
+      this.handJobEntries = undefined;
     }
 
     key = 'doc-reference-tags';
     if (this.thesauri && this.thesauri[key]) {
       this.docRefTagEntries = this.thesauri[key].entries;
     } else {
-      this.docRefTagEntries = null;
+      this.docRefTagEntries = undefined;
     }
   }
 
@@ -103,11 +104,12 @@ export class PersonHandPartComponent
     }
     part.personId = this.personId.value?.trim();
     part.job = this.job.value?.trim();
-    part.others = this.others.length? this.others : undefined;
+    part.others = this.others.value?.length ? this.others.value : undefined;
     return part;
   }
 
   public onOthersChange(model: DocReference[]): void {
-    this.others = model;
+    this.others.setValue(model);
+    this.form.markAsDirty();
   }
 }

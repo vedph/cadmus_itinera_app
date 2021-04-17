@@ -35,7 +35,7 @@ export class AttachmentsPartComponent
   public attachments: FormControl;
 
   // epist-attachment-types
-  public typeEntries: ThesaurusEntry[];
+  public typeEntries: ThesaurusEntry[] | undefined;
 
   constructor(authService: AuthService, formBuilder: FormBuilder) {
     super(authService);
@@ -82,7 +82,7 @@ export class AttachmentsPartComponent
     if (this.thesauri && this.thesauri[key]) {
       this.typeEntries = this.thesauri[key].entries;
     } else {
-      this.typeEntries = null;
+      this.typeEntries = undefined;
     }
   }
 
@@ -101,7 +101,7 @@ export class AttachmentsPartComponent
         attachments: [],
       };
     }
-    part.attachments = this.attachments;
+    part.attachments = this.attachments.value;
     return part;
   }
 

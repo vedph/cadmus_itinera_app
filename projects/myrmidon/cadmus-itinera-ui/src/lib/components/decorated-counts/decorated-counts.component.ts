@@ -35,7 +35,7 @@ export class DecoratedCountsComponent
   @ViewChildren('id') idQueryList: QueryList<any>;
 
   @Input()
-  public idEntries: ThesaurusEntry[];
+  public idEntries: ThesaurusEntry[] | undefined;
 
   public counts: FormArray;
 

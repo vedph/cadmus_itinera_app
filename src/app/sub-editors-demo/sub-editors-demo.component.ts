@@ -16,7 +16,12 @@ import {
 import { NoteSet } from '@myrmidon/cadmus-itinera-ui';
 import { DecoratedId, PersonName } from '@myrmidon/cadmus-itinera-core';
 import { BehaviorSubject } from 'rxjs';
-import { FormBuilder, FormControl, ValidatorFn, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-sub-editors-demo',
@@ -26,15 +31,15 @@ import { FormBuilder, FormControl, ValidatorFn, Validators } from '@angular/form
 export class SubEditorsDemoComponent implements OnInit {
   public date: HistoricalDateModel;
 
-  public personName$: BehaviorSubject<PersonName>;
-  public lastPersonName: PersonName;
+  public initialPersonName: PersonName | undefined;
+  public lastPersonName: PersonName | undefined;
   public langEntries: ThesaurusEntry[];
   public namePartTypeEntries: ThesaurusEntry[];
 
-  public externalIds$: BehaviorSubject<string[]>;
+  public initialExternalIds: string[];
   public lastExternalIds: string[];
 
-  public references$: BehaviorSubject<DocReference[]>;
+  public initialReferences: DocReference[];
   public lastReferences: DocReference[];
 
   public lastDecoratedIds: DecoratedId[];
@@ -42,6 +47,7 @@ export class SubEditorsDemoComponent implements OnInit {
   public decoratedCounts$: BehaviorSubject<DecoratedCount[]>;
   public lastDecoratedCounts: DecoratedCount[];
 
+  public initialCitedPerson: CitedPerson;
   public lastCitedPerson: CitedPerson;
 
   public lastChronotope: Chronotope;
@@ -92,7 +98,7 @@ export class SubEditorsDemoComponent implements OnInit {
 
     this.date = HistoricalDate.parse('c. 1260 AD');
 
-    this.personName$ = new BehaviorSubject<PersonName>({
+    this.initialPersonName = {
       language: 'lat',
       tag: 'free',
       parts: [
@@ -100,14 +106,48 @@ export class SubEditorsDemoComponent implements OnInit {
         { type: 'nomen', value: 'Vergilius' },
         { type: 'cognomen', value: 'Maro' },
       ],
-    });
+    };
 
-    this.externalIds$ = new BehaviorSubject<string[]>([
-      'http://www.google.com',
-      'id-1234',
-    ]);
+    this.initialCitedPerson = {
+      name: {
+        language: 'lat',
+        tag: 'free',
+        parts: [
+          { type: 'praenomen', value: 'Publius' },
+          { type: 'nomen', value: 'Vergilius' },
+          { type: 'cognomen', value: 'Maro' },
+        ],
+      },
+      rank: 1,
+      ids: [
+        {
+          id: 'i1',
+          rank: 1,
+          tag: 'tag',
+          sources: [
+            {
+              tag: 'tag',
+              author: 'Chantraine',
+              work: 'EtGr',
+              location: '1.23',
+              note: "wow, that's a note!",
+            },
+          ],
+        },
+      ],
+      sources: [
+        {
+          tag: 'tag',
+          author: 'Allen',
+          work: 'Wk',
+          location: '245',
+        },
+      ],
+    };
 
-    this.references$ = new BehaviorSubject<DocReference[]>([
+    this.initialExternalIds = ['http://www.google.com', 'id-1234'];
+
+    this.initialReferences = [
       {
         tag: 'tag',
         author: 'Chantraine',
@@ -115,7 +155,7 @@ export class SubEditorsDemoComponent implements OnInit {
         location: '1.23',
         note: "wow, that's a note!",
       },
-    ]);
+    ];
 
     this.decoratedCounts$ = new BehaviorSubject<DecoratedCount[]>([
       {

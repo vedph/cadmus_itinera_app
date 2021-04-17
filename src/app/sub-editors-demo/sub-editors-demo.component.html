@@ -17,10 +17,10 @@
 
       <mat-tab label="Person Name">
         <itinera-person-name
-          [model$]="personName$"
           [langEntries]="langEntries"
           [typeEntries]="namePartTypeEntries"
-          (modelChange)="onPersonNameChange($event)"
+          [name]="initialPersonName"
+          (nameChange)="onPersonNameChange($event)"
         >
         </itinera-person-name>
         <div *ngIf="lastPersonName">
@@ -30,8 +30,8 @@
 
       <mat-tab label="External IDs">
         <cadmus-external-ids
-          [model$]="externalIds$"
-          (modelChange)="onExternalIdsChange($event)"
+          [ids]="initialExternalIds"
+          (idsChange)="onExternalIdsChange($event)"
         >
         </cadmus-external-ids>
         <div *ngIf="lastExternalIds">
@@ -41,8 +41,8 @@
 
       <mat-tab label="References">
         <cadmus-doc-references
-          [model$]="references$"
-          (modelChange)="onReferencesChange($event)"
+          [references]="initialReferences"
+          (referencesChange)="onReferencesChange($event)"
         ></cadmus-doc-references>
         <div *ngIf="lastReferences">
           <pre>{{ lastReferences | json }}</pre>
@@ -73,6 +73,7 @@
         <itinera-cited-person
           [langEntries]="langEntries"
           [nameTypeEntries]="namePartTypeEntries"
+          [person]="initialCitedPerson"
           (personChange)="onCitedPersonChange($event)"
         ></itinera-cited-person>
         <div *ngIf="lastCitedPerson">

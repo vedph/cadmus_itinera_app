@@ -79,8 +79,8 @@
     <!-- externalIds -->
     <p>external IDs</p>
     <cadmus-external-ids
-      [model$]="ids$"
-      (modelChange)="onIdsChanged($event)"
+      [ids]="initialIds"
+      (idsChange)="onIdsChange($event)"
     ></cadmus-external-ids>
   </div>
 

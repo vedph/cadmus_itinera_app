@@ -7,7 +7,6 @@ import {
 } from '@angular/forms';
 import { HistoricalDateModel, ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { MsWatermark } from '@myrmidon/cadmus-itinera-core';
-import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'itinera-ms-watermark',
@@ -27,22 +26,21 @@ export class MsWatermarkComponent implements OnInit {
   @Output()
   public editorClose: EventEmitter<any>;
 
-  public form: FormGroup;
   public subject: FormControl;
   public rank: FormControl;
   public description: FormControl;
   public place: FormControl;
+  public ids: FormControl;
+  public form: FormGroup;
 
   public date: HistoricalDateModel;
-  public ids$: BehaviorSubject<string[]>;
-  public ids: string[];
+  public initialIds: string[];
 
   constructor(formBuilder: FormBuilder) {
     // events
     this.modelChange = new EventEmitter<MsWatermark>();
     this.editorClose = new EventEmitter();
-    this.ids$ = new BehaviorSubject<string[]>([]);
-    this.ids = [];
+    this.initialIds = [];
     // form
     this.subject = formBuilder.control(null, [
       Validators.required,
@@ -51,11 +49,13 @@ export class MsWatermarkComponent implements OnInit {
     this.rank = formBuilder.control(0);
     this.description = formBuilder.control(null, Validators.maxLength(500));
     this.place = formBuilder.control(null, Validators.maxLength(50));
+    this.ids = formBuilder.control([]);
     this.form = formBuilder.group({
       subject: this.subject,
       rank: this.rank,
       description: this.description,
       place: this.place,
+      ids: this.ids,
     });
   }
 
@@ -67,7 +67,7 @@ export class MsWatermarkComponent implements OnInit {
     if (!model) {
       this.form.reset();
       this.date = null;
-      this.ids = [];
+      this.initialIds = [];
       return;
     }
     this.subject.setValue(model.subject);
@@ -75,7 +75,7 @@ export class MsWatermarkComponent implements OnInit {
     this.description.setValue(model.description);
     this.place.setValue(model.place);
     this.date = model.date;
-    this.ids$.next(model.externalIds);
+    this.initialIds = model.externalIds || [];
     this.form.markAsPristine();
   }
 
@@ -86,17 +86,17 @@ export class MsWatermarkComponent implements OnInit {
       description: this.description.value?.trim(),
       place: this.place.value?.trim(),
       date: this.date,
-      externalIds: this.ids
+      externalIds: this.ids.value?.length ? this.ids.value : undefined,
     };
   }
 
-  public onDateChanged(date: HistoricalDateModel): void {
+  public onDateChange(date: HistoricalDateModel): void {
     this.date = date;
     this.form.markAsDirty();
   }
 
-  public onIdsChanged(ids: string[]): void {
-    this.ids = ids;
+  public onIdsChange(ids: string[]): void {
+    this.ids.setValue(ids);
     this.form.markAsDirty();
   }
 

@@ -229,8 +229,8 @@
         <mat-tab label="related">
           <cadmus-doc-references
             [tagEntries]="tagEntries"
-            [model$]="related$"
-            (modelChange)="onSourcesChange($event)"
+            [references]="initialRelated"
+            (referencesChange)="onRelatedChange($event)"
           ></cadmus-doc-references>
         </mat-tab>
       </mat-tab-group>

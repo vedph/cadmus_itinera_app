@@ -10,7 +10,6 @@ import {
   ViewChildren,
 } from '@angular/core';
 import {
-  FormArray,
   FormBuilder,
   FormControl,
   FormGroup,
@@ -62,19 +61,18 @@ export class CorrExchangeComponent implements OnInit, AfterViewInit, OnDestroy {
   public participant: FormControl;
   public attachments: FormControl;
   public hasCt: FormControl;
+  public sources: FormControl;
   public form: FormGroup;
 
   public participants: DecoratedId[];
   public participants$: BehaviorSubject<DecoratedId[]>;
   public chronotopes: Chronotope[] | undefined;
-  public sources: DocReference[];
-  public sources$: BehaviorSubject<DocReference[]>;
+  public initialSources: DocReference[];
 
   constructor(formBuilder: FormBuilder) {
     this.participants = [];
     this.participants$ = new BehaviorSubject<DecoratedId[]>([]);
-    this.sources = [];
-    this.sources$ = new BehaviorSubject<DocReference[]>([]);
+    this.initialSources = [];
     // events
     this.modelChange = new EventEmitter<CorrExchange>();
     this.editorClose = new EventEmitter();
@@ -84,13 +82,14 @@ export class CorrExchangeComponent implements OnInit, AfterViewInit, OnDestroy {
     this.participant = formBuilder.control(false);
     this.attachments = formBuilder.control([]);
     this.hasCt = formBuilder.control(false, Validators.requiredTrue);
+    this.sources = formBuilder.control([]);
     this.form = formBuilder.group({
       dubious: this.dubious,
       indirect: this.indirect,
       participant: this.participant,
       attachments: this.attachments,
-      // used to validate: from/to must exist
-      hasCt: this.hasCt,
+      hasCt: this.hasCt, // used to validate: from/to must exist
+      sources: this.sources,
     });
   }
 
@@ -115,13 +114,13 @@ export class CorrExchangeComponent implements OnInit, AfterViewInit, OnDestroy {
   private updateForm(model: CorrExchange): void {
     if (!model) {
       this.participants$.next([]);
-      this.sources$.next([]);
+      this.initialSources = [];
       this.chronotopes = undefined;
       this.form.reset();
       return;
     }
     this.participants$.next(model.participants || []);
-    this.sources$.next(model.sources || []);
+    this.initialSources = model.sources || [];
     this.chronotopes = model.chronotopes;
     this.dubious.setValue(model.isDubious);
     this.indirect.setValue(model.isIndirect);
@@ -137,7 +136,7 @@ export class CorrExchangeComponent implements OnInit, AfterViewInit, OnDestroy {
       isFromParticipant: this.participant.value,
       chronotopes: this.chronotopes?.length ? this.chronotopes : undefined,
       participants: this.participants?.length ? this.participants : undefined,
-      sources: this.sources?.length ? this.sources : undefined,
+      sources: this.sources.value?.length ? this.sources.value : undefined,
       attachments: this.attachments.value.length
         ? this.attachments.value
         : undefined,
@@ -153,10 +152,12 @@ export class CorrExchangeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public onParticipantsChange(participants: DecoratedId[]): void {
     this.participants = participants;
+    this.form.markAsDirty();
   }
 
   public onSourcesChange(sources: DocReference[]): void {
-    this.sources = sources;
+    this.sources.setValue(sources);
+    this.form.markAsDirty();
   }
 
   public onChronotopesChange(chronotopes: Chronotope[] | undefined): void {

@@ -5,11 +5,12 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { HistoricalDateModel, ThesaurusEntry, DocReference } from '@myrmidon/cadmus-core';
 import {
-  MsRestoration,
-} from '@myrmidon/cadmus-itinera-core';
-import { BehaviorSubject } from 'rxjs';
+  HistoricalDateModel,
+  ThesaurusEntry,
+  DocReference,
+} from '@myrmidon/cadmus-core';
+import { MsRestoration } from '@myrmidon/cadmus-itinera-core';
 
 @Component({
   selector: 'itinera-ms-restoration',
@@ -17,15 +18,13 @@ import { BehaviorSubject } from 'rxjs';
   styleUrls: ['./ms-restoration.component.css'],
 })
 export class MsRestorationComponent implements OnInit {
-  private _sources: DocReference[];
-
   @Input()
   public model: MsRestoration;
 
   @Input()
-  public typeEntries: ThesaurusEntry[];
+  public typeEntries: ThesaurusEntry[] | undefined;
   @Input()
-  public docRefTagEntries: ThesaurusEntry[];
+  public docRefTagEntries: ThesaurusEntry[] | undefined;
 
   @Output()
   public modelChange: EventEmitter<MsRestoration>;
@@ -37,13 +36,14 @@ export class MsRestorationComponent implements OnInit {
   public place: FormControl;
   public personId: FormControl;
   public note: FormControl;
+  public sources: FormControl;
   public form: FormGroup;
 
-  public sources$: BehaviorSubject<DocReference[]>;
+  public initialSources: DocReference[];
   public date: HistoricalDateModel;
 
   constructor(formBuilder: FormBuilder) {
-    this.sources$ = new BehaviorSubject<DocReference[]>([]);
+    this.initialSources = [];
     // events
     this.modelChange = new EventEmitter<MsRestoration>();
     this.editorClose = new EventEmitter();
@@ -55,11 +55,13 @@ export class MsRestorationComponent implements OnInit {
     this.place = formBuilder.control(null, Validators.maxLength(50));
     this.personId = formBuilder.control(null, Validators.maxLength(50));
     this.note = formBuilder.control(null, Validators.maxLength(500));
+    this.sources = formBuilder.control([]);
     this.form = formBuilder.group({
       type: this.type,
       place: this.place,
       personId: this.personId,
       note: this.note,
+      sources: this.sources,
     });
   }
 
@@ -69,11 +71,11 @@ export class MsRestorationComponent implements OnInit {
 
   private updateForm(model: MsRestoration): void {
     if (!model) {
-      this.sources$.next([]);
+      this.initialSources = [];
       this.form.reset();
       return;
     }
-    this.sources$.next(model.sources || []);
+    this.initialSources = model.sources || [];
     this.type.setValue(model.type);
     this.place.setValue(model.place);
     this.personId.setValue(model.personId);
@@ -87,12 +89,12 @@ export class MsRestorationComponent implements OnInit {
       place: this.place.value?.trim(),
       personId: this.personId.value?.trim(),
       note: this.note.value?.trim(),
-      sources: this._sources?.length ? this._sources : undefined,
+      sources: this.sources.value?.length ? this.sources.value : undefined,
     };
   }
 
   public onSourcesChanged(sources: DocReference[]): void {
-    this._sources = sources;
+    this.sources.setValue(sources);
     this.form.markAsDirty();
   }
 

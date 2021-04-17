@@ -38,8 +38,8 @@
       <!-- sources -->
       <cadmus-doc-references
         [tagEntries]="tagEntries"
-        [model$]="sources$"
-        (modelChange)="onSourcesChange($event)"
+        [references]="initialSources"
+        (referencesChange)="onSourcesChange($event)"
       ></cadmus-doc-references>
     </mat-tab>
 

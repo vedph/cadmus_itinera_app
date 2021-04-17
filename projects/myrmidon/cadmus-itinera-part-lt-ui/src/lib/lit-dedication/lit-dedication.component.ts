@@ -5,9 +5,12 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { HistoricalDateModel, ThesaurusEntry, DocReference } from '@myrmidon/cadmus-core';
+import {
+  HistoricalDateModel,
+  ThesaurusEntry,
+  DocReference,
+} from '@myrmidon/cadmus-core';
 import { DecoratedId, LitDedication } from '@myrmidon/cadmus-itinera-core';
-import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'itinera-lit-dedication',
@@ -15,13 +18,11 @@ import { BehaviorSubject } from 'rxjs';
   styleUrls: ['./lit-dedication.component.css'],
 })
 export class LitDedicationComponent implements OnInit {
-  private _sources: DocReference[];
-
   @Input()
   public model: LitDedication;
 
   @Input()
-  public tagEntries: ThesaurusEntry[];
+  public tagEntries: ThesaurusEntry[] | undefined;
 
   @Output()
   public modelChange: EventEmitter<LitDedication>;
@@ -32,16 +33,16 @@ export class LitDedicationComponent implements OnInit {
   public title: FormControl;
   public hasDate: FormControl;
   public hasDateSent: FormControl;
+  public sources: FormControl;
   public form: FormGroup;
 
   public date: HistoricalDateModel;
   public dateSent: HistoricalDateModel;
   public participants: DecoratedId[];
-  public sources$: BehaviorSubject<DocReference[]>;
+  public initialSources: DocReference[];
 
   constructor(formBuilder: FormBuilder) {
-    this._sources = [];
-    this.sources$ = new BehaviorSubject<DocReference[]>([]);
+    this.initialSources = [];
     // events
     this.modelChange = new EventEmitter<LitDedication>();
     this.editorClose = new EventEmitter();
@@ -57,6 +58,7 @@ export class LitDedicationComponent implements OnInit {
       title: this.title,
       hasDate: this.hasDate,
       hasDateSent: this.hasDateSent,
+      sources: this.sources,
     });
   }
 
@@ -66,14 +68,14 @@ export class LitDedicationComponent implements OnInit {
 
   private updateForm(model: LitDedication): void {
     if (!model) {
-      this.sources$.next([]);
+      this.initialSources = [];
       this.date = null;
       this.dateSent = null;
       this.participants = [];
       this.form.reset();
       return;
     }
-    this.sources$.next(model.sources || []);
+    this.initialSources = model.sources || [];
     this.date = model.date;
     this.dateSent = model.dateSent;
     this.title.setValue(model.title);
@@ -90,7 +92,7 @@ export class LitDedicationComponent implements OnInit {
       date: this.hasDate.value ? this.date : undefined,
       dateSent: this.hasDateSent.value ? this.dateSent : undefined,
       participants: this.participants?.length ? this.participants : undefined,
-      sources: this._sources?.length ? this._sources : undefined,
+      sources: this.sources.value?.length ? this.sources.value : undefined,
     };
   }
 
@@ -105,7 +107,7 @@ export class LitDedicationComponent implements OnInit {
   }
 
   public onSourcesChanged(sources: DocReference[]): void {
-    this._sources = sources;
+    this.sources.setValue(sources);
     this.form.markAsDirty();
   }
 

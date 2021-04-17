@@ -22,7 +22,6 @@ export class TextOrEntrySelectorComponent implements OnInit {
   private _validators: ValidatorFn[] | undefined;
   private _id: string | undefined;
   private _free: boolean;
-  private _entries: ThesaurusEntry[] | undefined;
 
   public idCtl: FormControl;
   public form: FormGroup;
@@ -75,12 +74,7 @@ export class TextOrEntrySelectorComponent implements OnInit {
    * The entries to pick from, if any.
    */
   @Input()
-  public get entries(): ThesaurusEntry[] | undefined {
-    return this._entries;
-  }
-  public set entries(value: ThesaurusEntry[] | undefined) {
-    this._entries = value;
-  }
+  public entries: ThesaurusEntry[] | undefined;
 
   /**
    * Emitted whenever the edited ID changes.

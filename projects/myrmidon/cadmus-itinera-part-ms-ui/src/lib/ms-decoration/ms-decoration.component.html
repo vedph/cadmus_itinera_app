@@ -193,7 +193,11 @@
 
   <!-- references -->
   <mat-tab>
-    <cadmus-doc-references [model$]="references$"></cadmus-doc-references>
+    <cadmus-doc-references
+      [tagEntries]="docRefTagEntries"
+      [references]="initialReferences"
+      (referencesChange)="onReferencesChange($event)"
+    ></cadmus-doc-references>
   </mat-tab>
 
   <!-- buttons -->

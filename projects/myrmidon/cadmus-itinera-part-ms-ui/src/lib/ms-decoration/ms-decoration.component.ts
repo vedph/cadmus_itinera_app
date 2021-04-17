@@ -14,7 +14,6 @@ import {
   MsLocationRange,
 } from '@myrmidon/cadmus-itinera-core';
 import { DialogService } from '@myrmidon/cadmus-ui';
-import { BehaviorSubject } from 'rxjs';
 import { take } from 'rxjs/operators';
 
 /**
@@ -56,6 +55,9 @@ export class MsDecorationComponent implements OnInit {
   @Input()
   public decoration: MsDecoration;
 
+  // doc-reference-tags
+  @Input()
+  public docRefTagEntries: ThesaurusEntry[] | undefined;
   // ms-decoration-elem-types (required)
   @Input()
   public decElemTypeEntries: ThesaurusEntry[] | undefined;
@@ -98,9 +100,10 @@ export class MsDecorationComponent implements OnInit {
   public place: FormControl;
   public note: FormControl;
   public elements: FormControl;
+  public references: FormControl;
   public form: FormGroup;
 
-  public references$: BehaviorSubject<DocReference[]>;
+  public initialReferences: DocReference[];
 
   public artistPresent: FormControl;
   public artistForm: FormGroup;
@@ -122,7 +125,7 @@ export class MsDecorationComponent implements OnInit {
     private _dialogService: DialogService
   ) {
     this.editedElementIndex = -1;
-    this.references$ = new BehaviorSubject<DocReference[]>([]);
+    this.initialReferences = [];
     this.keys = [];
     // events
     this.decorationChange = new EventEmitter<MsDecoration>();
@@ -140,6 +143,7 @@ export class MsDecorationComponent implements OnInit {
     this.flags = formBuilder.control([]);
     this.place = formBuilder.control(null, Validators.maxLength(50));
     this.elements = formBuilder.control([]);
+    this.references = formBuilder.control([]);
     this.note = formBuilder.control(null, Validators.maxLength(500));
     this.artistPresent = formBuilder.control(false);
 
@@ -153,6 +157,7 @@ export class MsDecorationComponent implements OnInit {
       flags: this.flags,
       place: this.place,
       elements: this.elements,
+      references: this.references,
       note: this.note,
       artistPresent: this.artistPresent,
     });
@@ -181,6 +186,7 @@ export class MsDecorationComponent implements OnInit {
 
   private updateForm(decoration: MsDecoration): void {
     if (!decoration) {
+      this.initialReferences = [];
       this.form.reset();
       return;
     }
@@ -190,9 +196,7 @@ export class MsDecorationComponent implements OnInit {
     this.place.setValue(decoration.place);
     this.note.setValue(decoration.note);
     this.elements.setValue(decoration.elements);
-
-    // references
-    this.references$.next(decoration.references || []);
+    this.initialReferences = decoration.references || [];
 
     // artist
     if (decoration.artist) {
@@ -215,12 +219,10 @@ export class MsDecorationComponent implements OnInit {
       flags: this.flags.value?.length ? this.flags.value : undefined,
       place: this.place.value?.trim(),
       note: this.note.value?.trim(),
+      references: this.references.value?.length
+        ? this.references.value
+        : undefined,
     };
-
-    // references
-    if (this.references$.value.length) {
-      model.references = this.references$.value;
-    }
 
     // artist
     if (this.artistPresent.value) {
@@ -316,6 +318,11 @@ export class MsDecorationComponent implements OnInit {
 
   public onFlgSelectionChange(ids: string[]): void {
     this.flags.setValue(ids);
+    this.form.markAsDirty();
+  }
+
+  public onReferencesChange(references: DocReference[]): void {
+    this.references.setValue(references);
     this.form.markAsDirty();
   }
 

@@ -7,7 +7,6 @@ import {
 } from '@angular/forms';
 import { ThesaurusEntry, DocReference } from '@myrmidon/cadmus-core';
 import { CorrPseudonym } from '@myrmidon/cadmus-itinera-core';
-import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'itinera-corr-pseudonym',
@@ -15,15 +14,13 @@ import { BehaviorSubject } from 'rxjs';
   styleUrls: ['./corr-pseudonym.component.css'],
 })
 export class CorrPseudonymComponent implements OnInit {
-  private _sources: DocReference[];
-
   @Input()
   public model: CorrPseudonym;
 
   @Input()
-  public langEntries: ThesaurusEntry[];
+  public langEntries: ThesaurusEntry[] | undefined;
   @Input()
-  public tagEntries: ThesaurusEntry[];
+  public tagEntries: ThesaurusEntry[] | undefined;
 
   @Output()
   public modelChange: EventEmitter<CorrPseudonym>;
@@ -34,13 +31,13 @@ export class CorrPseudonymComponent implements OnInit {
   public language: FormControl;
   public value: FormControl;
   public author: FormControl;
+  public sources: FormControl;
   public form: FormGroup;
 
-  public sources$: BehaviorSubject<DocReference[]>;
+  public initialSources: DocReference[];
 
   constructor(formBuilder: FormBuilder) {
-    this._sources = [];
-    this.sources$ = new BehaviorSubject<DocReference[]>([]);
+    this.initialSources = [];
     // events
     this.modelChange = new EventEmitter<CorrPseudonym>();
     this.editorClose = new EventEmitter();
@@ -54,10 +51,12 @@ export class CorrPseudonymComponent implements OnInit {
       Validators.maxLength(50),
     ]);
     this.author = formBuilder.control(false);
+    this.sources = formBuilder.control([]);
     this.form = formBuilder.group({
       language: this.language,
       value: this.value,
-      author: this.author
+      author: this.author,
+      sources: this.sources
     });
   }
 
@@ -67,11 +66,11 @@ export class CorrPseudonymComponent implements OnInit {
 
   private updateForm(model: CorrPseudonym): void {
     if (!model) {
-      this.sources$.next([]);
+      this.initialSources = [];
       this.form.reset();
       return;
     }
-    this.sources$.next(model.sources || []);
+    this.initialSources = model.sources || [];
     this.language.setValue(model.language);
     this.value.setValue(model.value);
     this.author.setValue(model.isAuthor);
@@ -83,12 +82,12 @@ export class CorrPseudonymComponent implements OnInit {
       language: this.language.value?.trim(),
       value: this.value.value?.trim(),
       isAuthor: this.author.value,
-      sources: this._sources?.length ? this._sources : undefined,
+      sources: this.sources.value?.length ? this.sources.value : undefined,
     };
   }
 
   public onSourcesChanged(sources: DocReference[]): void {
-    this._sources = sources;
+    this.sources.setValue(sources);
     this.form.markAsDirty();
   }
 

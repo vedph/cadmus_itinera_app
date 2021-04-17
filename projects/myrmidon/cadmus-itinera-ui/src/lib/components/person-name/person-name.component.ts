@@ -1,9 +1,10 @@
 import {
   AfterViewInit,
   Component,
+  EventEmitter,
   Input,
   OnDestroy,
-  OnInit,
+  Output,
   QueryList,
   ViewChildren,
 } from '@angular/core';
@@ -16,58 +17,77 @@ import {
 } from '@angular/forms';
 import { ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { PersonName, PersonNamePart } from '@myrmidon/cadmus-itinera-core';
-import { InplaceEditorComponentBase } from '@myrmidon/cadmus-ui';
 import { Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
 /**
- * Person name in-place editor.
+ * Person name real-time editor.
+ * To use, add to the consumer component an initialName property to be
+ * bound to name, and handle nameChange to setValue the received name.
  */
 @Component({
   selector: 'itinera-person-name',
   templateUrl: './person-name.component.html',
   styleUrls: ['./person-name.component.css'],
 })
-export class PersonNameComponent
-  extends InplaceEditorComponentBase<PersonName>
-  implements OnInit, AfterViewInit, OnDestroy {
+export class PersonNameComponent implements AfterViewInit, OnDestroy {
+  private _name: PersonName | undefined;
+  private _updatingForm: boolean;
+  private _partSubs: Subscription[];
   private _partValueSubscription: Subscription;
 
   @ViewChildren('partValue') partValueQueryList: QueryList<any>;
 
   /**
+   * The person name.
+   */
+  @Input()
+  public get name(): PersonName | undefined {
+    return this._name;
+  }
+  public set name(value: PersonName | undefined) {
+    this._name = value;
+    this.updateForm(value);
+  }
+
+  /**
    * The optional thesaurus language entries.
    */
   @Input()
-  public langEntries: ThesaurusEntry[];
+  public langEntries: ThesaurusEntry[] | undefined;
   /**
    * The optional thesaurus name's tag entries.
    */
   @Input()
-  public tagEntries: ThesaurusEntry[];
+  public tagEntries: ThesaurusEntry[] | undefined;
   /**
    * The optional thesaurus name part's type entries.
    */
   @Input()
-  public typeEntries: ThesaurusEntry[];
+  public typeEntries: ThesaurusEntry[] | undefined;
+
+  /**
+   * Emitted whenever the name changes.
+   */
+  @Output()
+  public nameChange: EventEmitter<PersonName>;
 
   public language: FormControl;
   public tag: FormControl;
   public parts: FormArray;
+  public form: FormGroup;
 
-  constructor(formBuilder: FormBuilder) {
-    super(formBuilder);
-  }
-
-  public ngOnInit(): void {
-    // create this form
-    this.language = this.formBuilder.control(null, [
+  constructor(private _formBuilder: FormBuilder) {
+    this._partSubs = [];
+    this.nameChange = new EventEmitter<PersonName>();
+    // form
+    this.language = _formBuilder.control(null, [
       Validators.required,
       Validators.maxLength(50),
     ]);
-    this.tag = this.formBuilder.control(null, Validators.maxLength(50));
-    this.parts = this.formBuilder.array([], Validators.required);
-    this.initEditor('personName', {
+    this.tag = _formBuilder.control(null, Validators.maxLength(50));
+    this.parts = _formBuilder.array([], Validators.required);
+    this.form = _formBuilder.group({
       language: this.language,
       tag: this.tag,
       parts: this.parts,
@@ -75,27 +95,35 @@ export class PersonNameComponent
   }
 
   public ngAfterViewInit(): void {
+    // focus on newly added part
     this._partValueSubscription = this.partValueQueryList.changes
       .pipe(debounceTime(300))
-      .subscribe((_) => {
-        if (this.partValueQueryList.length > 0) {
-          this.partValueQueryList.last.nativeElement.focus();
+      .subscribe((lst: QueryList<any>) => {
+        if (!this._updatingForm && lst.length > 0) {
+          lst.last.nativeElement.focus();
         }
       });
   }
 
+  private unsubscribeParts(): void {
+    for (let i = 0; i < this._partSubs.length; i++) {
+      this._partSubs[i].unsubscribe();
+    }
+  }
+
   public ngOnDestroy(): void {
-    super.ngOnDestroy();
+    this.unsubscribeParts();
     this._partValueSubscription.unsubscribe();
   }
 
+  //#region Parts
   private getPartGroup(part?: PersonNamePart): FormGroup {
-    return this.formBuilder.group({
-      type: this.formBuilder.control(part?.type, [
+    return this._formBuilder.group({
+      type: this._formBuilder.control(part?.type, [
         Validators.required,
         Validators.maxLength(20),
       ]),
-      value: this.formBuilder.control(part?.value, [
+      value: this._formBuilder.control(part?.value, [
         Validators.required,
         Validators.maxLength(50),
       ]),
@@ -103,57 +131,93 @@ export class PersonNameComponent
   }
 
   public addPart(part?: PersonNamePart): void {
-    this.parts.push(this.getPartGroup(part));
-  }
+    const g = this.getPartGroup(part);
+    this._partSubs.push(
+      g.valueChanges.pipe(debounceTime(300)).subscribe((_) => {
+        this.emitNameChange();
+      })
+    );
+    this.parts.push(g);
 
-  public addPartBelow(index: number): void {
-    this.parts.insert(index + 1, this.getPartGroup());
+    if (!this._updatingForm) {
+      this.emitNameChange();
+    }
   }
 
   public removePart(index: number): void {
+    this._partSubs[index].unsubscribe();
+    this._partSubs.splice(index, 1);
     this.parts.removeAt(index);
+    this.emitNameChange();
+  }
+
+  private swapArrElems(a: any[], i: number, j: number): void {
+    if (i === j) {
+      return;
+    }
+    const t = a[i];
+    a[i] = a[j];
+    a[j] = t;
   }
 
   public movePartUp(index: number): void {
     if (index < 1) {
       return;
     }
-    const item = this.parts.controls[index];
+    const ctl = this.parts.controls[index];
     this.parts.removeAt(index);
-    this.parts.insert(index - 1, item);
+    this.parts.insert(index - 1, ctl);
+
+    this.swapArrElems(this._partSubs, index, index - 1);
+
+    this.emitNameChange();
   }
 
   public movePartDown(index: number): void {
     if (index + 1 >= this.parts.length) {
       return;
     }
-    const item = this.parts.controls[index];
+    const ctl = this.parts.controls[index];
     this.parts.removeAt(index);
-    this.parts.insert(index + 1, item);
+    this.parts.insert(index + 1, ctl);
+
+    this.swapArrElems(this._partSubs, index, index + 1);
+
+    this.emitNameChange();
   }
 
   public clearParts(): void {
     this.parts.clear();
+    this.unsubscribeParts();
+    this._partSubs = [];
+    if (!this._updatingForm) {
+      this.emitNameChange();
+    }
   }
+  //#endregion
 
-  protected setModel(model: PersonName): void {
+  private updateForm(name: PersonName): void {
     if (!this.language) {
       return;
     }
-    if (!model) {
+    this._updatingForm = true;
+    this.clearParts();
+
+    if (!name) {
       this.form.reset();
     } else {
-      this.language.setValue(model.language);
-      this.tag.setValue(model.tag);
+      this.language.setValue(name.language);
+      this.tag.setValue(name.tag);
       this.parts.clear();
-      for (const p of model.parts) {
+      for (const p of name.parts || []) {
         this.addPart(p);
       }
       this.form.markAsPristine();
     }
+    this._updatingForm = false;
   }
 
-  protected getModel(): PersonName {
+  private getName(): PersonName {
     const parts: PersonNamePart[] = [];
 
     for (let i = 0; i < this.parts.length; i++) {
@@ -169,5 +233,9 @@ export class PersonNameComponent
       tag: this.tag.value,
       parts,
     };
+  }
+
+  public emitNameChange(): void {
+    this.nameChange.emit(this.getName());
   }
 }

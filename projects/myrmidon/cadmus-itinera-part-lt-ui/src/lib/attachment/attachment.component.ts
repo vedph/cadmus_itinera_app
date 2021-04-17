@@ -7,7 +7,6 @@ import {
 } from '@angular/forms';
 import { ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { Attachment } from '@myrmidon/cadmus-itinera-core';
-import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'cadmus-attachment',
@@ -42,13 +41,15 @@ export class AttachmentComponent implements OnInit {
   public unknown: FormControl;
   public portion: FormControl;
   public note: FormControl;
+  public ids: FormControl;
   public form: FormGroup;
-  public ids$: BehaviorSubject<string[]>;
+
+  public initialIds: string[];
 
   constructor(formBuilder: FormBuilder) {
     this.attachmentChange = new EventEmitter<Attachment>();
     this.editorClose = new EventEmitter<any>();
-    this.ids$ = new BehaviorSubject<string[]>([]);
+    this.initialIds = [];
     // form
     this.id = formBuilder.control(null, Validators.maxLength(50));
     this.type = formBuilder.control(null, [
@@ -63,6 +64,7 @@ export class AttachmentComponent implements OnInit {
     this.unknown = formBuilder.control(false);
     this.portion = formBuilder.control(null, Validators.maxLength(50));
     this.note = formBuilder.control(null, Validators.maxLength(500));
+    this.ids = formBuilder.control([]);
     this.form = formBuilder.group({
       id: this.id,
       type: this.type,
@@ -71,6 +73,7 @@ export class AttachmentComponent implements OnInit {
       unknown: this.unknown,
       portion: this.portion,
       note: this.note,
+      ids: this.ids,
     });
   }
 
@@ -80,7 +83,7 @@ export class AttachmentComponent implements OnInit {
 
   private updateForm(model: Attachment | undefined): void {
     if (!model) {
-      this.ids$.next([]);
+      this.initialIds = [];
       this.form.reset();
       return;
     }
@@ -92,7 +95,7 @@ export class AttachmentComponent implements OnInit {
     this.unknown.setValue(model.isUnknown);
     this.portion.setValue(model.portion);
     this.note.setValue(model.portion);
-    this.ids$.next(model.externalIds || []);
+    this.initialIds = model.externalIds || [];
 
     this.form.markAsPristine();
   }
@@ -100,7 +103,7 @@ export class AttachmentComponent implements OnInit {
   private getModel(): Attachment {
     return {
       id: this.id.value?.trim(),
-      externalIds: this.ids$.value?.length ? this.ids$.value : undefined,
+      externalIds: this.ids.value?.length ? this.ids.value : undefined,
       type: this.type.value?.trim(),
       name: this.name.value?.trim(),
       isLost: this.lost.value,
@@ -110,8 +113,8 @@ export class AttachmentComponent implements OnInit {
     };
   }
 
-  public onIdsChanged(ids: string[]): void {
-    this.ids$.next(ids);
+  public onIdsChange(ids: string[]): void {
+    this.ids.setValue(ids);
     this.form.markAsDirty();
   }
 

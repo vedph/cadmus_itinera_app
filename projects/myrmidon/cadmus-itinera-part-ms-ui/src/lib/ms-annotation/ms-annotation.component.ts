@@ -7,7 +7,6 @@ import {
 } from '@angular/forms';
 import { ThesaurusEntry, DocReference } from '@myrmidon/cadmus-core';
 import { MsAnnotation, MsLocationService } from '@myrmidon/cadmus-itinera-core';
-import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'itinera-ms-annotation',
@@ -15,17 +14,15 @@ import { BehaviorSubject } from 'rxjs';
   styleUrls: ['./ms-annotation.component.css'],
 })
 export class MsAnnotationComponent implements OnInit {
-  private _sources: DocReference[];
-
   @Input()
   public model: MsAnnotation;
 
   @Input()
-  public langEntries: ThesaurusEntry[];
+  public langEntries: ThesaurusEntry[] | undefined;
   @Input()
-  public typeEntries: ThesaurusEntry[];
+  public typeEntries: ThesaurusEntry[] | undefined;
   @Input()
-  public docRefTagEntries: ThesaurusEntry[];
+  public docRefTagEntries: ThesaurusEntry[] | undefined;
 
   @Output()
   public modelChange: EventEmitter<MsAnnotation>;
@@ -39,15 +36,16 @@ export class MsAnnotationComponent implements OnInit {
   public start: FormControl;
   public end: FormControl;
   public personId: FormControl;
+  public sources: FormControl;
   public form: FormGroup;
 
-  public sources$: BehaviorSubject<DocReference[]>;
+  public initialSources: DocReference[];
 
   constructor(
     formBuilder: FormBuilder,
     private _msLocationService: MsLocationService
   ) {
-    this.sources$ = new BehaviorSubject<DocReference[]>([]);
+    this.initialSources = [];
     // events
     this.modelChange = new EventEmitter<MsAnnotation>();
     this.editorClose = new EventEmitter();
@@ -70,6 +68,7 @@ export class MsAnnotationComponent implements OnInit {
       Validators.pattern(MsLocationService.locRegexp)
     );
     this.personId = formBuilder.control(null, Validators.maxLength(50));
+    this.sources = formBuilder.control([]);
     this.form = formBuilder.group({
       language: this.language,
       type: this.type,
@@ -77,6 +76,7 @@ export class MsAnnotationComponent implements OnInit {
       start: this.start,
       end: this.end,
       personId: this.personId,
+      sources: this.sources,
     });
   }
 
@@ -86,11 +86,11 @@ export class MsAnnotationComponent implements OnInit {
 
   private updateForm(model: MsAnnotation): void {
     if (!model) {
-      this.sources$.next([]);
+      this.initialSources = [];
       this.form.reset();
       return;
     }
-    this.sources$.next(model.sources || []);
+    this.initialSources = model.sources || [];
     this.language.setValue(model.language);
     this.type.setValue(model.type);
     this.text.setValue(model.text);
@@ -108,12 +108,12 @@ export class MsAnnotationComponent implements OnInit {
       start: this._msLocationService.parseLocation(this.start.value),
       end: this._msLocationService.parseLocation(this.end.value),
       personId: this.personId.value?.trim(),
-      sources: this._sources?.length ? this._sources : undefined,
+      sources: this.sources.value?.length ? this.sources.value : undefined,
     };
   }
 
   public onSourcesChanged(sources: DocReference[]): void {
-    this._sources = sources;
+    this.sources.setValue(sources);
     this.form.markAsDirty();
   }
 

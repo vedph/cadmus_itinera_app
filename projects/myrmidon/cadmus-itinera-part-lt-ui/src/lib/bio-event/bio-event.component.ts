@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -11,7 +18,6 @@ import {
   ThesaurusEntry,
 } from '@myrmidon/cadmus-core';
 import { BioEvent, DecoratedId } from '@myrmidon/cadmus-itinera-core';
-import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'itinera-bio-event',
@@ -19,18 +25,15 @@ import { BehaviorSubject } from 'rxjs';
   styleUrls: ['./bio-event.component.css'],
 })
 export class BioEventComponent implements OnInit {
-  private _ids: string[];
-  private _sources: DocReference[];
-
   @Input()
   public model: BioEvent;
 
   @Input()
-  public typeEntries: ThesaurusEntry[];
+  public typeEntries: ThesaurusEntry[] | undefined;
   @Input()
-  public partTagEntries: ThesaurusEntry[];
+  public partTagEntries: ThesaurusEntry[] | undefined;
   @Input()
-  public docRefTagEntries: ThesaurusEntry[];
+  public docRefTagEntries: ThesaurusEntry[] | undefined;
 
   @Output()
   public modelChange: EventEmitter<BioEvent>;
@@ -54,20 +57,20 @@ export class BioEventComponent implements OnInit {
   public lost: FormControl;
   public places: FormControl;
   public description: FormControl;
+  public ids: FormControl;
+  public sources: FormControl;
   public form: FormGroup;
+
+  public initialIds: string[];
+  public initialSources: DocReference[];
 
   public date: HistoricalDateModel;
   public participants: DecoratedId[];
 
-  public ids$: BehaviorSubject<string[]>;
-  public sources$: BehaviorSubject<DocReference[]>;
-
   constructor(formBuilder: FormBuilder) {
-    this._ids = [];
-    this._sources = [];
+    this.initialIds = [];
+    this.initialSources = [];
     this.participants = [];
-    this.ids$ = new BehaviorSubject<string[]>([]);
-    this.sources$ = new BehaviorSubject<DocReference[]>([]);
     // events
     this.modelChange = new EventEmitter<BioEvent>();
     this.editorClose = new EventEmitter();
@@ -81,6 +84,8 @@ export class BioEventComponent implements OnInit {
     this.lost = formBuilder.control(false);
     this.places = formBuilder.control(null, Validators.maxLength(500));
     this.description = formBuilder.control(null, Validators.maxLength(500));
+    this.ids = formBuilder.control([]);
+    this.sources = formBuilder.control([]);
     this.form = formBuilder.group({
       type: this.type,
       rank: this.rank,
@@ -88,6 +93,8 @@ export class BioEventComponent implements OnInit {
       lost: this.lost,
       places: this.places,
       description: this.description,
+      ids: this.ids,
+      sources: this.sources,
     });
   }
 
@@ -112,8 +119,8 @@ export class BioEventComponent implements OnInit {
       this.form.reset();
       return;
     }
-    this.ids$.next(model.externalIds || []);
-    this.sources$.next(model.sources || []);
+    this.initialIds = model.externalIds || [];
+    this.initialSources = model.sources || [];
     this.participants = model.participants || [];
     this.date = model.date;
 
@@ -146,22 +153,22 @@ export class BioEventComponent implements OnInit {
       date: this.date,
       places: this.parsePlaces(this.places.value),
       description: this.description.value?.trim(),
-      sources: this._sources?.length ? this._sources : undefined,
+      sources: this.sources.value?.length ? this.sources.value : undefined,
       participants: this.participants?.length ? this.participants : undefined,
       work: this.work.value?.trim(),
       rank: this.rank.value,
       isWorkLost: this.lost.value,
-      externalIds: this._ids,
+      externalIds: this.ids.value?.length ? this.ids.value : undefined,
     };
   }
 
   public onIdsChanged(ids: string[]): void {
-    this._ids = ids;
+    this.ids.setValue(ids);
     this.form.markAsDirty();
   }
 
   public onSourcesChanged(sources: DocReference[]): void {
-    this._sources = sources;
+    this.sources.setValue(sources);
     this.form.markAsDirty();
   }
 

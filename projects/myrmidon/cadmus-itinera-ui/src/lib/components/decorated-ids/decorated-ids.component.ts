@@ -7,7 +7,6 @@ import {
 } from '@angular/forms';
 import { ThesaurusEntry, DocReference } from '@myrmidon/cadmus-core';
 import { DecoratedId } from '@myrmidon/cadmus-itinera-core';
-import { BehaviorSubject } from 'rxjs';
 
 /**
  * Decorated IDs editor.
@@ -24,12 +23,14 @@ export class DecoratedIdsComponent {
   public editedId: DecoratedId;
   public editorOpen: boolean;
 
-  public form: FormGroup;
   public subForm: FormGroup;
   public id: FormControl;
   public rank: FormControl;
   public tag: FormControl;
-  public sources$: BehaviorSubject<DocReference[]>;
+  public sources: FormControl;
+  public form: FormGroup;
+
+  public initialSources: DocReference[];
 
   @Input()
   public get ids(): DecoratedId[] {
@@ -41,9 +42,9 @@ export class DecoratedIdsComponent {
   }
 
   @Input()
-  public tagEntries: ThesaurusEntry[];
+  public tagEntries: ThesaurusEntry[] | undefined;
   @Input()
-  public docRefTagEntries: ThesaurusEntry[];
+  public docRefTagEntries: ThesaurusEntry[] | undefined;
 
   @Output()
   public idsChange: EventEmitter<DecoratedId[]>;
@@ -54,7 +55,7 @@ export class DecoratedIdsComponent {
   constructor(formBuilder: FormBuilder) {
     this.idsChange = new EventEmitter<DecoratedId[]>();
     this.editorClose = new EventEmitter<any>();
-    this.sources$ = new BehaviorSubject<DocReference[]>([]);
+    this.initialSources = [];
     this.editedIndex = -1;
     this.editorOpen = false;
 
@@ -65,10 +66,12 @@ export class DecoratedIdsComponent {
     ]);
     this.rank = formBuilder.control(0);
     this.tag = formBuilder.control(null, Validators.maxLength(50));
+    this.sources = formBuilder.control([]);
     this.subForm = formBuilder.group({
       id: this.id,
       rank: this.rank,
       tag: this.tag,
+      sources: this.sources
     });
     this.form = formBuilder.group({
       subForm: this.subForm,
@@ -80,14 +83,14 @@ export class DecoratedIdsComponent {
 
     if (index === -1) {
       this.editedId = null;
-      this.sources$.next([]);
+      this.initialSources = [];
       this.subForm?.reset();
       this.subForm?.disable();
       this.editorOpen = false;
     } else {
       this.subForm.enable();
       this.editedId = this.ids[index];
-      this.sources$.next(this.editedId.sources || []);
+      this.initialSources = this.editedId.sources || [];
       this.id.setValue(this.editedId.id);
       this.rank.setValue(this.editedId.rank);
       this.tag.setValue(this.editedId.tag);
@@ -104,7 +107,7 @@ export class DecoratedIdsComponent {
       id: this.id.value?.trim(),
       rank: this.rank.value || 0,
       tag: this.tag.value?.trim(),
-      sources: this.editedId.sources?.length ? this.editedId.sources : null,
+      sources: this.sources.value?.length ? this.sources.value : undefined,
     };
   }
 
@@ -125,10 +128,7 @@ export class DecoratedIdsComponent {
   }
 
   public onSourcesChange(sources: DocReference[]): void {
-    if (!this.editedId) {
-      return;
-    }
-    this.editedId.sources = sources?.length ? sources : null;
+    this.sources.setValue(sources);
     this.subForm.markAsDirty();
   }
 

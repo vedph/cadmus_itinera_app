@@ -23,9 +23,6 @@ import { BehaviorSubject } from 'rxjs';
 export class CitedPersonComponent implements OnInit {
   private _person: CitedPerson | undefined;
 
-  public sources: DocReference[];
-  public ids: DecoratedId[];
-
   @Input()
   public get person(): CitedPerson | undefined {
     return this._person;
@@ -56,14 +53,20 @@ export class CitedPersonComponent implements OnInit {
 
   public sources$: BehaviorSubject<DocReference[]>;
 
-  public form: FormGroup;
   public language: FormControl;
   public tag: FormControl;
   public rank: FormControl;
   public parts: FormArray;
+  public sources: FormControl;
+  public ids: FormControl;
+  public form: FormGroup;
+
+  public initialSources: DocReference[];
+  public initialIds: DecoratedId[];
 
   constructor(private _formBuilder: FormBuilder) {
-    this.sources$ = new BehaviorSubject<DocReference[]>([]);
+    this.initialSources = [];
+    this.initialIds = [];
 
     // events
     this.personChange = new EventEmitter<CitedPerson>();
@@ -77,12 +80,17 @@ export class CitedPersonComponent implements OnInit {
     this.tag = _formBuilder.control(null, Validators.maxLength(50));
     this.rank = _formBuilder.control(0);
     this.parts = _formBuilder.array([], Validators.required);
+    this.sources = _formBuilder.control([]);
+    this.ids = _formBuilder.control([]);
 
     // this is the parent form for both name and ids
     this.form = _formBuilder.group({
       language: this.language,
       tag: this.tag,
+      rank: this.rank,
       parts: this.parts,
+      sources: this.sources,
+      ids: this.ids,
     });
   }
 
@@ -91,8 +99,8 @@ export class CitedPersonComponent implements OnInit {
   }
 
   private updateForm(model: CitedPerson): void {
-    this.ids = model?.ids || [];
-    this.sources$.next(model?.sources || []);
+    this.initialIds = model?.ids || [];
+    this.initialSources = model?.sources || [];
 
     if (!model) {
       this.form.reset();
@@ -126,15 +134,16 @@ export class CitedPersonComponent implements OnInit {
     };
   }
 
-  private getModel(): CitedPerson {
+  private getPerson(): CitedPerson {
     return {
       name: this.getName(),
       rank: this.rank.value,
-      ids: this.ids?.length ? this.ids : undefined,
-      sources: this.sources?.length ? this.sources : undefined,
+      ids: this.ids.value?.length ? this.ids.value : undefined,
+      sources: this.sources.value?.length ? this.sources.value : undefined,
     };
   }
 
+  // #region Parts
   private getPartGroup(part?: PersonNamePart): FormGroup {
     return this._formBuilder.group({
       type: this._formBuilder.control(part?.type, [
@@ -150,10 +159,6 @@ export class CitedPersonComponent implements OnInit {
 
   public addPart(part?: PersonNamePart): void {
     this.parts.push(this.getPartGroup(part));
-  }
-
-  public addPartBelow(index: number): void {
-    this.parts.insert(index + 1, this.getPartGroup());
   }
 
   public removePart(index: number): void {
@@ -181,14 +186,15 @@ export class CitedPersonComponent implements OnInit {
   public clearParts(): void {
     this.parts.clear();
   }
+  // #endregion
 
   public onIdsChange(ids: DecoratedId[]): void {
-    this.ids = ids;
+    this.ids.setValue(ids);
     this.form.markAsDirty();
   }
 
   public onSourcesChange(sources: DocReference[]): void {
-    this.sources = sources;
+    this.sources.setValue(sources);
     this.form.markAsDirty();
   }
 
@@ -200,7 +206,7 @@ export class CitedPersonComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
-    const model = this.getModel();
+    const model = this.getPerson();
     this.personChange.emit(model);
   }
 }

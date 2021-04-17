@@ -99,8 +99,8 @@
       <!-- ids -->
       <h4>external IDs</h4>
       <cadmus-external-ids
-        [model$]="ids$"
-        (modelChange)="onIdsChanged($event)"
+        [ids]="initialIds"
+        (idsChange)="onIdsChanged($event)"
       ></cadmus-external-ids>
     </mat-tab>
 
@@ -108,8 +108,8 @@
       <!-- sources -->
       <cadmus-doc-references
         [tagEntries]="docRefTagEntries"
-        [model$]="sources$"
-        (modelChange)="onSourcesChanged($event)"
+        [references]="initialSources"
+        (referencesChange)="onSourcesChanged($event)"
       ></cadmus-doc-references>
     </mat-tab>
 

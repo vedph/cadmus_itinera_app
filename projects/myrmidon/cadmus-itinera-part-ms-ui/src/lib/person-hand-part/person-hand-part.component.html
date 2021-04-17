@@ -54,8 +54,8 @@
         <h3>other documents</h3>
         <cadmus-doc-references
           [tagEntries]="docRefTagEntries"
-          [model$]="others$"
-          (modelChange)="onOthersChange($event)"
+          [references]="initialOthers"
+          (referencesChange)="onOthersChange($event)"
         ></cadmus-doc-references>
       </div>
     </mat-card-content>

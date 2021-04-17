@@ -6,7 +6,6 @@ import { AuthService } from '@myrmidon/cadmus-api';
 import { deepCopy, ThesaurusEntry, DocReference } from '@myrmidon/cadmus-core';
 import { MsPlacePart, MSPLACE_PART_TYPEID } from '../ms-place-part';
 import { MsLocationService } from '@myrmidon/cadmus-itinera-core';
-import { BehaviorSubject } from 'rxjs';
 
 /**
  * Manuscript's place of origin part editor.
@@ -26,11 +25,12 @@ export class MsPlacePartComponent
   public site: FormControl;
   public subscriber: FormControl;
   public subscriptionLoc: FormControl;
-  public sources$: BehaviorSubject<DocReference[]>;
-  public sources: DocReference[];
+  public sources: FormControl;
 
-  public areaEntries: ThesaurusEntry[];
-  public tagEntries: ThesaurusEntry[];
+  public initialSources: DocReference[];
+
+  public areaEntries: ThesaurusEntry[] | undefined;
+  public tagEntries: ThesaurusEntry[] | undefined;
 
   constructor(
     authService: AuthService,
@@ -38,8 +38,7 @@ export class MsPlacePartComponent
     private _msLocationService: MsLocationService
   ) {
     super(authService);
-    this.sources$ = new BehaviorSubject<DocReference[]>([]);
-    this.sources = [];
+    this.initialSources = [];
     // form
     this.area = formBuilder.control(null, [
       Validators.required,
@@ -53,6 +52,7 @@ export class MsPlacePartComponent
       null,
       Validators.pattern(MsLocationService.locRegexp)
     );
+    this.sources = formBuilder.control([]);
     this.form = formBuilder.group({
       area: this.area,
       address: this.address,
@@ -60,6 +60,7 @@ export class MsPlacePartComponent
       site: this.site,
       subscriber: this.subscriber,
       subscriptionLoc: this.subscriptionLoc,
+      sources: this.sources,
     });
   }
 
@@ -69,6 +70,7 @@ export class MsPlacePartComponent
 
   private updateForm(model: MsPlacePart): void {
     if (!model) {
+      this.initialSources = [];
       this.form.reset();
       return;
     }
@@ -80,7 +82,8 @@ export class MsPlacePartComponent
     this.subscriptionLoc.setValue(
       this._msLocationService.locationToString(model.subscriptionLoc)
     );
-    this.sources$.next(model.sources);
+
+    this.initialSources = model.sources || [];
     this.form.markAsPristine();
   }
 
@@ -93,13 +96,14 @@ export class MsPlacePartComponent
     if (this.thesauri && this.thesauri[key]) {
       this.areaEntries = this.thesauri[key].entries;
     } else {
-      this.areaEntries = null;
+      this.areaEntries = undefined;
     }
+
     key = 'doc-reference-tags';
     if (this.thesauri && this.thesauri[key]) {
       this.tagEntries = this.thesauri[key].entries;
     } else {
-      this.tagEntries = null;
+      this.tagEntries = undefined;
     }
   }
 
@@ -126,11 +130,12 @@ export class MsPlacePartComponent
     part.subscriptionLoc = this._msLocationService.parseLocation(
       this.subscriptionLoc.value
     );
-    part.sources = this.sources$.value;
+    part.sources = this.sources.value?.length ? this.sources.value : undefined;
     return part;
   }
 
   public onSourcesChange(sources: DocReference[]): void {
-    this.sources = sources;
+    this.sources.setValue(sources);
+    this.form.markAsDirty();
   }
 }
