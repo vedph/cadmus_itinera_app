@@ -24,7 +24,6 @@ import { CitedPerson, PersonName } from '@myrmidon/cadmus-itinera-core';
 export class CitedPersonsPartComponent
   extends ModelEditorComponentBase<CitedPersonsPart>
   implements OnInit {
-
   public tabIndex: number;
   public editedPerson: CitedPerson;
 
@@ -39,16 +38,13 @@ export class CitedPersonsPartComponent
 
   public persons: FormControl;
 
-  constructor(
-    authService: AuthService,
-    formBuilder: FormBuilder
-  ) {
+  constructor(authService: AuthService, formBuilder: FormBuilder) {
     super(authService);
     this.tabIndex = 0;
     // form
     this.persons = formBuilder.control([], Validators.required);
     this.form = formBuilder.group({
-      persons: this.persons
+      persons: this.persons,
     });
   }
 
@@ -114,7 +110,7 @@ export class CitedPersonsPartComponent
         persons: [],
       };
     }
-    part.persons = this.persons;
+    part.persons = this.persons.value?.length ? this.persons.value : undefined;
     return part;
   }
 
