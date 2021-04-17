@@ -229,12 +229,11 @@
           >
             <mat-expansion-panel-header>
               <mat-panel-title>person</mat-panel-title>
-              <mat-panel-description *ngIf="editedPerson">
-                {{ getFullName(editedPerson.name) }}
+              <mat-panel-description>
+                {{ getFullName(editedPerson?.name) }}
               </mat-panel-description>
             </mat-expansion-panel-header>
             <itinera-ms-history-person
-              *ngIf="editedPerson"
               [model]="editedPerson"
               [docRefTagEntries]="docRefTagEntries"
               [roleEntries]="roleEntries"

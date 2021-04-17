@@ -52,7 +52,7 @@ export class MsHistoryPersonComponent implements OnInit {
   public initialSources: DocReference[];
   public initialName: PersonName | undefined;
 
-  public date: HistoricalDateModel;
+  public date: HistoricalDateModel | undefined;
 
   constructor(formBuilder: FormBuilder) {
     this.initialIds = [];

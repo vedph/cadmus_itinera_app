@@ -277,7 +277,7 @@ export class MsHistoryPartComponent
   }
 
   // persons
-  public getFullName(name: PersonName | null): string {
+  public getFullName(name: PersonName | undefined): string {
     if (!name) {
       return '';
     }
