@@ -42,6 +42,7 @@ export class ChronotopeComponent implements OnInit {
 
   public tag: FormControl;
   public place: FormControl;
+  public placeDubious: FormControl;
   public textDate: FormControl;
   public hasDate: FormControl;
   public sources: FormControl;
@@ -60,12 +61,14 @@ export class ChronotopeComponent implements OnInit {
     // form
     this.tag = formBuilder.control(null, Validators.maxLength(50));
     this.place = formBuilder.control(null, Validators.maxLength(50));
+    this.placeDubious = formBuilder.control(false);
     this.textDate = formBuilder.control(null, Validators.maxLength(300));
     this.hasDate = formBuilder.control(false, Validators.requiredTrue);
     this.sources = formBuilder.control([]);
     this.form = formBuilder.group({
       tag: this.tag,
       place: this.place,
+      placeDubious: this.placeDubious,
       textDate: this.textDate,
       hasDate: this.hasDate,
       sources: this.sources,
@@ -98,6 +101,7 @@ export class ChronotopeComponent implements OnInit {
       this.date = model.date;
       this.tag.setValue(model.tag);
       this.place.setValue(model.place);
+      this.placeDubious.setValue(model.isPlaceDubious);
       this.textDate.setValue(model.textDate);
       this.hasDate.setValue(model.date?.a?.value ? true : false);
       this.form.markAsPristine();
@@ -108,6 +112,7 @@ export class ChronotopeComponent implements OnInit {
     return {
       tag: this.tag.value?.trim(),
       place: this.place.value?.trim(),
+      isPlaceDubious: this.placeDubious.value? true : undefined,
       date: this.date,
       textDate: this.textDate.value?.trim(),
       sources: this.sources.value?.length ? this.sources.value : undefined,

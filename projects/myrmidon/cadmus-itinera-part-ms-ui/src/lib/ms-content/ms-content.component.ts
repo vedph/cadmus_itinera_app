@@ -30,7 +30,7 @@ export class MsContentComponent implements OnInit {
   public editorClose: EventEmitter<any>;
 
   @Input()
-  public stateEntries: ThesaurusEntry[];
+  public stateEntries: ThesaurusEntry[] | undefined;
 
   public form: FormGroup;
   public author: FormControl;

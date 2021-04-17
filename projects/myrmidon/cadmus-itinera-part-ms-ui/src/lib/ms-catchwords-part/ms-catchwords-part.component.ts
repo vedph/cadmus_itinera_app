@@ -24,7 +24,7 @@ export class MsCatchwordsPartComponent
   implements OnInit {
   public catchwords: FormArray;
 
-  public posEntries: ThesaurusEntry[];
+  public posEntries: ThesaurusEntry[] | undefined;
 
   constructor(authService: AuthService, private _formBuilder: FormBuilder) {
     super(authService);
@@ -60,7 +60,7 @@ export class MsCatchwordsPartComponent
     if (this.thesauri && this.thesauri[key]) {
       this.posEntries = this.thesauri[key].entries;
     } else {
-      this.posEntries = null;
+      this.posEntries = undefined;
     }
   }
 

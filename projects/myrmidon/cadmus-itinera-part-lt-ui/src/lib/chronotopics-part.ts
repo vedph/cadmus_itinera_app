@@ -72,13 +72,16 @@ export const CHRONOTOPICS_PART_SCHEMA = {
         anyOf: [
           {
             type: 'object',
-            required: ['place', 'date'],
+            required: [],
             properties: {
               tag: {
                 type: 'string',
               },
               place: {
                 type: 'string',
+              },
+              isPlaceDubious: {
+                type: 'boolean',
               },
               date: {
                 type: 'object',

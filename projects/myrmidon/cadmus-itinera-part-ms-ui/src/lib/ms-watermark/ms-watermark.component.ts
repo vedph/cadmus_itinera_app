@@ -18,7 +18,7 @@ export class MsWatermarkComponent implements OnInit {
   public model: MsWatermark;
 
   @Input()
-  public subjectEntries: ThesaurusEntry[];
+  public subjectEntries: ThesaurusEntry[] | undefined;
 
   @Output()
   public modelChange: EventEmitter<MsWatermark>;

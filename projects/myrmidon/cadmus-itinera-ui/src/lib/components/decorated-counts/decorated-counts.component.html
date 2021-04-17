@@ -1,5 +1,5 @@
 <form [formGroup]="form">
-  <div formArrayName="counts">
+  <div formArrayName="countsArr">
     <!-- add -->
     <div>
       <button
@@ -15,7 +15,7 @@
     <!-- list -->
     <div
       *ngFor="
-        let item of counts.controls;
+        let item of countsArr.controls;
         let i = index;
         let first = first;
         let last = last
@@ -66,7 +66,7 @@
             <input />
             <mat-error
               *ngIf="
-                item['controls'].id.hasError('required') &&
+                item['controls'].id.errors?.required &&
                 (item['controls'].id.dirty || item['controls'].id.touched)
               "
               >ID required
@@ -80,14 +80,14 @@
             <input #id matInput formControlName="id" placeholder="ID" />
             <mat-error
               *ngIf="
-                item['controls'].id.hasError('required') &&
+                item['controls'].id.errors?.required &&
                 (item['controls'].id.dirty || item['controls'].id.touched)
               "
               >ID required
             </mat-error>
             <mat-error
               *ngIf="
-                item['controls'].id.hasError('max-length') &&
+                item['controls'].id.errors?.maxLength &&
                 (item['controls'].id.dirty || item['controls'].id.touched)
               "
               >ID too long
@@ -106,7 +106,7 @@
           />
           <mat-error
             *ngIf="
-              item['controls'].value.hasError('required') &&
+              item['controls'].value.errors?.required &&
               (item['controls'].value.dirty || item['controls'].value.touched)
             "
             >value required
@@ -120,7 +120,7 @@
             <input matInput formControlName="note" placeholder="note" />
             <mat-error
               *ngIf="
-                item['controls'].note.hasError('max-length') &&
+                item['controls'].note.errors?.maxLength &&
                 (item['controls'].note.dirty || item['controls'].note.touched)
               "
               >note too long

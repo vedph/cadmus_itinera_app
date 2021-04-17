@@ -60,8 +60,8 @@
 
       <mat-tab label="Decorated counts">
         <itinera-decorated-counts
-          [model$]="decoratedCounts$"
-          (modelChange)="onDecoratedCountsChange($event)"
+          [counts]="initialDecoratedCounts"
+          (countsChange)="onDecoratedCountsChange($event)"
         >
         </itinera-decorated-counts>
         <div *ngIf="lastDecoratedCounts">

@@ -18,7 +18,7 @@ export class MsHandSignComponent implements OnInit {
   public sign: MsHandSign;
 
   @Input()
-  public typeEntries: ThesaurusEntry[];
+  public typeEntries: ThesaurusEntry[] | undefined;
   @Output()
   public signChange: EventEmitter<MsHandSign>;
 

@@ -28,7 +28,7 @@ export class MsWatermarksPartComponent
   public tabIndex: number;
   public editedWatermark: MsWatermark;
 
-  public subjectEntries: ThesaurusEntry[];
+  public subjectEntries: ThesaurusEntry[] | undefined;
 
   public watermarks: MsWatermark[];
 
@@ -73,7 +73,7 @@ export class MsWatermarksPartComponent
     if (this.thesauri && this.thesauri[key]) {
       this.subjectEntries = this.thesauri[key].entries;
     } else {
-      this.subjectEntries = null;
+      this.subjectEntries = undefined;
     }
   }
 

@@ -33,8 +33,8 @@ export class SubEditorsDemoComponent implements OnInit {
 
   public initialPersonName: PersonName | undefined;
   public lastPersonName: PersonName | undefined;
-  public langEntries: ThesaurusEntry[];
-  public namePartTypeEntries: ThesaurusEntry[];
+  public langEntries: ThesaurusEntry[] | undefined;
+  public namePartTypeEntries: ThesaurusEntry[] | undefined;
 
   public initialExternalIds: string[];
   public lastExternalIds: string[];
@@ -44,7 +44,7 @@ export class SubEditorsDemoComponent implements OnInit {
 
   public lastDecoratedIds: DecoratedId[];
 
-  public decoratedCounts$: BehaviorSubject<DecoratedCount[]>;
+  public initialDecoratedCounts: DecoratedCount[];
   public lastDecoratedCounts: DecoratedCount[];
 
   public initialCitedPerson: CitedPerson;
@@ -54,7 +54,7 @@ export class SubEditorsDemoComponent implements OnInit {
 
   public dimension: PhysicalDimension;
 
-  public unitEntries: ThesaurusEntry[];
+  public unitEntries: ThesaurusEntry[] | undefined;
   public size: PhysicalSize;
 
   public set: NoteSet;
@@ -157,7 +157,7 @@ export class SubEditorsDemoComponent implements OnInit {
       },
     ];
 
-    this.decoratedCounts$ = new BehaviorSubject<DecoratedCount[]>([
+    this.initialDecoratedCounts = [
       {
         id: 'sheets',
         value: 32,
@@ -167,7 +167,7 @@ export class SubEditorsDemoComponent implements OnInit {
         id: 'guard-sheets',
         value: 2,
       },
-    ]);
+    ];
 
     this.unitEntries = [
       { id: 'mm', value: 'mm' },

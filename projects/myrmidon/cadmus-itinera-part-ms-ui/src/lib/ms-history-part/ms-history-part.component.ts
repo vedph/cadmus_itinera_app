@@ -65,17 +65,17 @@ export class MsHistoryPartComponent
 
   // thesauri:
   // history
-  public areaEntries: ThesaurusEntry[];
+  public areaEntries: ThesaurusEntry[] | undefined;
   // persons
-  public roleEntries: ThesaurusEntry[];
-  public langEntries: ThesaurusEntry[];
-  public nameTypeEntries: ThesaurusEntry[];
-  public nameTagEntries: ThesaurusEntry[];
+  public roleEntries: ThesaurusEntry[] | undefined;
+  public langEntries: ThesaurusEntry[] | undefined;
+  public nameTypeEntries: ThesaurusEntry[] | undefined;
+  public nameTagEntries: ThesaurusEntry[] | undefined;
   // annotations
-  public annTypeEntries: ThesaurusEntry[];
-  public docRefTagEntries: ThesaurusEntry[];
+  public annTypeEntries: ThesaurusEntry[] | undefined;
+  public docRefTagEntries: ThesaurusEntry[] | undefined;
   // restorations
-  public rstTypeEntries: ThesaurusEntry[];
+  public rstTypeEntries: ThesaurusEntry[] | undefined;
 
   constructor(
     authService: AuthService,
@@ -153,56 +153,56 @@ export class MsHistoryPartComponent
     if (this.thesauri && this.thesauri[key]) {
       this.areaEntries = this.thesauri[key].entries;
     } else {
-      this.areaEntries = null;
+      this.areaEntries = undefined;
     }
 
     key = 'ms-history-person-roles';
     if (this.thesauri && this.thesauri[key]) {
       this.roleEntries = this.thesauri[key].entries;
     } else {
-      this.roleEntries = null;
+      this.roleEntries = undefined;
     }
 
     key = 'ms-history-languages';
     if (this.thesauri && this.thesauri[key]) {
       this.langEntries = this.thesauri[key].entries;
     } else {
-      this.langEntries = null;
+      this.langEntries = undefined;
     }
 
     key = 'ms-annotation-types';
     if (this.thesauri && this.thesauri[key]) {
       this.annTypeEntries = this.thesauri[key].entries;
     } else {
-      this.annTypeEntries = null;
+      this.annTypeEntries = undefined;
     }
 
     key = 'ms-restoration-types';
     if (this.thesauri && this.thesauri[key]) {
       this.rstTypeEntries = this.thesauri[key].entries;
     } else {
-      this.rstTypeEntries = null;
+      this.rstTypeEntries = undefined;
     }
 
     key = 'person-name-types';
     if (this.thesauri && this.thesauri[key]) {
       this.nameTypeEntries = this.thesauri[key].entries;
     } else {
-      this.nameTypeEntries = null;
+      this.nameTypeEntries = undefined;
     }
 
     key = 'doc-reference-tags';
     if (this.thesauri && this.thesauri[key]) {
       this.docRefTagEntries = this.thesauri[key].entries;
     } else {
-      this.docRefTagEntries = null;
+      this.docRefTagEntries = undefined;
     }
 
     key = 'person-name-tags';
     if (this.thesauri && this.thesauri[key]) {
       this.nameTagEntries = this.thesauri[key].entries;
     } else {
-      this.nameTagEntries = null;
+      this.nameTagEntries = undefined;
     }
   }
 

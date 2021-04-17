@@ -33,7 +33,7 @@ export class LitDedicationsPartComponent
   public tabIndex: number;
   public editedDedication: LitDedication;
 
-  public tagEntries: ThesaurusEntry[];
+  public tagEntries: ThesaurusEntry[] | undefined;
 
   public dedications: LitDedication[];
 

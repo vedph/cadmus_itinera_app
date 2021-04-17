@@ -19,7 +19,7 @@ export class MsGuardSheetComponent implements OnInit {
   public model: MsGuardSheet;
 
   @Input()
-  public materialEntries: ThesaurusEntry[];
+  public materialEntries: ThesaurusEntry[] | undefined;
 
   @Output()
   public modelChange: EventEmitter<MsGuardSheet>;

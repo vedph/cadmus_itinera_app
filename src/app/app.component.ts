@@ -12,7 +12,7 @@ import { AppService, AppQuery } from '@myrmidon/cadmus-state';
 export class AppComponent implements OnInit {
   public user: User;
   public logged: boolean;
-  public itemBrowsers: ThesaurusEntry[];
+  public itemBrowsers: ThesaurusEntry[] | undefined;
 
   constructor(
     @Inject('itemBrowserKeys')

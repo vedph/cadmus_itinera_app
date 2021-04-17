@@ -66,8 +66,9 @@ export interface CitedPlace {
  */
 export interface Chronotope {
   tag?: string;
-  place: string;
-  date: HistoricalDateModel;
+  place?: string;
+  isPlaceDubious?: boolean;
+  date?: HistoricalDateModel;
   textDate?: string;
   sources?: DocReference[];
 }

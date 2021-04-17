@@ -31,11 +31,11 @@ export class MsHandsPartComponent
   public tabIndex: number;
   public editedHand: MsHand;
 
-  public handTypeEntries: ThesaurusEntry[];
-  public signTypeEntries: ThesaurusEntry[];
-  public reasonEntries: ThesaurusEntry[];
-  public rubrEntries: ThesaurusEntry[];
-  public langEntries: ThesaurusEntry[];
+  public handTypeEntries: ThesaurusEntry[] | undefined;
+  public signTypeEntries: ThesaurusEntry[] | undefined;
+  public reasonEntries: ThesaurusEntry[] | undefined;
+  public rubrEntries: ThesaurusEntry[] | undefined;
+  public langEntries: ThesaurusEntry[] | undefined;
 
   public hands: MsHand[];
   public count: FormControl;
@@ -81,35 +81,35 @@ export class MsHandsPartComponent
     if (this.thesauri && this.thesauri[key]) {
       this.handTypeEntries = this.thesauri[key].entries;
     } else {
-      this.handTypeEntries = null;
+      this.handTypeEntries = undefined;
     }
 
     key = 'ms-hand-sign-types';
     if (this.thesauri && this.thesauri[key]) {
       this.signTypeEntries = this.thesauri[key].entries;
     } else {
-      this.signTypeEntries = null;
+      this.signTypeEntries = undefined;
     }
 
     key = 'ms-hand-id-reasons';
     if (this.thesauri && this.thesauri[key]) {
       this.reasonEntries = this.thesauri[key].entries;
     } else {
-      this.reasonEntries = null;
+      this.reasonEntries = undefined;
     }
 
     key = 'ms-rubrication-types';
     if (this.thesauri && this.thesauri[key]) {
       this.rubrEntries = this.thesauri[key].entries;
     } else {
-      this.rubrEntries = null;
+      this.rubrEntries = undefined;
     }
 
     key = 'languages';
     if (this.thesauri && this.thesauri[key]) {
       this.langEntries = this.thesauri[key].entries;
     } else {
-      this.langEntries = null;
+      this.langEntries = undefined;
     }
   }
 

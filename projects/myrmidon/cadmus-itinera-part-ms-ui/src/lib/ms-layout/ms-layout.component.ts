@@ -11,7 +11,6 @@ import {
   DecoratedCount,
   MsLocationService,
 } from '@myrmidon/cadmus-itinera-core';
-import { BehaviorSubject } from 'rxjs';
 import { MsLayout } from '../ms-layouts-part';
 import { MsLayoutFormulaService } from './ms-layout-formula.service';
 
@@ -22,7 +21,6 @@ import { MsLayoutFormulaService } from './ms-layout-formula.service';
 })
 export class MsLayoutComponent implements OnInit {
   private _model: MsLayout | undefined;
-  private _counts: DecoratedCount[];
 
   @Input()
   public get model(): MsLayout | undefined {
@@ -34,13 +32,13 @@ export class MsLayoutComponent implements OnInit {
   }
 
   @Input()
-  public unitEntries: ThesaurusEntry[];
+  public unitEntries: ThesaurusEntry[] | undefined;
   @Input()
-  public dimEntries: ThesaurusEntry[];
+  public dimEntries: ThesaurusEntry[] | undefined;
   @Input()
-  public countEntries: ThesaurusEntry[];
+  public countEntries: ThesaurusEntry[] | undefined;
   @Input()
-  public rulingEntries: ThesaurusEntry[];
+  public rulingEntries: ThesaurusEntry[] | undefined;
 
   @Output()
   public modelChange: EventEmitter<MsLayout>;
@@ -54,10 +52,11 @@ export class MsLayoutComponent implements OnInit {
   public derolez: FormControl;
   public pricking: FormControl;
   public dimensions: FormArray;
-  public counts$: BehaviorSubject<DecoratedCount[]>;
-
+  public counts: FormControl;
   public formula: FormControl;
   public formulaForm: FormGroup;
+
+  public initialCounts: DecoratedCount[];
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -66,8 +65,7 @@ export class MsLayoutComponent implements OnInit {
   ) {
     this.modelChange = new EventEmitter<MsLayout>();
     this.editorClose = new EventEmitter<any>();
-    this._counts = [];
-    this.counts$ = new BehaviorSubject<DecoratedCount[]>([]);
+    this.initialCounts = [];
     // form
     this.sample = _formBuilder.control(null, [
       Validators.required,
@@ -78,6 +76,7 @@ export class MsLayoutComponent implements OnInit {
     this.derolez = _formBuilder.control(null, Validators.maxLength(50));
     this.pricking = _formBuilder.control(null, Validators.maxLength(50));
     this.dimensions = _formBuilder.array([]);
+    this.counts = _formBuilder.control([]);
     this.form = _formBuilder.group({
       sample: this.sample,
       colCount: this.colCount,
@@ -85,6 +84,7 @@ export class MsLayoutComponent implements OnInit {
       derolez: this.derolez,
       pricking: this.pricking,
       dimensions: this.dimensions,
+      counts: this.counts,
     });
     // layout formula
     this.formula = _formBuilder.control(
@@ -103,7 +103,7 @@ export class MsLayoutComponent implements OnInit {
   private updateForm(model: MsLayout | undefined): void {
     if (!model) {
       this.form.reset();
-      this.counts$.next([]);
+      this.initialCounts = [];
       return;
     }
     this.sample.setValue(this._locService.locationToString(model.sample));
@@ -115,7 +115,7 @@ export class MsLayoutComponent implements OnInit {
     for (let i = 0; i < model.dimensions?.length || 0; i++) {
       this.addDimension(model.dimensions[i]);
     }
-    this.counts$.next(model.counts || []);
+    this.initialCounts = model.counts || [];
 
     this.form.markAsPristine();
   }
@@ -128,7 +128,7 @@ export class MsLayoutComponent implements OnInit {
       derolez: this.derolez.value?.trim(),
       pricking: this.pricking.value?.trim(),
       dimensions: this.getDimensions(),
-      counts: this._counts.length ? this._counts : undefined,
+      counts: this.counts.value?.length ? this.counts.value : undefined,
     };
   }
 
@@ -194,8 +194,8 @@ export class MsLayoutComponent implements OnInit {
   }
   //#endregion
 
-  public onCountsChanged(counts: DecoratedCount[]): void {
-    this._counts = counts || [];
+  public onCountsChange(counts: DecoratedCount[]): void {
+    this.counts.setValue(counts);
     this.form.markAsDirty();
   }
 
@@ -207,7 +207,7 @@ export class MsLayoutComponent implements OnInit {
     if (!map) {
       return;
     }
-    this._counts.forEach((c) => {
+    this.counts.value.forEach((c: DecoratedCount) => {
       if (!map.has(c.id)) {
         map.set(c.id, c.value);
       }
@@ -219,7 +219,7 @@ export class MsLayoutComponent implements OnInit {
         value: value,
       });
     });
-    this.counts$.next(newCounts);
+    this.counts.setValue(newCounts);
   }
 
   public cancel(): void {

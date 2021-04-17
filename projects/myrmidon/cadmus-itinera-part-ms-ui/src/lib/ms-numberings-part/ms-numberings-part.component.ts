@@ -45,10 +45,10 @@ export class MsNumberingsPartComponent
   public numberings: FormArray;
   public count: FormControl;
 
-  public eraEntries: ThesaurusEntry[];
-  public sysEntries: ThesaurusEntry[];
-  public techEntries: ThesaurusEntry[];
-  public posEntries: ThesaurusEntry[];
+  public eraEntries: ThesaurusEntry[] | undefined;
+  public sysEntries: ThesaurusEntry[] | undefined;
+  public techEntries: ThesaurusEntry[] | undefined;
+  public posEntries: ThesaurusEntry[] | undefined;
 
   constructor(authService: AuthService, private _formBuilder: FormBuilder) {
     super(authService);
@@ -98,28 +98,28 @@ export class MsNumberingsPartComponent
     if (this.thesauri && this.thesauri[key]) {
       this.eraEntries = this.thesauri[key].entries;
     } else {
-      this.eraEntries = null;
+      this.eraEntries = undefined;
     }
 
     key = 'ms-numbering-systems';
     if (this.thesauri && this.thesauri[key]) {
       this.sysEntries = this.thesauri[key].entries;
     } else {
-      this.sysEntries = null;
+      this.sysEntries = undefined;
     }
 
     key = 'ms-numbering-techniques';
     if (this.thesauri && this.thesauri[key]) {
       this.techEntries = this.thesauri[key].entries;
     } else {
-      this.techEntries = null;
+      this.techEntries = undefined;
     }
 
     key = 'ms-numbering-positions';
     if (this.thesauri && this.thesauri[key]) {
       this.posEntries = this.thesauri[key].entries;
     } else {
-      this.posEntries = null;
+      this.posEntries = undefined;
     }
   }
 

@@ -23,7 +23,7 @@ export class MsContentsPartComponent
   private _editedIndex: number;
   public count: FormControl;
 
-  public stateEntries: ThesaurusEntry[];
+  public stateEntries: ThesaurusEntry[] | undefined;
 
   public contents: MsContent[];
 
@@ -71,7 +71,7 @@ export class MsContentsPartComponent
     if (this.thesauri && this.thesauri[key]) {
       this.stateEntries = this.thesauri[key].entries;
     } else {
-      this.stateEntries = null;
+      this.stateEntries = undefined;
     }
   }
 

@@ -39,9 +39,9 @@ export class MsMaterialDscPartComponent
 
   public palimpsests: MsPalimpsest[];
 
-  public materialEntries: ThesaurusEntry[];
-  public formatEntries: ThesaurusEntry[];
-  public stateEntries: ThesaurusEntry[];
+  public materialEntries: ThesaurusEntry[] | undefined;
+  public formatEntries: ThesaurusEntry[] | undefined;
+  public stateEntries: ThesaurusEntry[] | undefined;
 
   constructor(
     authService: AuthService,
@@ -97,21 +97,21 @@ export class MsMaterialDscPartComponent
     if (this.thesauri && this.thesauri[key]) {
       this.materialEntries = this.thesauri[key].entries;
     } else {
-      this.materialEntries = null;
+      this.materialEntries = undefined;
     }
 
     key = 'ms-formats';
     if (this.thesauri && this.thesauri[key]) {
       this.formatEntries = this.thesauri[key].entries;
     } else {
-      this.formatEntries = null;
+      this.formatEntries = undefined;
     }
 
     key = 'ms-states';
     if (this.thesauri && this.thesauri[key]) {
       this.stateEntries = this.thesauri[key].entries;
     } else {
-      this.stateEntries = null;
+      this.stateEntries = undefined;
     }
   }
 

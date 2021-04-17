@@ -29,13 +29,13 @@ export class CitedPersonsPartComponent
   public editedPerson: CitedPerson;
 
   // person-name-languages
-  public langEntries: ThesaurusEntry[];
+  public langEntries: ThesaurusEntry[] | undefined;
   // person-name-tags
-  public nameTagEntries: ThesaurusEntry[];
+  public nameTagEntries: ThesaurusEntry[] | undefined;
   // person-name-types
-  public nameTypeEntries: ThesaurusEntry[];
+  public nameTypeEntries: ThesaurusEntry[] | undefined;
   // person-id-tags
-  public idTagEntries: ThesaurusEntry[];
+  public idTagEntries: ThesaurusEntry[] | undefined;
 
   public persons: FormControl;
 
@@ -74,28 +74,28 @@ export class CitedPersonsPartComponent
     if (this.thesauri && this.thesauri[key]) {
       this.langEntries = this.thesauri[key].entries;
     } else {
-      this.langEntries = null;
+      this.langEntries = undefined;
     }
 
     key = 'person-name-tags';
     if (this.thesauri && this.thesauri[key]) {
       this.nameTagEntries = this.thesauri[key].entries;
     } else {
-      this.nameTagEntries = null;
+      this.nameTagEntries = undefined;
     }
 
     key = 'person-name-types';
     if (this.thesauri && this.thesauri[key]) {
       this.nameTypeEntries = this.thesauri[key].entries;
     } else {
-      this.nameTypeEntries = null;
+      this.nameTypeEntries = undefined;
     }
 
     key = 'person-id-tags';
     if (this.thesauri && this.thesauri[key]) {
       this.idTagEntries = this.thesauri[key].entries;
     } else {
-      this.idTagEntries = null;
+      this.idTagEntries = undefined;
     }
   }
 

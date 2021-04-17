@@ -28,7 +28,7 @@ export class MsPoemRangesPartComponent
   public note: FormControl;
   public count: FormControl;
 
-  public tagEntries: ThesaurusEntry[];
+  public tagEntries: ThesaurusEntry[] | undefined;
 
   public expanded: string;
 
@@ -82,7 +82,7 @@ export class MsPoemRangesPartComponent
     if (this.thesauri && this.thesauri[key]) {
       this.tagEntries = this.thesauri[key].entries;
     } else {
-      this.tagEntries = null;
+      this.tagEntries = undefined;
     }
   }
 

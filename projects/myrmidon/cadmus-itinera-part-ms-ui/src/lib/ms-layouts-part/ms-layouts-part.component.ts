@@ -36,10 +36,10 @@ export class MsLayoutsPartComponent
 
   public layouts: FormControl;
 
-  public countEntries: ThesaurusEntry[];
-  public dimEntries: ThesaurusEntry[];
-  public rulingEntries: ThesaurusEntry[];
-  public unitEntries: ThesaurusEntry[];
+  public countEntries: ThesaurusEntry[] | undefined;
+  public dimEntries: ThesaurusEntry[] | undefined;
+  public rulingEntries: ThesaurusEntry[] | undefined;
+  public unitEntries: ThesaurusEntry[] | undefined;
 
   constructor(
     authService: AuthService,
@@ -79,28 +79,28 @@ export class MsLayoutsPartComponent
     if (this.thesauri && this.thesauri[key]) {
       this.unitEntries = this.thesauri[key].entries;
     } else {
-      this.unitEntries = null;
+      this.unitEntries = undefined;
     }
 
     key = 'ms-dimensions';
     if (this.thesauri && this.thesauri[key]) {
       this.dimEntries = this.thesauri[key].entries;
     } else {
-      this.dimEntries = null;
+      this.dimEntries = undefined;
     }
 
     key = 'ms-ruling-techniques';
     if (this.thesauri && this.thesauri[key]) {
       this.rulingEntries = this.thesauri[key].entries;
     } else {
-      this.rulingEntries = null;
+      this.rulingEntries = undefined;
     }
 
     key = 'ms-counts';
     if (this.thesauri && this.thesauri[key]) {
       this.countEntries = this.thesauri[key].entries;
     } else {
-      this.countEntries = null;
+      this.countEntries = undefined;
     }
   }
 

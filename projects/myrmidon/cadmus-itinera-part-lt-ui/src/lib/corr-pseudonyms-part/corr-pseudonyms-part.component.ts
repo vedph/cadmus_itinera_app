@@ -29,8 +29,8 @@ export class CorrPseudonymsPartComponent
   public tabIndex: number;
   public editedPseudonym: CorrPseudonym;
 
-  public langEntries: ThesaurusEntry[];
-  public tagEntries: ThesaurusEntry[];
+  public langEntries: ThesaurusEntry[] | undefined;
+  public tagEntries: ThesaurusEntry[] | undefined;
 
   public pseudonyms: CorrPseudonym[];
 
@@ -75,14 +75,14 @@ export class CorrPseudonymsPartComponent
     if (this.thesauri && this.thesauri[key]) {
       this.langEntries = this.thesauri[key].entries;
     } else {
-      this.langEntries = null;
+      this.langEntries = undefined;
     }
 
     key = 'doc-reference-tags';
     if (this.thesauri && this.thesauri[key]) {
       this.tagEntries = this.thesauri[key].entries;
     } else {
-      this.tagEntries = null;
+      this.tagEntries = undefined;
     }
   }
 

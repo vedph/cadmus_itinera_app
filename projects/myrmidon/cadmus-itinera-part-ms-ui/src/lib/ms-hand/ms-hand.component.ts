@@ -38,15 +38,15 @@ export class MsHandComponent implements OnInit {
   public editorClose: EventEmitter<any>;
 
   @Input()
-  public handTypeEntries: ThesaurusEntry[];
+  public handTypeEntries: ThesaurusEntry[] | undefined;
   @Input()
-  public signTypeEntries: ThesaurusEntry[];
+  public signTypeEntries: ThesaurusEntry[] | undefined;
   @Input()
-  public reasonEntries: ThesaurusEntry[];
+  public reasonEntries: ThesaurusEntry[] | undefined;
   @Input()
-  public rubrEntries: ThesaurusEntry[];
+  public rubrEntries: ThesaurusEntry[] | undefined;
   @Input()
-  public langEntries: ThesaurusEntry[];
+  public langEntries: ThesaurusEntry[] | undefined;
 
   // general
   public id: FormControl;

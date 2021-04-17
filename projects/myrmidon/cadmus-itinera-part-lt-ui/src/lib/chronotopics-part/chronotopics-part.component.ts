@@ -34,8 +34,8 @@ export class ChronotopicsPartComponent
   public tabIndex: number;
   public editedChronotope: Chronotope;
 
-  public tagEntries: ThesaurusEntry[];
-  public docRefTagEntries: ThesaurusEntry[];
+  public tagEntries: ThesaurusEntry[] | undefined;
+  public docRefTagEntries: ThesaurusEntry[] | undefined;
 
   public chronotopes: Chronotope[];
 
@@ -80,14 +80,14 @@ export class ChronotopicsPartComponent
     if (this.thesauri && this.thesauri[key]) {
       this.tagEntries = this.thesauri[key].entries;
     } else {
-      this.tagEntries = null;
+      this.tagEntries = undefined;
     }
 
     key = 'doc-reference-tags';
     if (this.thesauri && this.thesauri[key]) {
       this.docRefTagEntries = this.thesauri[key].entries;
     } else {
-      this.docRefTagEntries = null;
+      this.docRefTagEntries = undefined;
     }
   }
 

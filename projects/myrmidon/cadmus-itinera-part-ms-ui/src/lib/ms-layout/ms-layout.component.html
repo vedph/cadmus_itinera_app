@@ -225,8 +225,8 @@
     </div>
     <itinera-decorated-counts
       [idEntries]="countEntries"
-      [model$]="counts$"
-      (modelChange)="onCountsChanged($event)"
+      [counts]="initialCounts"
+      (countsChange)="onCountsChange($event)"
     ></itinera-decorated-counts>
   </div>
 

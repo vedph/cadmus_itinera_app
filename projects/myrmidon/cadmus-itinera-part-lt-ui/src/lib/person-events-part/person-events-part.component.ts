@@ -34,9 +34,9 @@ export class PersonEventsPartComponent
   public tabIndex: number;
   public editedEvent: BioEvent;
 
-  public typeEntries: ThesaurusEntry[];
-  public partTagEntries: ThesaurusEntry[];
-  public docRefTagEntries: ThesaurusEntry[];
+  public typeEntries: ThesaurusEntry[] | undefined;
+  public partTagEntries: ThesaurusEntry[] | undefined;
+  public docRefTagEntries: ThesaurusEntry[] | undefined;
 
   public events: BioEvent[];
 
@@ -81,21 +81,21 @@ export class PersonEventsPartComponent
     if (this.thesauri && this.thesauri[key]) {
       this.typeEntries = this.thesauri[key].entries;
     } else {
-      this.typeEntries = null;
+      this.typeEntries = undefined;
     }
 
     key = 'event-participant-tags';
     if (this.thesauri && this.thesauri[key]) {
       this.partTagEntries = this.thesauri[key].entries;
     } else {
-      this.partTagEntries = null;
+      this.partTagEntries = undefined;
     }
 
     key = 'doc-reference-tags';
     if (this.thesauri && this.thesauri[key]) {
       this.docRefTagEntries = this.thesauri[key].entries;
     } else {
-      this.docRefTagEntries = null;
+      this.docRefTagEntries = undefined;
     }
   }
 

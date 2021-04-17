@@ -25,7 +25,7 @@ export class MsSignaturesPartComponent
   implements OnInit, AfterViewInit, OnDestroy {
   private _citySubscription: Subscription;
 
-  public tagEntries: ThesaurusEntry[];
+  public tagEntries: ThesaurusEntry[] | undefined;
 
   public form: FormGroup;
   public signatures: FormArray;
@@ -81,7 +81,7 @@ export class MsSignaturesPartComponent
     if (this.thesauri && this.thesauri[key]) {
       this.tagEntries = this.thesauri[key].entries;
     } else {
-      this.tagEntries = null;
+      this.tagEntries = undefined;
     }
   }
 
