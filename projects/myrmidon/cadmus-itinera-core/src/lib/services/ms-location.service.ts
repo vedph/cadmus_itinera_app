@@ -17,7 +17,7 @@ export class MsLocationService {
   );
   public static readonly rangesRegexp = new RegExp(
     '^(?:([0-9]+|[IVX]+)([a-z]{0,2})\\s*([0-9]+)?(\\s*-\\s*([0-9]+|[IVX]+)([a-z]{0,2})\\s*([0-9]+)?)?)*$'
-  )
+  );
 
   /**
    * Parse the text representing a MsLocation, in the form
@@ -65,7 +65,9 @@ export class MsLocationService {
    * @param location The location. If null, null is returned.
    * @returns String with form nr + suffix + ln, like "36r12", "IIrv13", etc.
    */
-  public locationToString(location: MsLocation | undefined): string | null {
+  public locationToString(
+    location: MsLocation | undefined | null
+  ): string | null {
     if (!location || location.n === null || location.n === undefined) {
       return null;
     }
@@ -92,7 +94,9 @@ export class MsLocationService {
    * @param range The range.
    * @returns String or null.
    */
-  public rangeToString(range: MsLocationRange | undefined): string | null {
+  public rangeToString(
+    range?: MsLocationRange | undefined | null
+  ): string | null {
     if (!range || !range.start) {
       return null;
     }

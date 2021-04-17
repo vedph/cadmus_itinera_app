@@ -51,7 +51,7 @@ export class MsQuiresService {
    * @param text The text.
    * @returns Quire or null.
    */
-  public parseQuire(text: string | null): MsQuire | null {
+  public parseQuire(text: string | undefined | null): MsQuire | null {
     if (!text) {
       return null;
     }
@@ -67,7 +67,7 @@ export class MsQuiresService {
    * by whitespace.
    * @returns Array of quires.
    */
-  public parseQuires(text: string | null): MsQuire[] {
+  public parseQuires(text: string | undefined | null): MsQuire[] {
     if (!text) {
       return [];
     }
@@ -106,7 +106,7 @@ export class MsQuiresService {
     sb.push(quire.sheetCount.toString());
     // ±delta
     if (quire.sheetDelta) {
-      sb.push(quire.sheetDelta < 0? '' : '+');
+      sb.push(quire.sheetDelta < 0 ? '' : '+');
       sb.push(quire.sheetDelta.toString());
     }
     // {note}
@@ -124,7 +124,7 @@ export class MsQuiresService {
    * @param quires The quires.
    * @returns The string.
    */
-  public quiresToString(quires: MsQuire[] | null): string {
+  public quiresToString(quires: MsQuire[] | undefined | null): string {
     if (!quires?.length) {
       return '';
     }

@@ -28,7 +28,7 @@ export class AlnumRangeService {
    * @param text The text.
    * @returns Range or null.
    */
-  public parseRange(text: string | null): AlnumRange | null {
+  public parseRange(text: string | undefined | null): AlnumRange | null {
     if (!text) {
       return null;
     }
@@ -41,7 +41,7 @@ export class AlnumRangeService {
    * @param text The text.
    * @returns Array of ranges.
    */
-  public parseRanges(text: string | null): AlnumRange[] {
+  public parseRanges(text: string | undefined | null): AlnumRange[] {
     if (!text) {
       return [];
     }
@@ -58,7 +58,7 @@ export class AlnumRangeService {
    * @param range The range or null.
    * @returns The string.
    */
-  public rangeToString(range: AlnumRange | null): string {
+  public rangeToString(range: AlnumRange | undefined | null): string {
     if (!range?.a) {
       return '';
     }
@@ -80,7 +80,7 @@ export class AlnumRangeService {
    * @param ranges The ranges.
    * @returns The string.
    */
-  public rangesToString(ranges: AlnumRange[] | null): string {
+  public rangesToString(ranges: AlnumRange[] | undefined | null): string {
     if (!ranges?.length) {
       return '';
     }

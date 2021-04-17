@@ -19,7 +19,7 @@ export class Alnum {
     this.a = a;
   }
 
-  public static parse(text: string | null): Alnum | null {
+  public static parse(text: string | undefined | null): Alnum | null {
     if (!text) {
       return null;
     }
@@ -43,7 +43,7 @@ export class Alnum {
    * @param other The other alphanumeric.
    * @returns 0=equal, 1=this > other, -1=this < other.
    */
-  public compare(other: Alnum | null): number {
+  public compare(other: Alnum | undefined | null): number {
     if (!other) {
       return 1;
     }
