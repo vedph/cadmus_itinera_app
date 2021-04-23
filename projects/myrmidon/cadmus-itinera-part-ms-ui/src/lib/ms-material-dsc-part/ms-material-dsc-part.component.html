@@ -128,7 +128,7 @@
               <mat-icon>add_circle</mat-icon> add
             </button>
           </div>
-          <table *ngIf="palimpsests?.length">
+          <table *ngIf="palimpsests.value?.length">
             <thead>
               <tr>
                 <th></th>
@@ -138,7 +138,7 @@
             <tbody>
               <tr
                 *ngFor="
-                  let p of palimpsests;
+                  let p of palimpsests.value;
                   let i = index;
                   let first = first;
                   let last = last
@@ -191,8 +191,8 @@
         <mat-tab label="palimpsest" *ngIf="editedPalimpsest">
           <itinera-ms-palimpsest
             [model]="editedPalimpsest"
-            (modelChange)="onPalimpsestSaved($event)"
-            (editorClose)="onPalimpsestClosed()"
+            (modelChange)="onPalimpsestChange($event)"
+            (editorClose)="onPalimpsestClose()"
           >
           </itinera-ms-palimpsest>
         </mat-tab>

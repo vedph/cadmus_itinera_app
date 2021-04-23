@@ -30,14 +30,13 @@ export class MsMaterialDscPartComponent
   private _editedIndex: number;
 
   public tabIndex: number;
-  public editedPalimpsest: MsPalimpsest;
+  public editedPalimpsest: MsPalimpsest | undefined;
 
   public material: FormControl;
   public format: FormControl;
   public state: FormControl;
   public stateNote: FormControl;
-
-  public palimpsests: MsPalimpsest[];
+  public palimpsests: FormControl;
 
   public materialEntries: ThesaurusEntry[] | undefined;
   public formatEntries: ThesaurusEntry[] | undefined;
@@ -63,11 +62,13 @@ export class MsMaterialDscPartComponent
       Validators.maxLength(50),
     ]);
     this.stateNote = formBuilder.control(null, [Validators.maxLength(500)]);
+    this.palimpsests = formBuilder.control([]);
     this.form = formBuilder.group({
       material: this.material,
       format: this.format,
       state: this.state,
       stateNote: this.stateNote,
+      palimpsests: this.palimpsests,
     });
   }
 
@@ -84,7 +85,7 @@ export class MsMaterialDscPartComponent
     this.format.setValue(model.format);
     this.state.setValue(model.state);
     this.stateNote.setValue(model.stateNote);
-    this.palimpsests = model.palimpsests || [];
+    this.palimpsests.setValue(model.palimpsests || []);
     this.form.markAsPristine();
   }
 
@@ -136,41 +137,50 @@ export class MsMaterialDscPartComponent
     part.format = this.format.value?.trim();
     part.state = this.state.value?.trim();
     part.stateNote = this.stateNote.value?.trim();
-    part.palimpsests = this.palimpsests?.length ? this.palimpsests : null;
+    part.palimpsests = this.palimpsests.value?.length
+      ? this.palimpsests.value
+      : null;
     return part;
   }
 
   public addPalimpsest(): void {
-    const sheet: MsPalimpsest = {
+    this._editedIndex = -1;
+    this.editedPalimpsest = {
       location: null,
     };
-    this.palimpsests = [...this.palimpsests, sheet];
-    this.editPalimpsest(this.palimpsests.length - 1);
+    setTimeout(() => {
+      this.tabIndex = 1;
+    }, 300);
+  }
+
+  public closePalimpsestEditor(): void {
+    this._editedIndex = -1;
+    this.tabIndex = 0;
+    this.editedPalimpsest = undefined;
   }
 
   public editPalimpsest(index: number): void {
-    if (index < 0) {
-      this._editedIndex = -1;
-      this.tabIndex = 0;
-      this.editedPalimpsest = null;
+    this._editedIndex = index;
+    this.editedPalimpsest = this.palimpsests.value[index];
+    setTimeout(() => {
+      this.tabIndex = 1;
+    }, 300);
+  }
+
+  public onPalimpsestChange(palimpsest: MsPalimpsest): void {
+    const palimpsests = this.palimpsests.value;
+    if (this._editedIndex === -1) {
+      palimpsests.push(palimpsest);
     } else {
-      this._editedIndex = index;
-      this.editedPalimpsest = this.palimpsests[index];
-      setTimeout(() => {
-        this.tabIndex = 1;
-      }, 300);
+      palimpsests.splice(this._editedIndex, 1, palimpsest);
     }
+    this.palimpsests.setValue(palimpsests);
+    this.closePalimpsestEditor();
+    this.form.markAsDirty();
   }
 
-  public onPalimpsestSaved(sheet: MsPalimpsest): void {
-    this.palimpsests = this.palimpsests.map((s, i) =>
-      i === this._editedIndex ? sheet : s
-    );
-    this.editPalimpsest(-1);
-  }
-
-  public onPalimpsestClosed(): void {
-    this.editPalimpsest(-1);
+  public onPalimpsestClose(): void {
+    this.closePalimpsestEditor();
   }
 
   public deletePalimpsest(index: number): void {
@@ -179,9 +189,8 @@ export class MsMaterialDscPartComponent
       .pipe(take(1))
       .subscribe((yes) => {
         if (yes) {
-          const sheets = [...this.palimpsests];
-          sheets.splice(index, 1);
-          this.palimpsests = sheets;
+          this.palimpsests.value.splice(index, 1);
+          this.form.markAsDirty();
         }
       });
   }
@@ -190,22 +199,24 @@ export class MsMaterialDscPartComponent
     if (index < 1) {
       return;
     }
-    const sheet = this.palimpsests[index];
-    const sheets = [...this.palimpsests];
+    const sheet = this.palimpsests.value[index];
+    const sheets = [...this.palimpsests.value];
     sheets.splice(index, 1);
     sheets.splice(index - 1, 0, sheet);
-    this.palimpsests = sheets;
+    this.palimpsests.setValue(sheets);
+    this.form.markAsDirty();
   }
 
   public movePalimpsestDown(index: number): void {
-    if (index + 1 >= this.palimpsests.length) {
+    if (index + 1 >= this.palimpsests.value.length) {
       return;
     }
-    const sheet = this.palimpsests[index];
-    const sheets = [...this.palimpsests];
+    const sheet = this.palimpsests.value[index];
+    const sheets = [...this.palimpsests.value];
     sheets.splice(index, 1);
     sheets.splice(index + 1, 0, sheet);
-    this.palimpsests = sheets;
+    this.palimpsests.setValue(sheets);
+    this.form.markAsDirty();
   }
 
   public locationToString(location: MsLocation): string {
