@@ -3,7 +3,7 @@
     <!-- type (bound) -->
     <mat-form-field *ngIf="decArtTypeEntries?.length" style="width: 8em">
       <mat-select [formControl]="type" placeholder="type">
-        <mat-option *ngFor="let e of typeEntries" [value]="e.id">{{
+        <mat-option *ngFor="let e of decArtTypeEntries" [value]="e.id">{{
           e.value
         }}</mat-option>
         <mat-error *ngIf="type.errors?.required && (type.dirty || type.touched)"

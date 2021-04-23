@@ -39,9 +39,22 @@
       >
     </mat-form-field>
 
-    <!-- state -->
     &nbsp;
-    <mat-form-field>
+    <!-- state (bound) -->
+    <mat-form-field *ngIf="stateEntries?.length" style="width: 8em">
+      <mat-select [formControl]="state" placeholder="state">
+        <mat-option *ngFor="let e of stateEntries" [value]="e.id"
+          >{{ e.value }}</mat-option
+        >
+      </mat-select>
+      <mat-error
+        *ngIf="state.errors?.required && (state.dirty || state.touched)"
+        >state required</mat-error
+      >
+    </mat-form-field>
+
+    <!-- state (free)-->
+    <mat-form-field *ngIf="!stateEntries?.length" style="width: 8em">
       <input matInput [formControl]="state" placeholder="state" />
       <mat-error
         *ngIf="state.errors?.maxLength && (state.dirty || state.touched)"

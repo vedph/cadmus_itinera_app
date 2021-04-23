@@ -243,11 +243,12 @@ export class MsDecorationComponent implements OnInit {
   }
 
   public addElement(): void {
-    this.editElement({
+    this.editedElementIndex = -1;
+    this.editedElement = {
       type: 'pag-inc',
       flags: [],
       ranges: [],
-    });
+    };
   }
 
   public onElementChange(element: MsDecorationElement): void {

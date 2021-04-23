@@ -53,7 +53,7 @@ export class MsLayoutsPartComponent
     // form
     this.layouts = formBuilder.control([], Validators.required);
     this.form = formBuilder.group({
-      entries: this.layouts,
+      layouts: this.layouts,
     });
   }
 
@@ -119,7 +119,7 @@ export class MsLayoutsPartComponent
         layouts: [],
       };
     }
-    part.entries = this.layouts.value || [];
+    part.layouts = this.layouts.value || [];
     return part;
   }
 
@@ -165,9 +165,9 @@ export class MsLayoutsPartComponent
       .pipe(take(1))
       .subscribe((yes) => {
         if (yes) {
-          const entries = [...this.layouts.value];
-          entries.splice(index, 1);
-          this.layouts.setValue(entries);
+          const layouts = [...this.layouts.value];
+          layouts.splice(index, 1);
+          this.layouts.setValue(layouts);
         }
       });
   }
@@ -176,22 +176,22 @@ export class MsLayoutsPartComponent
     if (index < 1) {
       return;
     }
-    const entry = this.layouts.value[index];
-    const entries = [...this.layouts.value];
-    entries.splice(index, 1);
-    entries.splice(index - 1, 0, entry);
-    this.layouts.setValue(entries);
+    const layout = this.layouts.value[index];
+    const layouts = [...this.layouts.value];
+    layouts.splice(index, 1);
+    layouts.splice(index - 1, 0, layout);
+    this.layouts.setValue(layouts);
   }
 
   public moveLayoutDown(index: number): void {
     if (index + 1 >= this.layouts.value.length) {
       return;
     }
-    const entry = this.layouts.value[index];
-    const entries = [...this.layouts.value];
-    entries.splice(index, 1);
-    entries.splice(index + 1, 0, entry);
-    this.layouts.setValue(entries);
+    const layout = this.layouts.value[index];
+    const layouts = [...this.layouts.value];
+    layouts.splice(index, 1);
+    layouts.splice(index + 1, 0, layout);
+    this.layouts.setValue(layouts);
   }
 
   public locationToString(location: MsLocation | undefined): string {
