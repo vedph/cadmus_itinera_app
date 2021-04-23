@@ -78,7 +78,7 @@ export class MsPlacePartComponent
     this.address.setValue(model.address);
     this.city.setValue(model.city);
     this.site.setValue(model.site);
-    this.subscriber.setValue(model.city);
+    this.subscriber.setValue(model.subscriber);
     this.subscriptionLoc.setValue(
       this._msLocationService.locationToString(model.subscriptionLoc)
     );
