@@ -29,6 +29,8 @@ import { take } from 'rxjs/operators';
   styleUrls: ['./ms-hand.component.css'],
 })
 export class MsHandComponent implements OnInit {
+  private _handNotePropEntries: ThesaurusEntry[] | undefined;
+
   @Input()
   public model: MsHand;
 
@@ -47,6 +49,14 @@ export class MsHandComponent implements OnInit {
   public rubrEntries: ThesaurusEntry[] | undefined;
   @Input()
   public langEntries: ThesaurusEntry[] | undefined;
+  @Input()
+  public get handNotePropEntries(): ThesaurusEntry[] | undefined {
+    return this._handNotePropEntries;
+  }
+  public set handNotePropEntries(value: ThesaurusEntry[] | undefined) {
+    this._handNotePropEntries = value;
+    this.updateNoteSetDefs();
+  }
 
   // general
   public id: FormControl;
@@ -107,31 +117,8 @@ export class MsHandComponent implements OnInit {
     this.description = _formBuilder.control(null, Validators.maxLength(1000));
     this.imageIds = _formBuilder.control(null, Validators.maxLength(500));
     // form - notes
-    this.noteSet = {
-      definitions: [
-        {
-          key: 'i',
-          label: 'initials',
-          maxLength: 500,
-        },
-        {
-          key: 'c',
-          label: 'corrections',
-          maxLength: 500,
-        },
-        {
-          key: 'p',
-          label: 'punctuation',
-          maxLength: 500,
-        },
-        {
-          key: 'a',
-          label: 'abbreviations',
-          markdown: true,
-          maxLength: 1000,
-        },
-      ],
-    };
+    this.noteSet = { definitions: [] };
+    this.updateNoteSetDefs();
     // form - rubrications
     this.rubrications = _formBuilder.array([]);
     // form - subscription
@@ -172,6 +159,76 @@ export class MsHandComponent implements OnInit {
       subPresent: this.subPresent,
       subscription: this.subForm,
     });
+  }
+
+  private parseNoteDefEntry(
+    entry: ThesaurusEntry
+  ): { label: string; maxLength: number, markdown: boolean } {
+    // value: label|LEN*
+    let text = entry.value;
+    let md = false;
+    if (text.endsWith('*')) {
+      md = true;
+      text = text.substr(0, text.length - 1);
+    }
+
+    const i = text.lastIndexOf('|');
+    return i > -1
+      ? {
+          label: text.substr(0, i),
+          maxLength: +text.substr(i + 1),
+          markdown: md
+        }
+      : {
+          label: text,
+          maxLength: 500,
+          markdown: md
+        };
+  }
+
+  private updateNoteSetDefs(): void {
+    const defs = [
+      {
+        key: 'i',
+        label: 'initials',
+        maxLength: 500,
+      },
+      {
+        key: 'c',
+        label: 'corrections',
+        maxLength: 500,
+      },
+      {
+        key: 'p',
+        label: 'punctuation',
+        maxLength: 500,
+      },
+      {
+        key: 'a',
+        label: 'abbreviations',
+        markdown: true,
+        maxLength: 1000,
+      },
+    ];
+    if (this._handNotePropEntries?.length) {
+      let entry = this._handNotePropEntries.find((e) => e.id === 'initials');
+      if (entry) {
+        Object.assign(defs[0], this.parseNoteDefEntry(entry));
+      }
+      entry = this._handNotePropEntries.find((e) => e.id === 'corrections');
+      if (entry) {
+        Object.assign(defs[1], this.parseNoteDefEntry(entry));
+      }
+      entry = this._handNotePropEntries.find((e) => e.id === 'punctuation');
+      if (entry) {
+        Object.assign(defs[2], this.parseNoteDefEntry(entry));
+      }
+      entry = this._handNotePropEntries.find((e) => e.id === 'abbreviations');
+      if (entry) {
+        Object.assign(defs[3], this.parseNoteDefEntry(entry));
+      }
+    }
+    this.noteSet.definitions = defs;
   }
 
   private toggleSubscription(enabled: boolean): void {

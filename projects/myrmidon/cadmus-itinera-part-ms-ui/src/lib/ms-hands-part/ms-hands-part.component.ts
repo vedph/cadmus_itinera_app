@@ -16,7 +16,7 @@ import { take } from 'rxjs/operators';
 /**
  * Manuscript's hands part.
  * Thesauri: ms-hand-id-reasons, ms-hand-types, ms-hand-sign-types,
- * ms-rubrication-types, ms-languages (all optional).
+ * ms-rubrication-types, ms-languages, ms-hand-note-props (all optional).
  */
 @Component({
   selector: 'itinera-ms-hands-part',
@@ -36,6 +36,8 @@ export class MsHandsPartComponent
   public reasonEntries: ThesaurusEntry[] | undefined;
   public rubrEntries: ThesaurusEntry[] | undefined;
   public langEntries: ThesaurusEntry[] | undefined;
+  // ms-hand-note-props is used to label the MsHand note-properties
+  public handNotePropEntries: ThesaurusEntry[] | undefined;
 
   public hands: MsHand[];
   public count: FormControl;
@@ -110,6 +112,13 @@ export class MsHandsPartComponent
       this.langEntries = this.thesauri[key].entries;
     } else {
       this.langEntries = undefined;
+    }
+
+    key = 'ms-hand-note-props';
+    if (this.thesauri && this.thesauri[key]) {
+      this.handNotePropEntries = this.thesauri[key].entries;
+    } else {
+      this.handNotePropEntries = undefined;
     }
   }
 

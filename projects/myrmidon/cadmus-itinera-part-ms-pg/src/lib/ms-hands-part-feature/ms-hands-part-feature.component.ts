@@ -44,6 +44,7 @@ export class MsHandsPartFeatureComponent
       'ms-hand-sign-types',
       'ms-rubrication-types',
       'ms-languages',
+      'ms-hand-note-props'
     ]);
   }
 }
