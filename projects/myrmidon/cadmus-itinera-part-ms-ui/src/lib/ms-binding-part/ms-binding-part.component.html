@@ -144,7 +144,8 @@
         <!-- size -->
         <h4>size</h4>
         <cadmus-physical-size
-          [(size)]="size"
+          [size]="initialSize"
+          (sizeChange)="onSizeChange($event)"
           [tagEntries]="sizeTagEntries"
           [dimTagEntries]="dimTagEntries"
           [unitEntries]="unitEntries"

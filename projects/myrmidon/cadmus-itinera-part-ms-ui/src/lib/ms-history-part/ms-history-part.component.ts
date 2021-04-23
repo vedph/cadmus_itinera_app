@@ -91,7 +91,7 @@ export class MsHistoryPartComponent
     this.annotationIndex = -1;
     this.restorationIndex = -1;
     // form
-    this.provenances = _formBuilder.array([], Validators.required);
+    this.provenances = _formBuilder.array([]);
     this.history = _formBuilder.control(null, [
       Validators.required,
       Validators.maxLength(5000),

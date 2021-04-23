@@ -25,8 +25,9 @@ export class MsBindingPartComponent
   public coverMaterial: FormControl;
   public supportMaterial: FormControl;
   public description: FormControl;
+  public size: FormControl;
 
-  public size: PhysicalSize;
+  public initialSize: PhysicalSize | undefined;
 
   public editorOptions = {
     theme: 'vs-light',
@@ -62,11 +63,13 @@ export class MsBindingPartComponent
       Validators.required,
       Validators.maxLength(5000),
     ]);
+    this.size = formBuilder.control(null);
     this.form = formBuilder.group({
       century: this.century,
       coverMaterial: this.coverMaterial,
       supportMaterial: this.supportMaterial,
       description: this.description,
+      size: this.size
     });
   }
 
@@ -77,14 +80,14 @@ export class MsBindingPartComponent
   private updateForm(model: MsBindingPart): void {
     if (!model) {
       this.form.reset();
-      this.size = null;
+      this.initialSize = undefined;
       return;
     }
     this.century.setValue(model.century);
     this.coverMaterial.setValue(model.coverMaterial);
     this.supportMaterial.setValue(model.supportMaterial);
     this.description.setValue(model.description);
-    this.size = model.size;
+    this.initialSize = model.size;
     this.form.markAsPristine();
   }
 
@@ -151,7 +154,12 @@ export class MsBindingPartComponent
     part.coverMaterial = this.coverMaterial.value?.trim();
     part.supportMaterial = this.supportMaterial.value?.trim();
     part.description = this.description.value?.trim();
-    part.size = this.size;
+    part.size = this.size.value;
     return part;
+  }
+
+  public onSizeChange(size: PhysicalSize): void {
+    this.size.setValue(size);
+    this.form.markAsDirty();
   }
 }
