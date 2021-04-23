@@ -35,19 +35,28 @@
       >
     </mat-form-field>
 
-    <!-- location -->
+    <!-- start -->
     &nbsp;
-    <mat-form-field>
-      <input matInput [formControl]="location" placeholder="location" />
+    <mat-form-field style="width: 6em;">
+      <input matInput [formControl]="start" placeholder="start" />
       <mat-error
-        *ngIf="
-          location.errors?.required && (location.dirty || location.touched)
-        "
-        >location required</mat-error
+        *ngIf="start.errors?.required && (start.dirty || start.touched)"
+        >required</mat-error
       >
+      <mat-error *ngIf="start.errors?.pattern && (start.dirty || start.touched)"
+        >invalid</mat-error
+      >
+    </mat-form-field>
+    &nbsp;-&nbsp;
+    <!-- end -->
+    <mat-form-field style="width: 6em;">
+      <input matInput [formControl]="end" placeholder="end" />
       <mat-error
-        *ngIf="location.errors?.pattern && (location.dirty || location.touched)"
-        >invalid location</mat-error
+        *ngIf="end.errors?.required && (end.dirty || end.touched)"
+        >required</mat-error
+      >
+      <mat-error *ngIf="end.errors?.pattern && (end.dirty || end.touched)"
+        >invalid</mat-error
       >
     </mat-form-field>
   </div>
@@ -62,7 +71,7 @@
 
   <div>
     <!-- note -->
-    <mat-form-field style="width: 90%;max-width: 800px;">
+    <mat-form-field style="width: 90%; max-width: 800px">
       <textarea
         placeholder="note"
         matInput

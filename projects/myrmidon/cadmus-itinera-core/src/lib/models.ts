@@ -1,8 +1,4 @@
-import {
-  DocReference,
-  HistoricalDateModel,
-  PhysicalSize,
-} from '@myrmidon/cadmus-core';
+import { DocReference, HistoricalDateModel } from '@myrmidon/cadmus-core';
 
 /**
  * A part of a PersonName.
@@ -164,7 +160,7 @@ export interface MsSignature {
 export interface MsGuardSheet {
   isBack: boolean;
   material: string;
-  location: MsLocation;
+  range: MsLocationRange;
   date?: HistoricalDateModel;
   note?: string;
 }
@@ -233,7 +229,7 @@ export interface MsNumbering {
  * A palimpsest sheet of a manuscript.
  */
 export interface MsPalimpsest {
-  location: MsLocation;
+  range: MsLocationRange;
   date?: HistoricalDateModel;
   note?: string;
 }

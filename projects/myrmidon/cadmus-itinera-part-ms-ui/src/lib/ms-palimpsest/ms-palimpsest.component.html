@@ -1,17 +1,25 @@
 <form [formGroup]="form" (submit)="save()">
-  <!-- location -->
   <div>
+    <!-- start -->
     <mat-form-field style="width: 8em">
-      <input matInput [formControl]="location" placeholder="location" />
+      <input matInput [formControl]="start" placeholder="start" />
       <mat-error
-        *ngIf="
-          location.errors?.required && (location.dirty || location.touched)
-        "
-        >location required</mat-error
+        *ngIf="start.errors?.required && (start.dirty || start.touched)"
+        >required</mat-error
       >
-      <mat-error
-        *ngIf="location.errors?.pattern && (location.dirty || location.touched)"
-        >invalid location</mat-error
+      <mat-error *ngIf="start.errors?.pattern && (start.dirty || start.touched)"
+        >invalid</mat-error
+      >
+    </mat-form-field>
+    &nbsp;-&nbsp;
+    <!-- end -->
+    <mat-form-field style="width: 8em">
+      <input matInput [formControl]="end" placeholder="end" />
+      <mat-error *ngIf="end.errors?.required && (end.dirty || end.touched)"
+        >required</mat-error
+      >
+      <mat-error *ngIf="end.errors?.pattern && (end.dirty || end.touched)"
+        >invalid</mat-error
       >
     </mat-form-field>
   </div>

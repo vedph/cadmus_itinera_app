@@ -30,7 +30,8 @@ export class MsGuardSheetComponent implements OnInit {
   public form: FormGroup;
   public back: FormControl;
   public material: FormControl;
-  public location: FormControl;
+  public start: FormControl;
+  public end: FormControl;
   public note: FormControl;
 
   public date: HistoricalDateModel;
@@ -48,7 +49,11 @@ export class MsGuardSheetComponent implements OnInit {
       Validators.required,
       Validators.maxLength(50),
     ]);
-    this.location = formBuilder.control(null, [
+    this.start = formBuilder.control(null, [
+      Validators.required,
+      Validators.pattern(MsLocationService.locRegexp),
+    ]);
+    this.end = formBuilder.control(null, [
       Validators.required,
       Validators.pattern(MsLocationService.locRegexp),
     ]);
@@ -56,7 +61,8 @@ export class MsGuardSheetComponent implements OnInit {
     this.form = formBuilder.group({
       back: this.back,
       material: this.material,
-      location: this.location,
+      start: this.start,
+      end: this.end,
       note: this.note,
     });
   }
@@ -74,8 +80,11 @@ export class MsGuardSheetComponent implements OnInit {
     this.date = model.date;
     this.back.setValue(model.isBack);
     this.material.setValue(model.material);
-    this.location.setValue(
-      this._msLocationService.locationToString(model.location)
+    this.start.setValue(
+      this._msLocationService.locationToString(model.range?.start)
+    );
+    this.end.setValue(
+      this._msLocationService.locationToString(model.range?.end)
     );
     this.note.setValue(model.note);
     this.form.markAsPristine();
@@ -85,7 +94,10 @@ export class MsGuardSheetComponent implements OnInit {
     return {
       isBack: this.back.value,
       material: this.material.value?.trim(),
-      location: this._msLocationService.parseLocation(this.location.value),
+      range: {
+        start: this._msLocationService.parseLocation(this.start.value),
+        end: this._msLocationService.parseLocation(this.end.value),
+      },
       date: this.date,
       note: this.note.value?.trim(),
     };

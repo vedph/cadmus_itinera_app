@@ -9,7 +9,12 @@ import {
   MsCompositionPart,
   MSCOMPOSITION_PART_TYPEID,
 } from '../ms-composition-part';
-import { MsGuardSheet, MsLocation, MsSection } from '@myrmidon/cadmus-itinera-core';
+import {
+  MsGuardSheet,
+  MsLocation,
+  MsLocationRange,
+  MsSection,
+} from '@myrmidon/cadmus-itinera-core';
 import { take } from 'rxjs/operators';
 import { MsLocationService } from '@myrmidon/cadmus-itinera-core';
 
@@ -32,12 +37,11 @@ export class MsCompositionPartComponent
 
   public sheetCount: FormControl;
   public guardSheetCount: FormControl;
+  public guardSheets: FormControl;
+  public sections: FormControl;
 
-  public guardSheets: MsGuardSheet[];
-  public editedGuardSheet: MsGuardSheet;
-
-  public sections: MsSection[];
-  public editedSection: MsSection;
+  public editedGuardSheet: MsGuardSheet | undefined;
+  public editedSection: MsSection | undefined;
 
   public materialEntries: ThesaurusEntry[] | undefined;
 
@@ -51,14 +55,16 @@ export class MsCompositionPartComponent
     this.tabIndex = 0;
     this._editedGuardSheetIndex = -1;
     this._editedSectionIndex = -1;
-    this.guardSheets = [];
-    this.sections = [];
     // form
     this.sheetCount = formBuilder.control(0, Validators.required);
     this.guardSheetCount = formBuilder.control(0);
+    this.guardSheets = formBuilder.control([]);
+    this.sections = formBuilder.control([]);
     this.form = formBuilder.group({
       sheetCount: this.sheetCount,
       guardSheetCount: this.guardSheetCount,
+      guardSheets: this.guardSheets,
+      sections: this.sections,
     });
   }
 
@@ -73,8 +79,8 @@ export class MsCompositionPartComponent
     }
     this.sheetCount.setValue(model.sheetCount || 0);
     this.guardSheetCount.setValue(model.guardSheetCount || 0);
-    this.guardSheets = model.guardSheets || [];
-    this.sections = model.sections || [];
+    this.guardSheets.setValue(model.guardSheets || []);
+    this.sections.setValue(model.sections || []);
     this.form.markAsPristine();
   }
 
@@ -91,8 +97,8 @@ export class MsCompositionPartComponent
     }
   }
 
-  public getLocationText(loc: MsLocation): string {
-    return this._msLocationService.locationToString(loc);
+  public rangeToString(range: MsLocationRange): string {
+    return this._msLocationService.rangeToString(range);
   }
 
   protected getModelFromForm(): MsCompositionPart {
@@ -112,49 +118,59 @@ export class MsCompositionPartComponent
     }
     part.sheetCount = this.sheetCount.value;
     part.guardSheetCount = this.guardSheetCount.value;
-    part.guardSheets = this.guardSheets;
-    part.sections = this.sections;
+    part.guardSheets = this.guardSheets.value?.length
+      ? this.guardSheets.value
+      : undefined;
+    part.sections = this.sections.value?.length
+      ? this.sections.value
+      : undefined;
     return part;
   }
 
   public addGuardSheet(): void {
-    const sheet: MsGuardSheet = {
+    this._editedGuardSheetIndex = -1;
+    this.editedGuardSheet = {
       isBack: false,
       material: this.materialEntries ? this.materialEntries[0].id : null,
-      location: null,
+      range: null,
     };
-    this.guardSheets = [...this.guardSheets, sheet];
-    this.editGuardSheet(this.guardSheets.length - 1);
+    setTimeout(() => {
+      this.tabIndex = 1;
+    }, 300);
+  }
+
+  private closeGuardSheetEditor(): void {
+    this._editedGuardSheetIndex = -1;
+    this.tabIndex = 0;
+    this.editedGuardSheet = undefined;
   }
 
   public editGuardSheet(index: number): void {
-    if (index < 0) {
-      this._editedGuardSheetIndex = -1;
-      this.tabIndex = 0;
-      this.editedGuardSheet = null;
-    } else {
-      this._editedGuardSheetIndex = index;
-      this.editedGuardSheet = this.guardSheets[index];
-      setTimeout(() => {
-        this.tabIndex = 1;
-      }, 300);
-    }
+    this._editedGuardSheetIndex = index;
+    this.editedGuardSheet = this.guardSheets.value[index];
+    setTimeout(() => {
+      this.tabIndex = 1;
+    }, 300);
   }
 
   public onGuardSheetSaved(sheet: MsGuardSheet): void {
-    this.guardSheets = this.guardSheets.map((s, i) =>
-      i === this._editedGuardSheetIndex ? sheet : s
-    );
-    this.editGuardSheet(-1);
+    if (this._editedGuardSheetIndex === -1) {
+      this.guardSheets.value.push(sheet);
+    } else {
+      this.guardSheets.value.splice(this._editedGuardSheetIndex, 1, sheet);
+    }
+    this.closeGuardSheetEditor();
 
     // to keep data integrity, increase the count if required
-    if ((this.guardSheetCount.value || 0) < this.guardSheets.length) {
-      this.guardSheetCount.setValue(this.guardSheets.length);
+    if ((this.guardSheetCount.value || 0) < this.guardSheets.value?.length) {
+      this.guardSheetCount.setValue(this.guardSheets.value.length);
     }
+
+    this.form.markAsDirty();
   }
 
   public onGuardSheetClosed(): void {
-    this.editGuardSheet(-1);
+    this.closeGuardSheetEditor();
   }
 
   public deleteGuardSheet(index: number): void {
@@ -163,9 +179,8 @@ export class MsCompositionPartComponent
       .pipe(take(1))
       .subscribe((yes) => {
         if (yes) {
-          const sheets = [...this.guardSheets];
-          sheets.splice(index, 1);
-          this.guardSheets = sheets;
+          this.guardSheets.value.splice(index, 1);
+          this.form.markAsDirty();
         }
       });
   }
@@ -174,57 +189,64 @@ export class MsCompositionPartComponent
     if (index < 1) {
       return;
     }
-    const sheet = this.guardSheets[index];
-    const sheets = [...this.guardSheets];
+    const sheet = this.guardSheets.value[index];
+    const sheets = [...this.guardSheets.value];
     sheets.splice(index, 1);
     sheets.splice(index - 1, 0, sheet);
-    this.guardSheets = sheets;
+    this.guardSheets.setValue(sheets);
+    this.form.markAsDirty();
   }
 
   public moveGuardSheetDown(index: number): void {
-    if (index + 1 >= this.guardSheets.length) {
+    if (index + 1 >= this.guardSheets.value.length) {
       return;
     }
-    const sheet = this.guardSheets[index];
-    const sheets = [...this.guardSheets];
+    const sheet = this.guardSheets.value[index];
+    const sheets = [...this.guardSheets.value];
     sheets.splice(index, 1);
     sheets.splice(index + 1, 0, sheet);
-    this.guardSheets = sheets;
+    this.guardSheets.setValue(sheets);
+    this.form.markAsDirty();
   }
 
   public addSection(): void {
-    const section: MsSection = {
+    this._editedSectionIndex = -1;
+    this.editedSection = {
       label: null,
       start: null,
       end: null,
     };
-    this.sections = [...this.sections, section];
-    this.editSection(this.sections.length - 1);
+    setTimeout(() => {
+      this.tabIndex = 2;
+    }, 300);
+  }
+
+  private closeSectionEditor(): void {
+    this._editedSectionIndex = -1;
+    this.editedSection = undefined;
+    this.tabIndex = 0;
   }
 
   public editSection(index: number): void {
-    if (index < 0) {
-      this._editedSectionIndex = -1;
-      this.tabIndex = 0;
-      this.editedSection = null;
-    } else {
-      this._editedSectionIndex = index;
-      this.editedSection = this.sections[index];
-      setTimeout(() => {
-        this.tabIndex = 2;
-      }, 300);
-    }
+    this._editedSectionIndex = index;
+    this.editedSection = this.sections.value[index];
+    setTimeout(() => {
+      this.tabIndex = 2;
+    }, 300);
   }
 
-  public onSectionSaved(sheet: MsSection): void {
-    this.sections = this.sections.map((s, i) =>
-      i === this._editedSectionIndex ? sheet : s
-    );
-    this.editSection(-1);
+  public onSectionSaved(section: MsSection): void {
+    if (this._editedSectionIndex === -1) {
+      this.sections.value.push(section);
+    } else {
+      this.sections.value.splice(this._editedSectionIndex, 1, section);
+    }
+    this.closeSectionEditor();
+    this.form.markAsDirty();
   }
 
   public onSectionClosed(): void {
-    this.editSection(-1);
+    this.closeSectionEditor();
   }
 
   public deleteSection(index: number): void {
@@ -233,9 +255,8 @@ export class MsCompositionPartComponent
       .pipe(take(1))
       .subscribe((yes) => {
         if (yes) {
-          const sheets = [...this.sections];
-          sheets.splice(index, 1);
-          this.sections = sheets;
+          this.sections.value.splice(index, 1);
+          this.form.markAsDirty();
         }
       });
   }
@@ -244,21 +265,21 @@ export class MsCompositionPartComponent
     if (index < 1) {
       return;
     }
-    const sheet = this.sections[index];
-    const sheets = [...this.sections];
-    sheets.splice(index, 1);
-    sheets.splice(index - 1, 0, sheet);
-    this.sections = sheets;
+    const section = this.sections.value[index];
+    const sections = [...this.sections.value];
+    sections.splice(index, 1);
+    sections.splice(index - 1, 0, section);
+    this.sections.setValue(sections);
   }
 
   public moveSectionDown(index: number): void {
-    if (index + 1 >= this.sections.length) {
+    if (index + 1 >= this.sections.value.length) {
       return;
     }
-    const sheet = this.sections[index];
-    const sheets = [...this.sections];
-    sheets.splice(index, 1);
-    sheets.splice(index + 1, 0, sheet);
-    this.sections = sheets;
+    const section = this.sections.value[index];
+    const sections = [...this.sections.value];
+    sections.splice(index, 1);
+    sections.splice(index + 1, 0, section);
+    this.sections.setValue(sections);
   }
 }

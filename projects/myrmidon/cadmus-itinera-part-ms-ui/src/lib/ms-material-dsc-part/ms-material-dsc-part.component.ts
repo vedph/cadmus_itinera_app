@@ -10,6 +10,7 @@ import {
 } from '../ms-material-dsc-part';
 import {
   MsLocation,
+  MsLocationRange,
   MsLocationService,
   MsPalimpsest,
 } from '@myrmidon/cadmus-itinera-core';
@@ -146,7 +147,7 @@ export class MsMaterialDscPartComponent
   public addPalimpsest(): void {
     this._editedIndex = -1;
     this.editedPalimpsest = {
-      location: null,
+      range: null,
     };
     setTimeout(() => {
       this.tabIndex = 1;
@@ -219,7 +220,7 @@ export class MsMaterialDscPartComponent
     this.form.markAsDirty();
   }
 
-  public locationToString(location: MsLocation): string {
-    return this._msLocationService.locationToString(location);
+  public rangeToString(range: MsLocationRange): string {
+    return this._msLocationService.rangeToString(range);
   }
 }

@@ -24,7 +24,8 @@ export class MsPalimpsestComponent implements OnInit {
   public editorClose: EventEmitter<any>;
 
   public form: FormGroup;
-  public location: FormControl;
+  public start: FormControl;
+  public end: FormControl;
   public note: FormControl;
 
   public date: HistoricalDateModel;
@@ -37,13 +38,18 @@ export class MsPalimpsestComponent implements OnInit {
     this.modelChange = new EventEmitter<MsPalimpsest>();
     this.editorClose = new EventEmitter<any>();
     // form
-    this.location = formBuilder.control(null, [
+    this.start = formBuilder.control(null, [
+      Validators.required,
+      Validators.pattern(MsLocationService.locRegexp),
+    ]);
+    this.end = formBuilder.control(null, [
       Validators.required,
       Validators.pattern(MsLocationService.locRegexp),
     ]);
     this.note = formBuilder.control(null, Validators.maxLength(500));
     this.form = formBuilder.group({
-      location: this.location,
+      start: this.start,
+      end: this.end,
       note: this.note
     });
   }
@@ -58,8 +64,11 @@ export class MsPalimpsestComponent implements OnInit {
       this.date = null;
       return;
     }
-    this.location.setValue(
-      this._msLocationService.locationToString(model.location)
+    this.start.setValue(
+      this._msLocationService.locationToString(model.range?.start)
+    );
+    this.end.setValue(
+      this._msLocationService.locationToString(model.range?.end)
     );
     this.note.setValue(model.note);
     this.date = model.date;
@@ -67,7 +76,10 @@ export class MsPalimpsestComponent implements OnInit {
 
   private getModel(): MsPalimpsest {
     return {
-      location: this._msLocationService.parseLocation(this.location.value),
+      range: {
+        start: this._msLocationService.parseLocation(this.start.value),
+        end: this._msLocationService.parseLocation(this.end.value),
+      },
       note: this.note.value,
       date: this.date,
     };

@@ -55,7 +55,7 @@
               <mat-icon>add_circle</mat-icon>
             </button>
           </div>
-          <table *ngIf="guardSheets?.length">
+          <table *ngIf="guardSheets?.value?.length">
             <thead>
               <tr>
                 <th></th>
@@ -67,7 +67,7 @@
             <tbody>
               <tr
                 *ngFor="
-                  let s of guardSheets;
+                  let s of guardSheets.value;
                   let i = index;
                   let first = first;
                   let last = last
@@ -113,7 +113,7 @@
                 </td>
                 <td>{{ s.isBack ? "back" : "front" }}</td>
                 <td>{{ s.material }}</td>
-                <td>{{ getLocationText(s.location) }}</td>
+                <td>{{ rangeToString(s.range) }}</td>
               </tr>
             </tbody>
           </table>
@@ -132,7 +132,7 @@
               <mat-icon>add_circle</mat-icon>
             </button>
           </div>
-          <table *ngIf="sections?.length">
+          <table *ngIf="sections?.value?.length">
             <thead>
               <tr>
                 <th></th>
@@ -145,7 +145,7 @@
             <tbody>
               <tr
                 *ngFor="
-                  let s of sections;
+                  let s of sections.value;
                   let i = index;
                   let first = first;
                   let last = last
@@ -190,8 +190,8 @@
                   </button>
                 </td>
                 <td>{{ s.label }}</td>
-                <td>{{ getLocationText(s.start) }}</td>
-                <td>{{ getLocationText(s.end) }}</td>
+                <td>{{ rangeToString(s.start) }}</td>
+                <td>{{ rangeToString(s.end) }}</td>
                 <td>{{ s.tag }}</td>
               </tr>
             </tbody>
