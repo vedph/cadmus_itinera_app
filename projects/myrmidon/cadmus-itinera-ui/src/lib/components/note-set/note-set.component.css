@@ -5,6 +5,14 @@
 .bar {
   vertical-align: middle;
 }
+.bar-existing {
+  vertical-align: middle;
+  color: darkgreen;
+  margin: 0 8px;
+  border: 1px solid darkgreen;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
 .count {
   background-color: #90a0ff;
   color: white;

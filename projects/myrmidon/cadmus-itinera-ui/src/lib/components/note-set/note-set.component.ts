@@ -8,12 +8,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { DialogService } from '@myrmidon/cadmus-ui';
-import {
-  debounceTime,
-  distinctUntilChanged,
-  map,
-  take,
-} from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, map, take } from 'rxjs/operators';
 
 /**
  * The definition of a note in a set of notes.
@@ -93,6 +88,7 @@ export class NoteSetComponent implements OnInit {
   public currentDef: NoteSetDefinition | undefined;
   public currentLen: number;
   public missing: string[] | undefined;
+  public existing: string[] | undefined;
 
   constructor(formBuilder: FormBuilder, private _dialogService: DialogService) {
     this.keys = [];
@@ -172,6 +168,8 @@ export class NoteSetComponent implements OnInit {
 
     // update notes count
     this.updateNoteCount();
+    this.missing = this.getMissingNotes();
+    this.existing = this.getExistingNotes();
   }
 
   /**
@@ -218,6 +216,16 @@ export class NoteSetComponent implements OnInit {
     return missing;
   }
 
+  private getExistingNotes(): string[] {
+    const existing: string[] = [];
+    this._set.definitions.forEach((def) => {
+      if (this._set.notes.has(def.key) && this._set.notes.get(def.key)) {
+        existing.push(def.label || def.key);
+      }
+    });
+    return existing;
+  }
+
   private saveNote(note: KeyValue<string, string>): void {
     this._set.notes.set(note.key, note.value);
 
@@ -225,6 +233,7 @@ export class NoteSetComponent implements OnInit {
     this.updateNoteCount();
 
     this.missing = this.getMissingNotes();
+    this.existing = this.getExistingNotes();
     this.reqNotes.setValue(this.missing.length ? false : true);
 
     this.noteChange.emit({

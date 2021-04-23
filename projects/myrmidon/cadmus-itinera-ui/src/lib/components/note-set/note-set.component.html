@@ -9,7 +9,7 @@
       </mat-select>
     </mat-form-field>
     <span class="bar count">
-      {{noteCount}}
+      {{ noteCount }}
     </span>
     <button
       type="button"
@@ -44,6 +44,9 @@
       [matTooltip]="'Missing: ' + missing.join(', ')"
     >
       <mat-icon color="warn">error</mat-icon>
+    </span>
+    <span class="bar-existing" *ngIf="existing?.length">
+      {{ existing.join(" - ").trim() }}
     </span>
   </div>
 
@@ -81,7 +84,7 @@
 
     <!-- preview -->
     <div *ngIf="currentDef?.markdown">
-      <hr>
+      <hr />
       <markdown [data]="text?.value"></markdown>
     </div>
   </div>
