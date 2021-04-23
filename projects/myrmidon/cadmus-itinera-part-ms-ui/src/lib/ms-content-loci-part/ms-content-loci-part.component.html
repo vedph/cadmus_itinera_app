@@ -88,8 +88,8 @@
           }}</mat-panel-description>
         </mat-expansion-panel-header>
         <itinera-ms-content-locus *ngIf="editedLocus"
-          [model]="editedLocus"
-          (modelChange)="onLocusSaved($event)"
+          [locus]="editedLocus"
+          (locusChange)="onLocusSaved($event)"
           (editorClose)="onLocusClosed()"
         ></itinera-ms-content-locus>
       </mat-expansion-panel>

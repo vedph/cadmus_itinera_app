@@ -16,13 +16,20 @@ import { debounceTime } from 'rxjs/operators';
   styleUrls: ['./ms-decoration-artist.component.css'],
 })
 export class MsDecorationArtistComponent implements OnInit {
+  private _artist: MsDecorationArtist | undefined;
   private _sources: DocReference[];
 
   @Input()
-  public parentForm: FormGroup;
+  public get artist(): MsDecorationArtist | undefined {
+    return this._artist;
+  }
+  public set artist(value: MsDecorationArtist | undefined) {
+    this._artist = value;
+    this.updateForm(value);
+  }
 
   @Input()
-  public artist: MsDecorationArtist;
+  public parentForm: FormGroup;
 
   // ms-decoration-artist-types
   @Input()
@@ -75,7 +82,9 @@ export class MsDecorationArtistComponent implements OnInit {
       this.emitModelChange();
     });
 
-    this.updateForm(this.artist);
+    if (this._artist) {
+      this.updateForm(this._artist);
+    }
   }
 
   private updateForm(model: MsDecorationArtist): void {

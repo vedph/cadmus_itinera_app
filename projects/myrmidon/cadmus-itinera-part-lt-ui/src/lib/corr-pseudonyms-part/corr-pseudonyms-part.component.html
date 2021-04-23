@@ -85,10 +85,10 @@
 
         <mat-tab label="pseudonym" *ngIf="editedPseudonym">
           <itinera-corr-pseudonym
-            [model]="editedPseudonym"
+            [pseudonym]="editedPseudonym"
             [langEntries]="langEntries"
             [tagEntries]="tagEntries"
-            (modelChange)="onPseudonymSaved($event)"
+            (pseudonymChange)="onPseudonymSaved($event)"
             (editorClose)="onPseudonymClosed()"
           ></itinera-corr-pseudonym>
         </mat-tab>

@@ -29,13 +29,20 @@ import { take } from 'rxjs/operators';
   styleUrls: ['./ms-hand.component.css'],
 })
 export class MsHandComponent implements OnInit {
+  private _hand: MsHand | undefined;
   private _handNotePropEntries: ThesaurusEntry[] | undefined;
 
   @Input()
-  public model: MsHand;
+  public get hand(): MsHand | undefined {
+    return this._hand;
+  }
+  public set hand(value: MsHand | undefined) {
+    this._hand = value;
+    this.updateForm(value);
+  }
 
   @Output()
-  public modelChange: EventEmitter<MsHand>;
+  public handChange: EventEmitter<MsHand>;
   @Output()
   public editorClose: EventEmitter<any>;
 
@@ -99,7 +106,7 @@ export class MsHandComponent implements OnInit {
     private _dialogService: DialogService
   ) {
     // events
-    this.modelChange = new EventEmitter<MsHand>();
+    this.handChange = new EventEmitter<MsHand>();
     this.editorClose = new EventEmitter();
     // form - general
     this.id = _formBuilder.control(null, [
@@ -163,7 +170,7 @@ export class MsHandComponent implements OnInit {
 
   private parseNoteDefEntry(
     entry: ThesaurusEntry
-  ): { label: string; maxLength: number, markdown: boolean } {
+  ): { label: string; maxLength: number; markdown: boolean } {
     // value: label|LEN*
     let text = entry.value;
     let md = false;
@@ -177,12 +184,12 @@ export class MsHandComponent implements OnInit {
       ? {
           label: text.substr(0, i),
           maxLength: +text.substr(i + 1),
-          markdown: md
+          markdown: md,
         }
       : {
           label: text,
           maxLength: 500,
-          markdown: md
+          markdown: md,
         };
   }
 
@@ -244,7 +251,9 @@ export class MsHandComponent implements OnInit {
     this.subPresent.valueChanges.subscribe((present) => {
       this.toggleSubscription(present);
     });
-    this.updateForm(this.model);
+    if (this._hand) {
+      this.updateForm(this._hand);
+    }
   }
 
   private updateForm(model: MsHand): void {
@@ -285,7 +294,7 @@ export class MsHandComponent implements OnInit {
     }
 
     // subscription
-    if (this.model.subscription) {
+    if (model.subscription) {
       this.subPresent.setValue(true);
       if (model.subscription.locations?.length) {
         this.subLocations.setValue(
@@ -676,6 +685,6 @@ export class MsHandComponent implements OnInit {
       return;
     }
     const model = this.getModel();
-    this.modelChange.emit(model);
+    this.handChange.emit(model);
   }
 }

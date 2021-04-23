@@ -78,7 +78,9 @@ export class AttachmentComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.updateForm(this.attachment);
+    if (this._attachment) {
+      this.updateForm(this._attachment);
+    }
   }
 
   private updateForm(model: Attachment | undefined): void {

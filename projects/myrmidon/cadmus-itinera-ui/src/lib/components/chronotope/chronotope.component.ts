@@ -76,7 +76,9 @@ export class ChronotopeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.updateForm(this._chronotope);
+    if (this._chronotope) {
+      this.updateForm(this._chronotope);
+    }
   }
 
   public onSourcesChange(sources: DocReference[]): void {

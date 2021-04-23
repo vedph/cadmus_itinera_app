@@ -14,8 +14,16 @@ import { MsWatermark } from '@myrmidon/cadmus-itinera-core';
   styleUrls: ['./ms-watermark.component.css'],
 })
 export class MsWatermarkComponent implements OnInit {
+  private _watermark: MsWatermark | undefined;
+
   @Input()
-  public model: MsWatermark;
+  public get watermark(): MsWatermark | undefined {
+    return this._watermark;
+  }
+  public set watermark(value: MsWatermark | undefined) {
+    this._watermark = value;
+    this.updateForm(value);
+  }
 
   @Input()
   public subjectEntries: ThesaurusEntry[] | undefined;
@@ -60,7 +68,9 @@ export class MsWatermarkComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.updateForm(this.model);
+    if (this._watermark) {
+      this.updateForm(this._watermark);
+    }
   }
 
   private updateForm(model: MsWatermark): void {

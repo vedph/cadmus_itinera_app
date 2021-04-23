@@ -14,8 +14,16 @@ import { MsHandSign } from '@myrmidon/cadmus-itinera-core';
   styleUrls: ['./ms-hand-sign.component.css'],
 })
 export class MsHandSignComponent implements OnInit {
+  private _sign: MsHandSign | undefined;
+
   @Input()
-  public sign: MsHandSign;
+  public get sign(): MsHandSign | undefined {
+    return this._sign;
+  }
+  public set sign(value: MsHandSign | undefined) {
+    this._sign = value;
+    this.updateForm(value);
+  }
 
   @Input()
   public typeEntries: ThesaurusEntry[] | undefined;
@@ -58,12 +66,14 @@ export class MsHandSignComponent implements OnInit {
       id: this.id,
       type: this.type,
       imageId: this.imageId,
-      description: this.description
+      description: this.description,
     });
   }
 
   ngOnInit(): void {
-    this.updateForm(this.sign);
+    if (this._sign) {
+      this.updateForm(this._sign);
+    }
   }
 
   private updateForm(model: MsHandSign): void {
@@ -83,7 +93,7 @@ export class MsHandSignComponent implements OnInit {
       id: this.id.value?.trim(),
       type: this.type.value?.trim(),
       imageId: this.imageId.value?.trim(),
-      description: this.description.value?.trim()
+      description: this.description.value?.trim(),
     };
   }
 

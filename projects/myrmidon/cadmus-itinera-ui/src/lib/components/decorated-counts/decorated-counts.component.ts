@@ -24,7 +24,7 @@ import { debounceTime } from 'rxjs/operators';
   templateUrl: './decorated-counts.component.html',
   styleUrls: ['./decorated-counts.component.css'],
 })
-export class DecoratedCountsComponent implements AfterViewInit, OnDestroy {
+export class DecoratedCountsComponent implements OnInit, AfterViewInit, OnDestroy {
   private _counts: DecoratedCount[];
   private _updatingForm: boolean;
   private _cntSubs: Subscription[];
@@ -65,6 +65,12 @@ export class DecoratedCountsComponent implements AfterViewInit, OnDestroy {
     this.form = _formBuilder.group({
       countsArr: this.countsArr,
     });
+  }
+
+  public ngOnInit(): void {
+    if (this._counts) {
+      this.updateForm(this._counts);
+    }
   }
 
   public ngAfterViewInit(): void {

@@ -38,10 +38,9 @@ export class MsHistoryPartComponent
   implements OnInit {
   public provenances: FormArray;
   public history: FormControl;
-
-  public persons: MsHistoryPerson[];
-  public annotations: MsAnnotation[];
-  public restorations: MsRestoration[];
+  public persons: FormControl;
+  public annotations: FormControl;
+  public restorations: FormControl;
 
   public personIndex: number;
   public editedPerson: MsHistoryPerson;
@@ -84,9 +83,6 @@ export class MsHistoryPartComponent
     private _msLocationService: MsLocationService
   ) {
     super(authService);
-    this.persons = [];
-    this.annotations = [];
-    this.restorations = [];
     this.personIndex = -1;
     this.annotationIndex = -1;
     this.restorationIndex = -1;
@@ -96,9 +92,15 @@ export class MsHistoryPartComponent
       Validators.required,
       Validators.maxLength(5000),
     ]);
+    this.persons = _formBuilder.control([]);
+    this.annotations = _formBuilder.control([]);
+    this.restorations = _formBuilder.control([]);
     this.form = _formBuilder.group({
       provenances: this.provenances,
       history: this.history,
+      persons: this.persons,
+      annotations: this.annotations,
+      restorations: this.restorations,
     });
   }
 
@@ -126,15 +128,12 @@ export class MsHistoryPartComponent
     this.editedRestoration = null;
 
     if (!model) {
-      this.persons = [];
-      this.annotations = [];
-      this.restorations = [];
       this.form.reset();
       return;
     }
-    this.persons = model.persons || [];
-    this.annotations = model.annotations || [];
-    this.restorations = model.restorations || [];
+    this.persons.setValue(model.persons || []);
+    this.annotations.setValue(model.annotations || []);
+    this.restorations.setValue(model.restorations || []);
 
     this.provenances.clear();
     for (let i = 0; i < model.provenances?.length || 0; i++) {
@@ -231,10 +230,12 @@ export class MsHistoryPartComponent
       });
     }
     part.history = this.history.value?.trim();
-    part.persons = this.persons?.length ? this.persons : undefined;
-    part.annotations = this.annotations?.length ? this.annotations : undefined;
-    part.restorations = this.restorations?.length
-      ? this.restorations
+    part.persons = this.persons.value?.length ? this.persons.value : undefined;
+    part.annotations = this.annotations.value?.length
+      ? this.annotations.value
+      : undefined;
+    part.restorations = this.restorations.value?.length
+      ? this.restorations.value
       : undefined;
     return part;
   }
@@ -249,6 +250,7 @@ export class MsHistoryPartComponent
 
   public addProvenance(provenance?: GeoAddress): void {
     this.provenances.push(this.getProvenanceGroup(provenance));
+    this.form.markAsDirty();
   }
 
   public removeProvenance(index: number): void {
@@ -288,37 +290,38 @@ export class MsHistoryPartComponent
     return sb.join(' ');
   }
 
+  private closePersonEditor(): void {
+    this.personEditorOpen = false;
+    this.personIndex = -1;
+    this.editedPerson = null;
+  }
+
   public addPerson(): void {
-    const person: MsHistoryPerson = {
+    this.personIndex = -1;
+    this.editedPerson = {
       name: null,
     };
-    this.persons = [...this.persons, person];
-    this.editPerson(this.persons.length - 1);
-    this.form.markAsDirty();
+    this.personEditorOpen = true;
   }
 
   public editPerson(index: number): void {
-    if (index < 0) {
-      this.personEditorOpen = false;
-      this.personIndex = -1;
-      this.editedPerson = null;
-    } else {
-      this.personEditorOpen = true;
-      this.personIndex = index;
-      this.editedPerson = this.persons[index];
-    }
+    this.personIndex = index;
+    this.personEditorOpen = true;
+    this.editedPerson = this.persons.value[index];
   }
 
-  public onPersonSaved(person: MsHistoryPerson): void {
-    this.persons = this.persons.map((s, i) =>
-      i === this.personIndex ? person : s
-    );
-    this.editPerson(-1);
+  public onPersonChange(person: MsHistoryPerson): void {
+    if (this.personIndex === -1) {
+      this.persons.value.push(person);
+    } else {
+      this.persons.value.splice(this.personIndex, 1, person);
+    }
+    this.closePersonEditor();
     this.form.markAsDirty();
   }
 
-  public onPersonClosed(): void {
-    this.editPerson(-1);
+  public onPersonClose(): void {
+    this.closePersonEditor();
   }
 
   public deletePerson(index: number): void {
@@ -330,9 +333,7 @@ export class MsHistoryPartComponent
           if (this.personIndex === index) {
             this.personEditorOpen = false;
           }
-          const persons = [...this.persons];
-          persons.splice(index, 1);
-          this.persons = persons;
+          this.persons.value.splice(index, 1);
           this.form.markAsDirty();
         }
       });
@@ -342,23 +343,23 @@ export class MsHistoryPartComponent
     if (index < 1) {
       return;
     }
-    const item = this.persons[index];
-    const persons = [...this.persons];
+    const person = this.persons.value[index];
+    const persons = [...this.persons.value];
     persons.splice(index, 1);
-    persons.splice(index - 1, 0, item);
-    this.persons = persons;
+    persons.splice(index - 1, 0, person);
+    this.persons.setValue(persons);
     this.form.markAsDirty();
   }
 
   public movePersonDown(index: number): void {
-    if (index + 1 >= this.persons.length) {
+    if (index + 1 >= this.persons.value.length) {
       return;
     }
-    const item = this.persons[index];
-    const items = [...this.persons];
-    items.splice(index, 1);
-    items.splice(index + 1, 0, item);
-    this.persons = items;
+    const person = this.persons.value[index];
+    const persons = [...this.persons.value];
+    persons.splice(index, 1);
+    persons.splice(index + 1, 0, person);
+    this.persons.setValue(persons);
     this.form.markAsDirty();
   }
 
@@ -367,39 +368,41 @@ export class MsHistoryPartComponent
     return this._msLocationService.locationToString(location);
   }
 
+  private closeAnnotationEditor(): void {
+    this.annotationEditorOpen = false;
+    this.annotationIndex = -1;
+    this.editedAnnotation = undefined;
+  }
+
   public addAnnotation(): void {
-    const annotation: MsAnnotation = {
+    this.annotationIndex = -1;
+    this.editedAnnotation = {
       language: null,
       type: null,
       text: null,
     };
-    this.annotations = [...this.annotations, annotation];
-    this.editAnnotation(this.annotations.length - 1);
+    this.annotationEditorOpen = true;
     this.form.markAsDirty();
   }
 
   public editAnnotation(index: number): void {
-    if (index < 0) {
-      this.annotationEditorOpen = false;
-      this.annotationIndex = -1;
-      this.editedAnnotation = null;
-    } else {
-      this.annotationEditorOpen = true;
-      this.annotationIndex = index;
-      this.editedAnnotation = this.annotations[index];
-    }
+    this.annotationEditorOpen = true;
+    this.annotationIndex = index;
+    this.editedAnnotation = this.annotations.value[index];
   }
 
-  public onAnnotationSaved(annotation: MsAnnotation): void {
-    this.annotations = this.annotations.map((s, i) =>
-      i === this.annotationIndex ? annotation : s
-    );
-    this.editAnnotation(-1);
+  public onAnnotationChange(annotation: MsAnnotation): void {
+    if (this.annotationIndex === -1) {
+      this.annotations.value.push(annotation);
+    } else {
+      this.annotations.value.splice(this.annotationIndex, 1, annotation);
+    }
+    this.closeAnnotationEditor();
     this.form.markAsDirty();
   }
 
-  public onAnnotationClosed(): void {
-    this.editAnnotation(-1);
+  public onAnnotationClose(): void {
+    this.closeAnnotationEditor();
   }
 
   public deleteAnnotation(index: number): void {
@@ -411,9 +414,7 @@ export class MsHistoryPartComponent
           if (this.annotationIndex === index) {
             this.annotationEditorOpen = false;
           }
-          const annotations = [...this.annotations];
-          annotations.splice(index, 1);
-          this.annotations = annotations;
+          this.annotations.value.splice(index, 1);
           this.form.markAsDirty();
         }
       });
@@ -423,58 +424,60 @@ export class MsHistoryPartComponent
     if (index < 1) {
       return;
     }
-    const annotation = this.annotations[index];
-    const annotations = [...this.annotations];
+    const annotation = this.annotations.value[index];
+    const annotations = [...this.annotations.value];
     annotations.splice(index, 1);
     annotations.splice(index - 1, 0, annotation);
-    this.annotations = annotations;
+    this.annotations.setValue(annotations);
     this.form.markAsDirty();
   }
 
   public moveAnnotationDown(index: number): void {
-    if (index + 1 >= this.annotations.length) {
+    if (index + 1 >= this.annotations.value.length) {
       return;
     }
-    const annotation = this.annotations[index];
-    const annotations = [...this.annotations];
+    const annotation = this.annotations.value[index];
+    const annotations = [...this.annotations.value];
     annotations.splice(index, 1);
     annotations.splice(index + 1, 0, annotation);
-    this.annotations = annotations;
+    this.annotations.setValue(annotations);
     this.form.markAsDirty();
   }
 
   // restorations
+  private closeRestorationEditor(): void {
+    this.restorationEditorOpen = false;
+    this.restorationIndex = -1;
+    this.editedRestoration = null;
+  }
+
   public addRestoration(): void {
-    const restoration: MsRestoration = {
+    this.restorationIndex = -1;
+    this.editedRestoration = {
       type: null,
     };
-    this.restorations = [...this.restorations, restoration];
-    this.editRestoration(this.restorations.length - 1);
     this.form.markAsDirty();
+    this.restorationEditorOpen = true;
   }
 
   public editRestoration(index: number): void {
-    if (index < 0) {
-      this.restorationEditorOpen = false;
-      this.restorationIndex = -1;
-      this.editedRestoration = null;
-    } else {
-      this.restorationEditorOpen = true;
-      this.restorationIndex = index;
-      this.editedRestoration = this.restorations[index];
-    }
+    this.restorationEditorOpen = true;
+    this.restorationIndex = index;
+    this.editedRestoration = this.restorations.value[index];
   }
 
-  public onRestorationSaved(restoration: MsRestoration): void {
-    this.restorations = this.restorations.map((s, i) =>
-      i === this.restorationIndex ? restoration : s
-    );
-    this.editRestoration(-1);
+  public onRestorationChange(restoration: MsRestoration): void {
+    if (this.restorationIndex === -1) {
+      this.restorations.value.push(restoration);
+    } else {
+      this.restorations.value.splice(this.restorationIndex, 1, restoration);
+    }
+    this.closeRestorationEditor();
     this.form.markAsDirty();
   }
 
-  public onRestorationClosed(): void {
-    this.editRestoration(-1);
+  public onRestorationClose(): void {
+    this.closeRestorationEditor();
   }
 
   public deleteRestoration(index: number): void {
@@ -486,9 +489,7 @@ export class MsHistoryPartComponent
           if (this.restorationIndex === index) {
             this.restorationEditorOpen = false;
           }
-          const restorations = [...this.restorations];
-          restorations.splice(index, 1);
-          this.restorations = restorations;
+          this.restorations.value.splice(index, 1);
           this.form.markAsDirty();
         }
       });
@@ -498,23 +499,23 @@ export class MsHistoryPartComponent
     if (index < 1) {
       return;
     }
-    const restoration = this.restorations[index];
-    const restorations = [...this.restorations];
+    const restoration = this.restorations.value[index];
+    const restorations = [...this.restorations.value];
     restorations.splice(index, 1);
     restorations.splice(index - 1, 0, restoration);
-    this.restorations = restorations;
+    this.restorations.setValue(restorations);
     this.form.markAsDirty();
   }
 
   public moveRestorationDown(index: number): void {
-    if (index + 1 >= this.restorations.length) {
+    if (index + 1 >= this.restorations.value.length) {
       return;
     }
     const restoration = this.restorations[index];
-    const restorations = [...this.restorations];
+    const restorations = [...this.restorations.value];
     restorations.splice(index, 1);
     restorations.splice(index + 1, 0, restoration);
-    this.restorations = restorations;
+    this.restorations.setValue(restorations);
     this.form.markAsDirty();
   }
 }

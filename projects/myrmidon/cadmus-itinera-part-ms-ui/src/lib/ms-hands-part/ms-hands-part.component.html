@@ -87,14 +87,14 @@
 
         <mat-tab label="hand" *ngIf="editedHand">
           <itinera-ms-hand
-            [model]="editedHand"
+            [hand]="editedHand"
             [handTypeEntries]="handTypeEntries"
             [signTypeEntries]="signTypeEntries"
             [reasonEntries]="reasonEntries"
             [rubrEntries]="rubrEntries"
             [langEntries]="langEntries"
             [handNotePropEntries]="handNotePropEntries"
-            (modelChange)="onHandSaved($event)"
+            (handChange)="onHandSaved($event)"
             (editorClose)="onHandClosed()"
           ></itinera-ms-hand>
         </mat-tab>

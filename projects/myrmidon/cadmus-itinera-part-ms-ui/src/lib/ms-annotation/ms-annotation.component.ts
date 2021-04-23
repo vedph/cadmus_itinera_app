@@ -14,8 +14,16 @@ import { MsAnnotation, MsLocationService } from '@myrmidon/cadmus-itinera-core';
   styleUrls: ['./ms-annotation.component.css'],
 })
 export class MsAnnotationComponent implements OnInit {
+  private _annotation: MsAnnotation | undefined;
+
   @Input()
-  public model: MsAnnotation;
+  public get annotation(): MsAnnotation | undefined {
+    return this._annotation;
+  }
+  public set annotation(value: MsAnnotation | undefined) {
+    this._annotation = value;
+    this.updateForm(value);
+  }
 
   @Input()
   public langEntries: ThesaurusEntry[] | undefined;
@@ -25,7 +33,7 @@ export class MsAnnotationComponent implements OnInit {
   public docRefTagEntries: ThesaurusEntry[] | undefined;
 
   @Output()
-  public modelChange: EventEmitter<MsAnnotation>;
+  public annotationChange: EventEmitter<MsAnnotation>;
 
   @Output()
   public editorClose: EventEmitter<any>;
@@ -47,7 +55,7 @@ export class MsAnnotationComponent implements OnInit {
   ) {
     this.initialSources = [];
     // events
-    this.modelChange = new EventEmitter<MsAnnotation>();
+    this.annotationChange = new EventEmitter<MsAnnotation>();
     this.editorClose = new EventEmitter();
     // form
     this.language = formBuilder.control(null, [
@@ -81,7 +89,9 @@ export class MsAnnotationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.updateForm(this.model);
+    if (this._annotation) {
+      this.updateForm(this.annotation);
+    }
   }
 
   private updateForm(model: MsAnnotation): void {
@@ -125,6 +135,6 @@ export class MsAnnotationComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
-    this.modelChange.emit(this.getModel());
+    this.annotationChange.emit(this.getModel());
   }
 }

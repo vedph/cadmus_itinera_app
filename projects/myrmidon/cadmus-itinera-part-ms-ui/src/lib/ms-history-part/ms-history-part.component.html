@@ -159,7 +159,7 @@
               <mat-icon>add_circle</mat-icon> add person
             </button>
           </div>
-          <table *ngIf="persons?.length">
+          <table *ngIf="persons?.value?.length">
             <thead>
               <tr>
                 <th></th>
@@ -171,7 +171,7 @@
             <tbody>
               <tr
                 *ngFor="
-                  let p of persons;
+                  let p of persons.value;
                   let i = index;
                   let first = first;
                   let last = last
@@ -234,14 +234,14 @@
               </mat-panel-description>
             </mat-expansion-panel-header>
             <itinera-ms-history-person
-              [model]="editedPerson"
+              [person]="editedPerson"
               [docRefTagEntries]="docRefTagEntries"
               [roleEntries]="roleEntries"
               [langEntries]="langEntries"
               [nameTypeEntries]="nameTypeEntries"
               [nameTagEntries]="nameTagEntries"
-              (modelChange)="onPersonSaved($event)"
-              (editorClose)="onPersonClosed()"
+              (personChange)="onPersonChange($event)"
+              (editorClose)="onPersonClose()"
             >
             </itinera-ms-history-person>
           </mat-expansion-panel>
@@ -259,7 +259,7 @@
               <mat-icon>add_circle</mat-icon> add annotation
             </button>
           </div>
-          <table *ngIf="annotations?.length">
+          <table *ngIf="annotations?.value?.length">
             <thead>
               <tr>
                 <th></th>
@@ -273,7 +273,7 @@
             <tbody>
               <tr
                 *ngFor="
-                  let a of annotations;
+                  let a of annotations.value;
                   let i = index;
                   let first = first;
                   let last = last
@@ -336,12 +336,12 @@
             </mat-expansion-panel-header>
             <itinera-ms-annotation
               *ngIf="editedAnnotation"
-              [model]="editedAnnotation"
+              [annotation]="editedAnnotation"
               [langEntries]="langEntries"
               [typeEntries]="annTypeEntries"
               [docRefTagEntries]="docRefTagEntries"
-              (modelChange)="onAnnotationSaved($event)"
-              (editorClose)="onAnnotationClosed()"
+              (annotationChange)="onAnnotationChange($event)"
+              (editorClose)="onAnnotationClose()"
             >
             </itinera-ms-annotation>
           </mat-expansion-panel>
@@ -359,7 +359,7 @@
               <mat-icon>add_circle</mat-icon> add restoration
             </button>
           </div>
-          <table *ngIf="restorations?.length">
+          <table *ngIf="restorations?.value?.length">
             <thead>
               <tr>
                 <th></th>
@@ -370,7 +370,7 @@
             <tbody>
               <tr
                 *ngFor="
-                  let r of restorations;
+                  let r of restorations.value;
                   let i = index;
                   let first = first;
                   let last = last
@@ -430,11 +430,11 @@
             </mat-expansion-panel-header>
             <itinera-ms-restoration
               *ngIf="editedRestoration"
-              [model]="editedRestoration"
+              [restoration]="editedRestoration"
               [typeEntries]="rstTypeEntries"
               [docRefTagEntries]="docRefTagEntries"
-              (modelChange)="onRestorationSaved($event)"
-              (editorClose)="onRestorationClosed()"
+              (restorationChange)="onRestorationChange($event)"
+              (editorClose)="onRestorationClose()"
             >
             </itinera-ms-restoration>
           </mat-expansion-panel>

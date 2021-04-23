@@ -25,8 +25,16 @@ import { BioEvent, DecoratedId } from '@myrmidon/cadmus-itinera-core';
   styleUrls: ['./bio-event.component.css'],
 })
 export class BioEventComponent implements OnInit {
+  private _event : BioEvent | undefined;
+
   @Input()
-  public model: BioEvent;
+  public get event() : BioEvent | undefined {
+    return this._event;
+  }
+  public set event(value : BioEvent | undefined) {
+    this._event = value;
+    this.updateForm(value);
+  }
 
   @Input()
   public typeEntries: ThesaurusEntry[] | undefined;
@@ -36,7 +44,7 @@ export class BioEventComponent implements OnInit {
   public docRefTagEntries: ThesaurusEntry[] | undefined;
 
   @Output()
-  public modelChange: EventEmitter<BioEvent>;
+  public eventChange: EventEmitter<BioEvent>;
 
   @Output()
   public editorClose: EventEmitter<any>;
@@ -72,7 +80,7 @@ export class BioEventComponent implements OnInit {
     this.initialSources = [];
     this.participants = [];
     // events
-    this.modelChange = new EventEmitter<BioEvent>();
+    this.eventChange = new EventEmitter<BioEvent>();
     this.editorClose = new EventEmitter();
     // form
     this.type = formBuilder.control(null, [
@@ -99,7 +107,9 @@ export class BioEventComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.updateForm(this.model);
+    if (this._event) {
+      this.updateForm(this._event);
+    }
     this.onTabIndexChanged(0);
   }
 
@@ -185,6 +195,6 @@ export class BioEventComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
-    this.modelChange.emit(this.getModel());
+    this.eventChange.emit(this.getModel());
   }
 }

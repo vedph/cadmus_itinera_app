@@ -29,7 +29,7 @@ export class CitedPersonComponent implements OnInit {
   }
   public set person(value: CitedPerson | undefined) {
     this._person = value;
-    this.updateForm(this._person);
+    this.updateForm(value);
   }
 
   // languages
@@ -95,7 +95,9 @@ export class CitedPersonComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.updateForm(this._person);
+    if (this._person) {
+      this.updateForm(this._person);
+    }
   }
 
   private updateForm(model: CitedPerson): void {

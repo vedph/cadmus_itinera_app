@@ -85,9 +85,9 @@
 
         <mat-tab label="content" *ngIf="editedContent">
           <itinera-ms-content
-            [model]="editedContent"
+            [content]="editedContent"
             [stateEntries]="stateEntries"
-            (modelChange)="onContentSaved($event)"
+            (contentChange)="onContentSaved($event)"
             (editorClose)="onContentClosed()"
           ></itinera-ms-content>
         </mat-tab>

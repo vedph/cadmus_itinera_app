@@ -14,11 +14,19 @@ import { MsPalimpsest, MsLocationService } from '@myrmidon/cadmus-itinera-core';
   styleUrls: ['./ms-palimpsest.component.css'],
 })
 export class MsPalimpsestComponent implements OnInit {
+  private _palimpsest: MsPalimpsest | undefined;
+
   @Input()
-  public model: MsPalimpsest;
+  public get palimpsest(): MsPalimpsest | undefined {
+    return this._palimpsest;
+  }
+  public set palimpsest(value: MsPalimpsest | undefined) {
+    this._palimpsest = value;
+    this.updateForm(value);
+  }
 
   @Output()
-  public modelChange: EventEmitter<MsPalimpsest>;
+  public palimpsestChange: EventEmitter<MsPalimpsest>;
 
   @Output()
   public editorClose: EventEmitter<any>;
@@ -35,7 +43,7 @@ export class MsPalimpsestComponent implements OnInit {
     private _msLocationService: MsLocationService
   ) {
     // events
-    this.modelChange = new EventEmitter<MsPalimpsest>();
+    this.palimpsestChange = new EventEmitter<MsPalimpsest>();
     this.editorClose = new EventEmitter<any>();
     // form
     this.start = formBuilder.control(null, [
@@ -50,12 +58,14 @@ export class MsPalimpsestComponent implements OnInit {
     this.form = formBuilder.group({
       start: this.start,
       end: this.end,
-      note: this.note
+      note: this.note,
     });
   }
 
   ngOnInit(): void {
-    this.updateForm(this.model);
+    if (this._palimpsest) {
+      this.updateForm(this._palimpsest);
+    }
   }
 
   private updateForm(model: MsPalimpsest | null): void {
@@ -94,6 +104,6 @@ export class MsPalimpsestComponent implements OnInit {
       return;
     }
     const model = this.getModel();
-    this.modelChange.emit(model);
+    this.palimpsestChange.emit(model);
   }
 }

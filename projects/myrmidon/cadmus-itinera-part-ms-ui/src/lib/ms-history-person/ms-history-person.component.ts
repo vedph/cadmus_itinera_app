@@ -18,8 +18,16 @@ import { MsHistoryPerson, PersonName } from '@myrmidon/cadmus-itinera-core';
   styleUrls: ['./ms-history-person.component.css'],
 })
 export class MsHistoryPersonComponent implements OnInit {
+  private _person: MsHistoryPerson | undefined;
+
   @Input()
-  public model: MsHistoryPerson;
+  public get person(): MsHistoryPerson | undefined {
+    return this._person;
+  }
+  public set person(value: MsHistoryPerson | undefined) {
+    this._person = value;
+    this.updateForm(value);
+  }
 
   // doc-reference-tags
   @Input()
@@ -35,7 +43,7 @@ export class MsHistoryPersonComponent implements OnInit {
   public nameTagEntries: ThesaurusEntry[] | undefined;
 
   @Output()
-  public modelChange: EventEmitter<MsHistoryPerson>;
+  public personChange: EventEmitter<MsHistoryPerson>;
 
   @Output()
   public editorClose: EventEmitter<any>;
@@ -58,7 +66,7 @@ export class MsHistoryPersonComponent implements OnInit {
     this.initialIds = [];
     this.initialSources = [];
     // events
-    this.modelChange = new EventEmitter<MsHistoryPerson>();
+    this.personChange = new EventEmitter<MsHistoryPerson>();
     this.editorClose = new EventEmitter();
     // form
     this.id = formBuilder.control(null, Validators.maxLength(50));
@@ -78,7 +86,9 @@ export class MsHistoryPersonComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.updateForm(this.model);
+    if (this._person) {
+      this.updateForm(this._person);
+    }
   }
 
   private updateForm(model: MsHistoryPerson): void {
@@ -117,7 +127,7 @@ export class MsHistoryPersonComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
-    this.modelChange.emit(this.getModel());
+    this.personChange.emit(this.getModel());
   }
 
   public onNameChange(name: PersonName): void {

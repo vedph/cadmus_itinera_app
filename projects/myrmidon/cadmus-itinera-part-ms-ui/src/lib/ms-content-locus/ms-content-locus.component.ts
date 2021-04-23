@@ -14,11 +14,19 @@ import { MsLocationService } from '@myrmidon/cadmus-itinera-core';
   styleUrls: ['./ms-content-locus.component.css'],
 })
 export class MsContentLocusComponent implements OnInit {
+  private _locus: MsContentLocus | undefined;
+
   @Input()
-  public model: MsContentLocus;
+  public get locus(): MsContentLocus | undefined {
+    return this._locus;
+  }
+  public set locus(value: MsContentLocus | undefined) {
+    this._locus = value;
+    this.updateForm(value);
+  }
 
   @Output()
-  public modelChange: EventEmitter<MsContentLocus>;
+  public locusChange: EventEmitter<MsContentLocus>;
 
   @Output()
   public editorClose: EventEmitter<any>;
@@ -29,10 +37,12 @@ export class MsContentLocusComponent implements OnInit {
   public refSheet: FormControl;
   public imageId: FormControl;
 
-  constructor(formBuilder: FormBuilder,
-    private _locService: MsLocationService) {
+  constructor(
+    formBuilder: FormBuilder,
+    private _locService: MsLocationService
+  ) {
     // events
-    this.modelChange = new EventEmitter<MsContentLocus>();
+    this.locusChange = new EventEmitter<MsContentLocus>();
     this.editorClose = new EventEmitter();
     // form
     this.citation = formBuilder.control(null, [
@@ -51,12 +61,14 @@ export class MsContentLocusComponent implements OnInit {
       citation: this.citation,
       text: this.text,
       refSheet: this.refSheet,
-      imageId: this.imageId
+      imageId: this.imageId,
     });
   }
 
   ngOnInit(): void {
-    this.updateForm(this.model);
+    if (this._locus) {
+      this.updateForm(this._locus);
+    }
   }
 
   private updateForm(model: MsContentLocus): void {
@@ -76,7 +88,7 @@ export class MsContentLocusComponent implements OnInit {
       citation: this.citation.value?.trim(),
       text: this.text.value?.trim(),
       refSheet: this._locService.parseLocation(this.refSheet.value),
-      imageId: this.imageId.value?.trim()
+      imageId: this.imageId.value?.trim(),
     };
   }
 
@@ -88,6 +100,6 @@ export class MsContentLocusComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
-    this.modelChange.emit(this.getModel());
+    this.locusChange.emit(this.getModel());
   }
 }

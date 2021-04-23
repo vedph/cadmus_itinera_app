@@ -85,9 +85,9 @@
 
         <mat-tab label="dedication" *ngIf="editedDedication">
           <itinera-lit-dedication
-            [model]="editedDedication"
+            [dedication]="editedDedication"
             [tagEntries]="tagEntries"
-            (modelChange)="onDedicationSaved($event)"
+            (dedicationChange)="onDedicationSaved($event)"
             (editorClose)="onDedicationClosed()"
           ></itinera-lit-dedication>
         </mat-tab>

@@ -20,14 +20,14 @@ import { MsLayoutFormulaService } from './ms-layout-formula.service';
   styleUrls: ['./ms-layout.component.css'],
 })
 export class MsLayoutComponent implements OnInit {
-  private _model: MsLayout | undefined;
+  private _layout: MsLayout | undefined;
 
   @Input()
-  public get model(): MsLayout | undefined {
-    return this._model;
+  public get layout(): MsLayout | undefined {
+    return this._layout;
   }
-  public set model(value: MsLayout | undefined) {
-    this._model = value;
+  public set layout(value: MsLayout | undefined) {
+    this._layout = value;
     this.updateForm(value);
   }
 
@@ -41,7 +41,7 @@ export class MsLayoutComponent implements OnInit {
   public rulingEntries: ThesaurusEntry[] | undefined;
 
   @Output()
-  public modelChange: EventEmitter<MsLayout>;
+  public layoutChange: EventEmitter<MsLayout>;
   @Output()
   public editorClose: EventEmitter<any>;
 
@@ -63,7 +63,7 @@ export class MsLayoutComponent implements OnInit {
     private _locService: MsLocationService,
     private _layoutService: MsLayoutFormulaService
   ) {
-    this.modelChange = new EventEmitter<MsLayout>();
+    this.layoutChange = new EventEmitter<MsLayout>();
     this.editorClose = new EventEmitter<any>();
     this.initialCounts = [];
     // form
@@ -97,7 +97,9 @@ export class MsLayoutComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.updateForm(this.model);
+    if (this._layout) {
+      this.updateForm(this._layout);
+    }
   }
 
   private updateForm(model: MsLayout | undefined): void {
@@ -234,6 +236,6 @@ export class MsLayoutComponent implements OnInit {
     if (!model) {
       return;
     }
-    this.modelChange.emit(model);
+    this.layoutChange.emit(model);
   }
 }

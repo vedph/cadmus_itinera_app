@@ -282,7 +282,9 @@ export class MsDecorationElementComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.updateForm(this.element);
+    if (this._element) {
+      this.updateForm(this._element);
+    }
     this.onTabIndexChanged(0);
 
     // filter thesauri according to element's type

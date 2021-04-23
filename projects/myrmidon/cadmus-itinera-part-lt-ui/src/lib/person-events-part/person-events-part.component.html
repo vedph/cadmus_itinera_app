@@ -85,11 +85,11 @@
 
         <mat-tab label="event" *ngIf="editedEvent">
           <itinera-bio-event
-            [model]="editedEvent"
+            [event]="editedEvent"
             [typeEntries]="typeEntries"
             [partTagEntries]="partTagEntries"
             [docRefTagEntries]="docRefTagEntries"
-            (modelChange)="onEventSaved($event)"
+            (eventChange)="onEventSaved($event)"
             (editorClose)="onEventClosed()"
           ></itinera-bio-event>
         </mat-tab>

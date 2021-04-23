@@ -190,8 +190,8 @@
 
         <mat-tab label="palimpsest" *ngIf="editedPalimpsest">
           <itinera-ms-palimpsest
-            [model]="editedPalimpsest"
-            (modelChange)="onPalimpsestChange($event)"
+            [palimpsest]="editedPalimpsest"
+            (palimpsestChange)="onPalimpsestChange($event)"
             (editorClose)="onPalimpsestClose()"
           >
           </itinera-ms-palimpsest>

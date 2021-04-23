@@ -18,8 +18,16 @@ import { MsRestoration } from '@myrmidon/cadmus-itinera-core';
   styleUrls: ['./ms-restoration.component.css'],
 })
 export class MsRestorationComponent implements OnInit {
+  private _restoration: MsRestoration | undefined;
+
   @Input()
-  public model: MsRestoration;
+  public get restoration(): MsRestoration | undefined {
+    return this._restoration;
+  }
+  public set restoration(value: MsRestoration | undefined) {
+    this._restoration = value;
+    this.updateForm(value);
+  }
 
   @Input()
   public typeEntries: ThesaurusEntry[] | undefined;
@@ -27,7 +35,7 @@ export class MsRestorationComponent implements OnInit {
   public docRefTagEntries: ThesaurusEntry[] | undefined;
 
   @Output()
-  public modelChange: EventEmitter<MsRestoration>;
+  public restorationChange: EventEmitter<MsRestoration>;
 
   @Output()
   public editorClose: EventEmitter<any>;
@@ -45,7 +53,7 @@ export class MsRestorationComponent implements OnInit {
   constructor(formBuilder: FormBuilder) {
     this.initialSources = [];
     // events
-    this.modelChange = new EventEmitter<MsRestoration>();
+    this.restorationChange = new EventEmitter<MsRestoration>();
     this.editorClose = new EventEmitter();
     // form
     this.type = formBuilder.control(null, [
@@ -66,7 +74,9 @@ export class MsRestorationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.updateForm(this.model);
+    if (this._restoration) {
+      this.updateForm(this._restoration);
+    }
   }
 
   private updateForm(model: MsRestoration): void {
@@ -106,6 +116,6 @@ export class MsRestorationComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
-    this.modelChange.emit(this.getModel());
+    this.restorationChange.emit(this.getModel());
   }
 }

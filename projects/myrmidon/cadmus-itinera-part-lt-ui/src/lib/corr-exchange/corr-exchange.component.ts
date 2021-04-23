@@ -32,11 +32,18 @@ import { debounceTime } from 'rxjs/operators';
 })
 export class CorrExchangeComponent implements OnInit, AfterViewInit, OnDestroy {
   private _nameSubscription: Subscription;
+  private _exchange: CorrExchange | undefined;
 
   @ViewChildren('name') nameQueryList: QueryList<any>;
 
   @Input()
-  public model: CorrExchange;
+  public get exchange(): CorrExchange | undefined {
+    return this._exchange;
+  }
+  public set exchange(value: CorrExchange | undefined) {
+    this._exchange = value;
+    this.updateForm(value);
+  }
 
   // doc-reference-tags
   @Input()
@@ -51,7 +58,7 @@ export class CorrExchangeComponent implements OnInit, AfterViewInit, OnDestroy {
   public attTypeEntries: ThesaurusEntry[] | undefined;
 
   @Output()
-  public modelChange: EventEmitter<CorrExchange>;
+  public exchangeChange: EventEmitter<CorrExchange>;
 
   @Output()
   public editorClose: EventEmitter<any>;
@@ -74,7 +81,7 @@ export class CorrExchangeComponent implements OnInit, AfterViewInit, OnDestroy {
     this.participants$ = new BehaviorSubject<DecoratedId[]>([]);
     this.initialSources = [];
     // events
-    this.modelChange = new EventEmitter<CorrExchange>();
+    this.exchangeChange = new EventEmitter<CorrExchange>();
     this.editorClose = new EventEmitter();
     // form
     this.dubious = formBuilder.control(false);
@@ -94,7 +101,9 @@ export class CorrExchangeComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.updateForm(this.model);
+    if (this._exchange) {
+      this.updateForm(this._exchange);
+    }
   }
 
   public ngAfterViewInit(): void {
@@ -173,6 +182,6 @@ export class CorrExchangeComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.form.invalid) {
       return;
     }
-    this.modelChange.emit(this.getModel());
+    this.exchangeChange.emit(this.getModel());
   }
 }

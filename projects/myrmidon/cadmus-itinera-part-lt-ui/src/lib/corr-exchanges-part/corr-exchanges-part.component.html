@@ -83,10 +83,10 @@
 
         <mat-tab label="exchange" *ngIf="editedExchange">
           <itinera-corr-exchange
-            [model]="editedExchange"
+            [exchange]="editedExchange"
             [tagEntries]="tagEntries"
             [typeEntries]="typeEntries"
-            (modelChange)="onExchangeSave($event)"
+            (exchangeChange)="onExchangeSave($event)"
             (editorClose)="onExchangeClose()"
           ></itinera-corr-exchange>
         </mat-tab>

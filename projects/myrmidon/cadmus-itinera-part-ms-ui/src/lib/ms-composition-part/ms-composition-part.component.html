@@ -200,18 +200,18 @@
 
         <mat-tab label="guards" *ngIf="editedGuardSheet">
           <itinera-ms-guard-sheet
-            [model]="editedGuardSheet"
+            [sheet]="editedGuardSheet"
             [materialEntries]="materialEntries"
-            (modelChange)="onGuardSheetSaved($event)"
+            (sheetChange)="onGuardSheetSaved($event)"
             (editorClose)="onGuardSheetClosed()"
           ></itinera-ms-guard-sheet>
         </mat-tab>
 
         <mat-tab label="sections" *ngIf="editedSection">
           <itinera-ms-section
-            [model]="editedSection"
+            [section]="editedSection"
             [eraEntries]="eraEntries"
-            (modelChange)="onSectionSaved($event)"
+            (sectionChange)="onSectionSaved($event)"
             (editorClose)="onSectionClosed()"
           ></itinera-ms-section>
         </mat-tab>

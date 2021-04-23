@@ -14,8 +14,16 @@ import { CorrPseudonym } from '@myrmidon/cadmus-itinera-core';
   styleUrls: ['./corr-pseudonym.component.css'],
 })
 export class CorrPseudonymComponent implements OnInit {
+  private _pseudonym: CorrPseudonym | undefined;
+
   @Input()
-  public model: CorrPseudonym;
+  public get pseudonym(): CorrPseudonym | undefined {
+    return this._pseudonym;
+  }
+  public set pseudonym(value: CorrPseudonym | undefined) {
+    this._pseudonym = value;
+    this.updateForm(value);
+  }
 
   @Input()
   public langEntries: ThesaurusEntry[] | undefined;
@@ -23,7 +31,7 @@ export class CorrPseudonymComponent implements OnInit {
   public tagEntries: ThesaurusEntry[] | undefined;
 
   @Output()
-  public modelChange: EventEmitter<CorrPseudonym>;
+  public pseudonymChange: EventEmitter<CorrPseudonym>;
 
   @Output()
   public editorClose: EventEmitter<any>;
@@ -39,7 +47,7 @@ export class CorrPseudonymComponent implements OnInit {
   constructor(formBuilder: FormBuilder) {
     this.initialSources = [];
     // events
-    this.modelChange = new EventEmitter<CorrPseudonym>();
+    this.pseudonymChange = new EventEmitter<CorrPseudonym>();
     this.editorClose = new EventEmitter();
     // form
     this.language = formBuilder.control(null, [
@@ -56,12 +64,14 @@ export class CorrPseudonymComponent implements OnInit {
       language: this.language,
       value: this.value,
       author: this.author,
-      sources: this.sources
+      sources: this.sources,
     });
   }
 
   ngOnInit(): void {
-    this.updateForm(this.model);
+    if (this._pseudonym) {
+      this.updateForm(this._pseudonym);
+    }
   }
 
   private updateForm(model: CorrPseudonym): void {
@@ -99,6 +109,6 @@ export class CorrPseudonymComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
-    this.modelChange.emit(this.getModel());
+    this.pseudonymChange.emit(this.getModel());
   }
 }

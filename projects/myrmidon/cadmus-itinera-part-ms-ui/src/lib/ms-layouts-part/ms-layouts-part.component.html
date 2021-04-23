@@ -83,12 +83,12 @@
 
         <mat-tab label="layout" *ngIf="editedLayout">
           <itinera-ms-layout
-            [model]="editedLayout"
+            [layout]="editedLayout"
             [countEntries]="countEntries"
             [dimEntries]="dimEntries"
             [rulingEntries]="rulingEntries"
             [unitEntries]="unitEntries"
-            (modelChange)="onLayoutSave($event)"
+            (layoutChange)="onLayoutSave($event)"
             (editorClose)="onLayoutClose()"
           >
           </itinera-ms-layout>

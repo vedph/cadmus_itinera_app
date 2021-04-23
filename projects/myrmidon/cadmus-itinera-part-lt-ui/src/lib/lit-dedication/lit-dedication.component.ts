@@ -18,14 +18,22 @@ import { DecoratedId, LitDedication } from '@myrmidon/cadmus-itinera-core';
   styleUrls: ['./lit-dedication.component.css'],
 })
 export class LitDedicationComponent implements OnInit {
+  private _dedication: LitDedication | undefined;
+
   @Input()
-  public model: LitDedication;
+  public get dedication(): LitDedication | undefined {
+    return this._dedication;
+  }
+  public set dedication(value: LitDedication | undefined) {
+    this._dedication = value;
+    this.updateForm(value);
+  }
 
   @Input()
   public tagEntries: ThesaurusEntry[] | undefined;
 
   @Output()
-  public modelChange: EventEmitter<LitDedication>;
+  public dedicationChange: EventEmitter<LitDedication>;
 
   @Output()
   public editorClose: EventEmitter<any>;
@@ -44,7 +52,7 @@ export class LitDedicationComponent implements OnInit {
   constructor(formBuilder: FormBuilder) {
     this.initialSources = [];
     // events
-    this.modelChange = new EventEmitter<LitDedication>();
+    this.dedicationChange = new EventEmitter<LitDedication>();
     this.editorClose = new EventEmitter();
     // form
     this.title = formBuilder.control(null, [
@@ -63,7 +71,9 @@ export class LitDedicationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.updateForm(this.model);
+    if (this._dedication) {
+      this.updateForm(this._dedication);
+    }
   }
 
   private updateForm(model: LitDedication): void {
@@ -124,6 +134,6 @@ export class LitDedicationComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
-    this.modelChange.emit(this.getModel());
+    this.dedicationChange.emit(this.getModel());
   }
 }

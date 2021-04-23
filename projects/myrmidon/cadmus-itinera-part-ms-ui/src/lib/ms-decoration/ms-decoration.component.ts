@@ -49,11 +49,19 @@ import { take } from 'rxjs/operators';
   styleUrls: ['./ms-decoration.component.css'],
 })
 export class MsDecorationComponent implements OnInit {
+  private _decoration: MsDecoration | undefined;
+
   public editedElementIndex: number;
   public editedElement: MsDecorationElement | undefined;
 
   @Input()
-  public decoration: MsDecoration;
+  public get decoration(): MsDecoration | undefined {
+    return this._decoration;
+  }
+  public set decoration(value: MsDecoration | undefined) {
+    this._decoration = value;
+    this.updateForm(value);
+  }
 
   // doc-reference-tags
   @Input()
@@ -172,7 +180,9 @@ export class MsDecorationComponent implements OnInit {
       }
     });
 
-    this.updateForm(this.decoration);
+    if (this._decoration) {
+      this.updateForm(this._decoration);
+    }
   }
 
   private getKeys(elements: MsDecorationElement[] | undefined): string[] {

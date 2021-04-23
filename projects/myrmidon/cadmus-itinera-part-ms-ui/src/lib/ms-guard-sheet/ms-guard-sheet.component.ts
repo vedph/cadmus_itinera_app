@@ -15,14 +15,22 @@ import { MsLocationService } from '@myrmidon/cadmus-itinera-core';
   styleUrls: ['./ms-guard-sheet.component.css'],
 })
 export class MsGuardSheetComponent implements OnInit {
+  private _sheet : MsGuardSheet | undefined;
+
   @Input()
-  public model: MsGuardSheet;
+  public get sheet() : MsGuardSheet | undefined {
+    return this._sheet;
+  }
+  public set sheet(value : MsGuardSheet | undefined) {
+    this._sheet = value;
+    this.updateForm(value);
+  }
 
   @Input()
   public materialEntries: ThesaurusEntry[] | undefined;
 
   @Output()
-  public modelChange: EventEmitter<MsGuardSheet>;
+  public sheetChange: EventEmitter<MsGuardSheet>;
 
   @Output()
   public editorClose: EventEmitter<any>;
@@ -41,7 +49,7 @@ export class MsGuardSheetComponent implements OnInit {
     private _msLocationService: MsLocationService
   ) {
     // event
-    this.modelChange = new EventEmitter<MsGuardSheet>();
+    this.sheetChange = new EventEmitter<MsGuardSheet>();
     this.editorClose = new EventEmitter<any>();
     // form
     this.back = formBuilder.control(false);
@@ -68,7 +76,9 @@ export class MsGuardSheetComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.updateForm(this.model);
+    if (this._sheet) {
+      this.updateForm(this._sheet);
+    }
   }
 
   private updateForm(model: MsGuardSheet): void {
@@ -117,6 +127,6 @@ export class MsGuardSheetComponent implements OnInit {
       return;
     }
     const model = this.getModel();
-    this.modelChange.emit(model);
+    this.sheetChange.emit(model);
   }
 }

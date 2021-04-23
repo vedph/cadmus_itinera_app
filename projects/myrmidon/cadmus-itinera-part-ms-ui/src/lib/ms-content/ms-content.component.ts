@@ -20,11 +20,19 @@ import {
   styleUrls: ['./ms-content.component.css'],
 })
 export class MsContentComponent implements OnInit {
+  private _content: MsContent | undefined;
+
   @Input()
-  public model: MsContent;
+  public get content(): MsContent | undefined {
+    return this._content;
+  }
+  public set content(value: MsContent | undefined) {
+    this._content = value;
+    this.updateForm(value);
+  }
 
   @Output()
-  public modelChange: EventEmitter<MsContent>;
+  public contentChange: EventEmitter<MsContent>;
 
   @Output()
   public editorClose: EventEmitter<any>;
@@ -48,7 +56,7 @@ export class MsContentComponent implements OnInit {
     private _locService: MsLocationService
   ) {
     // event
-    this.modelChange = new EventEmitter<MsContent>();
+    this.contentChange = new EventEmitter<MsContent>();
     this.editorClose = new EventEmitter<any>();
     // form
     this.author = _formBuilder.control(null, Validators.maxLength(50));
@@ -80,7 +88,9 @@ export class MsContentComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.updateForm(this.model);
+    if (this._content) {
+      this.updateForm(this._content);
+    }
   }
 
   private updateForm(model: MsContent): void {
@@ -91,13 +101,15 @@ export class MsContentComponent implements OnInit {
     this.author.setValue(model.author);
     this.claimedAuthor.setValue(model.claimedAuthor);
     this.work.setValue(model.work);
-    this.ranges.setValue(model.ranges
-      ? model.ranges
-          .map((r) => {
-            return this._locService.rangeToString(r);
-          })
-          .join(' ')
-      : null);
+    this.ranges.setValue(
+      model.ranges
+        ? model.ranges
+            .map((r) => {
+              return this._locService.rangeToString(r);
+            })
+            .join(' ')
+        : null
+    );
     this.state.setValue(model.state);
     this.incipit.setValue(model.incipit);
     this.explicit.setValue(model.explicit);
@@ -155,7 +167,7 @@ export class MsContentComponent implements OnInit {
       incipit: this.incipit.value?.trim(),
       explicit: this.explicit.value?.trim(),
       note: this.note.value?.trim(),
-      units: []
+      units: [],
     };
 
     for (let i = 0; i < this.units.length; i++) {
@@ -224,6 +236,6 @@ export class MsContentComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
-    this.modelChange.emit(this.getModel());
+    this.contentChange.emit(this.getModel());
   }
 }
