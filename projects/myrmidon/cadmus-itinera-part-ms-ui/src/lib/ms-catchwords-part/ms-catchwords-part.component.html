@@ -104,15 +104,9 @@
 
               <!-- vertical -->
               &nbsp;
-              <mat-form-field style="width: 6em">
-                <mat-select
-                  formControlName="isVertical"
-                  placeholder="direction"
-                >
-                  <mat-option [value]="false">horizontal</mat-option>
-                  <mat-option [value]="true">vertical</mat-option>
-                </mat-select>
-              </mat-form-field>
+              <mat-slide-toggle formControlName="isVertical">
+                <mat-icon>{{item['controls'].isVertical.value? 'swap_vert' : 'swap_horiz'}}</mat-icon>
+              </mat-slide-toggle>
             </div>
             <div class="additional-row">
               <!-- decoration -->
@@ -153,11 +147,7 @@
             <div class="additional-row">
               <!-- note -->
               <mat-form-field class="long-text">
-                <input
-                  matInput
-                  formControlName="note"
-                  placeholder="note"
-                />
+                <input matInput formControlName="note" placeholder="note" />
                 <mat-error
                   *ngIf="
                     item['controls'].note.errors?.maxLength &&

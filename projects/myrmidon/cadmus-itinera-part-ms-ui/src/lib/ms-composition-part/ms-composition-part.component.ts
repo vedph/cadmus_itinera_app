@@ -97,6 +97,10 @@ export class MsCompositionPartComponent
     }
   }
 
+  public locationToString(loc: MsLocation): string {
+    return this._msLocationService.locationToString(loc);
+  }
+
   public rangeToString(range: MsLocationRange): string {
     return this._msLocationService.rangeToString(range);
   }
