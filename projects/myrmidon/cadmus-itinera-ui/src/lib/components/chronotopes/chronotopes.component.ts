@@ -1,8 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import {
-  HistoricalDate,
-  ThesaurusEntry,
-} from '@myrmidon/cadmus-core';
+import { HistoricalDate, ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { Chronotope } from '@myrmidon/cadmus-itinera-core';
 import { DialogService } from '@myrmidon/cadmus-ui';
 import { take } from 'rxjs/operators';
@@ -60,35 +57,36 @@ export class ChronotopesComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  private closeChronotopeEditor(): void {
+    this._editedIndex = -1;
+    this.editedChronotope = undefined;
+  }
+
   public addChronotope(): void {
-    const chronotope: Chronotope = {
+    this._editedIndex = -1;
+    this.editedChronotope = {
       place: null,
       date: null,
     };
-    this.chronotopes = [...this.chronotopes, chronotope];
-    this.editChronotope(this.chronotopes.length - 1);
   }
 
   public editChronotope(index: number): void {
-    if (index < 0) {
-      this._editedIndex = -1;
-      this.editedChronotope = undefined;
-    } else {
-      this._editedIndex = index;
-      this.editedChronotope = this.chronotopes[index];
-    }
+    this._editedIndex = index;
+    this.editedChronotope = this.chronotopes[index];
   }
 
-  public onChronotopeSave(chronotope: Chronotope): void {
-    this.chronotopes = this.chronotopes.map((s, i) =>
-      i === this._editedIndex ? chronotope : s
-    );
-    this.editChronotope(-1);
+  public onChronotopeChange(chronotope: Chronotope): void {
+    if (this._editedIndex === -1) {
+      this.chronotopes.push(chronotope);
+    } else {
+      this.chronotopes.splice(this._editedIndex, 1, chronotope);
+    }
+    this.closeChronotopeEditor();
     this.chronotopesChange.emit(this._chronotopes);
   }
 
   public onChronotopeClose(): void {
-    this.editChronotope(-1);
+    this.closeChronotopeEditor();
   }
 
   public deleteChronotope(index: number): void {
@@ -97,9 +95,8 @@ export class ChronotopesComponent implements OnInit {
       .pipe(take(1))
       .subscribe((yes) => {
         if (yes) {
-          const chronotopes = [...this.chronotopes];
-          chronotopes.splice(index, 1);
-          this.chronotopes = chronotopes;
+          this.closeChronotopeEditor();
+          this.chronotopes.splice(index, 1);
           this.chronotopesChange.emit(this._chronotopes);
         }
       });
@@ -109,6 +106,7 @@ export class ChronotopesComponent implements OnInit {
     if (index < 1) {
       return;
     }
+    this.closeChronotopeEditor();
     const chronotope = this.chronotopes[index];
     const chronotopes = [...this.chronotopes];
     chronotopes.splice(index, 1);
@@ -121,6 +119,7 @@ export class ChronotopesComponent implements OnInit {
     if (index + 1 >= this.chronotopes.length) {
       return;
     }
+    this.closeChronotopeEditor();
     const chronotope = this.chronotopes[index];
     const chronotopes = [...this.chronotopes];
     chronotopes.splice(index, 1);

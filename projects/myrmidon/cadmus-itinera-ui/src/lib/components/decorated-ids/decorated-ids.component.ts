@@ -38,7 +38,7 @@ export class DecoratedIdsComponent {
   }
   public set ids(value: DecoratedId[]) {
     this._ids = value || [];
-    this.editId(-1);
+    this.closeIdEditor();
   }
 
   @Input()
@@ -71,32 +71,31 @@ export class DecoratedIdsComponent {
       id: this.id,
       rank: this.rank,
       tag: this.tag,
-      sources: this.sources
+      sources: this.sources,
     });
     this.form = formBuilder.group({
       subForm: this.subForm,
     });
   }
 
+  private closeIdEditor(): void {
+    this.editedId = undefined;
+    this.initialSources = [];
+    this.subForm?.reset();
+    this.subForm?.disable();
+    this.editorOpen = false;
+  }
+
   public editId(index: number): void {
     this.editedIndex = index;
-
-    if (index === -1) {
-      this.editedId = null;
-      this.initialSources = [];
-      this.subForm?.reset();
-      this.subForm?.disable();
-      this.editorOpen = false;
-    } else {
-      this.subForm.enable();
-      this.editedId = this.ids[index];
-      this.initialSources = this.editedId.sources || [];
-      this.id.setValue(this.editedId.id);
-      this.rank.setValue(this.editedId.rank);
-      this.tag.setValue(this.editedId.tag);
-      this.subForm.markAsPristine();
-      this.editorOpen = true;
-    }
+    this.subForm.enable();
+    this.editedId = this.ids[index];
+    this.initialSources = this.editedId.sources || [];
+    this.id.setValue(this.editedId.id);
+    this.rank.setValue(this.editedId.rank);
+    this.tag.setValue(this.editedId.tag);
+    this.subForm.markAsPristine();
+    this.editorOpen = true;
   }
 
   private getEditedId(): DecoratedId {
@@ -133,7 +132,7 @@ export class DecoratedIdsComponent {
   }
 
   public closeEditedId(): void {
-    this.editId(-1);
+    this.closeIdEditor();
   }
 
   public saveEditedId(): void {

@@ -19,7 +19,7 @@
               <mat-icon>add_circle</mat-icon> add hand
             </button>
           </div>
-          <table *ngIf="hands?.length">
+          <table *ngIf="hands?.value?.length">
             <thead>
               <tr>
                 <th></th>
@@ -32,7 +32,7 @@
             <tbody>
               <tr
                 *ngFor="
-                  let h of hands;
+                  let h of hands.value;
                   let i = index;
                   let first = first;
                   let last = last
@@ -94,8 +94,8 @@
             [rubrEntries]="rubrEntries"
             [langEntries]="langEntries"
             [handNotePropEntries]="handNotePropEntries"
-            (handChange)="onHandSaved($event)"
-            (editorClose)="onHandClosed()"
+            (handChange)="onHandChange($event)"
+            (editorClose)="onHandClose()"
           ></itinera-ms-hand>
         </mat-tab>
       </mat-tab-group>

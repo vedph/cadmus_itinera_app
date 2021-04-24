@@ -41,9 +41,9 @@
           </button>
         </td>
         <td>{{ id.id }}</td>
-        <td>{{ id.rank }}</td>
+        <td style="text-align: center;">{{ id.rank }}</td>
         <td>{{ id.tag }}</td>
-        <td>{{ id.sources?.length || 0 }}</td>
+        <td style="text-align: center;">{{ id.sources?.length || 0 }}</td>
       </tr>
     </tbody>
   </table>
@@ -69,8 +69,7 @@
             >ID too long</mat-error
           >
         </mat-form-field>
-      </div>
-      <div>
+        &nbsp;
         <!-- rank -->
         <mat-form-field style="width: 3em">
           <input

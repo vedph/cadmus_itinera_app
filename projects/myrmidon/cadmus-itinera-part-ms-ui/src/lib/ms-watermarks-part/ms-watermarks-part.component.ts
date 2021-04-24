@@ -26,13 +26,11 @@ export class MsWatermarksPartComponent
   private _editedIndex: number;
 
   public tabIndex: number;
-  public editedWatermark: MsWatermark;
+  public editedWatermark: MsWatermark | undefined;
+
+  public watermarks: FormControl;
 
   public subjectEntries: ThesaurusEntry[] | undefined;
-
-  public watermarks: MsWatermark[];
-
-  public count: FormControl;
 
   constructor(
     authService: AuthService,
@@ -42,11 +40,10 @@ export class MsWatermarksPartComponent
     super(authService);
     this.tabIndex = 0;
     this._editedIndex = -1;
-    this.watermarks = [];
     // form
-    this.count = formBuilder.control(0, Validators.min(1));
+    this.watermarks = formBuilder.control([], Validators.required);
     this.form = formBuilder.group({
-      count: this.count,
+      watermarks: this.watermarks,
     });
   }
 
@@ -59,8 +56,7 @@ export class MsWatermarksPartComponent
       this.form.reset();
       return;
     }
-    this.count.setValue(model.watermarks?.length || 0);
-    this.watermarks = model.watermarks || [];
+    this.watermarks.setValue(model.watermarks || []);
     this.form.markAsPristine();
   }
 
@@ -92,44 +88,46 @@ export class MsWatermarksPartComponent
         watermarks: [],
       };
     }
-    part.watermarks = this.watermarks;
+    part.watermarks = this.watermarks.value;
     return part;
   }
 
+  private closeWatermarkEditor(): void {
+    this._editedIndex = -1;
+    this.tabIndex = 0;
+    this.editedWatermark = undefined;
+  }
+
   public addWatermark(): void {
-    const sheet: MsWatermark = {
+    this._editedIndex = -1;
+    this.editedWatermark = {
       subject: null,
     };
-    this.watermarks = [...this.watermarks, sheet];
-    this.count.setValue(this.watermarks.length);
-    this.count.markAsDirty();
-    this.editWatermark(this.watermarks.length - 1);
+    setTimeout(() => {
+      this.tabIndex = 1;
+    }, 300);
   }
 
   public editWatermark(index: number): void {
-    if (index < 0) {
-      this._editedIndex = -1;
-      this.tabIndex = 0;
-      this.editedWatermark = null;
+    this._editedIndex = index;
+    this.editedWatermark = this.watermarks.value[index];
+    setTimeout(() => {
+      this.tabIndex = 1;
+    }, 300);
+  }
+
+  public onWatermarkChange(watermark: MsWatermark): void {
+    if (this._editedIndex === -1) {
+      this.watermarks.value.push(watermark);
     } else {
-      this._editedIndex = index;
-      this.editedWatermark = this.watermarks[index];
-      setTimeout(() => {
-        this.tabIndex = 1;
-      }, 300);
+      this.watermarks.value.slice(this._editedIndex, 1, watermark);
     }
+    this.closeWatermarkEditor();
+    this.form.markAsDirty();
   }
 
-  public onWatermarkSaved(sheet: MsWatermark): void {
-    this.watermarks = this.watermarks.map((s, i) =>
-      i === this._editedIndex ? sheet : s
-    );
-    this.editWatermark(-1);
-    this.count.markAsDirty();
-  }
-
-  public onWatermarkClosed(): void {
-    this.editWatermark(-1);
+  public onWatermarkClose(): void {
+    this.closeWatermarkEditor();
   }
 
   public deleteWatermark(index: number): void {
@@ -138,11 +136,9 @@ export class MsWatermarksPartComponent
       .pipe(take(1))
       .subscribe((yes) => {
         if (yes) {
-          const sheets = [...this.watermarks];
-          sheets.splice(index, 1);
-          this.watermarks = sheets;
-          this.count.setValue(this.watermarks.length);
-          this.count.markAsDirty();
+          this.closeWatermarkEditor();
+          this.watermarks.value.splice(index, 1);
+          this.form.markAsDirty();
         }
       });
   }
@@ -151,23 +147,25 @@ export class MsWatermarksPartComponent
     if (index < 1) {
       return;
     }
-    const sheet = this.watermarks[index];
-    const sheets = [...this.watermarks];
-    sheets.splice(index, 1);
-    sheets.splice(index - 1, 0, sheet);
-    this.watermarks = sheets;
+    this.closeWatermarkEditor();
+    const watermark = this.watermarks.value[index];
+    const watermarks = [...this.watermarks.value];
+    watermarks.splice(index, 1);
+    watermarks.splice(index - 1, 0, watermark);
+    this.watermarks.setValue(watermarks);
     this.form.markAsDirty();
   }
 
   public moveWatermarkDown(index: number): void {
-    if (index + 1 >= this.watermarks.length) {
+    if (index + 1 >= this.watermarks.value.length) {
       return;
     }
-    const sheet = this.watermarks[index];
-    const sheets = [...this.watermarks];
-    sheets.splice(index, 1);
-    sheets.splice(index + 1, 0, sheet);
-    this.watermarks = sheets;
+    this.closeWatermarkEditor();
+    const watermark = this.watermarks.value[index];
+    const watermarks = [...this.watermarks.value];
+    watermarks.splice(index, 1);
+    watermarks.splice(index + 1, 0, watermark);
+    this.watermarks.setValue(watermarks);
     this.form.markAsDirty();
   }
 }

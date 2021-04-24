@@ -19,7 +19,7 @@
               <mat-icon>add_circle</mat-icon> add watermark
             </button>
           </div>
-          <table *ngIf="watermarks?.length">
+          <table *ngIf="watermarks?.value?.length">
             <thead>
               <tr>
                 <th></th>
@@ -30,7 +30,7 @@
             <tbody>
               <tr
                 *ngFor="
-                  let w of watermarks;
+                  let w of watermarks.value;
                   let i = index;
                   let first = first;
                   let last = last
@@ -85,8 +85,8 @@
           <itinera-ms-watermark
             [watermark]="editedWatermark"
             [subjectEntries]="subjectEntries"
-            (watermarkChange)="onWatermarkSaved($event)"
-            (editorClose)="onWatermarkClosed()"
+            (watermarkChange)="onWatermarkChange($event)"
+            (editorClose)="onWatermarkClose()"
           ></itinera-ms-watermark>
         </mat-tab>
       </mat-tab-group>

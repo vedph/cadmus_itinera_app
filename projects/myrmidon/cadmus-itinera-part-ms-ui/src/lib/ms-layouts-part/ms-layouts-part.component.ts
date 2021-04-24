@@ -1,9 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  FormControl,
-  FormBuilder,
-  Validators,
-} from '@angular/forms';
+import { FormControl, FormBuilder, Validators } from '@angular/forms';
 
 import { DialogService, ModelEditorComponentBase } from '@myrmidon/cadmus-ui';
 import { AuthService } from '@myrmidon/cadmus-api';
@@ -123,40 +119,43 @@ export class MsLayoutsPartComponent
     return part;
   }
 
+  private closeLayoutEditor(): void {
+    this._editedIndex = -1;
+    this.tabIndex = 0;
+    this.editedLayout = undefined;
+  }
+
   public addLayout(): void {
-    const unit: MsLayout = {
+    this._editedIndex = -1;
+    this.editedLayout = {
       sample: null,
-      columnCount: 0
+      columnCount: 0,
     };
-    this.layouts.setValue([...this.layouts.value, unit]);
-    this.editLayout(this.layouts.value.length - 1);
+    setTimeout(() => {
+      this.tabIndex = 1;
+    }, 300);
   }
 
   public editLayout(index: number): void {
-    if (index < 0) {
-      this._editedIndex = -1;
-      this.tabIndex = 0;
-      this.editedLayout = undefined;
-    } else {
-      this._editedIndex = index;
-      this.editedLayout = this.layouts.value[index];
-      setTimeout(() => {
-        this.tabIndex = 1;
-      }, 300);
-    }
+    this._editedIndex = index;
+    this.editedLayout = this.layouts.value[index];
+    setTimeout(() => {
+      this.tabIndex = 1;
+    }, 300);
   }
 
-  public onLayoutSave(entry: MsLayout): void {
-    this.layouts.setValue(
-      this.layouts.value.map((e: MsLayout, i: number) =>
-        i === this._editedIndex ? entry : e
-      )
-    );
-    this.editLayout(-1);
+  public onLayoutChange(layout: MsLayout): void {
+    if (this._editedIndex === -1) {
+      this.layouts.value.push(layout);
+    } else {
+      this.layouts.value.splice(this._editedIndex, 1, layout);
+    }
+    this.closeLayoutEditor();
+    this.form.markAsDirty();
   }
 
   public onLayoutClose(): void {
-    this.editLayout(-1);
+    this.closeLayoutEditor();
   }
 
   public deleteLayout(index: number): void {
@@ -165,9 +164,9 @@ export class MsLayoutsPartComponent
       .pipe(take(1))
       .subscribe((yes) => {
         if (yes) {
-          const layouts = [...this.layouts.value];
-          layouts.splice(index, 1);
-          this.layouts.setValue(layouts);
+          this.closeLayoutEditor();
+          this.layouts.value.splice(index, 1);
+          this.form.markAsDirty();
         }
       });
   }
@@ -176,6 +175,7 @@ export class MsLayoutsPartComponent
     if (index < 1) {
       return;
     }
+    this.closeLayoutEditor();
     const layout = this.layouts.value[index];
     const layouts = [...this.layouts.value];
     layouts.splice(index, 1);
@@ -187,6 +187,7 @@ export class MsLayoutsPartComponent
     if (index + 1 >= this.layouts.value.length) {
       return;
     }
+    this.closeLayoutEditor();
     const layout = this.layouts.value[index];
     const layouts = [...this.layouts.value];
     layouts.splice(index, 1);

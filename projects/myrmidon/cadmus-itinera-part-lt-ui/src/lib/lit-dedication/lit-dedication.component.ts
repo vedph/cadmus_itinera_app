@@ -117,7 +117,7 @@ export class LitDedicationComponent implements OnInit {
     this.form.markAsDirty();
   }
 
-  public onSourcesChanged(sources: DocReference[]): void {
+  public onSourcesChange(sources: DocReference[]): void {
     this.sources.setValue(sources);
     this.form.markAsDirty();
   }

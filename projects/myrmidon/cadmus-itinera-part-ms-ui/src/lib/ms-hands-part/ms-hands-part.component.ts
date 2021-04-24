@@ -29,7 +29,9 @@ export class MsHandsPartComponent
   private _editedIndex: number;
 
   public tabIndex: number;
-  public editedHand: MsHand;
+  public editedHand: MsHand | undefined;
+
+  public hands: FormControl;
 
   public handTypeEntries: ThesaurusEntry[] | undefined;
   public signTypeEntries: ThesaurusEntry[] | undefined;
@@ -38,9 +40,6 @@ export class MsHandsPartComponent
   public langEntries: ThesaurusEntry[] | undefined;
   // ms-hand-note-props is used to label the MsHand note-properties
   public handNotePropEntries: ThesaurusEntry[] | undefined;
-
-  public hands: MsHand[];
-  public count: FormControl;
 
   constructor(
     authService: AuthService,
@@ -51,11 +50,10 @@ export class MsHandsPartComponent
     super(authService);
     this.tabIndex = 0;
     this._editedIndex = -1;
-    this.hands = [];
     // form
-    this.count = formBuilder.control(0, Validators.min(1));
+    this.hands = formBuilder.control([], Validators.required);
     this.form = formBuilder.group({
-      count: this.count,
+      hands: this.hands,
     });
   }
 
@@ -66,11 +64,9 @@ export class MsHandsPartComponent
   private updateForm(model: MsHandsPart): void {
     if (!model) {
       this.form.reset();
-      this.hands = [];
       return;
     }
-    this.count.setValue(model.hands?.length || 0);
-    this.hands = model.hands || [];
+    this.hands.setValue(model.hands || []);
     this.form.markAsPristine();
   }
 
@@ -137,46 +133,50 @@ export class MsHandsPartComponent
         hands: [],
       };
     }
-    part.hands = this.hands;
+    part.hands = this.hands.value;
     return part;
   }
 
+  private closeHandEditor(): void {
+    this._editedIndex = -1;
+    this.tabIndex = 0;
+    this.editedHand = undefined;
+  }
+
   public addHand(): void {
-    const hand: MsHand = {
+    this._editedIndex = -1;
+    this.editedHand = {
       id: null,
       idReason: null,
       types: [],
       description: null,
       ranges: [],
     };
-    this.hands = [...this.hands, hand];
-    this.count.setValue(this.hands.length);
-    this.count.markAsDirty();
-    this.editHand(this.hands.length - 1);
+    setTimeout(() => {
+      this.tabIndex = 1;
+    }, 300);
   }
 
   public editHand(index: number): void {
-    if (index < 0) {
-      this._editedIndex = -1;
-      this.tabIndex = 0;
-      this.editedHand = null;
+    this._editedIndex = index;
+    this.editedHand = this.hands.value[index];
+    setTimeout(() => {
+      this.tabIndex = 1;
+    }, 300);
+  }
+
+  public onHandChange(hand: MsHand): void {
+    if (this._editedIndex === -1) {
+      this.hands.value.push(hand);
     } else {
-      this._editedIndex = index;
-      this.editedHand = this.hands[index];
-      setTimeout(() => {
-        this.tabIndex = 1;
-      }, 300);
+      this.hands.value.splice(this._editedIndex, 1, hand);
     }
+    this.closeHandEditor();
+    this.form.markAsDirty();
   }
 
-  public onHandSaved(hand: MsHand): void {
-    this.hands = this.hands.map((s, i) => (i === this._editedIndex ? hand : s));
-    this.editHand(-1);
-    this.count.markAsDirty();
-  }
-
-  public onHandClosed(): void {
-    this.editHand(-1);
+  public onHandClose(): void {
+    this.closeHandEditor();
   }
 
   public deleteHand(index: number): void {
@@ -185,11 +185,9 @@ export class MsHandsPartComponent
       .pipe(take(1))
       .subscribe((yes) => {
         if (yes) {
-          const hands = [...this.hands];
-          hands.splice(index, 1);
-          this.hands = hands;
-          this.count.setValue(this.hands.length);
-          this.count.markAsDirty();
+          this.closeHandEditor();
+          this.hands.value.splice(index, 1);
+          this.form.markAsDirty();
         }
       });
   }
@@ -198,22 +196,22 @@ export class MsHandsPartComponent
     if (index < 1) {
       return;
     }
-    const hand = this.hands[index];
-    const hands = [...this.hands];
+    const hand = this.hands.value[index];
+    const hands = [...this.hands.value];
     hands.splice(index, 1);
     hands.splice(index - 1, 0, hand);
-    this.hands = hands;
+    this.hands.setValue(hands);
   }
 
   public moveHandDown(index: number): void {
-    if (index + 1 >= this.hands.length) {
+    if (index + 1 >= this.hands.value.length) {
       return;
     }
-    const hand = this.hands[index];
-    const hands = [...this.hands];
+    const hand = this.hands.value[index];
+    const hands = [...this.hands.value];
     hands.splice(index, 1);
     hands.splice(index + 1, 0, hand);
-    this.hands = hands;
+    this.hands.setValue(hands);
   }
 
   public locationToString(location: MsLocation): string {
