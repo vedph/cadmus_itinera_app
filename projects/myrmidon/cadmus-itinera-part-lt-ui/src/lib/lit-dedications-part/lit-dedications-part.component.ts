@@ -140,6 +140,7 @@ export class LitDedicationsPartComponent
       .pipe(take(1))
       .subscribe((yes) => {
         if (yes) {
+          this.closeDedicationEditor();
           this.dedications.value.splice(index, 1);
           this.form.markAsDirty();
         }
@@ -150,6 +151,7 @@ export class LitDedicationsPartComponent
     if (index < 1) {
       return;
     }
+    this.closeDedicationEditor();
     const dedication = this.dedications.value[index];
     const dedications = [...this.dedications.value];
     dedications.splice(index, 1);
@@ -161,6 +163,7 @@ export class LitDedicationsPartComponent
     if (index + 1 >= this.dedications.value.length) {
       return;
     }
+    this.closeDedicationEditor();
     const dedication = this.dedications.value[index];
     const dedications = [...this.dedications.value];
     dedications.splice(index, 1);

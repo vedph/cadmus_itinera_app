@@ -151,6 +151,7 @@ export class MsContentsPartComponent
     if (index < 1) {
       return;
     }
+    this.closeContentEditor();
     const content = this.contents.value[index];
     const contents = [...this.contents.value];
     contents.splice(index, 1);
@@ -163,6 +164,7 @@ export class MsContentsPartComponent
     if (index + 1 >= this.contents.value.length) {
       return;
     }
+    this.closeContentEditor();
     const content = this.contents.value[index];
     const contents = [...this.contents.value];
     contents.splice(index, 1);

@@ -159,6 +159,7 @@ export class PersonEventsPartComponent
       .pipe(take(1))
       .subscribe((yes) => {
         if (yes) {
+          this.closeEventEditor();
           this.events.value.splice(index, 1);
           this.form.markAsDirty();
         }
@@ -169,6 +170,7 @@ export class PersonEventsPartComponent
     if (index < 1) {
       return;
     }
+    this.closeEventEditor();
     const event = this.events.value[index];
     const events = [...this.events.value];
     events.splice(index, 1);
@@ -180,6 +182,7 @@ export class PersonEventsPartComponent
     if (index + 1 >= this.events.value.length) {
       return;
     }
+    this.closeEventEditor();
     const event = this.events.value[index];
     const events = [...this.events.value];
     events.splice(index, 1);

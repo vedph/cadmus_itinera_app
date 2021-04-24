@@ -155,6 +155,7 @@ export class CorrExchangesPartComponent
       .pipe(take(1))
       .subscribe((yes) => {
         if (yes) {
+          this.closeExchangeEditor();
           this.exchanges.value.splice(index, 1);
           this.form.markAsDirty();
         }
@@ -165,6 +166,7 @@ export class CorrExchangesPartComponent
     if (index < 1) {
       return;
     }
+    this.closeExchangeEditor();
     const exchange = this.exchanges.value[index];
     const exchanges = [...this.exchanges.value];
     exchanges.splice(index, 1);
@@ -177,6 +179,7 @@ export class CorrExchangesPartComponent
     if (index + 1 >= this.exchanges.value.length) {
       return;
     }
+    this.closeExchangeEditor();
     const exchange = this.exchanges.value[index];
     const exchanges = [...this.exchanges.value];
     exchanges.splice(index, 1);

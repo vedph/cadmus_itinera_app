@@ -182,6 +182,7 @@ export class MsCompositionPartComponent
       .confirm('Confirmation', 'Delete guard sheet?')
       .pipe(take(1))
       .subscribe((yes) => {
+        this.closeGuardSheetEditor();
         if (yes) {
           this.guardSheets.value.splice(index, 1);
           this.form.markAsDirty();
@@ -193,6 +194,7 @@ export class MsCompositionPartComponent
     if (index < 1) {
       return;
     }
+    this.closeGuardSheetEditor();
     const sheet = this.guardSheets.value[index];
     const sheets = [...this.guardSheets.value];
     sheets.splice(index, 1);
@@ -205,6 +207,7 @@ export class MsCompositionPartComponent
     if (index + 1 >= this.guardSheets.value.length) {
       return;
     }
+    this.closeGuardSheetEditor();
     const sheet = this.guardSheets.value[index];
     const sheets = [...this.guardSheets.value];
     sheets.splice(index, 1);

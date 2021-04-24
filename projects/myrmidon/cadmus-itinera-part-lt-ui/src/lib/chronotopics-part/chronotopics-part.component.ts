@@ -148,6 +148,7 @@ export class ChronotopicsPartComponent
       .pipe(take(1))
       .subscribe((yes) => {
         if (yes) {
+          this.closeChronotopeEditor();
           this.chronotopes.value.splice(index, 1);
           this.form.markAsDirty();
         }
@@ -158,6 +159,7 @@ export class ChronotopicsPartComponent
     if (index < 1) {
       return;
     }
+    this.closeChronotopeEditor();
     const chronotope = this.chronotopes.value[index];
     const chronotopes = [...this.chronotopes.value];
     chronotopes.splice(index, 1);
@@ -170,6 +172,7 @@ export class ChronotopicsPartComponent
     if (index + 1 >= this.chronotopes.value.length) {
       return;
     }
+    this.closeChronotopeEditor();
     const chronotope = this.chronotopes.value[index];
     const chronotopes = [...this.chronotopes.value];
     chronotopes.splice(index, 1);

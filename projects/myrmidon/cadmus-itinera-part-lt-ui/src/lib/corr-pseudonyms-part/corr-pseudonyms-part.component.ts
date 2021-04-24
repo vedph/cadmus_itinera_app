@@ -146,6 +146,7 @@ export class CorrPseudonymsPartComponent
       .pipe(take(1))
       .subscribe((yes) => {
         if (yes) {
+          this.closePseudonymEditor();
           this.pseudonyms.value.splice(index, 1);
           this.form.markAsDirty();
         }
@@ -156,6 +157,7 @@ export class CorrPseudonymsPartComponent
     if (index < 1) {
       return;
     }
+    this.closePseudonymEditor();
     const pseudonym = this.pseudonyms.value[index];
     const pseudonyms = [...this.pseudonyms.value];
     pseudonyms.splice(index, 1);
@@ -167,6 +169,7 @@ export class CorrPseudonymsPartComponent
     if (index + 1 >= this.pseudonyms.value.length) {
       return;
     }
+    this.closePseudonymEditor();
     const pseudonym = this.pseudonyms.value[index];
     const pseudonyms = [...this.pseudonyms.value];
     pseudonyms.splice(index, 1);

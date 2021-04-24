@@ -330,9 +330,7 @@ export class MsHistoryPartComponent
       .pipe(take(1))
       .subscribe((yes) => {
         if (yes) {
-          if (this.personIndex === index) {
-            this.personEditorOpen = false;
-          }
+          this.closePersonEditor();
           this.persons.value.splice(index, 1);
           this.form.markAsDirty();
         }
@@ -343,6 +341,7 @@ export class MsHistoryPartComponent
     if (index < 1) {
       return;
     }
+    this.closePersonEditor();
     const person = this.persons.value[index];
     const persons = [...this.persons.value];
     persons.splice(index, 1);
@@ -355,6 +354,7 @@ export class MsHistoryPartComponent
     if (index + 1 >= this.persons.value.length) {
       return;
     }
+    this.closePersonEditor();
     const person = this.persons.value[index];
     const persons = [...this.persons.value];
     persons.splice(index, 1);
@@ -411,9 +411,7 @@ export class MsHistoryPartComponent
       .pipe(take(1))
       .subscribe((yes) => {
         if (yes) {
-          if (this.annotationIndex === index) {
-            this.annotationEditorOpen = false;
-          }
+          this.closeAnnotationEditor();
           this.annotations.value.splice(index, 1);
           this.form.markAsDirty();
         }
@@ -424,6 +422,7 @@ export class MsHistoryPartComponent
     if (index < 1) {
       return;
     }
+    this.closeAnnotationEditor();
     const annotation = this.annotations.value[index];
     const annotations = [...this.annotations.value];
     annotations.splice(index, 1);
@@ -436,6 +435,7 @@ export class MsHistoryPartComponent
     if (index + 1 >= this.annotations.value.length) {
       return;
     }
+    this.closeAnnotationEditor();
     const annotation = this.annotations.value[index];
     const annotations = [...this.annotations.value];
     annotations.splice(index, 1);
@@ -486,9 +486,7 @@ export class MsHistoryPartComponent
       .pipe(take(1))
       .subscribe((yes) => {
         if (yes) {
-          if (this.restorationIndex === index) {
-            this.restorationEditorOpen = false;
-          }
+          this.closeRestorationEditor();
           this.restorations.value.splice(index, 1);
           this.form.markAsDirty();
         }
@@ -499,6 +497,7 @@ export class MsHistoryPartComponent
     if (index < 1) {
       return;
     }
+    this.closeRestorationEditor();
     const restoration = this.restorations.value[index];
     const restorations = [...this.restorations.value];
     restorations.splice(index, 1);
@@ -511,6 +510,7 @@ export class MsHistoryPartComponent
     if (index + 1 >= this.restorations.value.length) {
       return;
     }
+    this.closeRestorationEditor();
     const restoration = this.restorations[index];
     const restorations = [...this.restorations.value];
     restorations.splice(index, 1);

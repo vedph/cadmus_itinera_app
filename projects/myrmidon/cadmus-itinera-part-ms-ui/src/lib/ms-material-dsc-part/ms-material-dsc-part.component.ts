@@ -190,6 +190,7 @@ export class MsMaterialDscPartComponent
       .pipe(take(1))
       .subscribe((yes) => {
         if (yes) {
+          this.closePalimpsestEditor();
           this.palimpsests.value.splice(index, 1);
           this.form.markAsDirty();
         }
@@ -200,6 +201,7 @@ export class MsMaterialDscPartComponent
     if (index < 1) {
       return;
     }
+    this.closePalimpsestEditor();
     const sheet = this.palimpsests.value[index];
     const sheets = [...this.palimpsests.value];
     sheets.splice(index, 1);
@@ -212,6 +214,7 @@ export class MsMaterialDscPartComponent
     if (index + 1 >= this.palimpsests.value.length) {
       return;
     }
+    this.closePalimpsestEditor();
     const sheet = this.palimpsests.value[index];
     const sheets = [...this.palimpsests.value];
     sheets.splice(index, 1);

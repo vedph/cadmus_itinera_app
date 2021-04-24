@@ -196,6 +196,7 @@ export class MsHandsPartComponent
     if (index < 1) {
       return;
     }
+    this.closeHandEditor();
     const hand = this.hands.value[index];
     const hands = [...this.hands.value];
     hands.splice(index, 1);
@@ -207,6 +208,7 @@ export class MsHandsPartComponent
     if (index + 1 >= this.hands.value.length) {
       return;
     }
+    this.closeHandEditor();
     const hand = this.hands.value[index];
     const hands = [...this.hands.value];
     hands.splice(index, 1);
