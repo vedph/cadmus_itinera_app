@@ -69,16 +69,18 @@ export class BioEventComponent implements OnInit {
   public sources: FormControl;
   public form: FormGroup;
 
-  public initialIds: string[];
+  public initialIds: string[] | undefined;
   public initialSources: DocReference[];
 
-  public date: HistoricalDateModel;
-  public participants: DecoratedId[];
+  public date: HistoricalDateModel | undefined;
+
+  public participants: DecoratedId[] | undefined;
+  public initialParticipants: DecoratedId[];
 
   constructor(formBuilder: FormBuilder) {
     this.initialIds = [];
     this.initialSources = [];
-    this.participants = [];
+    this.initialParticipants = [];
     // events
     this.eventChange = new EventEmitter<BioEvent>();
     this.editorClose = new EventEmitter();
@@ -131,7 +133,7 @@ export class BioEventComponent implements OnInit {
     }
     this.initialIds = model.externalIds || [];
     this.initialSources = model.sources || [];
-    this.participants = model.participants || [];
+    this.initialParticipants = model.participants || [];
     this.date = model.date;
 
     this.type.setValue(model.type);
@@ -182,7 +184,7 @@ export class BioEventComponent implements OnInit {
     this.form.markAsDirty();
   }
 
-  public onParticipantsChanged(participants: DecoratedId[]): void {
+  public onParticipantsChange(participants: DecoratedId[]): void {
     this.participants = participants;
     this.form.markAsDirty();
   }

@@ -194,7 +194,7 @@
         <!-- recipients -->
         <mat-tab label="recipients">
           <itinera-decorated-ids
-            [ids]="recipients"
+            [ids]="initialRecipients"
             [tagEntries]="tagEntries"
             (idsChange)="onRecipientsChange($event)"
           ></itinera-decorated-ids>
@@ -203,7 +203,7 @@
         <!-- replyingTo -->
         <mat-tab label="reply-to">
           <itinera-decorated-ids
-            [ids]="replyingTo"
+            [ids]="initialReplyingTo"
             [tagEntries]="tagEntries"
             (idsChange)="onReplyingToChange($event)"
           ></itinera-decorated-ids>

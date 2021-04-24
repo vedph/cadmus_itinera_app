@@ -9,14 +9,16 @@ import { ThesaurusEntry, DocReference } from '@myrmidon/cadmus-core';
 import { DecoratedId } from '@myrmidon/cadmus-itinera-core';
 
 /**
- * Decorated IDs editor.
+ * Decorated IDs real-time editor.
+ * To avoid circular updates, in your container bind ids to initialIds
+ * and handle idsChange for ids.setValue.
  */
 @Component({
   selector: 'itinera-decorated-ids',
   templateUrl: './decorated-ids.component.html',
   styleUrls: ['./decorated-ids.component.css'],
 })
-export class DecoratedIdsComponent {
+export class DecoratedIdsComponent implements OnInit {
   private _ids: DecoratedId[];
 
   public editedIndex: number;
@@ -49,12 +51,8 @@ export class DecoratedIdsComponent {
   @Output()
   public idsChange: EventEmitter<DecoratedId[]>;
 
-  @Output()
-  public editorClose: EventEmitter<any>;
-
   constructor(formBuilder: FormBuilder) {
     this.idsChange = new EventEmitter<DecoratedId[]>();
-    this.editorClose = new EventEmitter<any>();
     this.initialSources = [];
     this.editedIndex = -1;
     this.editorOpen = false;
@@ -78,7 +76,12 @@ export class DecoratedIdsComponent {
     });
   }
 
+  public ngOnInit(): void {
+    this.emitChange();
+  }
+
   private closeIdEditor(): void {
+    this.editedIndex = -1;
     this.editedId = undefined;
     this.initialSources = [];
     this.subForm?.reset();
@@ -86,19 +89,30 @@ export class DecoratedIdsComponent {
     this.editorOpen = false;
   }
 
-  public editId(index: number): void {
-    this.editedIndex = index;
+  private openIdEditor(id: DecoratedId): void {
     this.subForm.enable();
-    this.editedId = this.ids[index];
-    this.initialSources = this.editedId.sources || [];
-    this.id.setValue(this.editedId.id);
-    this.rank.setValue(this.editedId.rank);
-    this.tag.setValue(this.editedId.tag);
+
+    this.editedId = id;
+    this.initialSources = id.sources || [];
+    this.id.setValue(id.id);
+    this.rank.setValue(id.rank);
+    this.tag.setValue(id.tag);
+
     this.subForm.markAsPristine();
     this.editorOpen = true;
   }
 
-  private getEditedId(): DecoratedId {
+  public addId(): void {
+    this.editedIndex = -1;
+    this.openIdEditor({ id: null });
+  }
+
+  public editId(index: number): void {
+    this.editedIndex = index;
+    this.openIdEditor(this.ids[index]);
+  }
+
+  private getEditedId(): DecoratedId | null {
     if (!this.editedId) {
       return null;
     }
@@ -110,25 +124,19 @@ export class DecoratedIdsComponent {
     };
   }
 
-  public editNewId(): void {
-    this.ids.push({
-      id: null,
-    });
-    this.editId(this.ids.length - 1);
-  }
-
   public deleteId(index: number): void {
     if (this.editedIndex === index) {
       this.closeEditedId();
     }
-    const newIds = [...this.ids];
-    newIds.splice(index, 1);
-    this.ids = newIds;
+    this.closeEditedId();
+    this.ids.splice(index, 1);
+    this.emitChange();
   }
 
   public onSourcesChange(sources: DocReference[]): void {
     this.sources.setValue(sources);
     this.subForm.markAsDirty();
+    this.emitChange();
   }
 
   public closeEditedId(): void {
@@ -140,28 +148,16 @@ export class DecoratedIdsComponent {
       return;
     }
     const id = this.getEditedId();
-
-    this.ids = [
-      ...this.ids.slice(0, this.editedIndex),
-      id,
-      ...this.ids.slice(this.editedIndex + 1),
-    ];
-    this.closeEditedId();
-  }
-
-  public close(): void {
-    this.editorClose.emit();
-  }
-
-  public save(): void {
-    // if editing and valid, save; else show editor
-    if (this.editedId) {
-      if (this.subForm.invalid) {
-        this.editorOpen = true;
-        return;
-      }
-      this.saveEditedId();
+    if (this.editedIndex === -1) {
+      this.ids.push(id);
+    } else {
+      this.ids.splice(this.editedIndex, 1, id);
     }
+    this.closeEditedId();
+    this.emitChange();
+  }
+
+  private emitChange(): void {
     this.idsChange.emit(this.ids);
   }
 }

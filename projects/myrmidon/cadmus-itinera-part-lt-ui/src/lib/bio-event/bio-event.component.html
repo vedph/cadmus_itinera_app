@@ -116,9 +116,9 @@
     <mat-tab label="participants">
       <!-- participants -->
       <itinera-decorated-ids
-        [ids]="participants"
+        [ids]="initialParticipants"
         [tagEntries]="partTagEntries"
-        (idsChange)="onParticipantsChanged($event)"
+        (idsChange)="onParticipantsChange($event)"
       ></itinera-decorated-ids>
     </mat-tab>
   </mat-tab-group>

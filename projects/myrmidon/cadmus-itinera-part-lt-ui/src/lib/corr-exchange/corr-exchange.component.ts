@@ -71,14 +71,15 @@ export class CorrExchangeComponent implements OnInit, AfterViewInit, OnDestroy {
   public sources: FormControl;
   public form: FormGroup;
 
-  public participants: DecoratedId[];
-  public participants$: BehaviorSubject<DecoratedId[]>;
+  public participants: DecoratedId[] | undefined;
+  public initialParticipants: DecoratedId[];
+
   public chronotopes: Chronotope[] | undefined;
+
   public initialSources: DocReference[];
 
   constructor(formBuilder: FormBuilder) {
-    this.participants = [];
-    this.participants$ = new BehaviorSubject<DecoratedId[]>([]);
+    this.initialParticipants = [];
     this.initialSources = [];
     // events
     this.exchangeChange = new EventEmitter<CorrExchange>();
@@ -122,13 +123,13 @@ export class CorrExchangeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private updateForm(model: CorrExchange): void {
     if (!model) {
-      this.participants$.next([]);
+      this.initialParticipants = [];
       this.initialSources = [];
       this.chronotopes = undefined;
       this.form.reset();
       return;
     }
-    this.participants$.next(model.participants || []);
+    this.initialParticipants = model.participants || [];
     this.initialSources = model.sources || [];
     this.chronotopes = model.chronotopes;
     this.dubious.setValue(model.isDubious);

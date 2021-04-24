@@ -36,10 +36,12 @@ export class SerialTextInfoPartComponent
   public received: FormControl;
   public note: FormControl;
   public related: FormControl;
+  public recipients: FormControl;
+  public replyingTo: FormControl;
 
-  public recipients: DecoratedId[];
-  public replyingTo: DecoratedId[];
   public initialRelated: DocReference[];
+  public initialRecipients: DecoratedId[];
+  public initialReplyingTo: DecoratedId[];
 
   // serial-text-languages
   public langEntries: ThesaurusEntry[] | undefined;
@@ -68,8 +70,8 @@ export class SerialTextInfoPartComponent
 
   constructor(authService: AuthService, formBuilder: FormBuilder) {
     super(authService);
-    this.recipients = [];
-    this.replyingTo = [];
+    this.initialRecipients = [];
+    this.initialReplyingTo = [];
     this.initialRelated = [];
     // form
     this.textId = formBuilder.control(null, [
@@ -92,6 +94,8 @@ export class SerialTextInfoPartComponent
     this.received = formBuilder.control(false);
     this.note = formBuilder.control(null, Validators.maxLength(1000));
     this.related = formBuilder.control([]);
+    this.recipients = formBuilder.control([]);
+    this.replyingTo = formBuilder.control([]);
     this.form = formBuilder.group({
       textId: this.textId,
       language: this.language,
@@ -104,6 +108,8 @@ export class SerialTextInfoPartComponent
       received: this.received,
       note: this.note,
       related: this.related,
+      recipients: this.recipients,
+      replyingTo: this.replyingTo,
     });
   }
 
@@ -113,15 +119,15 @@ export class SerialTextInfoPartComponent
 
   private updateForm(model: SerialTextInfoPart): void {
     if (!model) {
-      this.recipients = [];
-      this.replyingTo = [];
       this.initialRelated = [];
+      this.initialRecipients = [];
+      this.initialReplyingTo = [];
       this.form.reset();
       return;
     }
-    this.recipients = model.recipients || [];
-    this.replyingTo = model.replyingTo || [];
     this.initialRelated = model.related || [];
+    this.initialRecipients = model.recipients || [];
+    this.initialReplyingTo = model.replyingTo || [];
 
     this.textId.setValue(model.textId);
     this.language.setValue(model.language);
@@ -243,12 +249,16 @@ export class SerialTextInfoPartComponent
     part.verse = this.verse.value?.trim();
     part.rhyme = this.rhyme.value?.trim();
     part.headings = this.parseIds(this.headings.value?.trim());
-    part.received = this.received.value? true : undefined;
+    part.received = this.received.value ? true : undefined;
     part.note = this.note.value?.trim();
 
-    part.recipients = this.recipients?.length ? this.recipients : undefined;
-    part.replyingTo = this.replyingTo?.length ? this.replyingTo : undefined;
     part.related = this.related.value?.length ? this.related.value : undefined;
+    part.recipients = this.recipients?.value?.length
+      ? this.recipients.value
+      : undefined;
+    part.replyingTo = this.replyingTo?.value?.length
+      ? this.replyingTo.value
+      : undefined;
 
     return part;
   }
@@ -259,12 +269,12 @@ export class SerialTextInfoPartComponent
   }
 
   public onRecipientsChange(ids: DecoratedId[]): void {
-    this.recipients = ids;
+    this.recipients.setValue(ids);
     this.form.markAsDirty();
   }
 
   public onReplyingToChange(ids: DecoratedId[]): void {
-    this.replyingTo = ids;
+    this.replyingTo.setValue(ids);
     this.form.markAsDirty();
   }
 

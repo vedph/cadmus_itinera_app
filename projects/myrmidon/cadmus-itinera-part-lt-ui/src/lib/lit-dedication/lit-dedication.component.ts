@@ -46,10 +46,12 @@ export class LitDedicationComponent implements OnInit {
 
   public date: HistoricalDateModel;
   public dateSent: HistoricalDateModel;
-  public participants: DecoratedId[];
+  public participants: DecoratedId[] | undefined;
+  public initialParticipants: DecoratedId[];
   public initialSources: DocReference[];
 
   constructor(formBuilder: FormBuilder) {
+    this.initialParticipants = [];
     this.initialSources = [];
     // events
     this.dedicationChange = new EventEmitter<LitDedication>();
@@ -90,7 +92,7 @@ export class LitDedicationComponent implements OnInit {
     this.date = model.date;
     this.dateSent = model.dateSent;
     this.title.setValue(model.title);
-    this.participants = model.participants || [];
+    this.initialParticipants = model.participants || [];
     this.hasDate.setValue(model.date ? true : false);
     this.hasDateSent.setValue(model.dateSent ? true : false);
 

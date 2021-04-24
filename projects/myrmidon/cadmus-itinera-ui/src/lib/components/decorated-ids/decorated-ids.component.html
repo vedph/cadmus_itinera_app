@@ -1,7 +1,7 @@
-<form [formGroup]="form" (submit)="save()">
+<form [formGroup]="form">
   <!-- list -->
   <div>
-    <button mat-stroked-button (click)="editNewId()" color="primary">
+    <button mat-stroked-button (click)="addId()" color="primary">
       <mat-icon>add_circle</mat-icon> add ID
     </button>
   </div>
@@ -41,15 +41,19 @@
           </button>
         </td>
         <td>{{ id.id }}</td>
-        <td style="text-align: center;">{{ id.rank }}</td>
+        <td style="text-align: center">{{ id.rank }}</td>
         <td>{{ id.tag }}</td>
-        <td style="text-align: center;">{{ id.sources?.length || 0 }}</td>
+        <td style="text-align: center">{{ id.sources?.length || 0 }}</td>
       </tr>
     </tbody>
   </table>
 
   <!-- editor -->
-  <mat-expansion-panel [(expanded)]="editorOpen" [disabled]="!editorOpen">
+  <mat-expansion-panel
+    [(expanded)]="editorOpen"
+    [disabled]="!editorOpen"
+    class="boxed"
+  >
     <mat-expansion-panel-header>
       <mat-panel-title>ID</mat-panel-title>
       <mat-panel-description>
@@ -133,23 +137,4 @@
       </div>
     </form>
   </mat-expansion-panel>
-  <div style="margin-top: 4px">
-    <button
-      (click)="close()"
-      type="button"
-      mat-icon-button
-      matTooltip="Discard IDs"
-      color="warn"
-    >
-      <mat-icon>clear</mat-icon>
-    </button>
-    <button
-      mat-stroked-button
-      matTooltip="Save IDs"
-      color="primary"
-      (click)="save()"
-    >
-      <mat-icon>check_circle</mat-icon> save IDs
-    </button>
-  </div>
 </form>
