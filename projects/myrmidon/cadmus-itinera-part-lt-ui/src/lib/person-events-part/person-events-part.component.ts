@@ -32,15 +32,13 @@ export class PersonEventsPartComponent
   private _editedIndex: number;
 
   public tabIndex: number;
-  public editedEvent: BioEvent;
+  public editedEvent: BioEvent | undefined;
 
   public typeEntries: ThesaurusEntry[] | undefined;
   public partTagEntries: ThesaurusEntry[] | undefined;
   public docRefTagEntries: ThesaurusEntry[] | undefined;
 
-  public events: BioEvent[];
-
-  public count: FormControl;
+  public events: FormControl;
 
   constructor(
     authService: AuthService,
@@ -50,11 +48,10 @@ export class PersonEventsPartComponent
     super(authService);
     this.tabIndex = 0;
     this._editedIndex = -1;
-    this.events = [];
     // form
-    this.count = formBuilder.control(0, Validators.min(1));
+    this.events = formBuilder.control([], Validators.required);
     this.form = formBuilder.group({
-      count: this.count,
+      events: this.events,
     });
   }
 
@@ -67,8 +64,7 @@ export class PersonEventsPartComponent
       this.form.reset();
       return;
     }
-    this.count.setValue(model.events?.length || 0);
-    this.events = model.events || [];
+    this.events.setValue(model.events || []);
     this.form.markAsPristine();
   }
 
@@ -114,45 +110,47 @@ export class PersonEventsPartComponent
         events: [],
       };
     }
-    part.events = this.events;
+    part.events = this.events.value;
     return part;
   }
 
+  private closeEventEditor(): void {
+    this._editedIndex = -1;
+    this.tabIndex = 0;
+    this.editedEvent = null;
+  }
+
   public addEvent(): void {
-    const event: BioEvent = {
+    this._editedIndex = -1;
+    this.editedEvent = {
       type: null,
       sources: null,
     };
-    this.events = [...this.events, event];
-    this.count.setValue(this.events.length);
-    this.count.markAsDirty();
-    this.editEvent(this.events.length - 1);
+    setTimeout(() => {
+      this.tabIndex = 1;
+    }, 300);
   }
 
   public editEvent(index: number): void {
-    if (index < 0) {
-      this._editedIndex = -1;
-      this.tabIndex = 0;
-      this.editedEvent = null;
+    this._editedIndex = index;
+    this.editedEvent = this.events.value[index];
+    setTimeout(() => {
+      this.tabIndex = 1;
+    }, 300);
+  }
+
+  public onEventChange(event: BioEvent): void {
+    if (this._editedIndex === -1) {
+      this.events.value.push(event);
     } else {
-      this._editedIndex = index;
-      this.editedEvent = this.events[index];
-      setTimeout(() => {
-        this.tabIndex = 1;
-      }, 300);
+      this.events.value.splice(this._editedIndex, 1, event);
     }
+    this.closeEventEditor();
+    this.form.markAsDirty();
   }
 
-  public onEventSaved(item: BioEvent): void {
-    this.events = this.events.map((s, i) =>
-      i === this._editedIndex ? item : s
-    );
-    this.editEvent(-1);
-    this.count.markAsDirty();
-  }
-
-  public onEventClosed(): void {
-    this.editEvent(-1);
+  public onEventClose(): void {
+    this.closeEventEditor();
   }
 
   public deleteEvent(index: number): void {
@@ -161,11 +159,8 @@ export class PersonEventsPartComponent
       .pipe(take(1))
       .subscribe((yes) => {
         if (yes) {
-          const items = [...this.events];
-          items.splice(index, 1);
-          this.events = items;
-          this.count.setValue(this.events.length);
-          this.count.markAsDirty();
+          this.events.value.splice(index, 1);
+          this.form.markAsDirty();
         }
       });
   }
@@ -174,22 +169,22 @@ export class PersonEventsPartComponent
     if (index < 1) {
       return;
     }
-    const item = this.events[index];
-    const items = [...this.events];
-    items.splice(index, 1);
-    items.splice(index - 1, 0, item);
-    this.events = items;
+    const event = this.events.value[index];
+    const events = [...this.events.value];
+    events.splice(index, 1);
+    events.splice(index - 1, 0, event);
+    this.events.setValue(events);
   }
 
   public moveEventDown(index: number): void {
-    if (index + 1 >= this.events.length) {
+    if (index + 1 >= this.events.value.length) {
       return;
     }
-    const item = this.events[index];
-    const items = [...this.events];
-    items.splice(index, 1);
-    items.splice(index + 1, 0, item);
-    this.events = items;
+    const event = this.events.value[index];
+    const events = [...this.events.value];
+    events.splice(index, 1);
+    events.splice(index + 1, 0, event);
+    this.events.setValue(events);
   }
 
   public dateToString(date: HistoricalDateModel | null): string {

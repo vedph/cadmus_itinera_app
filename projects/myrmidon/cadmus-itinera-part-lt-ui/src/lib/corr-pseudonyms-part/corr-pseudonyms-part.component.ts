@@ -27,14 +27,12 @@ export class CorrPseudonymsPartComponent
   private _editedIndex: number;
 
   public tabIndex: number;
-  public editedPseudonym: CorrPseudonym;
+  public editedPseudonym: CorrPseudonym | undefined;
 
   public langEntries: ThesaurusEntry[] | undefined;
   public tagEntries: ThesaurusEntry[] | undefined;
 
-  public pseudonyms: CorrPseudonym[];
-
-  public count: FormControl;
+  public pseudonyms: FormControl;
 
   constructor(
     authService: AuthService,
@@ -44,11 +42,10 @@ export class CorrPseudonymsPartComponent
     super(authService);
     this.tabIndex = 0;
     this._editedIndex = -1;
-    this.pseudonyms = [];
     // form
-    this.count = formBuilder.control(0, Validators.min(1));
+    this.pseudonyms = formBuilder.control([], Validators.required);
     this.form = formBuilder.group({
-      count: this.count,
+      pseudonyms: this.pseudonyms,
     });
   }
 
@@ -61,8 +58,7 @@ export class CorrPseudonymsPartComponent
       this.form.reset();
       return;
     }
-    this.count.setValue(model.pseudonyms?.length || 0);
-    this.pseudonyms = model.pseudonyms || [];
+    this.pseudonyms.setValue(model.pseudonyms || []);
     this.form.markAsPristine();
   }
 
@@ -101,45 +97,47 @@ export class CorrPseudonymsPartComponent
         pseudonyms: [],
       };
     }
-    part.pseudonyms = this.pseudonyms;
+    part.pseudonyms = this.pseudonyms.value;
     return part;
   }
 
+  private closePseudonymEditor(): void {
+    this._editedIndex = -1;
+    this.tabIndex = 0;
+    this.editedPseudonym = undefined;
+  }
+
   public addPseudonym(): void {
-    const pseudonym: CorrPseudonym = {
+    this._editedIndex = -1;
+    this.editedPseudonym = {
       language: null,
-      value: null
+      value: null,
     };
-    this.pseudonyms = [...this.pseudonyms, pseudonym];
-    this.count.setValue(this.pseudonyms.length);
-    this.count.markAsDirty();
-    this.editPseudonym(this.pseudonyms.length - 1);
+    setTimeout(() => {
+      this.tabIndex = 1;
+    }, 300);
   }
 
   public editPseudonym(index: number): void {
-    if (index < 0) {
-      this._editedIndex = -1;
-      this.tabIndex = 0;
-      this.editedPseudonym = null;
+    this._editedIndex = index;
+    this.editedPseudonym = this.pseudonyms.value[index];
+    setTimeout(() => {
+      this.tabIndex = 1;
+    }, 300);
+  }
+
+  public onPseudonymChange(pseudonym: CorrPseudonym): void {
+    if (this._editedIndex === -1) {
+      this.pseudonyms.value.push(pseudonym);
     } else {
-      this._editedIndex = index;
-      this.editedPseudonym = this.pseudonyms[index];
-      setTimeout(() => {
-        this.tabIndex = 1;
-      }, 300);
+      this.pseudonyms.value.splice(this._editedIndex, 1, pseudonym);
     }
+    this.closePseudonymEditor();
+    this.form.markAsDirty();
   }
 
-  public onPseudonymSaved(item: CorrPseudonym): void {
-    this.pseudonyms = this.pseudonyms.map((s, i) =>
-      i === this._editedIndex ? item : s
-    );
-    this.editPseudonym(-1);
-    this.count.markAsDirty();
-  }
-
-  public onPseudonymClosed(): void {
-    this.editPseudonym(-1);
+  public onPseudonymClose(): void {
+    this.closePseudonymEditor();
   }
 
   public deletePseudonym(index: number): void {
@@ -148,11 +146,8 @@ export class CorrPseudonymsPartComponent
       .pipe(take(1))
       .subscribe((yes) => {
         if (yes) {
-          const items = [...this.pseudonyms];
-          items.splice(index, 1);
-          this.pseudonyms = items;
-          this.count.setValue(this.pseudonyms.length);
-          this.count.markAsDirty();
+          this.pseudonyms.value.splice(index, 1);
+          this.form.markAsDirty();
         }
       });
   }
@@ -161,22 +156,22 @@ export class CorrPseudonymsPartComponent
     if (index < 1) {
       return;
     }
-    const item = this.pseudonyms[index];
-    const items = [...this.pseudonyms];
-    items.splice(index, 1);
-    items.splice(index - 1, 0, item);
-    this.pseudonyms = items;
+    const pseudonym = this.pseudonyms.value[index];
+    const pseudonyms = [...this.pseudonyms.value];
+    pseudonyms.splice(index, 1);
+    pseudonyms.splice(index - 1, 0, pseudonym);
+    this.pseudonyms.setValue(pseudonyms);
   }
 
   public movePseudonymDown(index: number): void {
-    if (index + 1 >= this.pseudonyms.length) {
+    if (index + 1 >= this.pseudonyms.value.length) {
       return;
     }
-    const item = this.pseudonyms[index];
-    const items = [...this.pseudonyms];
-    items.splice(index, 1);
-    items.splice(index + 1, 0, item);
-    this.pseudonyms = items;
+    const pseudonym = this.pseudonyms.value[index];
+    const pseudonyms = [...this.pseudonyms.value];
+    pseudonyms.splice(index, 1);
+    pseudonyms.splice(index + 1, 0, pseudonym);
+    this.pseudonyms.setValue(pseudonyms);
   }
 
   public getLanguage(id: string | null): string {
@@ -184,7 +179,7 @@ export class CorrPseudonymsPartComponent
       return '';
     }
     if (this.langEntries?.length) {
-      const entry = this.langEntries.find(e => {
+      const entry = this.langEntries.find((e) => {
         return e.id === id;
       });
       return entry?.value || id;

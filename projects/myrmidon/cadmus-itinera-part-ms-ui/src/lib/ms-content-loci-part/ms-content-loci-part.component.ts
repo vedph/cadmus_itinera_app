@@ -23,10 +23,9 @@ import { deepCopy } from '@myrmidon/cadmus-core';
 export class MsContentLociPartComponent
   extends ModelEditorComponentBase<MsContentLociPart>
   implements OnInit {
-  public count: FormControl;
+  public loci: FormControl;
 
-  public loci: MsContentLocus[];
-  public editedLocus: MsContentLocus;
+  public editedLocus: MsContentLocus | undefined;
   public editedIndex: number;
   public editorOpen: boolean;
 
@@ -38,9 +37,9 @@ export class MsContentLociPartComponent
     super(authService);
     this.editorOpen = false;
     // form
-    this.count = formBuilder.control(0, Validators.min(1));
+    this.loci = formBuilder.control([], Validators.required);
     this.form = formBuilder.group({
-      count: this.count,
+      loci: this.loci,
     });
   }
 
@@ -53,11 +52,9 @@ export class MsContentLociPartComponent
 
     if (!model) {
       this.form.reset();
-      this.loci = [];
       return;
     }
-    this.count.setValue(model.loci?.length || 0);
-    this.loci = model.loci || [];
+    this.loci.setValue(model.loci || []);
     this.form.markAsPristine();
   }
 
@@ -80,43 +77,42 @@ export class MsContentLociPartComponent
         loci: [],
       };
     }
-    part.loci = this.loci;
+    part.loci = this.loci.value;
     return part;
   }
 
+  private closeLocusEditor(): void {
+    this.editedLocus = undefined;
+    this.editedIndex = -1;
+    this.editorOpen = false;
+  }
+
   public addLocus(): void {
-    const locus: MsContentLocus = {
+    this.editedIndex = -1;
+    this.editedLocus = {
       citation: null,
       text: null,
     };
-    this.loci = [...this.loci, locus];
-    this.count.setValue(this.loci.length);
-    this.count.markAsDirty();
-    this.editLocus(this.loci.length - 1);
   }
 
   public editLocus(index: number): void {
-    if (index < 0) {
-      this.editedLocus = null;
-      this.editedIndex = -1;
-      this.editorOpen = false;
+    this.editedLocus = this.loci.value[index];
+    this.editedIndex = index;
+    this.editorOpen = true;
+  }
+
+  public onLocusChange(locus: MsContentLocus): void {
+    if (this.editedIndex === -1) {
+      this.loci.value.push(locus);
     } else {
-      this.editedLocus = this.loci[index];
-      this.editedIndex = index;
-      this.editorOpen = true;
+      this.loci.value.splice(this.editedIndex, 1, locus);
     }
+    this.closeLocusEditor();
+    this.form.markAsDirty();
   }
 
-  public onLocusSaved(locus: MsContentLocus): void {
-    this.loci = this.loci.map((l, i) =>
-      i === this.editedIndex ? locus : l
-    );
-    this.count.markAsDirty();
-    this.editLocus(-1);
-  }
-
-  public onLocusClosed(): void {
-    this.editLocus(-1);
+  public onLocusClose(): void {
+    this.closeLocusEditor();
   }
 
   public deleteLocus(index: number): void {
@@ -125,12 +121,9 @@ export class MsContentLociPartComponent
       .pipe(take(1))
       .subscribe((yes) => {
         if (yes) {
-          this.editLocus(-1);
-          const loci = [...this.loci];
-          loci.splice(index, 1);
-          this.loci = loci;
-          this.count.setValue(this.loci.length);
-          this.count.markAsDirty();
+          this.closeLocusEditor();
+          this.loci.value.splice(index, 1);
+          this.form.markAsDirty();
         }
       });
   }
@@ -139,29 +132,25 @@ export class MsContentLociPartComponent
     if (index < 1) {
       return;
     }
-    const locus = this.loci[index];
-    const loci = [...this.loci];
+    this.closeLocusEditor();
+    const locus = this.loci.value[index];
+    const loci = [...this.loci.value];
     loci.splice(index, 1);
     loci.splice(index - 1, 0, locus);
-    this.loci = loci;
-    if (index === this.editedIndex) {
-      this.editedIndex--;
-    }
+    this.loci.setValue(loci);
     this.form.markAsDirty();
   }
 
   public moveLocusDown(index: number): void {
-    if (index + 1 >= this.loci.length) {
+    if (index + 1 >= this.loci.value.length) {
       return;
     }
-    const locus = this.loci[index];
-    const loci = [...this.loci];
+    this.closeLocusEditor();
+    const locus = this.loci.value[index];
+    const loci = [...this.loci.value];
     loci.splice(index, 1);
     loci.splice(index + 1, 0, locus);
-    this.loci = loci;
-    if (index === this.editedIndex) {
-      this.editedIndex++;
-    }
+    this.loci.setValue(loci);
     this.form.markAsDirty();
   }
 }

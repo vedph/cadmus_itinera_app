@@ -85,10 +85,10 @@ export class MsHandComponent implements OnInit {
   public subLanguage: FormControl;
   public subText: FormControl;
   // signs
-  public signs: MsHandSign[];
+  public signs: FormControl;
   public editedIndex: number;
   public editorOpen: boolean;
-  public editedSign: MsHandSign;
+  public editedSign: MsHandSign | undefined;
 
   public form: FormGroup;
 
@@ -148,7 +148,7 @@ export class MsHandComponent implements OnInit {
       subText: this.subText,
     });
     // form - signs
-    this.signs = [];
+    this.signs = _formBuilder.control([]);
     // form
     this.form = _formBuilder.group({
       // general
@@ -165,6 +165,8 @@ export class MsHandComponent implements OnInit {
       // subscription
       subPresent: this.subPresent,
       subscription: this.subForm,
+      // signs
+      signs: this.signs
     });
   }
 
@@ -315,7 +317,7 @@ export class MsHandComponent implements OnInit {
     }
 
     // signs
-    this.signs = model.signs || [];
+    this.signs.setValue(model.signs || []);
   }
 
   private splitText(text: string, delimiter = ' '): string[] | undefined {
@@ -392,7 +394,7 @@ export class MsHandComponent implements OnInit {
       // rubrications
       rubrications: this.getRubrications(),
       // signs
-      signs: this.signs.length ? this.signs : undefined,
+      signs: this.signs.value.length ? this.signs.value : undefined,
     };
 
     // subscription (if checked)
@@ -605,36 +607,39 @@ export class MsHandComponent implements OnInit {
   //#endregion
 
   //#region Signs
+  private closeSignEditor(): void {
+    this.editedSign = undefined;
+    this.editedIndex = -1;
+    this.editorOpen = false;
+  }
+
   public addSign(): void {
-    const sign: MsHandSign = {
+    this.editedIndex = -1;
+    this.editedSign = {
       id: null,
       type: null,
     };
-    this.signs = [...this.signs, sign];
-    this.editSign(this.signs.length - 1);
-    this.form.markAsDirty();
+    this.editorOpen = true;
   }
 
   public editSign(index: number): void {
-    if (index < 0) {
-      this.editedSign = null;
-      this.editedIndex = -1;
-      this.editorOpen = false;
-    } else {
-      this.editedSign = this.signs[index];
-      this.editedIndex = index;
-      this.editorOpen = true;
-    }
+    this.editedSign = this.signs.value[index];
+    this.editedIndex = index;
+    this.editorOpen = true;
   }
 
-  public onSignSaved(item: MsHandSign): void {
-    this.signs = this.signs.map((s, i) => (i === this.editedIndex ? item : s));
-    this.editSign(-1);
+  public onSignChange(sign: MsHandSign): void {
+    if (this.editedIndex === -1) {
+      this.signs.value.push(sign);
+    } else {
+      this.signs.value.splice(this.editedIndex, 1, sign);
+    }
+    this.closeSignEditor();
     this.form.markAsDirty();
   }
 
-  public onSignClosed(): void {
-    this.editSign(-1);
+  public onSignClose(): void {
+    this.closeSignEditor();
   }
 
   public deleteSign(index: number): void {
@@ -643,9 +648,8 @@ export class MsHandComponent implements OnInit {
       .pipe(take(1))
       .subscribe((yes) => {
         if (yes) {
-          const signs = [...this.signs];
-          signs.splice(index, 1);
-          this.signs = signs;
+          this.closeSignEditor();
+          this.signs.value.splice(index, 1);
           this.form.markAsDirty();
         }
       });
@@ -655,23 +659,25 @@ export class MsHandComponent implements OnInit {
     if (index < 1) {
       return;
     }
-    const sign = this.signs[index];
-    const signs = [...this.signs];
+    this.closeSignEditor();
+    const sign = this.signs.value[index];
+    const signs = [...this.signs.value];
     signs.splice(index, 1);
     signs.splice(index - 1, 0, sign);
-    this.signs = signs;
+    this.signs.setValue(signs);
     this.form.markAsDirty();
   }
 
   public moveSignDown(index: number): void {
-    if (index + 1 >= this.signs.length) {
+    if (index + 1 >= this.signs.value.length) {
       return;
     }
-    const sign = this.signs[index];
-    const signs = [...this.signs];
+    this.closeSignEditor();
+    const sign = this.signs.value[index];
+    const signs = [...this.signs.value];
     signs.splice(index, 1);
     signs.splice(index + 1, 0, sign);
-    this.signs = signs;
+    this.signs.setValue(signs);
     this.form.markAsDirty();
   }
   //#endregion

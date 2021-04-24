@@ -548,7 +548,7 @@
           <mat-icon>add_circle</mat-icon> add sign
         </button>
       </div>
-      <table *ngIf="signs?.length">
+      <table *ngIf="signs?.value?.length">
         <thead>
           <tr>
             <th></th>
@@ -559,7 +559,7 @@
         <tbody>
           <tr
             *ngFor="
-              let s of signs;
+              let s of signs.value;
               let i = index;
               let first = first;
               let last = last
@@ -622,8 +622,8 @@
           *ngIf="editedSign"
           [sign]="editedSign"
           [typeEntries]="signTypeEntries"
-          (signChange)="onSignSaved($event)"
-          (editorClose)="onSignClosed()"
+          (signChange)="onSignChange($event)"
+          (editorClose)="onSignClose()"
         ></itinera-ms-hand-sign>
       </mat-expansion-panel>
     </mat-tab>

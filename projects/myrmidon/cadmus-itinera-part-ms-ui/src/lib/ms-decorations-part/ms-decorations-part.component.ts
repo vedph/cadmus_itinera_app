@@ -189,18 +189,18 @@ export class MsDecorationsPartComponent
     return part;
   }
 
+  private closeDecorationEditor(): void {
+    this._editedIndex = -1;
+    this.tabIndex = 0;
+    this.editedDecoration = undefined;
+  }
+
   public editDecoration(index: number): void {
-    if (index < 0) {
-      this._editedIndex = -1;
-      this.tabIndex = 0;
-      this.editedDecoration = undefined;
-    } else {
-      this._editedIndex = index;
-      this.editedDecoration = this.decorations.value[index];
-      setTimeout(() => {
-        this.tabIndex = 1;
-      }, 300);
-    }
+    this._editedIndex = index;
+    this.editedDecoration = this.decorations.value[index];
+    setTimeout(() => {
+      this.tabIndex = 1;
+    }, 300);
   }
 
   public addDecoration(): void {
@@ -220,12 +220,12 @@ export class MsDecorationsPartComponent
     } else {
       this.decorations.value.splice(this._editedIndex, 1, decoration);
     }
-    this.editDecoration(-1);
+    this.closeDecorationEditor();
     this.form.markAsDirty();
   }
 
   public onDecorationClose(): void {
-    this.editDecoration(-1);
+    this.closeDecorationEditor();
   }
 
   public deleteDecoration(index: number): void {
@@ -234,6 +234,7 @@ export class MsDecorationsPartComponent
       .pipe(take(1))
       .subscribe((yes) => {
         if (yes) {
+          this.closeDecorationEditor();
           this.decorations.value.splice(index, 1);
           this.form.markAsDirty();
         }
@@ -244,6 +245,7 @@ export class MsDecorationsPartComponent
     if (index < 1) {
       return;
     }
+    this.closeDecorationEditor();
     const decoration = this.decorations[index];
     this.decorations.value.splice(index, 1);
     this.decorations.value.splice(index - 1, 0, decoration);
@@ -254,6 +256,7 @@ export class MsDecorationsPartComponent
     if (index + 1 >= this.decorations.value.length) {
       return;
     }
+    this.closeDecorationEditor();
     const decoration = this.decorations[index];
     this.decorations.value.splice(index, 1);
     this.decorations.value.splice(index + 1, 0, decoration);

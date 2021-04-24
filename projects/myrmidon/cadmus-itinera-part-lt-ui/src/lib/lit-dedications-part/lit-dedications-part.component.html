@@ -4,7 +4,7 @@
       <div mat-card-avatar>
         <mat-icon>picture_in_picture</mat-icon>
       </div>
-      <mat-card-title>Correspondent's Dedications Part</mat-card-title>
+      <mat-card-title>Literary Dedications Part</mat-card-title>
     </mat-card-header>
     <mat-card-content>
       <mat-tab-group [(selectedIndex)]="tabIndex">
@@ -19,7 +19,7 @@
               <mat-icon>add_circle</mat-icon> add dedication
             </button>
           </div>
-          <table *ngIf="dedications?.length">
+          <table *ngIf="dedications?.value?.length">
             <thead>
               <tr>
                 <th></th>
@@ -31,7 +31,7 @@
             <tbody>
               <tr
                 *ngFor="
-                  let d of dedications;
+                  let d of dedications.value;
                   let i = index;
                   let first = first;
                   let last = last
@@ -87,8 +87,8 @@
           <itinera-lit-dedication
             [dedication]="editedDedication"
             [tagEntries]="tagEntries"
-            (dedicationChange)="onDedicationSaved($event)"
-            (editorClose)="onDedicationClosed()"
+            (dedicationChange)="onDedicationChange($event)"
+            (editorClose)="onDedicationClose()"
           ></itinera-lit-dedication>
         </mat-tab>
       </mat-tab-group>

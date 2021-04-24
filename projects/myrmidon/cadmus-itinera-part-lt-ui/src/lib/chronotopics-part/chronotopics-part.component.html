@@ -19,7 +19,7 @@
               <mat-icon>add_circle</mat-icon> add chronotope
             </button>
           </div>
-          <table *ngIf="chronotopes?.length">
+          <table *ngIf="chronotopes?.value?.length">
             <thead>
               <tr>
                 <th></th>
@@ -30,7 +30,7 @@
             <tbody>
               <tr
                 *ngFor="
-                  let c of chronotopes;
+                  let c of chronotopes.value;
                   let i = index;
                   let first = first;
                   let last = last
@@ -86,7 +86,7 @@
             [chronotope]="editedChronotope"
             [tagEntries]="tagEntries"
             [docRefTagEntries]="docRefTagEntries"
-            (chronotopeChange)="onChronotopeSave($event)"
+            (chronotopeChange)="onChronotopeChange($event)"
             (editorClose)="onChronotopeClose()"
           ></itinera-chronotope>
         </mat-tab>

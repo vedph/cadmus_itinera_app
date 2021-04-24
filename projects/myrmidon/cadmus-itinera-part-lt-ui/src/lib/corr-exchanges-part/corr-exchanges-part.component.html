@@ -19,7 +19,7 @@
               <mat-icon>add_circle</mat-icon> add exchange
             </button>
           </div>
-          <table *ngIf="exchanges?.length">
+          <table *ngIf="exchanges?.value?.length">
             <thead>
               <tr>
                 <th></th>
@@ -30,7 +30,7 @@
             <tbody>
               <tr
                 *ngFor="
-                  let e of exchanges;
+                  let e of exchanges.value;
                   let i = index;
                   let first = first;
                   let last = last
@@ -86,7 +86,7 @@
             [exchange]="editedExchange"
             [tagEntries]="tagEntries"
             [typeEntries]="typeEntries"
-            (exchangeChange)="onExchangeSave($event)"
+            (exchangeChange)="onExchangeChange($event)"
             (editorClose)="onExchangeClose()"
           ></itinera-corr-exchange>
         </mat-tab>

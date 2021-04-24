@@ -37,9 +37,7 @@ export class CorrExchangesPartComponent
   public ctTagEntries: ThesaurusEntry[] | undefined;
   public typeEntries: ThesaurusEntry[] | undefined;
 
-  public exchanges: CorrExchange[];
-
-  public count: FormControl;
+  public exchanges: FormControl;
 
   constructor(
     authService: AuthService,
@@ -49,11 +47,10 @@ export class CorrExchangesPartComponent
     super(authService);
     this.tabIndex = 0;
     this._editedIndex = -1;
-    this.exchanges = [];
     // form
-    this.count = formBuilder.control(0, Validators.min(1));
+    this.exchanges = formBuilder.control([], Validators.required);
     this.form = formBuilder.group({
-      count: this.count,
+      exchanges: this.exchanges,
     });
   }
 
@@ -66,8 +63,7 @@ export class CorrExchangesPartComponent
       this.form.reset();
       return;
     }
-    this.count.setValue(model.exchanges?.length || 0);
-    this.exchanges = model.exchanges || [];
+    this.exchanges.setValue(model.exchanges || []);
     this.form.markAsPristine();
   }
 
@@ -113,42 +109,44 @@ export class CorrExchangesPartComponent
         exchanges: [],
       };
     }
-    part.exchanges = this.exchanges;
+    part.exchanges = this.exchanges.value;
     return part;
   }
 
+  private closeExchangeEditor(): void {
+    this._editedIndex = -1;
+    this.tabIndex = 0;
+    this.editedExchange = null;
+  }
+
   public addExchange(): void {
-    const exchange: CorrExchange = {};
-    this.exchanges = [...this.exchanges, exchange];
-    this.count.setValue(this.exchanges.length);
-    this.count.markAsDirty();
-    this.editExchange(this.exchanges.length - 1);
+    this._editedIndex = -1;
+    this.editedExchange = {};
+    setTimeout(() => {
+      this.tabIndex = 1;
+    }, 300);
   }
 
   public editExchange(index: number): void {
-    if (index < 0) {
-      this._editedIndex = -1;
-      this.tabIndex = 0;
-      this.editedExchange = null;
-    } else {
-      this._editedIndex = index;
-      this.editedExchange = this.exchanges[index];
-      setTimeout(() => {
-        this.tabIndex = 1;
-      }, 300);
-    }
+    this._editedIndex = index;
+    this.editedExchange = this.exchanges.value[index];
+    setTimeout(() => {
+      this.tabIndex = 1;
+    }, 300);
   }
 
-  public onExchangeSave(item: CorrExchange): void {
-    this.exchanges = this.exchanges.map((s, i) =>
-      i === this._editedIndex ? item : s
-    );
-    this.editExchange(-1);
+  public onExchangeChange(exchange: CorrExchange): void {
+    if (this._editedIndex === -1) {
+      this.exchanges.value.push(exchange);
+    } else {
+      this.exchanges.value.splice(this._editedIndex, 1, exchange);
+    }
+    this.closeExchangeEditor();
     this.form.markAsDirty();
   }
 
   public onExchangeClose(): void {
-    this.editExchange(-1);
+    this.closeExchangeEditor();
   }
 
   public deleteExchange(index: number): void {
@@ -157,11 +155,8 @@ export class CorrExchangesPartComponent
       .pipe(take(1))
       .subscribe((yes) => {
         if (yes) {
-          const items = [...this.exchanges];
-          items.splice(index, 1);
-          this.exchanges = items;
-          this.count.setValue(this.exchanges.length);
-          this.count.markAsDirty();
+          this.exchanges.value.splice(index, 1);
+          this.form.markAsDirty();
         }
       });
   }
@@ -170,23 +165,23 @@ export class CorrExchangesPartComponent
     if (index < 1) {
       return;
     }
-    const item = this.exchanges[index];
-    const items = [...this.exchanges];
-    items.splice(index, 1);
-    items.splice(index - 1, 0, item);
-    this.exchanges = items;
+    const exchange = this.exchanges.value[index];
+    const exchanges = [...this.exchanges.value];
+    exchanges.splice(index, 1);
+    exchanges.splice(index - 1, 0, exchange);
+    this.exchanges.setValue(exchanges);
     this.form.markAsDirty();
   }
 
   public moveExchangeDown(index: number): void {
-    if (index + 1 >= this.exchanges.length) {
+    if (index + 1 >= this.exchanges.value.length) {
       return;
     }
-    const item = this.exchanges[index];
-    const items = [...this.exchanges];
-    items.splice(index, 1);
-    items.splice(index + 1, 0, item);
-    this.exchanges = items;
+    const exchange = this.exchanges.value[index];
+    const exchanges = [...this.exchanges.value];
+    exchanges.splice(index, 1);
+    exchanges.splice(index + 1, 0, exchange);
+    this.exchanges.setValue(exchanges);
     this.form.markAsDirty();
   }
 

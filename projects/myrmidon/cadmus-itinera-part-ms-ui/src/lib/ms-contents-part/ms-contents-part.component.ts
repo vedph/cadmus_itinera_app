@@ -5,7 +5,12 @@ import { ModelEditorComponentBase, DialogService } from '@myrmidon/cadmus-ui';
 import { AuthService } from '@myrmidon/cadmus-api';
 import { deepCopy, ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { MsContentsPart, MSCONTENTS_PART_TYPEID } from '../ms-contents-part';
-import { MsContent, MsLocation, MsLocationRange, MsLocationService } from '@myrmidon/cadmus-itinera-core';
+import {
+  MsContent,
+  MsLocation,
+  MsLocationRange,
+  MsLocationService,
+} from '@myrmidon/cadmus-itinera-core';
 import { take } from 'rxjs/operators';
 
 /**
@@ -21,14 +26,13 @@ export class MsContentsPartComponent
   extends ModelEditorComponentBase<MsContentsPart>
   implements OnInit {
   private _editedIndex: number;
-  public count: FormControl;
-
-  public stateEntries: ThesaurusEntry[] | undefined;
-
-  public contents: MsContent[];
 
   public tabIndex: number;
-  public editedContent: MsContent;
+  public editedContent: MsContent | undefined;
+
+  public contents: FormControl;
+
+  public stateEntries: ThesaurusEntry[] | undefined;
 
   constructor(
     authService: AuthService,
@@ -40,11 +44,10 @@ export class MsContentsPartComponent
     super(authService);
     this.tabIndex = 0;
     this._editedIndex = -1;
-    this.contents = [];
     // form
-    this.count = formBuilder.control(0, Validators.min(1));
+    this.contents = formBuilder.control([], Validators.required);
     this.form = formBuilder.group({
-      count: this.count,
+      contents: this.contents,
     });
   }
 
@@ -57,8 +60,7 @@ export class MsContentsPartComponent
       this.form.reset();
       return;
     }
-    this.count.setValue(model.contents?.length || 0);
-    this.contents = model.contents || [];
+    this.contents.setValue(model.contents || []);
     this.form.markAsPristine();
   }
 
@@ -94,40 +96,42 @@ export class MsContentsPartComponent
     return part;
   }
 
+  private closeContentEditor(): void {
+    this._editedIndex = -1;
+    this.tabIndex = 0;
+    this.editedContent = undefined;
+  }
+
   public addContent(): void {
-    const content: MsContent = {
+    this._editedIndex = -1;
+    this.editedContent = {
       work: null,
     };
-    this.contents = [...this.contents, content];
-    this.count.setValue(this.contents.length);
-    this.count.markAsDirty();
-    this.editContent(this.contents.length - 1);
+    setTimeout(() => {
+      this.tabIndex = 1;
+    }, 300);
   }
 
   public editContent(index: number): void {
-    if (index < 0) {
-      this._editedIndex = -1;
-      this.tabIndex = 0;
-      this.editedContent = null;
+    this._editedIndex = index;
+    this.editedContent = this.contents.value[index];
+    setTimeout(() => {
+      this.tabIndex = 1;
+    }, 300);
+  }
+
+  public onContentChange(content: MsContent): void {
+    if (this._editedIndex === -1) {
+      this.contents.value.push(content);
     } else {
-      this._editedIndex = index;
-      this.editedContent = this.contents[index];
-      setTimeout(() => {
-        this.tabIndex = 1;
-      }, 300);
+      this.contents.value.splice(this._editedIndex, 1, content);
     }
+    this.closeContentEditor();
+    this.form.markAsDirty();
   }
 
-  public onContentSaved(sheet: MsContent): void {
-    this.contents = this.contents.map((s, i) =>
-      i === this._editedIndex ? sheet : s
-    );
-    this.editContent(-1);
-    this.count.markAsDirty();
-  }
-
-  public onContentClosed(): void {
-    this.editContent(-1);
+  public onContentClose(): void {
+    this.closeContentEditor();
   }
 
   public deleteContent(index: number): void {
@@ -136,11 +140,9 @@ export class MsContentsPartComponent
       .pipe(take(1))
       .subscribe((yes) => {
         if (yes) {
-          const sheets = [...this.contents];
-          sheets.splice(index, 1);
-          this.contents = sheets;
-          this.count.setValue(this.contents.length);
-          this.count.markAsDirty();
+          this.closeContentEditor();
+          this.contents.value.splice(index, 1);
+          this.form.markAsDirty();
         }
       });
   }
@@ -149,23 +151,23 @@ export class MsContentsPartComponent
     if (index < 1) {
       return;
     }
-    const sheet = this.contents[index];
-    const sheets = [...this.contents];
-    sheets.splice(index, 1);
-    sheets.splice(index - 1, 0, sheet);
-    this.contents = sheets;
+    const content = this.contents.value[index];
+    const contents = [...this.contents.value];
+    contents.splice(index, 1);
+    contents.splice(index - 1, 0, content);
+    this.contents.setValue(contents);
     this.form.markAsDirty();
   }
 
   public moveContentDown(index: number): void {
-    if (index + 1 >= this.contents.length) {
+    if (index + 1 >= this.contents.value.length) {
       return;
     }
-    const sheet = this.contents[index];
-    const sheets = [...this.contents];
-    sheets.splice(index, 1);
-    sheets.splice(index + 1, 0, sheet);
-    this.contents = sheets;
+    const content = this.contents.value[index];
+    const contents = [...this.contents.value];
+    contents.splice(index, 1);
+    contents.splice(index + 1, 0, content);
+    this.contents.setValue(contents);
     this.form.markAsDirty();
   }
 

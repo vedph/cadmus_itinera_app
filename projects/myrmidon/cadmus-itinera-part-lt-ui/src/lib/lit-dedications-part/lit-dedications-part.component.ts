@@ -31,13 +31,10 @@ export class LitDedicationsPartComponent
   private _editedIndex: number;
 
   public tabIndex: number;
-  public editedDedication: LitDedication;
+  public editedDedication: LitDedication | undefined;
+  public dedications: FormControl;
 
   public tagEntries: ThesaurusEntry[] | undefined;
-
-  public dedications: LitDedication[];
-
-  public count: FormControl;
 
   constructor(
     authService: AuthService,
@@ -47,11 +44,10 @@ export class LitDedicationsPartComponent
     super(authService);
     this.tabIndex = 0;
     this._editedIndex = -1;
-    this.dedications = [];
     // form
-    this.count = formBuilder.control(0, Validators.min(1));
+    this.dedications = formBuilder.control([], Validators.required);
     this.form = formBuilder.group({
-      count: this.count,
+      dedications: this.dedications,
     });
   }
 
@@ -64,8 +60,7 @@ export class LitDedicationsPartComponent
       this.form.reset();
       return;
     }
-    this.count.setValue(model.dedications?.length || 0);
-    this.dedications = model.dedications || [];
+    this.dedications.setValue(model.dedications || []);
     this.form.markAsPristine();
   }
 
@@ -97,44 +92,46 @@ export class LitDedicationsPartComponent
         dedications: [],
       };
     }
-    part.dedications = this.dedications;
+    part.dedications = this.dedications.value;
     return part;
   }
 
+  private closeDedicationEditor(): void {
+    this._editedIndex = -1;
+    this.tabIndex = 0;
+    this.editedDedication = undefined;
+  }
+
   public addDedication(): void {
-    const dedication: LitDedication = {
+    this._editedIndex = -1;
+    this.editedDedication = {
       title: null,
     };
-    this.dedications = [...this.dedications, dedication];
-    this.count.setValue(this.dedications.length);
-    this.count.markAsDirty();
-    this.editDedication(this.dedications.length - 1);
+    setTimeout(() => {
+      this.tabIndex = 1;
+    }, 300);
   }
 
   public editDedication(index: number): void {
-    if (index < 0) {
-      this._editedIndex = -1;
-      this.tabIndex = 0;
-      this.editedDedication = null;
+    this._editedIndex = index;
+    this.editedDedication = this.dedications.value[index];
+    setTimeout(() => {
+      this.tabIndex = 1;
+    }, 300);
+  }
+
+  public onDedicationChange(dedication: LitDedication): void {
+    if (this._editedIndex === -1) {
+      this.dedications.value.push(dedication);
     } else {
-      this._editedIndex = index;
-      this.editedDedication = this.dedications[index];
-      setTimeout(() => {
-        this.tabIndex = 1;
-      }, 300);
+      this.dedications.value.splice(this._editedIndex, 1, dedication);
     }
+    this.closeDedicationEditor();
+    this.form.markAsDirty();
   }
 
-  public onDedicationSaved(item: LitDedication): void {
-    this.dedications = this.dedications.map((s, i) =>
-      i === this._editedIndex ? item : s
-    );
-    this.editDedication(-1);
-    this.count.markAsDirty();
-  }
-
-  public onDedicationClosed(): void {
-    this.editDedication(-1);
+  public onDedicationClose(): void {
+    this.closeDedicationEditor();
   }
 
   public deleteDedication(index: number): void {
@@ -143,11 +140,8 @@ export class LitDedicationsPartComponent
       .pipe(take(1))
       .subscribe((yes) => {
         if (yes) {
-          const dedications = [...this.dedications];
-          dedications.splice(index, 1);
-          this.dedications = dedications;
-          this.count.setValue(this.dedications.length);
-          this.count.markAsDirty();
+          this.dedications.value.splice(index, 1);
+          this.form.markAsDirty();
         }
       });
   }
@@ -156,22 +150,22 @@ export class LitDedicationsPartComponent
     if (index < 1) {
       return;
     }
-    const dedication = this.dedications[index];
-    const dedications = [...this.dedications];
+    const dedication = this.dedications.value[index];
+    const dedications = [...this.dedications.value];
     dedications.splice(index, 1);
     dedications.splice(index - 1, 0, dedication);
-    this.dedications = dedications;
+    this.dedications.setValue(dedications);
   }
 
   public moveDedicationDown(index: number): void {
-    if (index + 1 >= this.dedications.length) {
+    if (index + 1 >= this.dedications.value.length) {
       return;
     }
-    const dedication = this.dedications[index];
-    const dedications = [...this.dedications];
+    const dedication = this.dedications.value[index];
+    const dedications = [...this.dedications.value];
     dedications.splice(index, 1);
     dedications.splice(index + 1, 0, dedication);
-    this.dedications = dedications;
+    this.dedications.setValue(dedications);
   }
 
   public dateToString(date: HistoricalDateModel): string {

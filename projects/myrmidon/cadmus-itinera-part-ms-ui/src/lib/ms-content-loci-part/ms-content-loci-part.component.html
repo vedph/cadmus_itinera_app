@@ -17,7 +17,7 @@
       </button>
 
       <!-- loci -->
-      <table *ngIf="loci?.length">
+      <table *ngIf="loci?.value?.length">
         <thead>
           <tr>
             <th></th>
@@ -28,7 +28,7 @@
         <tbody>
           <tr
             *ngFor="
-              let l of loci;
+              let l of loci.value;
               let i = index;
               let first = first;
               let last = last
@@ -89,8 +89,8 @@
         </mat-expansion-panel-header>
         <itinera-ms-content-locus *ngIf="editedLocus"
           [locus]="editedLocus"
-          (locusChange)="onLocusSaved($event)"
-          (editorClose)="onLocusClosed()"
+          (locusChange)="onLocusChange($event)"
+          (editorClose)="onLocusClose()"
         ></itinera-ms-content-locus>
       </mat-expansion-panel>
     </mat-card-content>

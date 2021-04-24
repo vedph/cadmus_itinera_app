@@ -32,14 +32,12 @@ export class ChronotopicsPartComponent
   private _editedIndex: number;
 
   public tabIndex: number;
-  public editedChronotope: Chronotope;
+  public editedChronotope: Chronotope | undefined;
 
   public tagEntries: ThesaurusEntry[] | undefined;
   public docRefTagEntries: ThesaurusEntry[] | undefined;
 
-  public chronotopes: Chronotope[];
-
-  public count: FormControl;
+  public chronotopes: FormControl;
 
   constructor(
     authService: AuthService,
@@ -49,11 +47,10 @@ export class ChronotopicsPartComponent
     super(authService);
     this.tabIndex = 0;
     this._editedIndex = -1;
-    this.chronotopes = [];
     // form
-    this.count = formBuilder.control(0, Validators.min(1));
+    this.chronotopes = formBuilder.control([], Validators.required);
     this.form = formBuilder.group({
-      count: this.count,
+      chronotopes: this.chronotopes,
     });
   }
 
@@ -66,8 +63,7 @@ export class ChronotopicsPartComponent
       this.form.reset();
       return;
     }
-    this.count.setValue(model.chronotopes?.length || 0);
-    this.chronotopes = model.chronotopes || [];
+    this.chronotopes.setValue(model.chronotopes || []);
     this.form.markAsPristine();
   }
 
@@ -106,45 +102,44 @@ export class ChronotopicsPartComponent
         chronotopes: [],
       };
     }
-    part.chronotopes = this.chronotopes;
+    part.chronotopes.setValue(this.chronotopes.value);
     return part;
   }
 
+  private closeChronotopeEditor(): void {
+    this._editedIndex = -1;
+    this.tabIndex = 0;
+    this.editedChronotope = undefined;
+  }
+
   public addChronotope(): void {
-    const chronotope: Chronotope = {
-      place: null,
-      date: null,
-    };
-    this.chronotopes = [...this.chronotopes, chronotope];
-    this.count.setValue(this.chronotopes.length);
-    this.count.markAsDirty();
-    this.editChronotope(this.chronotopes.length - 1);
+    this._editedIndex = -1;
+    this.editedChronotope = {};
+    setTimeout(() => {
+      this.tabIndex = 1;
+    }, 300);
   }
 
   public editChronotope(index: number): void {
-    if (index < 0) {
-      this._editedIndex = -1;
-      this.tabIndex = 0;
-      this.editedChronotope = null;
-    } else {
-      this._editedIndex = index;
-      this.editedChronotope = this.chronotopes[index];
-      setTimeout(() => {
-        this.tabIndex = 1;
-      }, 300);
-    }
+    this._editedIndex = index;
+    this.editedChronotope = this.chronotopes.value[index];
+    setTimeout(() => {
+      this.tabIndex = 1;
+    }, 300);
   }
 
-  public onChronotopeSave(chronotope: Chronotope): void {
-    this.chronotopes = this.chronotopes.map((s, i) =>
-      i === this._editedIndex ? chronotope : s
-    );
-    this.editChronotope(-1);
-    this.count.markAsDirty();
+  public onChronotopeChange(chronotope: Chronotope): void {
+    if (this._editedIndex === -1) {
+      this.chronotopes.value.push(chronotope);
+    } else {
+      this.chronotopes.value.splice(this._editedIndex, 1, chronotope);
+    }
+    this.closeChronotopeEditor();
+    this.form.markAsDirty();
   }
 
   public onChronotopeClose(): void {
-    this.editChronotope(-1);
+    this.closeChronotopeEditor();
   }
 
   public deleteChronotope(index: number): void {
@@ -153,11 +148,8 @@ export class ChronotopicsPartComponent
       .pipe(take(1))
       .subscribe((yes) => {
         if (yes) {
-          const chronotopes = [...this.chronotopes];
-          chronotopes.splice(index, 1);
-          this.chronotopes = chronotopes;
-          this.count.setValue(this.chronotopes.length);
-          this.count.markAsDirty();
+          this.chronotopes.value.splice(index, 1);
+          this.form.markAsDirty();
         }
       });
   }
@@ -166,23 +158,23 @@ export class ChronotopicsPartComponent
     if (index < 1) {
       return;
     }
-    const chronotope = this.chronotopes[index];
-    const chronotopes = [...this.chronotopes];
+    const chronotope = this.chronotopes.value[index];
+    const chronotopes = [...this.chronotopes.value];
     chronotopes.splice(index, 1);
     chronotopes.splice(index - 1, 0, chronotope);
-    this.chronotopes = chronotopes;
+    this.chronotopes.setValue(chronotopes);
     this.form.markAsDirty();
   }
 
   public moveChronotopeDown(index: number): void {
-    if (index + 1 >= this.chronotopes.length) {
+    if (index + 1 >= this.chronotopes.value.length) {
       return;
     }
-    const chronotope = this.chronotopes[index];
-    const chronotopes = [...this.chronotopes];
+    const chronotope = this.chronotopes.value[index];
+    const chronotopes = [...this.chronotopes.value];
     chronotopes.splice(index, 1);
     chronotopes.splice(index + 1, 0, chronotope);
-    this.chronotopes = chronotopes;
+    this.chronotopes.setValue(chronotopes);
     this.form.markAsDirty();
   }
 

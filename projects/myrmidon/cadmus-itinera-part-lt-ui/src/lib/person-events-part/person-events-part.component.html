@@ -19,7 +19,7 @@
               <mat-icon>add_circle</mat-icon> add event
             </button>
           </div>
-          <table *ngIf="events?.length">
+          <table *ngIf="events?.value?.length">
             <thead>
               <tr>
                 <th></th>
@@ -31,7 +31,7 @@
             <tbody>
               <tr
                 *ngFor="
-                  let e of events;
+                  let e of events.value;
                   let i = index;
                   let first = first;
                   let last = last
@@ -89,8 +89,8 @@
             [typeEntries]="typeEntries"
             [partTagEntries]="partTagEntries"
             [docRefTagEntries]="docRefTagEntries"
-            (eventChange)="onEventSaved($event)"
-            (editorClose)="onEventClosed()"
+            (eventChange)="onEventChange($event)"
+            (editorClose)="onEventClose()"
           ></itinera-bio-event>
         </mat-tab>
       </mat-tab-group>

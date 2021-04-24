@@ -62,6 +62,7 @@ export class LitDedicationComponent implements OnInit {
     this.participants = [];
     this.hasDate = formBuilder.control(false);
     this.hasDateSent = formBuilder.control(false);
+    this.sources = formBuilder.control([]);
     this.form = formBuilder.group({
       title: this.title,
       hasDate: this.hasDate,
