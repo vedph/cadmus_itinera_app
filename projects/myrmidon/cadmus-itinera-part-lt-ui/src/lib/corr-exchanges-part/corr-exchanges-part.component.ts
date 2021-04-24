@@ -33,9 +33,12 @@ export class CorrExchangesPartComponent
   public tabIndex: number;
   public editedExchange: CorrExchange;
 
+  // doc-reference-tags
   public tagEntries: ThesaurusEntry[] | undefined;
+  // chronotope-tags
   public ctTagEntries: ThesaurusEntry[] | undefined;
-  public typeEntries: ThesaurusEntry[] | undefined;
+  // epist-attachment-types
+  public attTypeEntries: ThesaurusEntry[] | undefined;
 
   public exchanges: FormControl;
 
@@ -88,9 +91,9 @@ export class CorrExchangesPartComponent
 
     key = 'epist-attachment-types';
     if (this.thesauri && this.thesauri[key]) {
-      this.typeEntries = this.thesauri[key].entries;
+      this.attTypeEntries = this.thesauri[key].entries;
     } else {
-      this.typeEntries = undefined;
+      this.attTypeEntries = undefined;
     }
   }
 
