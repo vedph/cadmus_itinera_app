@@ -22,7 +22,7 @@ import {
   DecoratedId,
   Attachment,
 } from '@myrmidon/cadmus-itinera-core';
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
 @Component({
@@ -67,7 +67,6 @@ export class CorrExchangeComponent implements OnInit, AfterViewInit, OnDestroy {
   public indirect: FormControl;
   public participant: FormControl;
   public attachments: FormControl;
-  public hasCt: FormControl;
   public sources: FormControl;
   public form: FormGroup;
 
@@ -89,14 +88,12 @@ export class CorrExchangeComponent implements OnInit, AfterViewInit, OnDestroy {
     this.indirect = formBuilder.control(false);
     this.participant = formBuilder.control(false);
     this.attachments = formBuilder.control([]);
-    this.hasCt = formBuilder.control(false, Validators.requiredTrue);
     this.sources = formBuilder.control([]);
     this.form = formBuilder.group({
       dubious: this.dubious,
       indirect: this.indirect,
       participant: this.participant,
       attachments: this.attachments,
-      hasCt: this.hasCt, // used to validate: from/to must exist
       sources: this.sources,
     });
   }
