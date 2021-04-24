@@ -249,7 +249,7 @@ export class SerialTextInfoPartComponent
     part.verse = this.verse.value?.trim();
     part.rhyme = this.rhyme.value?.trim();
     part.headings = this.parseIds(this.headings.value?.trim());
-    part.received = this.received.value ? true : undefined;
+    part.isReceived = this.received.value ? true : undefined;
     part.note = this.note.value?.trim();
 
     part.related = this.related.value?.length ? this.related.value : undefined;

@@ -43,7 +43,7 @@
     "@myrmidon/cadmus-part-biblio-pg": "0.0.1",
     "@myrmidon/cadmus-part-biblio-ui": "0.0.1",
     "@myrmidon/cadmus-part-general-pg": "0.0.12",
-    "@myrmidon/cadmus-part-general-ui": "0.0.24",
+    "@myrmidon/cadmus-part-general-ui": "0.0.25",
     "@myrmidon/cadmus-part-philology-pg": "0.0.8",
     "@myrmidon/cadmus-part-philology-ui": "0.0.10",
     "@myrmidon/cadmus-reset-password": "0.0.5",
