@@ -38,7 +38,7 @@ export class ChronotopesComponent implements OnInit {
     return this._chronotopes;
   }
   public set chronotopes(value: Chronotope[] | undefined) {
-    this._chronotopes = value;
+    this._chronotopes = value || [];
     this._editedIndex = -1;
     this.editedChronotope = undefined;
   }
@@ -52,7 +52,7 @@ export class ChronotopesComponent implements OnInit {
   constructor(private _dialogService: DialogService) {
     this.chronotopesChange = new EventEmitter<Chronotope[]>();
     this._editedIndex = -1;
-    this.chronotopes = [];
+    this._chronotopes = [];
   }
 
   ngOnInit(): void {}
@@ -72,14 +72,14 @@ export class ChronotopesComponent implements OnInit {
 
   public editChronotope(index: number): void {
     this._editedIndex = index;
-    this.editedChronotope = this.chronotopes[index];
+    this.editedChronotope = this._chronotopes[index];
   }
 
   public onChronotopeChange(chronotope: Chronotope): void {
     if (this._editedIndex === -1) {
-      this.chronotopes.push(chronotope);
+      this._chronotopes.push(chronotope);
     } else {
-      this.chronotopes.splice(this._editedIndex, 1, chronotope);
+      this._chronotopes.splice(this._editedIndex, 1, chronotope);
     }
     this.closeChronotopeEditor();
     this.chronotopesChange.emit(this._chronotopes);
@@ -96,7 +96,7 @@ export class ChronotopesComponent implements OnInit {
       .subscribe((yes) => {
         if (yes) {
           this.closeChronotopeEditor();
-          this.chronotopes.splice(index, 1);
+          this._chronotopes.splice(index, 1);
           this.chronotopesChange.emit(this._chronotopes);
         }
       });
@@ -107,24 +107,24 @@ export class ChronotopesComponent implements OnInit {
       return;
     }
     this.closeChronotopeEditor();
-    const chronotope = this.chronotopes[index];
-    const chronotopes = [...this.chronotopes];
+    const chronotope = this._chronotopes[index];
+    const chronotopes = [...this._chronotopes];
     chronotopes.splice(index, 1);
     chronotopes.splice(index - 1, 0, chronotope);
-    this.chronotopes = chronotopes;
+    this._chronotopes = chronotopes;
     this.chronotopesChange.emit(this._chronotopes);
   }
 
   public moveChronotopeDown(index: number): void {
-    if (index + 1 >= this.chronotopes.length) {
+    if (index + 1 >= this._chronotopes.length) {
       return;
     }
     this.closeChronotopeEditor();
-    const chronotope = this.chronotopes[index];
-    const chronotopes = [...this.chronotopes];
+    const chronotope = this._chronotopes[index];
+    const chronotopes = [...this._chronotopes];
     chronotopes.splice(index, 1);
     chronotopes.splice(index + 1, 0, chronotope);
-    this.chronotopes = chronotopes;
+    this._chronotopes = chronotopes;
     this.chronotopesChange.emit(this._chronotopes);
   }
 
