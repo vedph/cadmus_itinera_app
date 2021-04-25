@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { Attachment } from '@myrmidon/cadmus-itinera-core';
+import { DialogService } from '@myrmidon/cadmus-ui';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'cadmus-attachments',
@@ -27,7 +29,7 @@ export class AttachmentsComponent implements OnInit {
 
   public editedAttachment: Attachment | undefined;
 
-  constructor() {
+  constructor(private _dialogService: DialogService) {
     this.attachmentsChange = new EventEmitter<Attachment[] | undefined>();
   }
 
@@ -63,14 +65,23 @@ export class AttachmentsComponent implements OnInit {
   }
 
   public removeAttachment(index: number): void {
-    this.attachments.splice(index, 1);
-    this.attachmentsChange.emit(this.attachments);
+    this._dialogService
+      .confirm('Confirmation', 'Delete attachment?')
+      .pipe(take(1))
+      .subscribe((yes) => {
+        if (yes) {
+          this.editedAttachment = undefined;
+          this.attachments.splice(index, 1);
+          this.attachmentsChange.emit(this.attachments);
+        }
+      });
   }
 
   public moveAttachmentUp(index: number): void {
     if (index < 1) {
       return;
     }
+    this.editedAttachment = undefined;
     const attachment = this.attachments[index];
     this.attachments.splice(index, 1);
     this.attachments.splice(index - 1, 0, attachment);
@@ -81,6 +92,7 @@ export class AttachmentsComponent implements OnInit {
     if (index + 1 >= this.attachments.length) {
       return;
     }
+    this.editedAttachment = undefined;
     const attachment = this.attachments[index];
     this.attachments.splice(index, 1);
     this.attachments.splice(index + 1, 0, attachment);
