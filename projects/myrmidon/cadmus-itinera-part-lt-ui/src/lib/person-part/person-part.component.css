@@ -1,3 +1,6 @@
+table {
+  border-collapse: collapse;
+}
 tr:nth-child(odd) {
   background-color: #eaeaea;
 }
@@ -6,6 +9,6 @@ th {
   font-weight: normal;
   color: silver;
 }
-.sel-row {
-  background-color: #cacaea;
+.selected {
+  background-color: #f0f0c0;
 }

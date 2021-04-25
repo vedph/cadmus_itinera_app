@@ -4,7 +4,6 @@ import { AuthService } from '@myrmidon/cadmus-api';
 import { deepCopy, ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { Chronotope, PersonName } from '@myrmidon/cadmus-itinera-core';
 import { ModelEditorComponentBase, DialogService } from '@myrmidon/cadmus-ui';
-import { BehaviorSubject } from 'rxjs';
 import { PersonPart, PERSON_PART_TYPEID } from '../person-part';
 
 /**
@@ -44,14 +43,12 @@ export class PersonPartComponent
 
   public personId: FormControl;
   public sex: FormControl;
-  public nameCount: FormControl;
+  public names: FormControl;
   public bio: FormControl;
   public ids: FormControl;
-
-  public chronotopes: Chronotope[] | undefined;
+  public chronotopes: FormControl;
 
   public initialIds: string[];
-  public names$: BehaviorSubject<PersonName[]>;
   public initialName: PersonName | undefined;
 
   constructor(
@@ -62,7 +59,6 @@ export class PersonPartComponent
     super(authService);
     this.nameIndex = -1;
     this.initialIds = [];
-    this.names$ = new BehaviorSubject<PersonName[]>([]);
 
     // form
     this.personId = formBuilder.control(null, [
@@ -70,15 +66,17 @@ export class PersonPartComponent
       Validators.maxLength(50),
     ]);
     this.sex = formBuilder.control(null, Validators.maxLength(1));
-    this.nameCount = formBuilder.control(0, Validators.min(1));
+    this.names = formBuilder.control([], Validators.required);
     this.bio = formBuilder.control(null, Validators.maxLength(6000));
     this.ids = formBuilder.control([]);
+    this.chronotopes = formBuilder.control([]);
     this.form = formBuilder.group({
       personId: this.personId,
       sex: this.sex,
-      nameCount: this.nameCount,
+      names: this.names,
       bio: this.bio,
       ids: this.ids,
+      chronotopes: this.chronotopes,
     });
   }
 
@@ -86,11 +84,11 @@ export class PersonPartComponent
     this.initEditor();
   }
 
-  public onTabIndexChanged(index: number): void {
+  public onTabIndexChange(index: number): void {
     // HACK
     // https://github.com/atularen/ngx-monaco-editor/issues/19
     // https://stackoverflow.com/questions/37412950/ngx-monaco-editor-unable-to-set-layout-size-when-container-changes-using-tab
-    if (index === 3) {
+    if (index === 2) {
       setTimeout(() => {
         this.bioEditor._editor.layout();
       }, 100);
@@ -98,19 +96,17 @@ export class PersonPartComponent
   }
 
   private updateForm(model: PersonPart): void {
+    this.closeNameEditor();
     if (!model) {
-      this.chronotopes = undefined;
       this.initialIds = [];
       this.form.reset();
       return;
     }
     this.personId.setValue(model.personId);
     this.initialIds = model.externalIds || [];
-    this.names$.next(model.names || []);
-    this.nameCount.setValue(model.names?.length || 0);
+    this.names.setValue(model.names || []);
     this.sex.setValue(model.sex);
-
-    this.chronotopes = model.chronotopes;
+    this.chronotopes.setValue(model.chronotopes);
     this.bio.setValue(model.bio);
     this.form.markAsPristine();
   }
@@ -175,9 +171,11 @@ export class PersonPartComponent
     }
     part.personId = this.personId.value;
     part.externalIds = this.ids.value?.length ? this.ids.value : undefined;
-    part.names = this.names$.value || [];
+    part.names = this.names.value || [];
     part.sex = this.sex.value;
-    part.chronotopes = this.chronotopes?.length ? this.chronotopes : undefined;
+    part.chronotopes = this.chronotopes.value?.length
+      ? this.chronotopes.value
+      : undefined;
     part.bio = this.bio.value?.trim() || null;
     return part;
   }
@@ -185,6 +183,11 @@ export class PersonPartComponent
   public onIdsChange(ids: string[]): void {
     this.ids.setValue(ids);
     this.form.markAsDirty();
+  }
+
+  private closeNameEditor(): void {
+    this.nameIndex = -1;
+    this.initialName = undefined;
   }
 
   public getFullName(name: PersonName | null): string {
@@ -198,22 +201,28 @@ export class PersonPartComponent
     return sb.join(' ');
   }
 
-  public editNameAt(index: number): void {
-    this.initialName = this.names$.value[index];
+  public addName(): void {
+    this.nameIndex = -1;
+    this.initialName = {
+      language: 'ita',
+      parts: [],
+    };
+  }
+
+  public editName(index: number): void {
+    this.initialName = this.names.value[index];
     this.nameIndex = index;
   }
 
-  public removeNameAt(index: number): void {
+  public removeName(index: number): void {
     this._dialogService
       .confirm('Confirm Deletion', 'Delete name?')
-      .subscribe((result) => {
-        if (!result) {
+      .subscribe((yes) => {
+        if (!yes) {
           return;
         }
-        const updated: PersonName[] = this.names$.value;
-        updated.splice(index, 1);
-        this.names$.next(updated);
-        this.nameCount.setValue(this.names$.value.length);
+        this.closeNameEditor();
+        this.names.value.splice(index, 1);
         this.form.markAsDirty();
       });
   }
@@ -222,50 +231,40 @@ export class PersonPartComponent
     if (index < 1) {
       return;
     }
-    const name = this.names$.value[index];
-    const updated: PersonName[] = this.names$.value;
-    updated.splice(index, 1);
-    updated.splice(index - 1, 0, name);
-    this.names$.next(updated);
+    this.closeNameEditor();
+    const name = this.names.value[index];
+    const names = [...this.names.value];
+    names.splice(index, 1);
+    names.splice(index - 1, 0, name);
+    this.names.setValue(names);
     this.form.markAsDirty();
   }
 
   public moveNameDown(index: number): void {
-    if (index + 1 >= this.names$.value.length) {
+    if (index + 1 >= this.names.value.length) {
       return;
     }
-    const name = this.names$.value[index];
-    const updated: PersonName[] = this.names$.value;
-    updated.splice(index, 1);
-    updated.splice(index + 1, 0, name);
-    this.names$.next(updated);
-    this.form.markAsDirty();
-  }
-
-  public addName(): void {
-    const updated: PersonName[] = this.names$.value;
-    updated.push({
-      language: 'ita',
-      parts: [],
-    });
-    this.names$.next(updated);
-    this.nameCount.setValue(this.names$.value.length);
-    this.editNameAt(updated.length - 1);
+    this.closeNameEditor();
+    const name = this.names.value[index];
+    const names = [...this.names.value];
+    names.splice(index, 1);
+    names.splice(index + 1, 0, name);
+    this.names.setValue(names);
     this.form.markAsDirty();
   }
 
   public onNameChange(name: PersonName): void {
-    if (this.nameIndex < 0 || this.nameIndex >= this.names$.value.length) {
-      return;
+    if (this.nameIndex === -1) {
+      this.names.value.push(name);
+      this.nameIndex = this.names.value.length - 1;
+    } else {
+      this.names.value.splice(this.nameIndex, 1, name);
     }
-    const updated: PersonName[] = this.names$.value;
-    updated.splice(this.nameIndex, 1, name);
-    this.names$.next(updated);
     this.form.markAsDirty();
   }
 
   public onChronotopesChange(chronotopes: Chronotope[] | undefined): void {
-    this.chronotopes = chronotopes;
+    this.chronotopes.setValue(chronotopes);
     this.form.markAsDirty();
   }
 }

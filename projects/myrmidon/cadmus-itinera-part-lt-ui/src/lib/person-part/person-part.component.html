@@ -8,7 +8,7 @@
     </mat-card-header>
     <mat-card-content>
       <!-- ID TAB -->
-      <mat-tab-group (selectedIndexChange)="onTabIndexChanged($event)">
+      <mat-tab-group (selectedIndexChange)="onTabIndexChange($event)">
         <!-- person ID -->
         <mat-tab label="ID">
           <div>
@@ -43,7 +43,7 @@
 
           <!-- name(s) -->
           <h3>names</h3>
-          <div *ngIf="names$?.value?.length">
+          <div *ngIf="names?.value?.length">
             <table>
               <thead>
                 <th></th>
@@ -54,12 +54,12 @@
               <tbody>
                 <tr
                   *ngFor="
-                    let name of names$ | async;
+                    let name of names.value;
                     let first = first;
                     let last = last;
                     let i = index
                   "
-                  [ngClass]="{ 'sel-row': nameIndex === i }"
+                  [ngClass]="{ 'selected': nameIndex === i }"
                 >
                   <td>
                     <button
@@ -67,7 +67,7 @@
                       type="button"
                       matTooltip="Edit this name"
                       color="primary"
-                      (click)="editNameAt(i)"
+                      (click)="editName(i)"
                     >
                       <mat-icon>edit</mat-icon>
                     </button>
@@ -76,7 +76,7 @@
                       type="button"
                       matTooltip="Remove this name"
                       color="warn"
-                      (click)="removeNameAt(i)"
+                      (click)="removeName(i)"
                     >
                       <mat-icon>remove_circle</mat-icon>
                     </button>
@@ -117,8 +117,8 @@
             </button>
           </div>
           <mat-expansion-panel
-            [expanded]="nameIndex > -1"
-            [disabled]="nameIndex < 0"
+            [expanded]="initialName"
+            [disabled]="!initialName"
           >
             <mat-expansion-panel-header>
               <mat-panel-title>name</mat-panel-title>
@@ -150,7 +150,7 @@
         <!-- CHRONOTOPES TAB -->
         <mat-tab label="chronotopes">
           <itinera-chronotopes
-            [chronotopes]="chronotopes"
+            [chronotopes]="chronotopes?.value"
             [tagEntries]="ctTagEntries"
             [docRefTagEntries]="tagEntries"
             (chronotopesChange)="onChronotopesChange($event)"

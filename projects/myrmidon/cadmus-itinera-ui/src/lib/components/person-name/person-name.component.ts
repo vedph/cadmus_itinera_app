@@ -4,6 +4,7 @@ import {
   EventEmitter,
   Input,
   OnDestroy,
+  OnInit,
   Output,
   QueryList,
   ViewChildren,
@@ -18,7 +19,7 @@ import {
 import { ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { PersonName, PersonNamePart } from '@myrmidon/cadmus-itinera-core';
 import { Subscription } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 /**
  * Person name real-time editor.
@@ -30,7 +31,7 @@ import { debounceTime } from 'rxjs/operators';
   templateUrl: './person-name.component.html',
   styleUrls: ['./person-name.component.css'],
 })
-export class PersonNameComponent implements AfterViewInit, OnDestroy {
+export class PersonNameComponent implements OnInit, AfterViewInit, OnDestroy {
   private _name: PersonName | undefined;
   private _updatingForm: boolean;
   private _partSubs: Subscription[];
@@ -92,6 +93,19 @@ export class PersonNameComponent implements AfterViewInit, OnDestroy {
       tag: this.tag,
       parts: this.parts,
     });
+  }
+
+  public ngOnInit(): void {
+    this.language.valueChanges
+      .pipe(debounceTime(300), distinctUntilChanged())
+      .subscribe((_) => {
+        this.emitNameChange();
+      });
+    this.tag.valueChanges
+      .pipe(debounceTime(300), distinctUntilChanged())
+      .subscribe((_) => {
+        this.emitNameChange();
+      });
   }
 
   public ngAfterViewInit(): void {

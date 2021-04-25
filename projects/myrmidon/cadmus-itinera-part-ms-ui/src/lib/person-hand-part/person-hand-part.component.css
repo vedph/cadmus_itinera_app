@@ -1,5 +1,8 @@
+table {
+  border-collapse: collapse;
+}
 .selected {
-  background-color: #e0f5ff;
+  background-color: #f0f0c0;
 }
 th {
   text-align: left;
