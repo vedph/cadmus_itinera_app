@@ -96,7 +96,7 @@ export class TextOrEntrySelectorComponent implements OnInit {
 
   private emitIdChange(): void {
     this.idChange.emit(
-      this._free && !this.idCtl.value.startsWith(FREE_PREFIX)
+      this._free && !this.idCtl.value?.startsWith(FREE_PREFIX)
         ? FREE_PREFIX + this.idCtl.value
         : this.idCtl.value
     );
