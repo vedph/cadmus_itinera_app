@@ -83,6 +83,10 @@ export class MsDecorationElementComponent implements OnInit {
   public note: FormControl;
   public form: FormGroup;
 
+  public initialGilding: string | undefined;
+  public initialTechnique: string | undefined;
+  public initialPosition: string | undefined;
+
   // ms-decoration-elem-types (required). All the other thesauri
   // (except decTypeHiddenEntries) have their entries filtered
   // by the value selected from this thesaurus.
@@ -129,7 +133,10 @@ export class MsDecorationElementComponent implements OnInit {
   }
   public set decElemTechEntries(value: ThesaurusEntry[] | undefined) {
     this._elemTechEntries = value;
-    this.elemTechniqueEntries = this.getFilteredEntries(value, this.type?.value);
+    this.elemTechniqueEntries = this.getFilteredEntries(
+      value,
+      this.type?.value
+    );
   }
 
   // ms-decoration-elem-positions
@@ -296,10 +303,10 @@ export class MsDecorationElementComponent implements OnInit {
         this.typologies.reset();
         this.subject.reset();
         this.colors.reset();
-        this.gilding.reset();
-        this.technique.reset();
+        this.initialGilding = undefined;
+        this.initialTechnique = undefined;
         this.tool.reset();
-        this.position.reset();
+        this.initialPosition = undefined;
         this.lineHeight.reset();
         this.textRelation.reset();
 
@@ -367,34 +374,36 @@ export class MsDecorationElementComponent implements OnInit {
     // general
     this.type.setValue(element.type);
 
-    this.flags.setValue(element.flags);
-    this.ranges.setValue(
-      element.ranges
-        ? element.ranges
-            .map((r) => {
-              return this._locService.rangeToString(r);
-            })
-            .join(' ')
-        : null
-    );
-    this.key.setValue(element.key);
-    this.parentKey.setValue(element.parentKey);
-    // typologies
-    this.typologies.setValue(element.typologies);
-    this.subject.setValue(element.subject);
-    this.colors.setValue(element.colors);
-    this.gilding.setValue(element.gilding);
-    this.technique.setValue(element.technique);
-    this.tool.setValue(element.tool);
-    this.position.setValue(element.position);
-    this.lineHeight.setValue(element.lineHeight);
-    this.textRelation.setValue(element.textRelation);
-    // description
-    this.description.setValue(element.description);
-    this.imageId.setValue(element.imageId);
-    this.note.setValue(element.note);
+    setTimeout(() => {
+      this.flags.setValue(element.flags);
+      this.ranges.setValue(
+        element.ranges
+          ? element.ranges
+              .map((r) => {
+                return this._locService.rangeToString(r);
+              })
+              .join(' ')
+          : null
+      );
+      this.key.setValue(element.key);
+      this.parentKey.setValue(element.parentKey);
+      // typologies
+      this.typologies.setValue(element.typologies);
+      this.subject.setValue(element.subject);
+      this.colors.setValue(element.colors);
+      this.initialGilding = element.gilding;
+      this.technique.setValue(element.technique);
+      this.tool.setValue(element.tool);
+      this.initialPosition = element.position;
+      this.lineHeight.setValue(element.lineHeight);
+      this.textRelation.setValue(element.textRelation);
+      // description
+      this.description.setValue(element.description);
+      this.imageId.setValue(element.imageId);
+      this.note.setValue(element.note);
 
-    this.form.markAsPristine();
+      this.form.markAsPristine();
+    }, 800);
   }
 
   private splitText(text: string, delimiter = ' '): string[] | undefined {

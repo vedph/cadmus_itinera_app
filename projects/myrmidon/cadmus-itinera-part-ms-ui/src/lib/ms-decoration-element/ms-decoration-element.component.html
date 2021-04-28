@@ -110,7 +110,7 @@
           label="gilding"
           [entries]="elemGildingEntries"
           [free]="elemGildingFree"
-          [id]="gilding?.value"
+          [id]="initialGilding"
           (idChange)="onGildingChange($event)"
         >
         </itinera-text-or-entry-selector>
@@ -121,7 +121,7 @@
           label="technique"
           [entries]="elemTechniqueEntries"
           [free]="elemTechniqueFree"
-          [id]="technique?.value"
+          [id]="initialTechnique"
           (idChange)="onTechniqueChange($event)"
         >
         </itinera-text-or-entry-selector>
@@ -143,7 +143,7 @@
           label="position"
           [entries]="elemPositionEntries"
           [free]="elemPositionFree"
-          [id]="position?.value"
+          [id]="initialPosition"
           (idChange)="onPositionChange($event)"
         >
         </itinera-text-or-entry-selector>
