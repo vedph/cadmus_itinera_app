@@ -3,7 +3,7 @@ import { FormControl, FormBuilder, Validators } from '@angular/forms';
 
 import { ModelEditorComponentBase, DialogService } from '@myrmidon/cadmus-ui';
 import { AuthService } from '@myrmidon/cadmus-api';
-import { deepCopy, ThesaurusEntry } from '@myrmidon/cadmus-core';
+import { CadmusValidators, deepCopy, ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { MsDecoration, MsLocationService } from '@myrmidon/cadmus-itinera-core';
 import { take } from 'rxjs/operators';
 import {
@@ -61,14 +61,14 @@ export class MsDecorationsPartComponent
   constructor(
     authService: AuthService,
     formBuilder: FormBuilder,
-    private _dialogService: DialogService,
-    private _locService: MsLocationService
+    private _dialogService: DialogService
   ) {
     super(authService);
     this.tabIndex = 0;
     this._editedIndex = -1;
     // form
-    this.decorations = formBuilder.control([], Validators.required);
+    this.decorations = formBuilder.control([],
+      CadmusValidators.strictMinLengthValidator(1));
     this.form = formBuilder.group({
       decorations: this.decorations,
     });
@@ -221,6 +221,7 @@ export class MsDecorationsPartComponent
       this.decorations.value.splice(this._editedIndex, 1, decoration);
     }
     this.closeDecorationEditor();
+    this.decorations.updateValueAndValidity();
     this.form.markAsDirty();
   }
 
@@ -236,6 +237,7 @@ export class MsDecorationsPartComponent
         if (yes) {
           this.closeDecorationEditor();
           this.decorations.value.splice(index, 1);
+          this.decorations.updateValueAndValidity();
           this.form.markAsDirty();
         }
       });

@@ -7,7 +7,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { ThesaurusEntry } from '@myrmidon/cadmus-core';
+import { CadmusValidators, ThesaurusEntry } from '@myrmidon/cadmus-core';
 import {
   MsHand,
   MsHandSign,
@@ -118,8 +118,14 @@ export class MsHandComponent implements OnInit {
       Validators.required,
       Validators.maxLength(50),
     ]);
-    this.types = _formBuilder.array([], Validators.required);
-    this.ranges = _formBuilder.array([], Validators.required);
+    this.types = _formBuilder.array(
+      [],
+      CadmusValidators.strictMinLengthValidator(1)
+    );
+    this.ranges = _formBuilder.array(
+      [],
+      CadmusValidators.strictMinLengthValidator(1)
+    );
     this.extentNote = _formBuilder.control(null, Validators.maxLength(500));
     this.description = _formBuilder.control(null, Validators.maxLength(1000));
     this.imageIds = _formBuilder.control(null, Validators.maxLength(500));
@@ -166,7 +172,7 @@ export class MsHandComponent implements OnInit {
       subPresent: this.subPresent,
       subscription: this.subForm,
       // signs
-      signs: this.signs
+      signs: this.signs,
     });
   }
 

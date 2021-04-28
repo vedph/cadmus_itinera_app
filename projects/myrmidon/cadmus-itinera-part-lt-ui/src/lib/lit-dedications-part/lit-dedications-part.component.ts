@@ -4,6 +4,7 @@ import { FormControl, FormBuilder, Validators } from '@angular/forms';
 import { ModelEditorComponentBase, DialogService } from '@myrmidon/cadmus-ui';
 import { AuthService } from '@myrmidon/cadmus-api';
 import {
+  CadmusValidators,
   deepCopy,
   HistoricalDate,
   HistoricalDateModel,
@@ -45,7 +46,10 @@ export class LitDedicationsPartComponent
     this.tabIndex = 0;
     this._editedIndex = -1;
     // form
-    this.dedications = formBuilder.control([], Validators.required);
+    this.dedications = formBuilder.control(
+      [],
+      CadmusValidators.strictMinLengthValidator(1)
+    );
     this.form = formBuilder.group({
       dedications: this.dedications,
     });
@@ -126,6 +130,7 @@ export class LitDedicationsPartComponent
     } else {
       this.dedications.value.splice(this._editedIndex, 1, dedication);
     }
+    this.dedications.updateValueAndValidity();
     this.closeDedicationEditor();
     this.form.markAsDirty();
   }
@@ -142,6 +147,7 @@ export class LitDedicationsPartComponent
         if (yes) {
           this.closeDedicationEditor();
           this.dedications.value.splice(index, 1);
+          this.dedications.updateValueAndValidity();
           this.form.markAsDirty();
         }
       });

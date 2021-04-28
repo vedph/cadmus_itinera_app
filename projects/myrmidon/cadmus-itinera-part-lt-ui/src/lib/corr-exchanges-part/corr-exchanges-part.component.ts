@@ -4,6 +4,7 @@ import { FormControl, FormBuilder, Validators } from '@angular/forms';
 import { ModelEditorComponentBase, DialogService } from '@myrmidon/cadmus-ui';
 import { AuthService } from '@myrmidon/cadmus-api';
 import {
+  CadmusValidators,
   deepCopy,
   HistoricalDate,
   ThesaurusEntry,
@@ -51,7 +52,10 @@ export class CorrExchangesPartComponent
     this.tabIndex = 0;
     this._editedIndex = -1;
     // form
-    this.exchanges = formBuilder.control([], Validators.required);
+    this.exchanges = formBuilder.control(
+      [],
+      CadmusValidators.strictMinLengthValidator(1)
+    );
     this.form = formBuilder.group({
       exchanges: this.exchanges,
     });
@@ -144,6 +148,7 @@ export class CorrExchangesPartComponent
     } else {
       this.exchanges.value.splice(this._editedIndex, 1, exchange);
     }
+    this.exchanges.updateValueAndValidity();
     this.closeExchangeEditor();
     this.form.markAsDirty();
   }
@@ -160,6 +165,7 @@ export class CorrExchangesPartComponent
         if (yes) {
           this.closeExchangeEditor();
           this.exchanges.value.splice(index, 1);
+          this.exchanges.updateValueAndValidity();
           this.form.markAsDirty();
         }
       });

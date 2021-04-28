@@ -1,7 +1,18 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  OnDestroy,
+  OnInit,
+  QueryList,
+  ViewChildren,
+} from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '@myrmidon/cadmus-api';
-import { deepCopy, ThesaurusEntry } from '@myrmidon/cadmus-core';
+import {
+  CadmusValidators,
+  deepCopy,
+  ThesaurusEntry,
+} from '@myrmidon/cadmus-core';
 import { ModelEditorComponentBase } from '@myrmidon/cadmus-ui';
 import {
   MsSignaturesPart,
@@ -35,7 +46,10 @@ export class MsSignaturesPartComponent
   constructor(authService: AuthService, private _formBuilder: FormBuilder) {
     super(authService);
     // form
-    this.signatures = _formBuilder.array([], Validators.required);
+    this.signatures = _formBuilder.array(
+      [],
+      CadmusValidators.strictMinLengthValidator(1)
+    );
     this.form = _formBuilder.group({
       signatures: this.signatures,
     });

@@ -6,7 +6,11 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { ThesaurusEntry, DocReference } from '@myrmidon/cadmus-core';
+import {
+  ThesaurusEntry,
+  DocReference,
+  CadmusValidators,
+} from '@myrmidon/cadmus-core';
 import {
   CitedPerson,
   DecoratedId,
@@ -79,7 +83,10 @@ export class CitedPersonComponent implements OnInit {
     ]);
     this.tag = _formBuilder.control(null, Validators.maxLength(50));
     this.rank = _formBuilder.control(0);
-    this.parts = _formBuilder.array([], Validators.required);
+    this.parts = _formBuilder.array(
+      [],
+      CadmusValidators.strictMinLengthValidator(1)
+    );
     this.sources = _formBuilder.control([]);
     this.ids = _formBuilder.control([]);
 

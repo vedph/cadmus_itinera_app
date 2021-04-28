@@ -4,6 +4,7 @@ import { FormControl, FormBuilder, Validators } from '@angular/forms';
 import { ModelEditorComponentBase, DialogService } from '@myrmidon/cadmus-ui';
 import { AuthService } from '@myrmidon/cadmus-api';
 import {
+  CadmusValidators,
   deepCopy,
   HistoricalDate,
   HistoricalDateModel,
@@ -48,7 +49,10 @@ export class ChronotopicsPartComponent
     this.tabIndex = 0;
     this._editedIndex = -1;
     // form
-    this.chronotopes = formBuilder.control([], Validators.required);
+    this.chronotopes = formBuilder.control(
+      [],
+      CadmusValidators.strictMinLengthValidator(1)
+    );
     this.form = formBuilder.group({
       chronotopes: this.chronotopes,
     });
@@ -135,6 +139,7 @@ export class ChronotopicsPartComponent
       this.chronotopes.value.splice(this._editedIndex, 1, chronotope);
     }
     this.closeChronotopeEditor();
+    this.chronotopes.updateValueAndValidity();
     this.form.markAsDirty();
   }
 
@@ -150,6 +155,7 @@ export class ChronotopicsPartComponent
         if (yes) {
           this.closeChronotopeEditor();
           this.chronotopes.value.splice(index, 1);
+          this.chronotopes.updateValueAndValidity();
           this.form.markAsDirty();
         }
       });

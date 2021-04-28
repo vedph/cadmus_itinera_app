@@ -3,7 +3,11 @@ import { FormBuilder, Validators, FormArray, FormGroup } from '@angular/forms';
 
 import { ModelEditorComponentBase } from '@myrmidon/cadmus-ui';
 import { AuthService } from '@myrmidon/cadmus-api';
-import { deepCopy, ThesaurusEntry } from '@myrmidon/cadmus-core';
+import {
+  CadmusValidators,
+  deepCopy,
+  ThesaurusEntry,
+} from '@myrmidon/cadmus-core';
 import {
   MsCatchwordsPart,
   MSCATCHWORDS_PART_TYPEID,
@@ -29,7 +33,10 @@ export class MsCatchwordsPartComponent
   constructor(authService: AuthService, private _formBuilder: FormBuilder) {
     super(authService);
     // form
-    this.catchwords = _formBuilder.array([], Validators.required);
+    this.catchwords = _formBuilder.array(
+      [],
+      CadmusValidators.strictMinLengthValidator(1)
+    );
     this.form = _formBuilder.group({
       catchwords: this.catchwords,
     });

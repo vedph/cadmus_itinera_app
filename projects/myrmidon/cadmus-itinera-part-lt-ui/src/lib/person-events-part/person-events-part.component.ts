@@ -4,6 +4,7 @@ import { FormControl, FormBuilder, Validators } from '@angular/forms';
 import { ModelEditorComponentBase, DialogService } from '@myrmidon/cadmus-ui';
 import { AuthService } from '@myrmidon/cadmus-api';
 import {
+  CadmusValidators,
   deepCopy,
   HistoricalDate,
   HistoricalDateModel,
@@ -49,7 +50,8 @@ export class PersonEventsPartComponent
     this.tabIndex = 0;
     this._editedIndex = -1;
     // form
-    this.events = formBuilder.control([], Validators.required);
+    this.events = formBuilder.control([],
+      CadmusValidators.strictMinLengthValidator(1));
     this.form = formBuilder.group({
       events: this.events,
     });
@@ -146,6 +148,7 @@ export class PersonEventsPartComponent
       this.events.value.splice(this._editedIndex, 1, event);
     }
     this.closeEventEditor();
+    this.events.updateValueAndValidity();
     this.form.markAsDirty();
   }
 
@@ -161,6 +164,7 @@ export class PersonEventsPartComponent
         if (yes) {
           this.closeEventEditor();
           this.events.value.splice(index, 1);
+          this.events.updateValueAndValidity();
           this.form.markAsDirty();
         }
       });

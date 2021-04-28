@@ -6,10 +6,10 @@ import {
   QueryList,
   ViewChildren,
 } from '@angular/core';
-import { FormBuilder, Validators, FormControl } from '@angular/forms';
+import { FormBuilder, FormControl } from '@angular/forms';
 import { ModelEditorComponentBase } from '@myrmidon/cadmus-ui';
 import { AuthService } from '@myrmidon/cadmus-api';
-import { deepCopy, ThesaurusEntry } from '@myrmidon/cadmus-core';
+import { deepCopy, ThesaurusEntry, CadmusValidators } from '@myrmidon/cadmus-core';
 
 import { AttachmentsPart, ATTACHMENTS_PART_TYPEID } from '../attachments-part';
 import { Subscription } from 'rxjs';
@@ -40,7 +40,8 @@ export class AttachmentsPartComponent
   constructor(authService: AuthService, formBuilder: FormBuilder) {
     super(authService);
     // form
-    this.attachments = formBuilder.control([], Validators.required);
+    this.attachments = formBuilder.control([],
+      CadmusValidators.strictMinLengthValidator(1));
     this.form = formBuilder.group({
       attachments: this.attachments,
     });

@@ -3,7 +3,7 @@ import { FormControl, FormBuilder, Validators } from '@angular/forms';
 
 import { ModelEditorComponentBase, DialogService } from '@myrmidon/cadmus-ui';
 import { AuthService } from '@myrmidon/cadmus-api';
-import { deepCopy, ThesaurusEntry } from '@myrmidon/cadmus-core';
+import { CadmusValidators, deepCopy, ThesaurusEntry } from '@myrmidon/cadmus-core';
 
 import {
   CitedPersonsPart,
@@ -42,7 +42,8 @@ export class CitedPersonsPartComponent
     super(authService);
     this.tabIndex = 0;
     // form
-    this.persons = formBuilder.control([], Validators.required);
+    this.persons = formBuilder.control([],
+      CadmusValidators.strictMinLengthValidator(1));
     this.form = formBuilder.group({
       persons: this.persons,
     });

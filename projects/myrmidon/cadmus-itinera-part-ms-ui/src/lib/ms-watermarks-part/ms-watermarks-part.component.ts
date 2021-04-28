@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { AuthService } from '@myrmidon/cadmus-api';
-import { deepCopy, ThesaurusEntry } from '@myrmidon/cadmus-core';
+import { CadmusValidators, deepCopy, ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { MsWatermark } from '@myrmidon/cadmus-itinera-core';
 import { DialogService, ModelEditorComponentBase } from '@myrmidon/cadmus-ui';
 import { take } from 'rxjs/operators';
@@ -41,7 +41,8 @@ export class MsWatermarksPartComponent
     this.tabIndex = 0;
     this._editedIndex = -1;
     // form
-    this.watermarks = formBuilder.control([], Validators.required);
+    this.watermarks = formBuilder.control([],
+      CadmusValidators.strictMinLengthValidator(1));
     this.form = formBuilder.group({
       watermarks: this.watermarks,
     });
@@ -123,6 +124,7 @@ export class MsWatermarksPartComponent
       this.watermarks.value.slice(this._editedIndex, 1, watermark);
     }
     this.closeWatermarkEditor();
+    this.watermarks.updateValueAndValidity();
     this.form.markAsDirty();
   }
 
@@ -138,6 +140,7 @@ export class MsWatermarksPartComponent
         if (yes) {
           this.closeWatermarkEditor();
           this.watermarks.value.splice(index, 1);
+          this.watermarks.updateValueAndValidity();
           this.form.markAsDirty();
         }
       });

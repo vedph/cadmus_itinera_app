@@ -16,7 +16,11 @@ import {
 
 import { ModelEditorComponentBase } from '@myrmidon/cadmus-ui';
 import { AuthService } from '@myrmidon/cadmus-api';
-import { deepCopy, ThesaurusEntry } from '@myrmidon/cadmus-core';
+import {
+  CadmusValidators,
+  deepCopy,
+  ThesaurusEntry,
+} from '@myrmidon/cadmus-core';
 import {
   MsNumberingsPart,
   MSNUMBERINGS_PART_TYPEID,
@@ -53,7 +57,10 @@ export class MsNumberingsPartComponent
   constructor(authService: AuthService, private _formBuilder: FormBuilder) {
     super(authService);
     // form
-    this.numberings = _formBuilder.array([], Validators.required);
+    this.numberings = _formBuilder.array(
+      [],
+      CadmusValidators.strictMinLengthValidator(1)
+    );
     this.form = _formBuilder.group({
       numberings: this.numberings,
     });

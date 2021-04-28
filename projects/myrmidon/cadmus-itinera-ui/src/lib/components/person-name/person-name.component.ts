@@ -16,7 +16,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { ThesaurusEntry } from '@myrmidon/cadmus-core';
+import { CadmusValidators, ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { PersonName, PersonNamePart } from '@myrmidon/cadmus-itinera-core';
 import { Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
@@ -87,7 +87,8 @@ export class PersonNameComponent implements OnInit, AfterViewInit, OnDestroy {
       Validators.maxLength(50),
     ]);
     this.tag = _formBuilder.control(null, Validators.maxLength(50));
-    this.parts = _formBuilder.array([], Validators.required);
+    this.parts = _formBuilder.array([],
+      CadmusValidators.strictMinLengthValidator(1));
     this.form = _formBuilder.group({
       language: this.language,
       tag: this.tag,

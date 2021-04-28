@@ -3,7 +3,11 @@ import { FormControl, FormBuilder, Validators } from '@angular/forms';
 
 import { ModelEditorComponentBase, DialogService } from '@myrmidon/cadmus-ui';
 import { AuthService } from '@myrmidon/cadmus-api';
-import { deepCopy, ThesaurusEntry } from '@myrmidon/cadmus-core';
+import {
+  CadmusValidators,
+  deepCopy,
+  ThesaurusEntry,
+} from '@myrmidon/cadmus-core';
 
 import {
   CorrPseudonymsPart,
@@ -43,7 +47,10 @@ export class CorrPseudonymsPartComponent
     this.tabIndex = 0;
     this._editedIndex = -1;
     // form
-    this.pseudonyms = formBuilder.control([], Validators.required);
+    this.pseudonyms = formBuilder.control(
+      [],
+      CadmusValidators.strictMinLengthValidator(1)
+    );
     this.form = formBuilder.group({
       pseudonyms: this.pseudonyms,
     });
@@ -133,6 +140,7 @@ export class CorrPseudonymsPartComponent
       this.pseudonyms.value.splice(this._editedIndex, 1, pseudonym);
     }
     this.closePseudonymEditor();
+    this.pseudonyms.updateValueAndValidity();
     this.form.markAsDirty();
   }
 
@@ -148,6 +156,7 @@ export class CorrPseudonymsPartComponent
         if (yes) {
           this.closePseudonymEditor();
           this.pseudonyms.value.splice(index, 1);
+          this.pseudonyms.updateValueAndValidity();
           this.form.markAsDirty();
         }
       });

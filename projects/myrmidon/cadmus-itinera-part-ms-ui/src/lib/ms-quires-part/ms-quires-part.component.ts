@@ -11,7 +11,7 @@ import { ModelEditorComponentBase } from '@myrmidon/cadmus-ui';
 import { AuthService } from '@myrmidon/cadmus-api';
 import { MsQuiresPart, MSQUIRES_PART_TYPEID } from '../ms-quires-part';
 import { MsQuire, MsQuiresService } from '@myrmidon/cadmus-itinera-core';
-import { deepCopy } from '@myrmidon/cadmus-core';
+import { CadmusValidators, deepCopy } from '@myrmidon/cadmus-core';
 
 /**
  * Manuscript's quires part.
@@ -36,7 +36,10 @@ export class MsQuiresPartComponent
     super(authService);
     // form
     this.formula = _formBuilder.control(null);
-    this.quires = _formBuilder.array([], Validators.required);
+    this.quires = _formBuilder.array(
+      [],
+      CadmusValidators.strictMinLengthValidator(1)
+    );
     this.form = _formBuilder.group({
       formula: this.formula,
       quires: this.quires,

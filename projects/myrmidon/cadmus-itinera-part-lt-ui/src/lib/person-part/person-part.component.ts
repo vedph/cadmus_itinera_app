@@ -1,7 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { AuthService } from '@myrmidon/cadmus-api';
-import { deepCopy, ThesaurusEntry } from '@myrmidon/cadmus-core';
+import {
+  CadmusValidators,
+  deepCopy,
+  ThesaurusEntry,
+} from '@myrmidon/cadmus-core';
 import { Chronotope, PersonName } from '@myrmidon/cadmus-itinera-core';
 import { ModelEditorComponentBase, DialogService } from '@myrmidon/cadmus-ui';
 import { PersonPart, PERSON_PART_TYPEID } from '../person-part';
@@ -66,7 +70,10 @@ export class PersonPartComponent
       Validators.maxLength(50),
     ]);
     this.sex = formBuilder.control(null, Validators.maxLength(1));
-    this.names = formBuilder.control([], Validators.required);
+    this.names = formBuilder.control(
+      [],
+      CadmusValidators.strictMinLengthValidator(1)
+    );
     this.bio = formBuilder.control(null, Validators.maxLength(6000));
     this.ids = formBuilder.control([]);
     this.chronotopes = formBuilder.control([]);
@@ -223,6 +230,7 @@ export class PersonPartComponent
         }
         this.closeNameEditor();
         this.names.value.splice(index, 1);
+        this.names.updateValueAndValidity();
         this.form.markAsDirty();
       });
   }
@@ -260,6 +268,7 @@ export class PersonPartComponent
     } else {
       this.names.value.splice(this.nameIndex, 1, name);
     }
+    this.names.updateValueAndValidity();
     this.form.markAsDirty();
   }
 

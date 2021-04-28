@@ -9,7 +9,7 @@ import {
 } from '../ms-content-loci-part';
 import { MsContentLocus } from '@myrmidon/cadmus-itinera-core';
 import { take } from 'rxjs/operators';
-import { deepCopy } from '@myrmidon/cadmus-core';
+import { CadmusValidators, deepCopy } from '@myrmidon/cadmus-core';
 
 /**
  * MsContentLociPart editor component.
@@ -37,7 +37,10 @@ export class MsContentLociPartComponent
     super(authService);
     this.editorOpen = false;
     // form
-    this.loci = formBuilder.control([], Validators.required);
+    this.loci = formBuilder.control(
+      [],
+      CadmusValidators.strictMinLengthValidator(1)
+    );
     this.form = formBuilder.group({
       loci: this.loci,
     });
@@ -108,6 +111,7 @@ export class MsContentLociPartComponent
       this.loci.value.splice(this.editedIndex, 1, locus);
     }
     this.closeLocusEditor();
+    this.loci.updateValueAndValidity();
     this.form.markAsDirty();
   }
 
@@ -123,6 +127,7 @@ export class MsContentLociPartComponent
         if (yes) {
           this.closeLocusEditor();
           this.loci.value.splice(index, 1);
+          this.loci.updateValueAndValidity();
           this.form.markAsDirty();
         }
       });

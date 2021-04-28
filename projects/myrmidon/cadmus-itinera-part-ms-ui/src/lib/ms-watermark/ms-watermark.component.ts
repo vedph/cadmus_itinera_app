@@ -29,7 +29,7 @@ export class MsWatermarkComponent implements OnInit {
   public subjectEntries: ThesaurusEntry[] | undefined;
 
   @Output()
-  public modelChange: EventEmitter<MsWatermark>;
+  public watermarkChange: EventEmitter<MsWatermark>;
 
   @Output()
   public editorClose: EventEmitter<any>;
@@ -46,7 +46,7 @@ export class MsWatermarkComponent implements OnInit {
 
   constructor(formBuilder: FormBuilder) {
     // events
-    this.modelChange = new EventEmitter<MsWatermark>();
+    this.watermarkChange = new EventEmitter<MsWatermark>();
     this.editorClose = new EventEmitter();
     this.initialIds = [];
     // form
@@ -118,6 +118,6 @@ export class MsWatermarkComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
-    this.modelChange.emit(this.getModel());
+    this.watermarkChange.emit(this.getModel());
   }
 }

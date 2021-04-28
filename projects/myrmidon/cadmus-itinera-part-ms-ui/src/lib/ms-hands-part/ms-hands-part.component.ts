@@ -3,7 +3,7 @@ import { FormControl, FormBuilder, Validators } from '@angular/forms';
 
 import { ModelEditorComponentBase, DialogService } from '@myrmidon/cadmus-ui';
 import { AuthService } from '@myrmidon/cadmus-api';
-import { deepCopy, ThesaurusEntry } from '@myrmidon/cadmus-core';
+import { CadmusValidators, deepCopy, ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { MsHandsPart, MSHANDS_PART_TYPEID } from '../ms-hands-part';
 import {
   MsHand,
@@ -51,7 +51,8 @@ export class MsHandsPartComponent
     this.tabIndex = 0;
     this._editedIndex = -1;
     // form
-    this.hands = formBuilder.control([], Validators.required);
+    this.hands = formBuilder.control([],
+      CadmusValidators.strictMinLengthValidator(1));
     this.form = formBuilder.group({
       hands: this.hands,
     });
@@ -172,6 +173,7 @@ export class MsHandsPartComponent
       this.hands.value.splice(this._editedIndex, 1, hand);
     }
     this.closeHandEditor();
+    this.hands.updateValueAndValidity();
     this.form.markAsDirty();
   }
 
@@ -187,6 +189,7 @@ export class MsHandsPartComponent
         if (yes) {
           this.closeHandEditor();
           this.hands.value.splice(index, 1);
+          this.hands.updateValueAndValidity();
           this.form.markAsDirty();
         }
       });

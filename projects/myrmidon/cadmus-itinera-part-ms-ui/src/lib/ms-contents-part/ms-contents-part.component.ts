@@ -3,7 +3,7 @@ import { FormControl, FormBuilder, Validators } from '@angular/forms';
 
 import { ModelEditorComponentBase, DialogService } from '@myrmidon/cadmus-ui';
 import { AuthService } from '@myrmidon/cadmus-api';
-import { deepCopy, ThesaurusEntry } from '@myrmidon/cadmus-core';
+import { CadmusValidators, deepCopy, ThesaurusEntry } from '@myrmidon/cadmus-core';
 import { MsContentsPart, MSCONTENTS_PART_TYPEID } from '../ms-contents-part';
 import {
   MsContent,
@@ -45,7 +45,8 @@ export class MsContentsPartComponent
     this.tabIndex = 0;
     this._editedIndex = -1;
     // form
-    this.contents = formBuilder.control([], Validators.required);
+    this.contents = formBuilder.control([],
+      CadmusValidators.strictMinLengthValidator(1));
     this.form = formBuilder.group({
       contents: this.contents,
     });
@@ -127,6 +128,7 @@ export class MsContentsPartComponent
       this.contents.value.splice(this._editedIndex, 1, content);
     }
     this.closeContentEditor();
+    this.contents.updateValueAndValidity();
     this.form.markAsDirty();
   }
 
@@ -142,6 +144,7 @@ export class MsContentsPartComponent
         if (yes) {
           this.closeContentEditor();
           this.contents.value.splice(index, 1);
+          this.contents.updateValueAndValidity();
           this.form.markAsDirty();
         }
       });
