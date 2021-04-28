@@ -4,7 +4,7 @@ import { FormControl, FormBuilder, Validators } from '@angular/forms';
 import { ModelEditorComponentBase, DialogService } from '@myrmidon/cadmus-ui';
 import { AuthService } from '@myrmidon/cadmus-api';
 import { CadmusValidators, deepCopy, ThesaurusEntry } from '@myrmidon/cadmus-core';
-import { MsDecoration, MsLocationService } from '@myrmidon/cadmus-itinera-core';
+import { MsDecoration } from '@myrmidon/cadmus-itinera-core';
 import { take } from 'rxjs/operators';
 import {
   MsDecorationsPart,

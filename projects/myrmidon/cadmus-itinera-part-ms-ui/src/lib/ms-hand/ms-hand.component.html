@@ -445,7 +445,9 @@
     </mat-tab>
 
     <mat-tab label="subscription">
-      <mat-checkbox [formControl]="subPresent">subscription</mat-checkbox>
+      <div>
+        <mat-checkbox [formControl]="subPresent">subscription</mat-checkbox>
+      </div>
       <br />
       <form [formGroup]="subForm">
         <div>
@@ -508,9 +510,8 @@
             >
             <mat-error
               *ngIf="
-                subLanguage.errors?.maxLength(
-                  subLanguage.dirty || subLanguage.touched
-                )
+                subLanguage.errors?.maxLength &&
+                (subLanguage.dirty || subLanguage.touched)
               "
               >language too long</mat-error
             >
@@ -527,7 +528,7 @@
             ></textarea>
             <mat-error
               *ngIf="
-                subText.errors?.maxLength(subText.dirty || subText.touched)
+                subText.errors?.maxLength && (subText.dirty || subText.touched)
               "
               >text too long</mat-error
             >

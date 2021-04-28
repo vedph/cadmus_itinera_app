@@ -205,7 +205,7 @@ export class MsDecorationComponent implements OnInit {
     this.flags.setValue(decoration.flags);
     this.place.setValue(decoration.place);
     this.note.setValue(decoration.note);
-    this.elements.setValue(decoration.elements);
+    this.elements.setValue(decoration.elements || []);
     this.initialReferences = decoration.references || [];
 
     // artist
@@ -269,6 +269,7 @@ export class MsDecorationComponent implements OnInit {
     }
     this.keys = this.getKeys(this.elements.value);
     this.onElementClose();
+    this.elements.updateValueAndValidity();
     this.form.markAsDirty();
   }
 
@@ -285,6 +286,7 @@ export class MsDecorationComponent implements OnInit {
         if (yes) {
           this.elements.value.splice(index, 1);
           this.keys = this.getKeys(this.elements.value);
+          this.elements.updateValueAndValidity();
           this.form.markAsDirty();
         }
       });

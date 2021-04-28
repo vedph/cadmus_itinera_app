@@ -539,7 +539,7 @@ export class MsHandComponent implements OnInit {
   private getRubricationGroup(rubrication?: MsRubrication): FormGroup {
     return this._formBuilder.group({
       rubRanges: this._formBuilder.control(
-        rubrication.ranges
+        rubrication?.ranges
           ? rubrication.ranges
               .map((r) => {
                 return this._locService.rangeToString(r);
