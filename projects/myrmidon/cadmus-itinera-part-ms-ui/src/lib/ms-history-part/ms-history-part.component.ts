@@ -220,6 +220,8 @@ export class MsHistoryPartComponent
         provenances: [],
         history: null,
       };
+    } else {
+      part.provenances = [];
     }
 
     for (let i = 0; i < this.provenances.length; i++) {
