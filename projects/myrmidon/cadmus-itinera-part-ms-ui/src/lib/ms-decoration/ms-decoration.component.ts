@@ -229,6 +229,7 @@ export class MsDecorationComponent implements OnInit {
       flags: this.flags.value?.length ? this.flags.value : undefined,
       place: this.place.value?.trim(),
       note: this.note.value?.trim(),
+      elements: this.elements.value?.length ? this.elements.value : undefined,
       references: this.references.value?.length
         ? this.references.value
         : undefined,

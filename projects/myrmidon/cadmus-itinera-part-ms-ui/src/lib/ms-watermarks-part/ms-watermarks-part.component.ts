@@ -121,7 +121,7 @@ export class MsWatermarksPartComponent
     if (this._editedIndex === -1) {
       this.watermarks.value.push(watermark);
     } else {
-      this.watermarks.value.slice(this._editedIndex, 1, watermark);
+      this.watermarks.value.splice(this._editedIndex, 1, watermark);
     }
     this.closeWatermarkEditor();
     this.watermarks.updateValueAndValidity();

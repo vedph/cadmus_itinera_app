@@ -43,7 +43,7 @@ export class MsHandsPartFeatureComponent
       'ms-hand-types',
       'ms-hand-sign-types',
       'ms-rubrication-types',
-      'ms-languages',
+      'ms-hand-languages',
       'ms-hand-note-props'
     ]);
   }

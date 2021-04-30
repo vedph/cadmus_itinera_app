@@ -46,16 +46,22 @@ export class MsHandComponent implements OnInit {
   @Output()
   public editorClose: EventEmitter<any>;
 
+  // ms-hand-types
   @Input()
   public handTypeEntries: ThesaurusEntry[] | undefined;
+  // ms-hand-sign-types
   @Input()
   public signTypeEntries: ThesaurusEntry[] | undefined;
+  // ms-hand-id-reasons
   @Input()
   public reasonEntries: ThesaurusEntry[] | undefined;
+  // ms-rubrication-types
   @Input()
   public rubrEntries: ThesaurusEntry[] | undefined;
+  // ms-hand-languages
   @Input()
   public langEntries: ThesaurusEntry[] | undefined;
+  // ms-hand-note-props
   @Input()
   public get handNotePropEntries(): ThesaurusEntry[] | undefined {
     return this._handNotePropEntries;
