@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   EventEmitter,
   Input,
@@ -24,7 +25,7 @@ import { BioEvent, DecoratedId } from '@myrmidon/cadmus-itinera-core';
   templateUrl: './bio-event.component.html',
   styleUrls: ['./bio-event.component.css'],
 })
-export class BioEventComponent implements OnInit {
+export class BioEventComponent implements OnInit, AfterViewInit {
   private _event : BioEvent | undefined;
 
   @Input()
@@ -108,11 +109,16 @@ export class BioEventComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     if (this._event) {
       this.updateForm(this._event);
     }
-    this.onTabIndexChanged(0);
+  }
+
+  public ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.dscEditor._editor.layout();
+    }, 1000);
   }
 
   public onTabIndexChanged(index: number): void {
