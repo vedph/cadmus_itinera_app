@@ -59,7 +59,6 @@ export class MsHistoryPersonComponent implements OnInit {
   public initialIds: string[];
   public initialSources: DocReference[];
   public initialName: PersonName | undefined;
-
   public date: HistoricalDateModel | undefined;
 
   constructor(formBuilder: FormBuilder) {
@@ -96,15 +95,17 @@ export class MsHistoryPersonComponent implements OnInit {
       this.initialIds = [];
       this.initialSources = [];
       this.initialName = undefined;
+      this.date = undefined;
       this.form.reset();
       return;
     }
     this.id.setValue(model.id);
     this.role.setValue(model.role);
     this.note.setValue(model.note);
-    this.initialName = model.name;
     this.initialIds = model.externalIds || [];
     this.initialSources = model.sources || [];
+    this.initialName = model.name;
+    this.date = model.date;
     this.form.markAsPristine();
   }
 
@@ -114,20 +115,15 @@ export class MsHistoryPersonComponent implements OnInit {
       role: this.role.value?.trim(),
       note: this.note.value?.trim(),
       name: this.name.value,
+      date: this.date,
       externalIds: this.ids.value?.length ? this.ids.value : undefined,
       sources: this.sources.value?.length ? this.sources.value : undefined,
     };
   }
 
-  public cancel(): void {
-    this.editorClose.emit();
-  }
-
-  public save(): void {
-    if (this.form.invalid) {
-      return;
-    }
-    this.personChange.emit(this.getModel());
+  public onDateChange(date: HistoricalDateModel): void {
+    this.date = date;
+    this.form.markAsDirty();
   }
 
   public onNameChange(name: PersonName): void {
@@ -143,5 +139,16 @@ export class MsHistoryPersonComponent implements OnInit {
   public onSourcesChange(sources: DocReference[]): void {
     this.sources.setValue(sources);
     this.form.markAsDirty();
+  }
+
+  public cancel(): void {
+    this.editorClose.emit();
+  }
+
+  public save(): void {
+    if (this.form.invalid) {
+      return;
+    }
+    this.personChange.emit(this.getModel());
   }
 }

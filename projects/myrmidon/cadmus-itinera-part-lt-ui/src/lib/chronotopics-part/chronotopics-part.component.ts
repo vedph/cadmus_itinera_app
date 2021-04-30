@@ -106,7 +106,7 @@ export class ChronotopicsPartComponent
         chronotopes: [],
       };
     }
-    part.chronotopes.setValue(this.chronotopes.value);
+    part.chronotopes = this.chronotopes.value;
     return part;
   }
 

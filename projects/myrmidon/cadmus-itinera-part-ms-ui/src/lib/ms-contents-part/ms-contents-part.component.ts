@@ -93,7 +93,7 @@ export class MsContentsPartComponent
         contents: [],
       };
     }
-    part.contents = this.contents;
+    part.contents = this.contents.value;
     return part;
   }
 

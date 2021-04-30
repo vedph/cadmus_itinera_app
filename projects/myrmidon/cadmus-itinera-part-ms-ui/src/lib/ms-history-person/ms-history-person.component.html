@@ -40,7 +40,8 @@
   <!-- date -->
   <h4>date</h4>
   <cadmus-historical-date-editor
-    [(date)]="date"
+    [date]="date"
+    (dateChange)="onDateChange($event)"
   ></cadmus-historical-date-editor>
 
   <!-- ids -->
