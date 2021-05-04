@@ -18,7 +18,7 @@ window.__env.apiUrl = "https://itinera.unisi.it:54184/api/";
 window.__env.biblioApiUrl = "https://itinera.unisi.it:61692/api/";
 ```
 
-3. build a new image for production: `docker build . -t vedph2020/cadmus-itinera-app:1.0.34-prod`. The production version is labeled like this one, with `-prod` suffix.
+3. build a new image for production: `docker build . -t vedph2020/cadmus-itinera-app:1.0.35-prod`. The production version is labeled like this one, with `-prod` suffix.
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.1.4.
 
