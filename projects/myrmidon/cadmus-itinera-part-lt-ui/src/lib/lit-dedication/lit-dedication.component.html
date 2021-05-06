@@ -4,10 +4,6 @@
     <mat-form-field>
       <input matInput [formControl]="title" placeholder="title" />
       <mat-error
-        *ngIf="title.errors?.required && (title.dirty || title.touched)"
-        >title required</mat-error
-      >
-      <mat-error
         *ngIf="title.errors?.maxLength && (title.dirty || title.touched)"
         >title too long</mat-error
       >
@@ -21,7 +17,7 @@
       (idsChange)="onParticipantsChange($event)"
     ></itinera-decorated-ids>
   </div>
-  <br>
+  <br />
   <div>
     <!-- date -->
     <div>

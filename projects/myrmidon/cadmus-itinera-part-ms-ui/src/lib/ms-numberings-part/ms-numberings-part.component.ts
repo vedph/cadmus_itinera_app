@@ -180,7 +180,6 @@ export class MsNumberingsPartComponent
         Validators.maxLength(50),
       ]),
       century: this._formBuilder.control(numbering?.century || 0, [
-        Validators.required,
         Validators.min(0),
         Validators.max(21),
       ]),

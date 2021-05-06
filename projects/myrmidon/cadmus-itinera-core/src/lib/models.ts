@@ -239,6 +239,8 @@ export interface MsPalimpsest {
  */
 export interface MsContentUnit {
   label: string;
+  start: MsLocation;
+  end: MsLocation;
   incipit?: string;
   explicit?: string;
 }
@@ -250,6 +252,7 @@ export interface MsContent {
   author?: string;
   claimedAuthor?: string;
   work: string;
+  title?: string;
   ranges?: MsLocationRange[];
   state?: string;
   incipit?: string;

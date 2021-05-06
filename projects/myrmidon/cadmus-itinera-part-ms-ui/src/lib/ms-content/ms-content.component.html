@@ -43,9 +43,9 @@
     <!-- state (bound) -->
     <mat-form-field *ngIf="stateEntries?.length" style="width: 8em">
       <mat-select [formControl]="state" placeholder="state">
-        <mat-option *ngFor="let e of stateEntries" [value]="e.id"
-          >{{ e.value }}</mat-option
-        >
+        <mat-option *ngFor="let e of stateEntries" [value]="e.id">{{
+          e.value
+        }}</mat-option>
       </mat-select>
       <mat-error
         *ngIf="state.errors?.required && (state.dirty || state.touched)"
@@ -70,6 +70,22 @@
       <mat-error
         *ngIf="ranges.errors?.pattern && (ranges.dirty || ranges.touched)"
         >invalid ranges</mat-error
+      >
+    </mat-form-field>
+  </div>
+
+  <div>
+    <!-- title -->
+    <mat-form-field class="long-text">
+      <textarea
+        matInput
+        rows="2"
+        [formControl]="title"
+        placeholder="title"
+      ></textarea>
+      <mat-error
+        *ngIf="title.errors?.maxLength && (title.dirty || title.touched)"
+        >title too long</mat-error
       >
     </mat-form-field>
   </div>
@@ -123,6 +139,7 @@
     </mat-form-field>
   </div>
 
+  <!-- units -->
   <h4>units</h4>
   <div>
     <div formArrayName="units">
@@ -196,6 +213,49 @@
               >label too long</mat-error
             >
           </mat-form-field>
+          <div>
+            <!-- start -->
+            <mat-form-field>
+              <input matInput formControlName="start" placeholder="start" />
+              <mat-error
+                *ngIf="
+                  item['controls'].start.errors?.required &&
+                  (item['controls'].start.dirty ||
+                    item['controls'].start.touched)
+                "
+                >required</mat-error
+              >
+              <mat-error
+                *ngIf="
+                  item['controls'].start.errors?.pattern &&
+                  (item['controls'].start.dirty ||
+                    item['controls'].start.touched)
+                "
+                >invalid</mat-error
+              >
+            </mat-form-field>
+
+            <!-- end -->
+            &nbsp;-&nbsp;
+            <mat-form-field>
+              <input matInput formControlName="end" placeholder="end" />
+              <mat-error
+                *ngIf="
+                  item['controls'].end.errors?.required &&
+                  (item['controls'].end.dirty || item['controls'].end.touched)
+                "
+                >required</mat-error
+              >
+              <mat-error
+                *ngIf="
+                  item['controls'].end.errors?.pattern &&
+                  (item['controls'].end.dirty || item['controls'].end.touched)
+                "
+                >invalid</mat-error
+              >
+            </mat-form-field>
+          </div>
+
           <!-- incipit -->
           <div class="additional-row">
             <mat-form-field class="long-text">

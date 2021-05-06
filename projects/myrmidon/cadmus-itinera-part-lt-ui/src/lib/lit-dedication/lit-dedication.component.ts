@@ -58,7 +58,6 @@ export class LitDedicationComponent implements OnInit {
     this.editorClose = new EventEmitter();
     // form
     this.title = formBuilder.control(null, [
-      Validators.required,
       Validators.maxLength(100),
     ]);
     this.participants = [];

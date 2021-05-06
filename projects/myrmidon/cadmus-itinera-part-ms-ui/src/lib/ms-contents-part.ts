@@ -81,6 +81,9 @@ export const MSCONTENTS_PART_SCHEMA = {
               work: {
                 type: 'string',
               },
+              title: {
+                type: 'string',
+              },
               ranges: {
                 type: 'array',
                 items: {
@@ -134,10 +137,10 @@ export const MSCONTENTS_PART_SCHEMA = {
                 type: 'string',
               },
               incipit: {
-                type: 'string'
+                type: 'string',
               },
               explicit: {
-                type: 'string'
+                type: 'string',
               },
               note: {
                 type: 'string',
@@ -152,6 +155,42 @@ export const MSCONTENTS_PART_SCHEMA = {
                       properties: {
                         label: {
                           type: 'string',
+                        },
+                        start: {
+                          type: 'object',
+                          required: ['n'],
+                          properties: {
+                            n: {
+                              type: 'integer',
+                            },
+                            r: {
+                              type: 'boolean',
+                            },
+                            s: {
+                              type: 'integer',
+                            },
+                            l: {
+                              type: 'integer',
+                            },
+                          },
+                        },
+                        end: {
+                          type: 'object',
+                          required: ['n'],
+                          properties: {
+                            n: {
+                              type: 'integer',
+                            },
+                            r: {
+                              type: 'boolean',
+                            },
+                            s: {
+                              type: 'integer',
+                            },
+                            l: {
+                              type: 'integer',
+                            },
+                          },
                         },
                         incipit: {
                           type: 'string',

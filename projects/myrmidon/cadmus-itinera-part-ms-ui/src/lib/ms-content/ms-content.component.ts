@@ -44,6 +44,7 @@ export class MsContentComponent implements OnInit {
   public author: FormControl;
   public claimedAuthor: FormControl;
   public work: FormControl;
+  public title: FormControl;
   public ranges: FormControl;
   public state: FormControl;
   public incipit: FormControl;
@@ -65,6 +66,7 @@ export class MsContentComponent implements OnInit {
       Validators.required,
       Validators.maxLength(100),
     ]);
+    this.title = _formBuilder.control(null, Validators.maxLength(200));
     this.ranges = _formBuilder.control(
       null,
       Validators.pattern(MsLocationService.rangesRegexp)
@@ -78,6 +80,7 @@ export class MsContentComponent implements OnInit {
       author: this.author,
       claimedAuthor: this.claimedAuthor,
       work: this.work,
+      title: this.title,
       ranges: this.ranges,
       state: this.state,
       incipit: this.incipit,
@@ -101,6 +104,7 @@ export class MsContentComponent implements OnInit {
     this.author.setValue(model.author);
     this.claimedAuthor.setValue(model.claimedAuthor);
     this.work.setValue(model.work);
+    this.title.setValue(model.title);
     this.ranges.setValue(
       model.ranges
         ? model.ranges
@@ -162,6 +166,7 @@ export class MsContentComponent implements OnInit {
       author: this.author.value?.trim(),
       claimedAuthor: this.claimedAuthor.value?.trim(),
       work: this.work.value?.trim(),
+      title: this.title.value?.trim(),
       ranges: this.parseRanges(this.ranges.value),
       state: this.state.value?.trim(),
       incipit: this.incipit.value?.trim(),
@@ -170,10 +175,13 @@ export class MsContentComponent implements OnInit {
       units: [],
     };
 
+    // units
     for (let i = 0; i < this.units.length; i++) {
       const g = this.units.controls[i] as FormGroup;
       model.units.push({
         label: g.controls.label.value?.trim(),
+        start: this._locService.parseLocation(g.controls.start.value),
+        end: this._locService.parseLocation(g.controls.end.value),
         incipit: g.controls.unIncipit.value?.trim(),
         explicit: g.controls.unExplicit.value?.trim(),
       });
@@ -188,6 +196,14 @@ export class MsContentComponent implements OnInit {
         Validators.required,
         Validators.maxLength(100),
       ]),
+      start: this._formBuilder.control(
+        this._locService.locationToString(unit?.start),
+        Validators.pattern(MsLocationService.locRegexp)
+      ),
+      end: this._formBuilder.control(
+        this._locService.locationToString(unit?.end),
+        Validators.pattern(MsLocationService.locRegexp)
+      ),
       unIncipit: this._formBuilder.control(
         unit?.incipit,
         Validators.maxLength(500)

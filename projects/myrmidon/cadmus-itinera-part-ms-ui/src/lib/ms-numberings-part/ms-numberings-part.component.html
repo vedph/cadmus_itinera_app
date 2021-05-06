@@ -63,7 +63,9 @@
               <!-- isMain -->
               <mat-checkbox formControlName="isMain">main</mat-checkbox>
               &nbsp;
-              <mat-checkbox formControlName="isPagination">pagination</mat-checkbox>
+              <mat-checkbox formControlName="isPagination"
+                >pagination</mat-checkbox
+              >
               &nbsp;
 
               <!-- era (bound) -->
@@ -111,14 +113,6 @@
                   type="number"
                   placeholder="century"
                 />
-                <mat-error
-                  *ngIf="
-                    item['controls'].century.errors?.required &&
-                    (item['controls'].century.dirty ||
-                      item['controls'].century.touched)
-                  "
-                  >century required</mat-error
-                >
               </mat-form-field>
             </div>
 
