@@ -91,7 +91,7 @@
     <!-- chronotopes -->
     <h3>chronotopes</h3>
     <itinera-chronotopes
-      [chronotopes]="chronotopes"
+      [chronotopes]="chronotopes?.value"
       [tagEntries]="ctTagEntries"
       [docRefTagEntries]="tagEntries"
       (chronotopesChange)="onChronotopesChange($event)"

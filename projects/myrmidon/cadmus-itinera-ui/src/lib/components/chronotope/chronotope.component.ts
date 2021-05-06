@@ -63,7 +63,7 @@ export class ChronotopeComponent implements OnInit {
     this.place = formBuilder.control(null, Validators.maxLength(50));
     this.placeDubious = formBuilder.control(false);
     this.textDate = formBuilder.control(null, Validators.maxLength(300));
-    this.hasDate = formBuilder.control(false, Validators.requiredTrue);
+    this.hasDate = formBuilder.control(false);
     this.sources = formBuilder.control([]);
     this.form = formBuilder.group({
       tag: this.tag,
@@ -88,7 +88,6 @@ export class ChronotopeComponent implements OnInit {
 
   public onDateChange(date: HistoricalDateModel): void {
     this.date = date;
-    this.hasDate.setValue(date?.a?.value ? true : false);
     this.form.markAsDirty();
   }
 
@@ -105,7 +104,7 @@ export class ChronotopeComponent implements OnInit {
       this.place.setValue(model.place);
       this.placeDubious.setValue(model.isPlaceDubious);
       this.textDate.setValue(model.textDate);
-      this.hasDate.setValue(model.date?.a?.value ? true : false);
+      this.hasDate.setValue(model.date ? true : false);
       this.form.markAsPristine();
     }
   }
@@ -115,7 +114,7 @@ export class ChronotopeComponent implements OnInit {
       tag: this.tag.value?.trim(),
       place: this.place.value?.trim(),
       isPlaceDubious: this.placeDubious.value? true : undefined,
-      date: this.date,
+      date: this.hasDate.value? this.date : undefined,
       textDate: this.textDate.value?.trim(),
       sources: this.sources.value?.length ? this.sources.value : undefined,
     };

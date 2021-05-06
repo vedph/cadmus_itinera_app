@@ -82,13 +82,15 @@
         </mat-tab>
 
         <mat-tab label="work" *ngIf="editedWork">
-          <itinera-person-work>
-            [work]="editedWork" (workChange)="onWorkSave($event)"
+          <itinera-person-work
+            [work]="editedWork"
             [langEntries]="langEntries"
             [genreEntries]="genreEntries"
             [tagEntries]="tagEntries"
             [ctTagEntries]="ctTagEntries"
+            (workChange)="onWorkSave($event)"
             (editorClose)="onWorkClose()"
+          >
           </itinera-person-work>
         </mat-tab>
       </mat-tab-group>

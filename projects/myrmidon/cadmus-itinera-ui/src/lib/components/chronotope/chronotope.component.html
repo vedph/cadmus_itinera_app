@@ -40,7 +40,9 @@
   <!-- date -->
   <h4>date</h4>
   <div>
+    <mat-checkbox [formControl]="hasDate">has date</mat-checkbox>
     <cadmus-historical-date-editor
+      *ngIf="hasDate?.value"
       [date]="date"
       (dateChange)="onDateChange($event)"
     ></cadmus-historical-date-editor>
