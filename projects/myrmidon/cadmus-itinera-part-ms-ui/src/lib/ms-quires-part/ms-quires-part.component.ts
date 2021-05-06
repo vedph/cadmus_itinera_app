@@ -88,7 +88,8 @@ export class MsQuiresPartComponent
     for (const quire of model.quires) {
       this.addQuire(quire);
     }
-    this.formula.setValue(this._msQuiresService.quiresToString(model.quires));
+    this.setFormula();
+    // this.formula.setValue(this._msQuiresService.quiresToString(model.quires));
     this.form.markAsPristine();
   }
 

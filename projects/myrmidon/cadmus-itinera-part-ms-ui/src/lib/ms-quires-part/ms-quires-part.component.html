@@ -17,43 +17,46 @@
       </div>
 
       <!-- formula -->
-      <form [formGroup]="formulaForm" (submit)="applyFormula()">
-        <mat-form-field appearance="fill" style="width: 90%; max-width: 800px">
-          <textarea
-            matInput
-            [formControl]="formula"
-            placeholder="formula"
-            rows="3"
-          ></textarea>
-        </mat-form-field>
-        <div>
-          <button
-            type="submit"
-            mat-icon-button
-            matTooltip="Apply formula to set quires"
-            color="primary"
-          >
-            <mat-icon>arrow_downward</mat-icon>
-          </button>
-          <button
-            type="button"
-            mat-icon-button
-            matTooltip="Set formula from quires"
-            (click)="setFormula()"
-          >
-            <mat-icon>arrow_upward</mat-icon>
-          </button>
-          <button
-            type="button"
-            mat-icon-button
-            color="primary"
-            matTooltip="Add a new quire"
-            (click)="addQuire()"
-          >
-            <mat-icon>add_circle</mat-icon>
-          </button>
-        </div>
-      </form>
+      <hr>
+      <div>
+        <form [formGroup]="formulaForm" (submit)="applyFormula()">
+          <mat-form-field style="width: 90%; max-width: 800px">
+            <textarea
+              matInput
+              [formControl]="formula"
+              placeholder="formula"
+              rows="3"
+            ></textarea>
+          </mat-form-field>
+          <div>
+            <button
+              type="submit"
+              mat-icon-button
+              matTooltip="Apply formula to set quires"
+              color="primary"
+            >
+              <mat-icon>arrow_downward</mat-icon>
+            </button>
+            <button
+              type="button"
+              mat-icon-button
+              matTooltip="Set formula from quires"
+              (click)="setFormula()"
+            >
+              <mat-icon>arrow_upward</mat-icon>
+            </button>
+            <button
+              type="button"
+              mat-icon-button
+              color="primary"
+              matTooltip="Add a new quire"
+              (click)="addQuire()"
+            >
+              <mat-icon>add_circle</mat-icon>
+            </button>
+          </div>
+        </form>
+      </div>
 
       <!-- quires -->
       <div formArrayName="quires">

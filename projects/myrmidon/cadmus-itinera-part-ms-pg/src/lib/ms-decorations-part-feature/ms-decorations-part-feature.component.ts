@@ -41,6 +41,7 @@ export class MsDecorationsPartFeatureComponent
     this.initEditor([
       'ms-decoration-elem-types',
       'ms-decoration-artist-types',
+      'ms-decoration-flags',
       'ms-decoration-elem-flags',
       'ms-decoration-elem-colors',
       'ms-decoration-elem-gildings',

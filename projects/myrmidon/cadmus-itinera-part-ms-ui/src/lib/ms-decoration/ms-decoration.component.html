@@ -40,11 +40,11 @@
       <div>
         <!-- date -->
         <div>
-          <mat-checkbox>has date</mat-checkbox>
+          <mat-checkbox [formControl]="hasDate">has date</mat-checkbox>
         </div>
         <div *ngIf="hasDate?.value">
           <cadmus-historical-date-editor
-            [date]="date"
+            [date]="date?.value"
             (dateChange)="onDateChange($event)"
           ></cadmus-historical-date-editor>
         </div>
