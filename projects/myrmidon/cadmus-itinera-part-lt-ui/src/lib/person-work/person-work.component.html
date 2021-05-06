@@ -1,0 +1,133 @@
+<form [formGroup]="form" (submit)="save()">
+  <div>
+    <!-- language (bound) -->
+    <mat-form-field *ngIf="langEntries?.length" style="width: 8em">
+      <mat-select [formControl]="language" placeholder="language">
+        <mat-option *ngFor="let e of langEntries" [value]="e.id">{{
+          e.value
+        }}</mat-option>
+      </mat-select>
+      <mat-error
+        *ngIf="
+          language.errors?.required && (language.dirty || language.touched)
+        "
+        >required</mat-error
+      >
+    </mat-form-field>
+
+    <!-- language (free) -->
+    <mat-form-field *ngIf="!langEntries?.length" style="width: 8em">
+      <input matInput [formControl]="language" placeholder="language" />
+      <mat-error
+        *ngIf="
+          language.errors?.required && (language.dirty || language.touched)
+        "
+        >required</mat-error
+      >
+      <mat-error
+        *ngIf="
+          language.errors?.maxLength && (language.dirty || language.touched)
+        "
+        >too long</mat-error
+      >
+    </mat-form-field>
+
+    &nbsp;
+    <!-- genre (bound) -->
+    <mat-form-field *ngIf="genreEntries?.length" style="width: 8em">
+      <mat-select [formControl]="genre" placeholder="genre">
+        <mat-option *ngFor="let e of genreEntries" [value]="e.id">{{
+          e.value
+        }}</mat-option>
+      </mat-select>
+      <mat-error
+        *ngIf="genre.errors?.required && (genre.dirty || genre.touched)"
+        >required</mat-error
+      >
+    </mat-form-field>
+
+    <!-- genre (free) -->
+    <mat-form-field *ngIf="!genreEntries?.length" style="width: 8em">
+      <input matInput [formControl]="genre" placeholder="genre" />
+      <mat-error
+        *ngIf="genre.errors?.required && (genre.dirty || genre.touched)"
+        >required</mat-error
+      >
+      <mat-error
+        *ngIf="genre.errors?.maxLength && (genre.dirty || genre.touched)"
+        >too long</mat-error
+      >
+    </mat-form-field>
+
+    &nbsp;
+    <!-- dubious -->
+    <mat-checkbox [formControl]="dubious">dubious</mat-checkbox>
+    &nbsp;
+    <!-- lost -->
+    <mat-checkbox [formControl]="lost">lost</mat-checkbox>
+  </div>
+
+  <div>
+    <!-- titles -->
+    <mat-form-field class="long-text">
+      <textarea
+        matInput
+        rows="2"
+        [formControl]="titles"
+        placeholder="title(s) (1 per line)"
+      ></textarea>
+      <mat-error
+        *ngIf="titles.errors?.required && (titles.dirty || titles.touched)"
+        >titles required</mat-error
+      >
+      <mat-error
+        *ngIf="titles.errors?.maxLength && (titles.dirty || titles.touched)"
+        >titles too long</mat-error
+      >
+    </mat-form-field>
+  </div>
+
+  <div>
+    <!-- chronotopes -->
+    <h3>chronotopes</h3>
+    <itinera-chronotopes
+      [chronotopes]="chronotopes"
+      [tagEntries]="ctTagEntries"
+      [docRefTagEntries]="tagEntries"
+      (chronotopesChange)="onChronotopesChange($event)"
+    ></itinera-chronotopes>
+  </div>
+
+  <br>
+  <div>
+    <!-- references -->
+    <h3>references</h3>
+    <cadmus-doc-references
+      [tagEntries]="tagEntries"
+      [references]="initialReferences"
+      (referencesChange)="onReferencesChange($event)"
+    ></cadmus-doc-references>
+  </div>
+
+  <!-- buttons -->
+  <div>
+    <button
+      type="button"
+      color="warn"
+      mat-icon-button
+      matTooltip="Discard changes"
+      (click)="cancel()"
+    >
+      <mat-icon>clear</mat-icon>
+    </button>
+    <button
+      type="submit"
+      color="primary"
+      mat-icon-button
+      matTooltip="Accept changes"
+      [disabled]="form.invalid || form.pristine"
+    >
+      <mat-icon>check_circle</mat-icon>
+    </button>
+  </div>
+</form>

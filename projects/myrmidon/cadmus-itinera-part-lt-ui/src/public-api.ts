@@ -36,5 +36,7 @@ export * from './lib/person-part';
 export * from './lib/person-part/person-part.component';
 
 export * from './lib/person-works-part';
+export * from './lib/person-work/person-work.component';
+export * from './lib/person-works-part/person-works-part.component';
 
 export * from './lib/cadmus-itinera-part-lt-ui.module';

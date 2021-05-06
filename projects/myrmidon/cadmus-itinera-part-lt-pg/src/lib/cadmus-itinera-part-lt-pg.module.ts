@@ -13,6 +13,7 @@ import {
   PERSON_EVENTS_PART_TYPEID,
   PERSON_PART_TYPEID,
   ATTACHMENTS_PART_TYPEID,
+  PERSON_WORKS_PART_TYPEID,
 } from '@myrmidon/cadmus-itinera-part-lt-ui';
 import { RouterModule } from '@angular/router';
 import { PendingChangesGuard } from '@myrmidon/cadmus-core';
@@ -26,6 +27,7 @@ import { SerialTextInfoPartFeatureComponent } from './serial-text-info-part-feat
 import { CorrExchangesPartFeatureComponent } from './corr-exchanges-part-feature/corr-exchanges-part-feature.component';
 import { ChronotopicsPartFeatureComponent } from './chronotopics-part-feature/chronotopics-part-feature.component';
 import { AttachmentsPartFeatureComponent } from './attachments-part-feature/attachments-part-feature.component';
+import { PersonWorksPartFeatureComponent } from './person-works-part-feature/person-works-part-feature.component';
 
 // https://github.com/ng-packagr/ng-packagr/issues/778
 export const RouterModuleForChild = RouterModule.forChild([
@@ -83,6 +85,12 @@ export const RouterModuleForChild = RouterModule.forChild([
     component: AttachmentsPartFeatureComponent,
     canDeactivate: [PendingChangesGuard],
   },
+  {
+    path: `${PERSON_WORKS_PART_TYPEID}/:pid`,
+    pathMatch: 'full',
+    component: PersonWorksPartFeatureComponent,
+    canDeactivate: [PendingChangesGuard],
+  },
 ]);
 
 @NgModule({
@@ -96,6 +104,7 @@ export const RouterModuleForChild = RouterModule.forChild([
     SerialTextInfoPartFeatureComponent,
     PersonEventsPartFeatureComponent,
     PersonPartFeatureComponent,
+    PersonWorksPartFeatureComponent,
   ],
   imports: [
     CommonModule,
@@ -118,6 +127,7 @@ export const RouterModuleForChild = RouterModule.forChild([
     SerialTextInfoPartFeatureComponent,
     PersonEventsPartFeatureComponent,
     PersonPartFeatureComponent,
+    PersonWorksPartFeatureComponent,
   ],
 })
 export class CadmusItineraPartLtPgModule {}

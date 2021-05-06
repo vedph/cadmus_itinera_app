@@ -9,6 +9,7 @@ export * from './lib/corr-exchanges-part-feature/corr-exchanges-part-feature.com
 export * from './lib/corr-pseudonyms-part-feature/corr-pseudonyms-part-feature.component';
 export * from './lib/person-events-part-feature/person-events-part-feature.component';
 export * from './lib/person-part-feature/person-part-feature.component';
+export * from './lib/person-works-part-feature/person-works-part-feature.component';
 export * from './lib/serial-text-info-part-feature/serial-text-info-part-feature.component';
 
 export * from './lib/cadmus-itinera-part-lt-pg.module';

@@ -22,6 +22,8 @@ import { AttachmentsPartComponent } from './attachments-part/attachments-part.co
 import { AttachmentComponent } from './attachment/attachment.component';
 import { AttachmentsComponent } from './attachments/attachments.component';
 import { CitedPersonsComponent } from './cited-persons/cited-persons.component';
+import { PersonWorksPartComponent } from './person-works-part/person-works-part.component';
+import { PersonWorkComponent } from './person-work/person-work.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +42,9 @@ import { CitedPersonsComponent } from './cited-persons/cited-persons.component';
     LitDedicationsPartComponent,
     LitDedicationComponent,
     PersonPartComponent,
-    PersonEventsPartComponent
+    PersonEventsPartComponent,
+    PersonWorksPartComponent,
+    PersonWorkComponent
   ],
   imports: [
     CommonModule,
@@ -70,7 +74,9 @@ import { CitedPersonsComponent } from './cited-persons/cited-persons.component';
     SerialTextInfoPartComponent,
     LitDedicationComponent,
     PersonPartComponent,
-    PersonEventsPartComponent
+    PersonEventsPartComponent,
+    PersonWorksPartComponent,
+    PersonWorkComponent
   ],
 })
 export class CadmusItineraPartLtUiModule {}

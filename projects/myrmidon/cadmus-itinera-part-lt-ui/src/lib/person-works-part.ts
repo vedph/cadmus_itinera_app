@@ -12,6 +12,7 @@ export interface PersonWork {
   titles: string[];
   chronotopes?: Chronotope[];
   references?: DocReference[];
+  note?: string;
 }
 
 /**
@@ -256,6 +257,9 @@ export const PERSON_WORKS_PART_SCHEMA = {
                   ],
                 },
               },
+              note: {
+                type: 'string'
+              }
             },
           },
         ],

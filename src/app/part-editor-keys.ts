@@ -19,6 +19,7 @@ import {
 import { PartEditorKeys } from '@myrmidon/cadmus-core';
 import {
   PERSON_EVENTS_PART_TYPEID,
+  PERSON_WORKS_PART_TYPEID,
   PERSON_PART_TYPEID,
   CORR_PSEUDONYMS_PART_TYPEID,
   CITED_PERSONS_PART_TYPEID,
@@ -96,6 +97,9 @@ export const PART_EDITOR_KEYS: PartEditorKeys = {
     part: ITINERA_LT,
   },
   [PERSON_EVENTS_PART_TYPEID]: {
+    part: ITINERA_LT,
+  },
+  [PERSON_WORKS_PART_TYPEID]: {
     part: ITINERA_LT,
   },
   [LIT_DEDICATIONS_PART_TYPEID]: {
