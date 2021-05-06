@@ -142,11 +142,9 @@ export class MsNumberingsPartComponent
         creatorId: null,
         timeModified: new Date(),
         userId: null,
-        numberings: [],
       };
-    } else {
-      part.numberings = [];
     }
+    part.numberings = [];
     for (let i = 0; i < this.numberings.length; i++) {
       const g = this.numberings.controls[i] as FormGroup;
       part.numberings.push({

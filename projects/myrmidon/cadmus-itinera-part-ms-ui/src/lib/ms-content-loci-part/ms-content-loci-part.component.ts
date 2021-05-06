@@ -96,6 +96,7 @@ export class MsContentLociPartComponent
       citation: null,
       text: null,
     };
+    this.editorOpen = true;
   }
 
   public editLocus(index: number): void {
