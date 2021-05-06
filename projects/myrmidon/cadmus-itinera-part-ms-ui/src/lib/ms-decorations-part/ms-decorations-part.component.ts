@@ -14,7 +14,7 @@ import {
 /**
  * Manuscript's decorations part.
  * Thesauri: ms-decoration-elem-types (required), and optional:
- * ms-decoration-artist-types, ms-decoration-elem-flags,
+ * ms-decoration-artist-types, ms-decoration-flags, ms-decoration-elem-flags,
  * ms-decoration-elem-colors, ms-decoration-elem-gildings,
  * ms-decoration-elem-techniques, ms-decoration-elem-positions,
  * ms-decoration-elem-tools, ms-decoration-elem-typologies,
@@ -34,6 +34,8 @@ export class MsDecorationsPartComponent
   public decArtTypeEntries: ThesaurusEntry[] | undefined;
   // ms-decoration-elem-types (required)
   public decElemTypeEntries: ThesaurusEntry[] | undefined;
+  // ms-decoration-flags
+  public decFlagEntries: ThesaurusEntry[] | undefined;
   // ms-decoration-elem-flags
   public decElemFlagEntries: ThesaurusEntry[] | undefined;
   // ms-decoration-elem-colors
@@ -104,6 +106,13 @@ export class MsDecorationsPartComponent
       this.decElemTypeEntries = this.thesauri[key].entries;
     } else {
       this.decElemTypeEntries = undefined;
+    }
+
+    key = 'ms-decoration-flags';
+    if (this.thesauri && this.thesauri[key]) {
+      this.decFlagEntries = this.thesauri[key].entries;
+    } else {
+      this.decFlagEntries = undefined;
     }
 
     key = 'ms-decoration-elem-flags';

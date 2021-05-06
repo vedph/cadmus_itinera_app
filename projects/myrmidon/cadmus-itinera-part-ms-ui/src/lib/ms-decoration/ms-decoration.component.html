@@ -31,10 +31,23 @@
       <div>
         <!-- flags -->
         <cadmus-multi-entry-selector
-          [entries]="decElemFlagEntries"
+          [entries]="decFlagEntries"
           [selectedIds]="flags?.value"
           (selectionChange)="onFlgSelectionChange($event)"
         ></cadmus-multi-entry-selector>
+      </div>
+
+      <div>
+        <!-- date -->
+        <div>
+          <mat-checkbox>has date</mat-checkbox>
+        </div>
+        <div *ngIf="hasDate?.value">
+          <cadmus-historical-date-editor
+            [date]="date"
+            (dateChange)="onDateChange($event)"
+          ></cadmus-historical-date-editor>
+        </div>
       </div>
 
       <div>

@@ -5,7 +5,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { DocReference, ThesaurusEntry } from '@myrmidon/cadmus-core';
+import { DocReference, HistoricalDateModel, ThesaurusEntry } from '@myrmidon/cadmus-core';
 import {
   MsDecoration,
   MsDecorationArtist,
@@ -72,6 +72,9 @@ export class MsDecorationComponent implements OnInit {
   // ms-decoration-artist-types
   @Input()
   public decArtTypeEntries: ThesaurusEntry[] | undefined;
+  // ms-decoration-flags (multi)
+  @Input()
+  public decFlagEntries: ThesaurusEntry[] | undefined;
   // ms-decoration-elem-flags (multi)
   @Input()
   public decElemFlagEntries: ThesaurusEntry[] | undefined;
@@ -105,6 +108,8 @@ export class MsDecorationComponent implements OnInit {
   public id: FormControl;
   public name: FormControl;
   public flags: FormControl;
+  public hasDate: FormControl;
+  public date: FormControl;
   public place: FormControl;
   public note: FormControl;
   public elements: FormControl;
@@ -149,6 +154,8 @@ export class MsDecorationComponent implements OnInit {
       Validators.maxLength(50),
     ]);
     this.flags = formBuilder.control([]);
+    this.hasDate = formBuilder.control(false);
+    this.date = formBuilder.control(null);
     this.place = formBuilder.control(null, Validators.maxLength(50));
     this.elements = formBuilder.control([]);
     this.references = formBuilder.control([]);
@@ -163,6 +170,8 @@ export class MsDecorationComponent implements OnInit {
       id: this.id,
       name: this.name,
       flags: this.flags,
+      hasDate: this.hasDate,
+      date: this.date,
       place: this.place,
       elements: this.elements,
       references: this.references,
@@ -203,6 +212,8 @@ export class MsDecorationComponent implements OnInit {
     this.id.setValue(decoration.id);
     this.name.setValue(decoration.name);
     this.flags.setValue(decoration.flags);
+    this.hasDate.setValue(decoration.date? true : false);
+    this.date.setValue(decoration.date);
     this.place.setValue(decoration.place);
     this.note.setValue(decoration.note);
     this.elements.setValue(decoration.elements || []);
@@ -227,6 +238,7 @@ export class MsDecorationComponent implements OnInit {
       id: this.id.value?.trim(),
       name: this.name.value?.trim(),
       flags: this.flags.value?.length ? this.flags.value : undefined,
+      date: this.hasDate.value? this.date.value : undefined,
       place: this.place.value?.trim(),
       note: this.note.value?.trim(),
       elements: this.elements.value?.length ? this.elements.value : undefined,
@@ -338,6 +350,10 @@ export class MsDecorationComponent implements OnInit {
   public onReferencesChange(references: DocReference[]): void {
     this.references.setValue(references);
     this.form.markAsDirty();
+  }
+
+  public onDateChange(date: HistoricalDateModel): void {
+    this.date.setValue(date);
   }
 
   public cancel(): void {
