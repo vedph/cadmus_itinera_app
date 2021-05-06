@@ -6,7 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { ThesaurusEntry, DocReference } from '@myrmidon/cadmus-core';
-import { MsAnnotation, MsLocationService } from '@myrmidon/cadmus-itinera-core';
+import { MsAnnotation, MsLocationRange, MsLocationService } from '@myrmidon/cadmus-itinera-core';
 
 @Component({
   selector: 'itinera-ms-annotation',
@@ -41,8 +41,7 @@ export class MsAnnotationComponent implements OnInit {
   public language: FormControl;
   public type: FormControl;
   public text: FormControl;
-  public start: FormControl;
-  public end: FormControl;
+  public ranges: FormControl;
   public personId: FormControl;
   public sources: FormControl;
   public form: FormGroup;
@@ -51,7 +50,7 @@ export class MsAnnotationComponent implements OnInit {
 
   constructor(
     formBuilder: FormBuilder,
-    private _msLocationService: MsLocationService
+    private _locService: MsLocationService
   ) {
     this.initialSources = [];
     // events
@@ -67,13 +66,9 @@ export class MsAnnotationComponent implements OnInit {
       Validators.maxLength(50),
     ]);
     this.text = formBuilder.control(null, Validators.maxLength(1000));
-    this.start = formBuilder.control(
+    this.ranges = formBuilder.control(
       null,
-      Validators.pattern(MsLocationService.locRegexp)
-    );
-    this.end = formBuilder.control(
-      null,
-      Validators.pattern(MsLocationService.locRegexp)
+      Validators.pattern(MsLocationService.rangesRegexp)
     );
     this.personId = formBuilder.control(null, Validators.maxLength(50));
     this.sources = formBuilder.control([]);
@@ -81,8 +76,7 @@ export class MsAnnotationComponent implements OnInit {
       language: this.language,
       type: this.type,
       text: this.text,
-      start: this.start,
-      end: this.end,
+      ranges: this.ranges,
       personId: this.personId,
       sources: this.sources,
     });
@@ -104,10 +98,53 @@ export class MsAnnotationComponent implements OnInit {
     this.language.setValue(model.language);
     this.type.setValue(model.type);
     this.text.setValue(model.text);
-    this.start.setValue(this._msLocationService.locationToString(model.start));
-    this.end.setValue(this._msLocationService.locationToString(model.end));
+    this.ranges.setValue(
+      model.ranges
+        ? model.ranges
+            .map((r) => {
+              return this._locService.rangeToString(r);
+            })
+            .join(' ')
+        : null
+    );
     this.personId.setValue(model.personId);
     this.form.markAsPristine();
+  }
+
+  private splitText(text: string, delimiter = ' '): string[] | undefined {
+    if (!text) {
+      return undefined;
+    }
+    const tokens = text
+      .split(delimiter)
+      .map((t) => {
+        return t.trim();
+      })
+      .filter((t) => {
+        return t.length > 0;
+      });
+    return tokens.length ? tokens : undefined;
+  }
+
+  private parseRanges(text: string): MsLocationRange[] | undefined {
+    const tokens = this.splitText(text);
+    if (!tokens) {
+      return undefined;
+    }
+    const ranges: MsLocationRange[] = tokens
+      .map((t) => {
+        const bounds = t.split('-');
+        const start = this._locService.parseLocation(bounds[0]);
+        return {
+          start: start,
+          end:
+            bounds.length > 1
+              ? this._locService.parseLocation(bounds[1])
+              : start,
+        };
+      })
+      .filter((r) => (r ? true : false));
+    return ranges.length ? ranges : undefined;
   }
 
   private getModel(): MsAnnotation {
@@ -115,8 +152,7 @@ export class MsAnnotationComponent implements OnInit {
       language: this.language.value?.trim(),
       type: this.type.value?.trim(),
       text: this.text.value?.trim(),
-      start: this._msLocationService.parseLocation(this.start.value),
-      end: this._msLocationService.parseLocation(this.end.value),
+      ranges: this.parseRanges(this.ranges.value),
       personId: this.personId.value?.trim(),
       sources: this.sources.value?.length ? this.sources.value : undefined,
     };

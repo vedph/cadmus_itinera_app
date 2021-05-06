@@ -15,7 +15,6 @@ import {
 } from '@myrmidon/cadmus-itinera-core';
 import { NoteSet } from '@myrmidon/cadmus-itinera-ui';
 import { DecoratedId, PersonName } from '@myrmidon/cadmus-itinera-core';
-import { BehaviorSubject } from 'rxjs';
 import {
   FormBuilder,
   FormControl,

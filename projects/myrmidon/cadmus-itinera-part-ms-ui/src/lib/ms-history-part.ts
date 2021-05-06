@@ -270,40 +270,53 @@ export const MSHISTORY_PART_SCHEMA = {
               text: {
                 type: 'string',
               },
-              start: {
-                type: 'object',
-                required: ['n'],
-                properties: {
-                  n: {
-                    type: 'integer',
-                  },
-                  r: {
-                    type: 'boolean',
-                  },
-                  s: {
-                    type: 'integer',
-                  },
-                  l: {
-                    type: 'integer',
-                  },
-                },
-              },
-              end: {
-                type: 'object',
-                required: ['n'],
-                properties: {
-                  n: {
-                    type: 'integer',
-                  },
-                  r: {
-                    type: 'boolean',
-                  },
-                  s: {
-                    type: 'integer',
-                  },
-                  l: {
-                    type: 'integer',
-                  },
+              ranges: {
+                type: 'array',
+                items: {
+                  anyOf: [
+                    {
+                      type: 'object',
+                      required: ['start', 'end'],
+                      properties: {
+                        start: {
+                          type: 'object',
+                          required: ['n'],
+                          properties: {
+                            n: {
+                              type: 'integer',
+                            },
+                            r: {
+                              type: 'boolean',
+                            },
+                            s: {
+                              type: 'integer',
+                            },
+                            l: {
+                              type: 'integer',
+                            },
+                          },
+                        },
+                        end: {
+                          type: 'object',
+                          required: ['n'],
+                          properties: {
+                            n: {
+                              type: 'integer',
+                            },
+                            r: {
+                              type: 'boolean',
+                            },
+                            s: {
+                              type: 'integer',
+                            },
+                            l: {
+                              type: 'integer',
+                            },
+                          },
+                        },
+                      },
+                    },
+                  ],
                 },
               },
               personId: {

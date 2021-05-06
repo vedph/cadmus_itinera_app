@@ -90,6 +90,72 @@ export const MSDECORATIONS_PART_SCHEMA = {
                   ],
                 },
               },
+              date: {
+                type: 'object',
+                required: ['a'],
+                properties: {
+                  a: {
+                    type: 'object',
+                    required: ['value'],
+                    properties: {
+                      value: {
+                        type: 'integer',
+                      },
+                      isCentury: {
+                        type: 'boolean',
+                      },
+                      isSpan: {
+                        type: 'boolean',
+                      },
+                      isApproximate: {
+                        type: 'boolean',
+                      },
+                      isDubious: {
+                        type: 'boolean',
+                      },
+                      day: {
+                        type: 'integer',
+                      },
+                      month: {
+                        type: 'integer',
+                      },
+                      hint: {
+                        type: ['string', 'null'],
+                      },
+                    },
+                  },
+                  b: {
+                    type: 'object',
+                    required: ['value'],
+                    properties: {
+                      value: {
+                        type: 'integer',
+                      },
+                      isCentury: {
+                        type: 'boolean',
+                      },
+                      isSpan: {
+                        type: 'boolean',
+                      },
+                      isApproximate: {
+                        type: 'boolean',
+                      },
+                      isDubious: {
+                        type: 'boolean',
+                      },
+                      day: {
+                        type: 'integer',
+                      },
+                      month: {
+                        type: 'integer',
+                      },
+                      hint: {
+                        type: ['string', 'null'],
+                      },
+                    },
+                  },
+                },
+              },
               place: {
                 type: 'string',
               },

@@ -9,7 +9,6 @@ import {
   MSMATERIAL_DSC_PART_TYPEID,
 } from '../ms-material-dsc-part';
 import {
-  MsLocation,
   MsLocationRange,
   MsLocationService,
   MsPalimpsest,

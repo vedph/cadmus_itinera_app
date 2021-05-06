@@ -378,6 +378,7 @@ export interface MsDecoration {
   id: string;
   name: string;
   flags?: string[];
+  date?: HistoricalDateModel;
   place?: string;
   artist?: MsDecorationArtist;
   note?: string;
@@ -402,8 +403,7 @@ export interface MsAnnotation {
   language: string;
   type: string;
   text: string;
-  start?: MsLocation;
-  end?: MsLocation;
+  ranges?: MsLocationRange[];
   personId?: string;
   sources?: DocReference[];
 }

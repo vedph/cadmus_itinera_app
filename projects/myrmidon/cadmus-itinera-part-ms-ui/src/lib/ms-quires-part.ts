@@ -5,6 +5,7 @@ import { MsQuire } from '@myrmidon/cadmus-itinera-core';
  * The MsQuires part model.
  */
 export interface MsQuiresPart extends Part {
+  types: string[];
   quires: MsQuire[];
 }
 
@@ -30,6 +31,7 @@ export const MSQUIRES_PART_SCHEMA = {
     'creatorId',
     'timeModified',
     'userId',
+    'types',
     'quires',
   ],
   properties: {
@@ -62,6 +64,16 @@ export const MSQUIRES_PART_SCHEMA = {
     roleId: {
       type: ['string', 'null'],
       pattern: '^([a-z][-0-9a-z._]*)?$',
+    },
+    types: {
+      type: 'array',
+      items: {
+        anyOf: [
+          {
+            type: 'string',
+          },
+        ],
+      },
     },
     quires: {
       type: 'array',

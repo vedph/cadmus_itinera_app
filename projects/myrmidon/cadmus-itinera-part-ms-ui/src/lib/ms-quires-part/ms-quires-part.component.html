@@ -7,6 +7,15 @@
       <mat-card-title>Manuscript's Quires Part</mat-card-title>
     </mat-card-header>
     <mat-card-content>
+      <!-- types -->
+      <div>
+        <cadmus-multi-entry-selector
+          [entries]="typeEntries"
+          [selectedIds]="types?.value"
+          (selectionChange)="onTypeSelectionChange($event)"
+        ></cadmus-multi-entry-selector>
+      </div>
+
       <!-- formula -->
       <div>
         <mat-form-field appearance="fill" style="width: 90%; max-width: 800px">
@@ -93,7 +102,7 @@
               <!-- child controls -->
               <!-- tag -->
               &nbsp;
-              <mat-form-field style="width: 8em;">
+              <mat-form-field style="width: 8em">
                 <input matInput formControlName="tag" placeholder="tag" />
                 <mat-error
                   *ngIf="

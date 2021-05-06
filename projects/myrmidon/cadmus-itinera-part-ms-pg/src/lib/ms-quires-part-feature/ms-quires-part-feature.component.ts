@@ -39,6 +39,6 @@ export class MsQuiresPartFeatureComponent
   }
 
   public ngOnInit(): void {
-    this.initEditor(null);
+    this.initEditor(['ms-quire-types']);
   }
 }
