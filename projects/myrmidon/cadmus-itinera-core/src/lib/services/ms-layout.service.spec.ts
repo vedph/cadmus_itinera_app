@@ -20,7 +20,8 @@ fdescribe('MsLayoutService', () => {
     expect(r.value).toBeNull();
   });
 
-  let text = '240 × 150 = 30 / 5 [170 / 5] 40 × 15 [5 / 50 / 5* (20) 5* / 40] 5 / 15';
+  //          H     W   | tm   he ah   fw  bm | ml   clw  cw   cre cg2 clw2 cw2 cre2 mr
+  let text = '240 × 150 = 30 / 5 [170 / 5] 40 × 15 / [5 / 50 / 5* (20) 5* / 40] 5 / 15';
   it('should parse ' + text, () => {
     const r = service.parseFormula(text);
     expect(r.error).toBeFalsy();

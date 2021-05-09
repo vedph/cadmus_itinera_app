@@ -13,7 +13,20 @@ export interface ErrorWrapper<T> {
 }
 
 /**
+ * A rectangle in a visual representation of a MS layout formula.
+ */
+export interface MsLayoutRect {
+  name: string;
+  value: number;
+  empty?: boolean;
+}
+
+/**
  * Manuscript's layout formula service.
+ * Dimensions handled by formula are: height, width,
+ * margin-top, head-e or head-w, area-height, foot-w or foot-e, margin-bottom,
+ * margin-left, margin-right, col-N-gap, col-N-left-w or col-N-left-e,
+ * col-N-width, col-N-right-w or col-N-right-e.
  * https://github.com/vedph/cadmus_itinera_doc/blob/master/models.md#mslayoutspart
  */
 @Injectable({
@@ -23,8 +36,8 @@ export class MsLayoutService {
   // sections: HxW=HxW
   // [1]=height
   // [2]=width
-  // [3]=height details
-  // [4]=width details
+  // [3]=...height details
+  // [4]=...width details
   private static readonly _sectRegex = new RegExp(
     '^(\\d+)[Xx×](\\d+)=([^Xx×]+)[Xx×](.+)$'
   );
@@ -42,43 +55,19 @@ export class MsLayoutService {
     '(\\d+)(?:(?:\\/(\\d+)\\[)|(?:\\[(\\d+)\\/))(\\d+)(?:(?:\\/(\\d+)\\])|(?:\\](\\d+)\\/))(\\d+)'
   );
 
-  // width: column 1
-  // [1] = margin-left
-  // [2] = col-1-left-e or
-  // [3] = col-1-left-w
-  // [4] = col-1-width
-  // [5] = col-1-right-w or
-  // [6] = col-1-right-e
-  private static readonly _width1Regex = new RegExp(
-    //N     (     /N[          or  [N/          )N     (     /N        or  /N*          )
-    '^(\\d+)(?:(?:\\/(\\d+)\\[)|(?:\\[(\\d+)\\/))(\\d+)(?:(?:\\/(\\d+))|(?:\\/(\\d+)\\*))'
-  );
-
-  // width: mid columns
-  // [1] = col-N-gap
-  // [2] = col-N-left-w or
-  // [3] = col-N-left-e
-  // [4] = col-N-width
-  // [5] = col-N-right-w or
-  // [6] = col-N-right-e
-  private static readonly _width2Regex = new RegExp(
-    //{ (N)         (     N  or  N*        )/N       (     /N        or  /N*          )}
-    '(?:\\((\\d+)\\)(?:(\\d+)|(?:(\\d+)\\*))\\/(\\d+)(?:(?:\\/(\\d+))|(?:\\/(\\d+)\\*)))*',
-    'g'
-  );
-
-  // width: last column
-  // [1] = col-N-gap
-  // [2] = col-N-left-w or
-  // [3] = col-N-left-e
-  // [4] = col-N-width
-  // [5] = col-N-right-w or
-  // [6] = col-N-right-e
-  // [7] = margin-right
-  private static readonly _width3Regex = new RegExp(
-    //(N)        (  N      or N*        )/N       (     /N]          or  ]/N          )/N
-    '\\((\\d+)\\)(?:(\\d+)|(?:(\\d+)\\*))\\/(\\d+)(?:(?:\\/(\\d+)\\])|(?:\\]\\/(\\d+)))\\/(\\d+)$'
-  );
+  // width: edges (margin-left, margin right) and gap
+  // N /
+  private static readonly _wmlRegex = new RegExp('^(\\d+)/');
+  // / N
+  private static readonly _wmrRegex = new RegExp('/(\\d+)$');
+  // N[
+  private static readonly _wEmptyFirstRegex = new RegExp('^\\d+\\[');
+  // ]N
+  private static readonly _wEmptyLastRegex = new RegExp('\\]\\d+');
+  // N N N in column
+  private static readonly _lwrKeys = ['left', 'width', 'right'];
+  // col-N-
+  private static readonly _colNRegex = new RegExp('^col-(\\d+)-');
 
   constructor() {}
 
@@ -103,65 +92,45 @@ export class MsLayoutService {
     result.set('margin-bottom', +m[7]);
   }
 
-  private parseWidth1Match(
-    m: RegExpExecArray,
+  private parseColumn(
+    col: string,
+    coln: number,
     result: Map<string, number>
-  ): void {
-    result.set('margin-left', +m[1]);
-    if (m[2]) {
-      result.set('col-1-left-e', +m[2]);
-    }
-    if (m[3]) {
-      result.set('col-1-left-w', +m[3]);
-    }
-    result.set('col-1-width', +m[4]);
-    if (m[5]) {
-      result.set('col-1-right-w', +m[5]);
-    }
-    if (m[6]) {
-      result.set('col-1-right-e', +m[6]);
-    }
-  }
+  ): string | undefined {
+    // first N is empty if N[
+    const firstEmpty = MsLayoutService._wEmptyFirstRegex.test(col);
+    // last N is empty if ]N
+    const lastEmpty = MsLayoutService._wEmptyLastRegex.test(col);
+    // process col's 3 N or N* (empty)
+    const nRegex = /(\d+)(\*?)/g;
+    let m: RegExpExecArray;
+    let n = 0;
 
-  private parseWidth2Match(
-    m: RegExpExecArray,
-    n: number,
-    result: Map<string, number>
-  ): void {
-    result.set(`col-${n}-gap`, +m[1]);
-    if (m[2]) {
-      result.set(`col-${n}-left-w`, +m[2]);
+    while ((m = nRegex.exec(col))) {
+      if (++n > 3) {
+        return 'Too many numbers in column #' + coln + ': ' + col;
+      }
+      const empty =
+        (firstEmpty && n === 1) || (lastEmpty && n === 3) || m[2] === '*';
+      let key = `col-${coln}-` + MsLayoutService._lwrKeys[n - 1];
+      if (n !== 2) {
+        key += empty ? '-e' : '-w';
+      }
+      result.set(key, +m[1]);
     }
-    if (m[3]) {
-      result.set(`col-${n}-left-e`, +m[3]);
-    }
-    result.set(`col-${n}-width`, +m[4]);
-    if (m[5]) {
-      result.set(`col-${n}-right-w`, +m[5]);
-    }
-    if (m[6]) {
-      result.set(`col-${n}-right-e`, +m[6]);
-    }
-  }
 
-  private parseWidth3Match(
-    m: RegExpExecArray,
-    n: number,
-    result: Map<string, number>
-  ): void {
-    this.parseWidth2Match(m, n, result);
-    result.set(`margin-right`, +m[1]);
+    return undefined;
   }
 
   /**
    * Parse the specified layout formula.
    *
    * @param text The text to parse.
-   * @returns A map with key=dimension name and value=its numeric value.
+   * @returns A map with key=dimension name and value=its numeric value,
+   * wrapped inside an error wrapper. In case of errors, the wrapper has
+   * its error object and a null map.
    */
-  public parseFormula(
-    text?: string | null
-  ): ErrorWrapper<Map<string, number>> {
+  public parseFormula(text?: string | null): ErrorWrapper<Map<string, number>> {
     if (!text) {
       return { value: null };
     }
@@ -196,51 +165,152 @@ export class MsLayoutService {
     this.parseHeightMatch(hm, result);
 
     // width details:
-    // first column
-    const wm1 = MsLayoutService._width1Regex.exec(m[4]);
-    if (!wm1) {
+    // read margin-left and margin-right from edges
+    const ml = MsLayoutService._wmlRegex.exec(m[4]);
+    if (!ml) {
       return {
         error: {
-          message: 'Invalid width first column details',
+          message: 'Missing left margin in width details',
           payload: m[4],
         },
       };
     }
-    this.parseWidth1Match(wm1, result);
+    result.set('margin-left', +ml[1]);
 
-    // mid columns
-    let i = wm1.length;
-    let s = m[4].substr(i);
-    let col = 1;
-    let wm2: RegExpExecArray;
-    while ((wm2 = MsLayoutService._width2Regex.exec(s))) {
-      this.parseWidth2Match(wm2, ++col, result);
-    }
-    if (col === 1) {
+    const mr = MsLayoutService._wmrRegex.exec(m[4]);
+    if (!mr) {
       return {
         error: {
-          message: 'Invalid width mid column(s) details',
-          payload: s,
+          message: 'Missing right margin in width details',
+          payload: m[4],
         },
       };
     }
+    result.set('margin-right', +mr[1]);
 
-    // last column
-    i += wm2.length;
-    s = m[4].substr(i);
-    const wm3 = MsLayoutService._width3Regex.exec(s);
-    if (!wm3) {
-      return {
-        error: {
-          message: 'Invalid width last column details',
-          payload: s,
-        },
-      };
+    // strip margins thus getting columns only
+    let cols = m[4].substr(ml[0].length, mr.index - ml[0].length);
+
+    // for each gap (which separates two columns), process
+    // the left portion as a column
+    const gapRegex = /\((\d+)\)/g;
+    let mGap: RegExpExecArray;
+    let start = 0;
+    let coln = 0;
+    while ((mGap = gapRegex.exec(cols))) {
+      coln++;
+      result.set(`col-${coln}-gap`, +mGap[1]);
+      const col = cols.substr(start, mGap.index - start);
+      const err = this.parseColumn(col, coln, result);
+      if (err) {
+        return {
+          error: {
+            message: err,
+            payload: col,
+          },
+        };
+      }
+      start = mGap.index + mGap[0].length;
     }
-    this.parseWidth3Match(wm3, col, result);
+
+    // process the last column if pending
+    if (start < cols.length) {
+      const err = this.parseColumn(cols.substr(start), ++coln, result);
+      if (err) {
+        return {
+          error: {
+            message: err,
+            payload: cols,
+          },
+        };
+      }
+    }
 
     return {
       value: result,
     };
+  }
+
+  private getRects(map: Map<string, number>, keys: string[]): MsLayoutRect[] {
+    const rects: MsLayoutRect[] = [];
+    keys.forEach((key) => {
+      if (map.has(key)) {
+        rects.push({
+          name: key,
+          value: map.get(key),
+          empty:
+            key.endsWith('-e') ||
+            key.endsWith('-gap') ||
+            key.startsWith('margin-'),
+        });
+      }
+    });
+    return rects;
+  }
+
+  /**
+   * Get the array of rectangles representing the dimensions parsed from
+   * a formula along the sheet's height.
+   *
+   * @param map The map of dimensions as parsed by parseFormula.
+   * @returns An array of rectangles.
+   */
+  public getHeightRects(map: Map<string, number>): MsLayoutRect[] {
+    return this.getRects(map, [
+      'margin-top',
+      'head-e',
+      'head-w',
+      'area-height',
+      'foot-e',
+      'foot-w',
+      'margin-bottom',
+    ]);
+  }
+
+  /**
+   * Get the count of columns in the specified map.
+   *
+   * @param map The map of dimensions as parsed by parseFormula.
+   * @returns The count of columns.
+   */
+  public getColumnCount(map: Map<string, number>): number {
+    let colMax = 0;
+    map.forEach((value, key) => {
+      const m = MsLayoutService._colNRegex.exec(key);
+      if (m) {
+        const n = +m[1];
+        if (n > colMax) {
+          colMax = n;
+        }
+      }
+    });
+    return colMax;
+  }
+
+  /**
+   * Get the array of rectangles representing the dimensions parsed from
+   * a formula along the sheet's width.
+   *
+   * @param map The map of dimensions as parsed by parseFormula.
+   * @returns An array of rectangles.
+   */
+  public getWidthRects(map: Map<string, number>): MsLayoutRect[] {
+    const keys: string[] = [];
+    keys.push('margin-left');
+
+    const colCount = this.getColumnCount(map);
+    for (let n = 1; n <= colCount; n++) {
+      if (n > 1) {
+        keys.push(`col-${n}-gap`);
+      }
+      keys.push(`col-${n}-left-e`);
+      keys.push(`col-${n}-left-w`);
+      keys.push(`col-${n}-width`);
+      keys.push(`col-${n}-right-e`);
+      keys.push(`col-${n}-right-w`);
+    }
+
+    keys.push('margin-right');
+    return this.getRects(map, keys);
   }
 }
