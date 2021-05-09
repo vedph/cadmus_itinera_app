@@ -300,14 +300,14 @@ export class MsLayoutService {
 
     const colCount = this.getColumnCount(map);
     for (let n = 1; n <= colCount; n++) {
-      if (n > 1) {
-        keys.push(`col-${n}-gap`);
-      }
       keys.push(`col-${n}-left-e`);
       keys.push(`col-${n}-left-w`);
       keys.push(`col-${n}-width`);
       keys.push(`col-${n}-right-e`);
       keys.push(`col-${n}-right-w`);
+      if (n < colCount) {
+        keys.push(`col-${n}-gap`);
+      }
     }
 
     keys.push('margin-right');
