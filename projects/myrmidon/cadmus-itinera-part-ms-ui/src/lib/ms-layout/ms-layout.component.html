@@ -220,6 +220,7 @@
             "
             >invalid formula</mat-error
           >
+          <mat-error *ngIf="formulaError">{{formulaError}}</mat-error>
         </mat-form-field>
       </form>
     </div>

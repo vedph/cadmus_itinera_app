@@ -9,10 +9,11 @@ import {
 import { PhysicalDimension, ThesaurusEntry } from '@myrmidon/cadmus-core';
 import {
   DecoratedCount,
+  MsLayoutService,
   MsLocationService,
+  MS_LAYOUT_FORMULA_TEST,
 } from '@myrmidon/cadmus-itinera-core';
 import { MsLayout } from '../ms-layouts-part';
-import { MsLayoutFormulaService } from './ms-layout-formula.service';
 
 @Component({
   selector: 'itinera-ms-layout',
@@ -57,11 +58,12 @@ export class MsLayoutComponent implements OnInit {
   public formulaForm: FormGroup;
 
   public initialCounts: DecoratedCount[];
+  public formulaError: string | undefined;
 
   constructor(
     private _formBuilder: FormBuilder,
     private _locService: MsLocationService,
-    private _layoutService: MsLayoutFormulaService
+    private _layoutService: MsLayoutService
   ) {
     this.layoutChange = new EventEmitter<MsLayout>();
     this.editorClose = new EventEmitter<any>();
@@ -89,7 +91,7 @@ export class MsLayoutComponent implements OnInit {
     // layout formula
     this.formula = _formBuilder.control(
       null,
-      Validators.pattern(MsLayoutFormulaService.layRegexp)
+      Validators.pattern(MS_LAYOUT_FORMULA_REGEX)
     );
     this.formulaForm = _formBuilder.group({
       formula: this.formula,
@@ -205,10 +207,14 @@ export class MsLayoutComponent implements OnInit {
     if (this.formulaForm.invalid) {
       return;
     }
-    const map = this._layoutService.parseFormula(this.formula.value);
-    if (!map) {
+    const result = this._layoutService.parseFormula(this.formula.value);
+    if (result.error) {
+      this.formulaError = result.error.message;
       return;
+    } else {
+      this.formulaError = undefined;
     }
+    const map: Map<string, number> = result.value;
     this.counts.value.forEach((c: DecoratedCount) => {
       if (!map.has(c.id)) {
         map.set(c.id, c.value);

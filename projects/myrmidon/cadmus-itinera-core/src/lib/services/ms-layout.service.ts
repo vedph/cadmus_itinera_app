@@ -22,6 +22,11 @@ export interface MsLayoutRect {
 }
 
 /**
+ * Rough validation regexp for MS layout formulas.
+ */
+export const MS_LAYOUT_FORMULA_REGEX = /^\d+\s*[Xx×]\s*\d+\s*=\s*[0-9\[\]\/ ]+[Xx×][0-9*\[\]\/ ]+$/;
+
+/**
  * Manuscript's layout formula service.
  * Dimensions handled by formula are: height, width,
  * margin-top, head-e or head-w, area-height, foot-w or foot-e, margin-bottom,
