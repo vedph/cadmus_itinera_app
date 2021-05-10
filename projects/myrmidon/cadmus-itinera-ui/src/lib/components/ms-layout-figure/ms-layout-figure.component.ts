@@ -6,7 +6,6 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { FormBuilder, FormControl } from '@angular/forms';
 import { MsLayoutRect } from '@myrmidon/cadmus-itinera-core';
 
 export interface MsLayoutRectSet {
@@ -32,14 +31,13 @@ interface MsLayoutFigureRect {
 export class MsLayoutFigureComponent implements OnInit, AfterViewInit {
   private _rectSet: MsLayoutRectSet | undefined;
   private _afterInit = false;
+  // visibility mode: 0=none, 1=height, 2=width, 3=both
+  public visMode = 3;
 
   public height: number;
   public width: number;
   public heightRects: MsLayoutFigureRect[];
   public widthRects: MsLayoutFigureRect[];
-
-  public widthVisible: FormControl;
-  public heightVisible: FormControl;
 
   @ViewChild('fig') fig: ElementRef | undefined;
 
@@ -76,15 +74,12 @@ export class MsLayoutFigureComponent implements OnInit, AfterViewInit {
 
   public viewbox: string;
 
-  constructor(formBuilder: FormBuilder) {
+  constructor() {
     this.viewbox = '0 0 200 400';
     this.width = 200;
     this.height = 400;
     this.heightRects = [];
     this.widthRects = [];
-    // form
-    this.widthVisible = formBuilder.control(true);
-    this.heightVisible = formBuilder.control(true);
   }
 
   private refresh(): void {
@@ -161,15 +156,14 @@ export class MsLayoutFigureComponent implements OnInit, AfterViewInit {
 
     // scale
     if (this.noScale) {
+      this.viewbox = `0 0 ${w} ${h}`;
       this.width = w;
       this.height = h;
-      this.viewbox = `0 0 ${w} ${h}`;
       if (this.fig?.nativeElement) {
         this.fig.nativeElement.style.width = w;
         this.fig.nativeElement.style.height = h;
       }
     } else {
-      // TODO
       this.viewbox = `0 0 ${this.width} ${this.height}`;
     }
   }
@@ -181,5 +175,9 @@ export class MsLayoutFigureComponent implements OnInit, AfterViewInit {
     setTimeout(() => {
       this.refresh();
     }, 500);
+  }
+
+  public onSvgClick(): void {
+    this.visMode = this.visMode === 3? 1 : this.visMode + 1;
   }
 }

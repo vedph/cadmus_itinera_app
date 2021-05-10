@@ -146,11 +146,13 @@
       </mat-tab>
 
       <mat-tab label="MS Layout Figure">
-        <itinera-ms-layout-figure
-          [rects]="rectSet"
-          [size]="{ height: 400, width: 300 }"
-          [noScale]="true"
-        ></itinera-ms-layout-figure>
+        <div style="width: 400px;">
+          <itinera-ms-layout-figure
+            [rects]="rectSet"
+            [size]="{ height: 400, width: 400 }"
+            [noScale]="false"
+          ></itinera-ms-layout-figure>
+        </div>
       </mat-tab>
     </mat-tab-group>
   </mat-card-content>
