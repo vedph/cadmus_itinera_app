@@ -1,0 +1,153 @@
+import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormControl } from '@angular/forms';
+import { MsLayoutRect } from '@myrmidon/cadmus-itinera-core';
+
+export interface MsLayoutRectSet {
+  height: MsLayoutRect[];
+  width: MsLayoutRect[];
+  gap: number;
+}
+
+interface MsLayoutFigureRect {
+  name: string;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  fill: string;
+}
+
+@Component({
+  selector: 'itinera-ms-layout-figure',
+  templateUrl: './ms-layout-figure.component.html',
+  styleUrls: ['./ms-layout-figure.component.css'],
+})
+export class MsLayoutFigureComponent implements OnInit {
+  private _rectSet: MsLayoutRectSet | undefined;
+
+  public height: number;
+  public width: number;
+  public heightRects: MsLayoutFigureRect[];
+  public widthRects: MsLayoutFigureRect[];
+
+  public widthVisible: FormControl;
+  public heightVisible: FormControl;
+
+  /**
+   * The desired size of the figure.
+   */
+  @Input()
+  public get size(): { height: number; width: number } {
+    return { height: this.height, width: this.width };
+  }
+  public set size(value: { height: number; width: number }) {
+    if (value) {
+      this.height = value.height;
+      this.width = value.width;
+    }
+  }
+
+  /**
+   * The set of MS layout rectangles to be displayed.
+   */
+  @Input()
+  public get rects(): MsLayoutRectSet {
+    return this._rectSet;
+  }
+  public set rects(value: MsLayoutRectSet) {
+    this._rectSet = value;
+    this.refresh();
+  }
+
+  public viewbox: string;
+
+  constructor(formBuilder: FormBuilder) {
+    this.viewbox = '0 0 200 400';
+    this.width = 200;
+    this.height = 400;
+    this.heightRects = [];
+    this.widthRects = [];
+    // form
+    this.widthVisible = formBuilder.control(true);
+    this.heightVisible = formBuilder.control(true);
+  }
+
+  private refresh(): void {
+    if (!this._rectSet) {
+      this.widthRects = [];
+      this.heightRects = [];
+      this.viewbox = '0 0 200 400';
+      return;
+    }
+
+    // viewport
+    const h =
+      this._rectSet.height.reduce((a, b) => {
+        return a + b.value;
+      }, 0) +
+      // gaps
+      this._rectSet.gap * this._rectSet.height.length;
+
+    const w =
+      this._rectSet.width.reduce((a, b) => {
+        return a + b.value;
+      }, 0) +
+      // gaps
+      this._rectSet.gap * this._rectSet.width.length;
+
+    // viewbox
+    this.viewbox = `0 0 ${this.width} ${this.height}`;
+
+    // height
+    const hr: MsLayoutFigureRect[] = [];
+    // the horz boxes have margin at left and right
+    const hlm =
+      this._rectSet.width[0].value + this._rectSet.gap;
+    const hrm =
+      this._rectSet.gap +
+      this._rectSet.width[this._rectSet.width.length - 1].value;
+    const hw = w - hlm - hrm - this._rectSet.gap;
+
+    let y = 0;
+    for (let i = 0; i < this._rectSet.height.length; i++) {
+      const r = this._rectSet.height[i];
+      hr.push({
+        name: r.name,
+        x: hlm,
+        y: y,
+        width: hw,
+        height: r.value,
+        fill: r.empty ? 'white' : '#c0c0c0',
+      });
+      y += r.value + this._rectSet.gap;
+    }
+
+    // width
+    const wr: MsLayoutFigureRect[] = [];
+    // the vert boxes have margin at top and bottom
+    const wtm = this._rectSet.height[0].value + this._rectSet.gap;
+    const wbm =
+      this._rectSet.height[this._rectSet.height.length - 1].value +
+      this._rectSet.gap;
+    const wh = h - wtm - wbm - this._rectSet.gap;
+    let x = 0;
+
+    for (let i = 0; i < this._rectSet.width.length; i++) {
+      const r = this._rectSet.width[i];
+      wr.push({
+        name: r.name,
+        x: x,
+        y: wtm,
+        width: r.value,
+        height: wh,
+        fill: r.empty ? 'white' : '#c0c0c0',
+      });
+      x += r.value + this._rectSet.gap;
+    }
+
+    this.heightRects = hr;
+    this.widthRects = wr;
+  }
+
+  ngOnInit(): void {}
+}

@@ -12,6 +12,7 @@ import {
   Chronotope,
   CitedPerson,
   DecoratedCount,
+  MsLayoutService,
 } from '@myrmidon/cadmus-itinera-core';
 import { NoteSet } from '@myrmidon/cadmus-itinera-ui';
 import { DecoratedId, PersonName } from '@myrmidon/cadmus-itinera-core';
@@ -21,6 +22,7 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
+import { MsLayoutRectSet } from '@myrmidon/cadmus-itinera-ui';
 
 @Component({
   selector: 'app-sub-editors-demo',
@@ -65,7 +67,12 @@ export class SubEditorsDemoComponent implements OnInit {
   public id: string | undefined;
   public teValidators: ValidatorFn[];
 
-  constructor(formBuilder: FormBuilder) {
+  public rectSet: MsLayoutRectSet;
+
+  constructor(
+    formBuilder: FormBuilder,
+    private _msLayoutService: MsLayoutService
+  ) {
     this.free = formBuilder.control(false);
     this.teValidators = [
       Validators.required,
@@ -205,6 +212,15 @@ export class SubEditorsDemoComponent implements OnInit {
     };
 
     this.selectedIds = ['eng', 'ita', 'lat'];
+
+    const map = this._msLayoutService.parseFormula(
+      '250 × 160 = 30 / 5 [170 / 5] 40 × 15 / [5 / 50 / 5* (20) 5 / 40] 5 / 15'
+    ).value;
+    this.rectSet = {
+      height: this._msLayoutService.getHeightRects(map),
+      width: this._msLayoutService.getWidthRects(map),
+      gap: 4,
+    };
   }
 
   public onPersonNameChange(model: PersonName): void {

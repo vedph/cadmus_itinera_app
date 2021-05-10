@@ -12,6 +12,7 @@ import { CadmusUiModule } from '@myrmidon/cadmus-ui';
 import { NoteSetComponent } from './components/note-set/note-set.component';
 import { ChronotopesComponent } from './components/chronotopes/chronotopes.component';
 import { TextOrEntrySelectorComponent } from './components/text-or-entry-selector/text-or-entry-selector.component';
+import { MsLayoutFigureComponent } from './components/ms-layout-figure/ms-layout-figure.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { TextOrEntrySelectorComponent } from './components/text-or-entry-selecto
     CitedPersonComponent,
     DecoratedCountsComponent,
     DecoratedIdsComponent,
+    MsLayoutFigureComponent,
     NoteSetComponent,
     PersonNameComponent,
     TextOrEntrySelectorComponent,
@@ -38,6 +40,7 @@ import { TextOrEntrySelectorComponent } from './components/text-or-entry-selecto
     CitedPersonComponent,
     DecoratedCountsComponent,
     DecoratedIdsComponent,
+    MsLayoutFigureComponent,
     NoteSetComponent,
     PersonNameComponent,
     TextOrEntrySelectorComponent,

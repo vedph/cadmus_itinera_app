@@ -11,7 +11,7 @@ import {
   DecoratedCount,
   MsLayoutService,
   MsLocationService,
-  MS_LAYOUT_FORMULA_TEST,
+  MS_LAYOUT_FORMULA_REGEX,
 } from '@myrmidon/cadmus-itinera-core';
 import { MsLayout } from '../ms-layouts-part';
 
