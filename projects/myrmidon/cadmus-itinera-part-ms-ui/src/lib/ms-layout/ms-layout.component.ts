@@ -205,6 +205,17 @@ export class MsLayoutComponent implements OnInit {
     this.form.markAsDirty();
   }
 
+  private getHW(rectSet: MsLayoutRectSet): { height: number; width: number } {
+    return {
+      height: rectSet.height.reduce((a, b) => {
+        return a + b.value;
+      }, 0),
+      width: rectSet.width.reduce((a, b) => {
+        return a + b.value;
+      }, 0),
+    };
+  }
+
   /**
    * Apply the MS layout formula by adding all the dimensions got from it.
    */
@@ -247,7 +258,20 @@ export class MsLayoutComponent implements OnInit {
     });
 
     // check sum
-    // TODO
+    const hw = this.getHW(this.rectSet);
+    const sb: string[] = [];
+    const expHeight = map.get('height');
+    const expWidth = map.get('width');
+    if (hw.height !== expHeight) {
+      sb.push(`expected (${expHeight}) and actual (${hw.height}) height`);
+    }
+    if (hw.width !== expWidth) {
+      sb.push(`expected (${expWidth}) and actual (${hw.width}) width`);
+    }
+    if (sb.length) {
+      sb.splice(0, 0, 'Mismatch: ');
+      this.formulaError = sb.join('');
+    }
   }
 
   public cancel(): void {

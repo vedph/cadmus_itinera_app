@@ -95,8 +95,8 @@
           *ngIf="formula.errors?.pattern && (formula.dirty || formula.touched)"
           >invalid formula</mat-error
         >
-        <mat-error *ngIf="formulaError">{{ formulaError }}</mat-error>
       </mat-form-field>
+      <mat-error *ngIf="formulaError">{{ formulaError }}</mat-error>
     </form>
     <!-- layout figure -->
     <div style="width: 400px" *ngIf="rectSet">

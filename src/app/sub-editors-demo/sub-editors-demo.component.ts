@@ -279,6 +279,17 @@ export class SubEditorsDemoComponent implements OnInit {
     this.id = id;
   }
 
+  private getHW(rectSet: MsLayoutRectSet): { height: number; width: number } {
+    return {
+      height: rectSet.height.reduce((a, b) => {
+        return a + b.value;
+      }, 0),
+      width: rectSet.width.reduce((a, b) => {
+        return a + b.value;
+      }, 0),
+    };
+  }
+
   public applyLayoutFormula(): void {
     if (this.figForm.invalid) {
       return;
@@ -298,6 +309,22 @@ export class SubEditorsDemoComponent implements OnInit {
       width: this._msLayoutService.getWidthRects(map),
       gap: 4,
     };
+
+    // check
+    const hw = this.getHW(this.rectSet);
+    const sb: string[] = [];
+    const expHeight = map.get('height');
+    const expWidth = map.get('width');
+    if (hw.height !== expHeight) {
+      sb.push(`expected (${expHeight}) and actual (${hw.height}) height`);
+    }
+    if (hw.width !== expWidth) {
+      sb.push(`expected (${expWidth}) and actual (${hw.width}) width`);
+    }
+    if (sb.length) {
+      sb.splice(0, 0, 'Mismatch: ');
+      this.formulaError = sb.join('');
+    }
   }
 
   public onFigSliderChange(change: MatSliderChange): void {
