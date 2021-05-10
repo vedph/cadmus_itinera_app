@@ -1,6 +1,7 @@
 <div>
-  <!-- <svg [attr.viewbox]="viewbox" [attr.width]="width" [attr.height]="height"></svg> -->
-  <svg [attr.width]="width" [attr.height]="height">
+  <!-- [attr.width.px]="width"
+  [attr.height.px]="height" -->
+  <svg #fig>
     <g>
       <!-- height -->
       <g *ngIf="heightVisible?.value">

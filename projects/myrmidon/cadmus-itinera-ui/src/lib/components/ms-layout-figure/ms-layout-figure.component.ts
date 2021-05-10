@@ -1,4 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  Input,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { MsLayoutRect } from '@myrmidon/cadmus-itinera-core';
 
@@ -22,8 +29,9 @@ interface MsLayoutFigureRect {
   templateUrl: './ms-layout-figure.component.html',
   styleUrls: ['./ms-layout-figure.component.css'],
 })
-export class MsLayoutFigureComponent implements OnInit {
+export class MsLayoutFigureComponent implements OnInit, AfterViewInit {
   private _rectSet: MsLayoutRectSet | undefined;
+  private _afterInit = false;
 
   public height: number;
   public width: number;
@@ -32,6 +40,11 @@ export class MsLayoutFigureComponent implements OnInit {
 
   public widthVisible: FormControl;
   public heightVisible: FormControl;
+
+  @ViewChild('fig') fig: ElementRef | undefined;
+
+  @Input()
+  public noScale: boolean;
 
   /**
    * The desired size of the figure.
@@ -56,7 +69,9 @@ export class MsLayoutFigureComponent implements OnInit {
   }
   public set rects(value: MsLayoutRectSet) {
     this._rectSet = value;
-    this.refresh();
+    if (this._afterInit) {
+      this.refresh();
+    }
   }
 
   public viewbox: string;
@@ -95,14 +110,10 @@ export class MsLayoutFigureComponent implements OnInit {
       // gaps
       this._rectSet.gap * this._rectSet.width.length;
 
-    // viewbox
-    this.viewbox = `0 0 ${this.width} ${this.height}`;
-
     // height
     const hr: MsLayoutFigureRect[] = [];
     // the horz boxes have margin at left and right
-    const hlm =
-      this._rectSet.width[0].value + this._rectSet.gap;
+    const hlm = this._rectSet.width[0].value + this._rectSet.gap;
     const hrm =
       this._rectSet.gap +
       this._rectSet.width[this._rectSet.width.length - 1].value;
@@ -147,7 +158,28 @@ export class MsLayoutFigureComponent implements OnInit {
 
     this.heightRects = hr;
     this.widthRects = wr;
+
+    // scale
+    if (this.noScale) {
+      this.width = w;
+      this.height = h;
+      this.viewbox = `0 0 ${w} ${h}`;
+      if (this.fig?.nativeElement) {
+        this.fig.nativeElement.style.width = w;
+        this.fig.nativeElement.style.height = h;
+      }
+    } else {
+      // TODO
+      this.viewbox = `0 0 ${this.width} ${this.height}`;
+    }
   }
 
-  ngOnInit(): void {}
+  public ngOnInit(): void {}
+
+  public ngAfterViewInit(): void {
+    this._afterInit = true;
+    setTimeout(() => {
+      this.refresh();
+    }, 500);
+  }
 }
