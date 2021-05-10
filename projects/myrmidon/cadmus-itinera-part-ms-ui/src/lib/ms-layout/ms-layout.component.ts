@@ -6,6 +6,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { MatSliderChange } from '@angular/material/slider';
 import { PhysicalDimension, ThesaurusEntry } from '@myrmidon/cadmus-core';
 import {
   DecoratedCount,
@@ -61,6 +62,7 @@ export class MsLayoutComponent implements OnInit {
   public initialCounts: DecoratedCount[];
   public formulaError: string | undefined;
   public rectSet: MsLayoutRectSet | undefined;
+  public figHeight = 400;
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -272,6 +274,10 @@ export class MsLayoutComponent implements OnInit {
       sb.splice(0, 0, 'Mismatch: ');
       this.formulaError = sb.join('');
     }
+  }
+
+  public onFigSliderChange(change: MatSliderChange): void {
+    this.figHeight = change.value;
   }
 
   public cancel(): void {

@@ -99,10 +99,22 @@
       <mat-error *ngIf="formulaError">{{ formulaError }}</mat-error>
     </form>
     <!-- layout figure -->
-    <div style="width: 400px" *ngIf="rectSet">
+    <div style="margin: 0 8px">
+      <mat-slider
+        min="400"
+        max="800"
+        step="10"
+        value="400"
+        (change)="onFigSliderChange($event)"
+      ></mat-slider>
+    </div>
+    <div
+      *ngIf="rectSet"
+      style="height: 400px; overflow: hidden"
+      [style.height.px]="figHeight"
+    >
       <itinera-ms-layout-figure
         [rects]="rectSet"
-        [size]="{ height: 400, width: 400 }"
         [noScale]="false"
       ></itinera-ms-layout-figure>
     </div>
