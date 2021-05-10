@@ -146,10 +146,54 @@
       </mat-tab>
 
       <mat-tab label="MS Layout Figure">
-        <div style="width: 300px;">
+        <form [formGroup]="figForm" (submit)="applyLayoutFormula()">
+          <mat-form-field style="width: 95%">
+            <input
+              matInput
+              [formControl]="figFormula"
+              placeholder="layout formula"
+            />
+            <button
+              type="submit"
+              mat-icon-button
+              matSuffix
+              [disabled]="figForm.invalid"
+              color="primary"
+            >
+              <mat-icon>check_circle</mat-icon>
+            </button>
+            <mat-error
+              *ngIf="
+                figFormula.errors?.required &&
+                (figFormula.dirty || figFormula.touched)
+              "
+              >required</mat-error
+            >
+            <mat-error
+              *ngIf="
+                figFormula.errors?.maxLength &&
+                (figFormula.dirty || figFormula.touched)
+              "
+              >too long</mat-error
+            >
+            <mat-error *ngIf="formulaError">{{ formulaError }}</mat-error>
+          </mat-form-field>
+        </form>
+        <div style="margin: 0 8px">
+          <mat-slider
+            min="400"
+            max="800"
+            step="10"
+            value="400"
+            (change)="onFigSliderChange($event)"
+          ></mat-slider>
+        </div>
+        <div
+          style="height: 400px; overflow: hidden"
+          [style.height.px]="figHeight"
+        >
           <itinera-ms-layout-figure
             [rects]="rectSet"
-            [size]="{ height: 400, width: 300 }"
             [noScale]="false"
           ></itinera-ms-layout-figure>
         </div>

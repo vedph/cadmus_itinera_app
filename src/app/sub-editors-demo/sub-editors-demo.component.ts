@@ -13,16 +13,19 @@ import {
   CitedPerson,
   DecoratedCount,
   MsLayoutService,
+  MS_LAYOUT_FORMULA_REGEX,
 } from '@myrmidon/cadmus-itinera-core';
 import { NoteSet } from '@myrmidon/cadmus-itinera-ui';
 import { DecoratedId, PersonName } from '@myrmidon/cadmus-itinera-core';
 import {
   FormBuilder,
   FormControl,
+  FormGroup,
   ValidatorFn,
   Validators,
 } from '@angular/forms';
 import { MsLayoutRectSet } from '@myrmidon/cadmus-itinera-ui';
+import { MatSliderChange } from '@angular/material/slider';
 
 @Component({
   selector: 'app-sub-editors-demo',
@@ -68,6 +71,10 @@ export class SubEditorsDemoComponent implements OnInit {
   public teValidators: ValidatorFn[];
 
   public rectSet: MsLayoutRectSet;
+  public figHeight = 400;
+  public formulaError: string | undefined;
+  public figFormula: FormControl;
+  public figForm: FormGroup;
 
   constructor(
     formBuilder: FormBuilder,
@@ -79,6 +86,15 @@ export class SubEditorsDemoComponent implements OnInit {
       Validators.maxLength(20),
       Validators.pattern('^[-a-zA-Z_0-9]+$'),
     ];
+
+    // fig
+    this.figFormula = formBuilder.control(
+      '250 × 160 = 30 / 5 [170 / 5] 40 × 15 / [5 / 50 / 5* (20) 5 / 40] 5 / 15',
+      [Validators.required, Validators.pattern(MS_LAYOUT_FORMULA_REGEX)]
+    );
+    this.figForm = formBuilder.group({
+      figFormula: this.figFormula,
+    });
   }
 
   ngOnInit(): void {
@@ -213,14 +229,14 @@ export class SubEditorsDemoComponent implements OnInit {
 
     this.selectedIds = ['eng', 'ita', 'lat'];
 
-    const map = this._msLayoutService.parseFormula(
-      '250 × 160 = 30 / 5 [170 / 5] 40 × 15 / [5 / 50 / 5* (20) 5 / 40] 5 / 15'
-    ).value;
-    this.rectSet = {
-      height: this._msLayoutService.getHeightRects(map),
-      width: this._msLayoutService.getWidthRects(map),
-      gap: 4,
-    };
+    // const map = this._msLayoutService.parseFormula(
+    //   '250 × 160 = 30 / 5 [170 / 5] 40 × 15 / [5 / 50 / 5* (20) 5 / 40] 5 / 15'
+    // ).value;
+    // this.rectSet = {
+    //   height: this._msLayoutService.getHeightRects(map),
+    //   width: this._msLayoutService.getWidthRects(map),
+    //   gap: 4,
+    // };
   }
 
   public onPersonNameChange(model: PersonName): void {
@@ -261,5 +277,30 @@ export class SubEditorsDemoComponent implements OnInit {
 
   public onIdChange(id: string | undefined): void {
     this.id = id;
+  }
+
+  public applyLayoutFormula(): void {
+    if (this.figForm.invalid) {
+      return;
+    }
+    const result = this._msLayoutService.parseFormula(this.figFormula.value);
+    if (result.error) {
+      this.formulaError = result.error.message;
+      return;
+    } else {
+      this.formulaError = undefined;
+    }
+
+    // get rectangles
+    const map: Map<string, number> = result.value;
+    this.rectSet = {
+      height: this._msLayoutService.getHeightRects(map),
+      width: this._msLayoutService.getWidthRects(map),
+      gap: 4,
+    };
+  }
+
+  public onFigSliderChange(change: MatSliderChange): void {
+    this.figHeight = change.value;
   }
 }

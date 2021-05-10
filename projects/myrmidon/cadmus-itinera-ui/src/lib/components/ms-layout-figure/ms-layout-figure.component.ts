@@ -157,12 +157,12 @@ export class MsLayoutFigureComponent implements OnInit, AfterViewInit {
     // scale
     if (this.noScale) {
       this.viewbox = `0 0 ${w} ${h}`;
-      this.width = w;
-      this.height = h;
-      if (this.fig?.nativeElement) {
-        this.fig.nativeElement.style.width = w;
-        this.fig.nativeElement.style.height = h;
-      }
+      // this.width = w;
+      // this.height = h;
+      // if (this.fig?.nativeElement) {
+      //   this.fig.nativeElement.style.width = w;
+      //   this.fig.nativeElement.style.height = h;
+      // }
     } else {
       this.viewbox = `0 0 ${this.width} ${this.height}`;
     }
