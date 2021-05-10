@@ -13,6 +13,7 @@ import {
   MsLocationService,
   MS_LAYOUT_FORMULA_REGEX,
 } from '@myrmidon/cadmus-itinera-core';
+import { MsLayoutRectSet } from '@myrmidon/cadmus-itinera-ui';
 import { MsLayout } from '../ms-layouts-part';
 
 @Component({
@@ -59,11 +60,12 @@ export class MsLayoutComponent implements OnInit {
 
   public initialCounts: DecoratedCount[];
   public formulaError: string | undefined;
+  public rectSet: MsLayoutRectSet | undefined;
 
   constructor(
     private _formBuilder: FormBuilder,
     private _locService: MsLocationService,
-    private _layoutService: MsLayoutService
+    private _msLayoutService: MsLayoutService
   ) {
     this.layoutChange = new EventEmitter<MsLayout>();
     this.editorClose = new EventEmitter<any>();
@@ -89,10 +91,10 @@ export class MsLayoutComponent implements OnInit {
       counts: this.counts,
     });
     // layout formula
-    this.formula = _formBuilder.control(
-      null,
-      Validators.pattern(MS_LAYOUT_FORMULA_REGEX)
-    );
+    this.formula = _formBuilder.control(null, [
+      Validators.required,
+      Validators.pattern(MS_LAYOUT_FORMULA_REGEX),
+    ]);
     this.formulaForm = _formBuilder.group({
       formula: this.formula,
     });
@@ -203,31 +205,49 @@ export class MsLayoutComponent implements OnInit {
     this.form.markAsDirty();
   }
 
-  public addFormulaCounts(): void {
+  /**
+   * Apply the MS layout formula by adding all the dimensions got from it.
+   */
+  public applyFormula(): void {
+    // parse
     if (this.formulaForm.invalid) {
       return;
     }
-    const result = this._layoutService.parseFormula(this.formula.value);
+    const result = this._msLayoutService.parseFormula(this.formula.value);
     if (result.error) {
       this.formulaError = result.error.message;
       return;
     } else {
       this.formulaError = undefined;
     }
+
+    // get rectangles
     const map: Map<string, number> = result.value;
-    this.counts.value.forEach((c: DecoratedCount) => {
+    this.rectSet = {
+      height: this._msLayoutService.getHeightRects(map),
+      width: this._msLayoutService.getWidthRects(map),
+      gap: 4,
+    };
+
+    // update dimensions
+    this.dimensions.value.forEach((c: DecoratedCount) => {
       if (!map.has(c.id)) {
         map.set(c.id, c.value);
       }
     });
-    const newCounts = [];
+    this.dimensions.clear();
     map.forEach((value, key) => {
-      newCounts.push({
-        id: key,
-        value: value,
-      });
+      this.dimensions.push(
+        this.getDimensionGroup({
+          tag: key,
+          value: value,
+          unit: 'mm',
+        })
+      );
     });
-    this.counts.setValue(newCounts);
+
+    // check sum
+    // TODO
   }
 
   public cancel(): void {

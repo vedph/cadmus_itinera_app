@@ -73,6 +73,47 @@
   </div>
 
   <div>
+    <!-- formula -->
+    <form [formGroup]="formulaForm" (submit)="applyFormula()">
+      <mat-form-field class="long-text">
+        <input
+          type="text"
+          matInput
+          [formControl]="formula"
+          placeholder="layout formula (e.g. 250 × 160 = 30 / 5 [170 / 5] 40 × 15 / [5 / 50 / 5* (20) 5 / 40] 5 / 15)"
+        />
+        <button
+          type="submit"
+          mat-icon-button
+          matSuffix
+          [disabled]="formulaForm.invalid"
+          color="primary"
+        >
+          <mat-icon>check_circle</mat-icon>
+        </button>
+        <mat-error
+          *ngIf="formula.errors?.pattern && (formula.dirty || formula.touched)"
+          >invalid formula</mat-error
+        >
+        <mat-error *ngIf="formulaError">{{ formulaError }}</mat-error>
+      </mat-form-field>
+    </form>
+    <!-- layout figure -->
+    <div style="width: 400px" *ngIf="rectSet">
+      <itinera-ms-layout-figure
+        [rects]="rectSet"
+        [size]="{ height: 400, width: 400 }"
+        [noScale]="false"
+      ></itinera-ms-layout-figure>
+    </div>
+    <!-- counts -->
+    <h3>counts</h3>
+    <itinera-decorated-counts
+      [idEntries]="countEntries"
+      [counts]="initialCounts"
+      (countsChange)="onCountsChange($event)"
+    ></itinera-decorated-counts>
+    <!-- dimensions -->
     <h3>dimensions</h3>
     <div formArrayName="dimensions">
       <div>
@@ -192,43 +233,6 @@
         </div>
       </div>
     </div>
-  </div>
-
-  <div>
-    <h3>counts</h3>
-    <div>
-      <form [formGroup]="formulaForm" (submit)="addFormulaCounts()">
-        <mat-form-field class="long-text">
-          <input
-            type="text"
-            matInput
-            [formControl]="formula"
-            placeholder="layout formula (e.g. 250x170=30 [180] 40x15 [5/ 52 (20) 5/ 53] 20)"
-          />
-          <button
-            type="submit"
-            mat-icon-button
-            matSuffix
-            [disabled]="formulaForm.invalid"
-            color="primary"
-          >
-            <mat-icon>check_circle</mat-icon>
-          </button>
-          <mat-error
-            *ngIf="
-              formula.errors?.pattern && (formula.dirty || formula.touched)
-            "
-            >invalid formula</mat-error
-          >
-          <mat-error *ngIf="formulaError">{{formulaError}}</mat-error>
-        </mat-form-field>
-      </form>
-    </div>
-    <itinera-decorated-counts
-      [idEntries]="countEntries"
-      [counts]="initialCounts"
-      (countsChange)="onCountsChange($event)"
-    ></itinera-decorated-counts>
   </div>
 
   <!-- buttons -->

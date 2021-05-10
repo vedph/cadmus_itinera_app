@@ -24,7 +24,7 @@ export interface MsLayoutRect {
 /**
  * Rough validation regexp for MS layout formulas.
  */
-export const MS_LAYOUT_FORMULA_REGEX = /^\d+\s*[Xx×]\s*\d+\s*=\s*[0-9\[\]\/ ]+[Xx×][0-9*\[\]\/ ]+$/;
+export const MS_LAYOUT_FORMULA_REGEX = /^\d+\s*[Xx×]\s*\d+\s*=\s*[0-9\[\]\/ ]+[Xx×][0-9*()\[\]\/ ]+$/;
 
 /**
  * Manuscript's layout formula service.
