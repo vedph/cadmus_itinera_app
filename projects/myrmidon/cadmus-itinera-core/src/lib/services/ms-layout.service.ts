@@ -61,10 +61,8 @@ export class MsLayoutService {
   );
 
   // width: edges (margin-left, margin right) and gap
-  // N /
-  private static readonly _wmlRegex = new RegExp('^(\\d+)/');
-  // / N
-  private static readonly _wmrRegex = new RegExp('/(\\d+)$');
+  private static readonly _wmlRegex = new RegExp('^(\\d+)\\b');
+  private static readonly _wmrRegex = new RegExp('\\b(\\d+)$');
   // N[
   private static readonly _wEmptyFirstRegex = new RegExp('^\\d+\\[');
   // ]N
