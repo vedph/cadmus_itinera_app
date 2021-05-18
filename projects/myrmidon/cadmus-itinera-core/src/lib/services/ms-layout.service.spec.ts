@@ -20,14 +20,15 @@ fdescribe('MsLayoutService', () => {
     expect(r.value).toBeNull();
   });
 
-  //          H     W   | mt   he ah   fw  mb | ml   clw  cw   cre cg2 clw2cw2 cre2 mr
-  let text = '250 × 160 = 30 / 5 [170 / 5] 40 × 15 / [5 / 50 / 5* (20) 5 / 40] 5 / 15';
-  it('should parse ' + text, () => {
-    const r = service.parseFormula(text);
+  const text1 =
+  // H     W   | mt   he ah   fw  mb | ml   clw  cw   cre cg2 clw2cw2 cre2 mr
+    '250 × 160 = 30 / 5 [170 / 5] 40 × 15 / [5 / 50 / 5* (20) 5 / 40] 5 / 15';
+  it('should parse ' + text1, () => {
+    const r = service.parseFormula(text1);
     expect(r.error).toBeFalsy();
     expect(r.value).toBeTruthy();
 
-    const map: Map<string,number> = r.value;
+    const map: Map<string, number> = r.value;
     // height, width
     expect(map.get('height')).toBe(250);
     expect(map.get('width')).toBe(160);
@@ -49,15 +50,46 @@ fdescribe('MsLayoutService', () => {
     expect(map.get('margin-right')).toBe(15);
   });
 
-  it('should count 2 cols in ' + text, () => {
-    const r = service.parseFormula(text);
+  //             H     W     mt  ah   mb   ml clw  cw  crw cg clw  cw crw  mr
+  const text2 = '200 x 160 = 30 [130] 40 x 15 [5 / 50 / 5 (10) 5 / 50 / 5] 15';
+  it('should parse ' + text2, () => {
+    const r = service.parseFormula(text2);
+    expect(r.error).toBeFalsy();
+    expect(r.value).toBeTruthy();
+
+    const map: Map<string, number> = r.value;
+    // height, width
+    expect(map.get('height')).toBe(200);
+    expect(map.get('width')).toBe(160);
+    // height details
+    expect(map.get('margin-top')).toBe(30);
+    expect(map.has('head-e')).toBeFalse();
+    expect(map.has('head-w')).toBeFalse();
+    expect(map.get('area-height')).toBe(130);
+    expect(map.has('foot-e')).toBeFalse();
+    expect(map.has('foot-w')).toBeFalse();
+    expect(map.get('margin-bottom')).toBe(40);
+    // width details
+    expect(map.get('margin-left')).toBe(15);
+    expect(map.get('col-1-left-w')).toBe(5);
+    expect(map.get('col-1-width')).toBe(50);
+    expect(map.get('col-1-right-w')).toBe(5);
+    expect(map.get('col-1-gap')).toBe(10);
+    expect(map.get('col-2-left-w')).toBe(5);
+    expect(map.get('col-2-width')).toBe(50);
+    expect(map.get('col-2-right-w')).toBe(5);
+    expect(map.get('margin-right')).toBe(15);
+  });
+
+  it('should count 2 cols in ' + text1, () => {
+    const r = service.parseFormula(text1);
     expect(r.error).toBeFalsy();
     expect(r.value).toBeTruthy();
     expect(service.getColumnCount(r.value)).toBe(2);
   });
 
-  it('should get height rects from ' + text, () => {
-    const r = service.parseFormula(text);
+  it('should get height rects from ' + text1, () => {
+    const r = service.parseFormula(text1);
     expect(r.error).toBeFalsy();
     expect(r.value).toBeTruthy();
     const rects = service.getHeightRects(r.value);
@@ -67,13 +99,15 @@ fdescribe('MsLayoutService', () => {
     expect(rects[2].name).toBe('area-height');
     expect(rects[3].name).toBe('foot-w');
     expect(rects[4].name).toBe('margin-bottom');
-    expect(rects.reduce((a,b) => {
-      return a + b.value;
-    }, 0)).toBe(250);
+    expect(
+      rects.reduce((a, b) => {
+        return a + b.value;
+      }, 0)
+    ).toBe(250);
   });
 
-  it('should get width rects from ' + text, () => {
-    const r = service.parseFormula(text);
+  it('should get width rects from ' + text1, () => {
+    const r = service.parseFormula(text1);
     expect(r.error).toBeFalsy();
     expect(r.value).toBeTruthy();
     const rects = service.getWidthRects(r.value);
@@ -87,8 +121,10 @@ fdescribe('MsLayoutService', () => {
     expect(rects[6].name).toBe('col-2-width');
     expect(rects[7].name).toBe('col-2-right-e');
     expect(rects[8].name).toBe('margin-right');
-    expect(rects.reduce((a,b) => {
-      return a + b.value;
-    }, 0)).toBe(160);
+    expect(
+      rects.reduce((a, b) => {
+        return a + b.value;
+      }, 0)
+    ).toBe(160);
   });
 });
