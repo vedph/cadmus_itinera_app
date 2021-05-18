@@ -23,8 +23,31 @@ export interface MsLayoutRect {
 
 /**
  * Rough validation regexp for MS layout formulas.
+ * This just checks for ^NxN=...x...$ where ... include only a set of characters.
  */
-export const MS_LAYOUT_FORMULA_REGEX = /^\d+\s*[Xx×]\s*\d+\s*=\s*[0-9\[\]\/ ]+[Xx×][0-9*()\[\]\/ ]+$/;
+export const MS_LAYOUT_FORMULA_REGEX =
+  /^\d+\s*[Xx×]\s*\d+\s*=\s*[0-9\[\]\/ ]+[Xx×][0-9*()\[\]\/ ]+$/;
+
+// Sample (portions marked with - and + are reciprocally exclusive; !=required, ?=optional):
+//
+// 240 × 150 = 30 / 5 [5 / 170 / 5] 5 / 40 × 15 / 5 [5 / 50 / 5* (20) 5* / 40 / 5] 5 / 15
+//                ----++++    +++++----         ----++++       -  ||   -      ++++----
+// hhh   www   hhhhhhhhhhhhhhhhhhhhhhhhhhh   wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
+//                                              1111111111111111  ||  22222222222222
+// h     w     mt he  hw   ah fw    fe  mb   ml cle clw  cw   crX cg  clX  cw crw cre  mr
+// !     !     !  ? / ?    !  ?   / ?   !    !  ? / ?    !    ?   !   ?    !  ? / ?    !
+//
+// height:
+//
+// [mt   ]
+// [he/hw]
+// [ah   ]
+// [fe/fw]
+// [mb   ]
+//
+// width:
+//      col1                   col2
+// [ml] [cle/clw][cw][cre/crw] [cg][cle/clw][cw][cre/crw]... [mr]
 
 /**
  * Manuscript's layout formula service.
@@ -56,8 +79,8 @@ export class MsLayoutService {
   // [6] = foot-e
   // [7] = margin-bottom
   private static readonly _heightRegex = new RegExp(
-    //N    (     /N[          or  [N/          )N     (     /N]          or  ]N/          )N
-    '(\\d+)(?:(?:\\/(\\d+)\\[)|(?:\\[(\\d+)\\/))(\\d+)(?:(?:\\/(\\d+)\\])|(?:\\](\\d+)\\/))(\\d+)'
+    // mt      /he?         [   hw/?       ah         /fw?       ]   fe/?     mb
+    '^(\\d+)(?:\\/(\\d+))?\\[(?:(\\d+)\\/)?(\\d+)(?:\\/(\\d+))?\\](?:(\\d+)\\/)?(\\d+)'
   );
 
   // width: edges (margin-left, margin right) and gap
@@ -93,6 +116,34 @@ export class MsLayoutService {
       result.set('foot-e', +m[6]);
     }
     result.set('margin-bottom', +m[7]);
+
+    // apply a correction for the corner case [N/N] where it's ambiguous
+    // whether we should interpret as hw/ah (the default, as the regular
+    // expression is being matched from left to right), or rather ah/fw.
+    // In this case, assume that it's ah/fw when ah<hw: [5/170]=hw/ah,
+    // but [170/5]=ah/fw.
+    if (result.has('head-w')) {
+      const hw = result.get('head-w');
+      const ah = result.get('area-height');
+      if (ah < hw) {
+        // hw is rather ah
+        result.delete('head-w');
+        result.set('area-height', hw);
+        // ah is rather fw
+        result.set('foot-w', ah);
+      }
+    }
+  }
+
+  private validateHeight(result: Map<string, any>): string | null {
+    // no he/hw or fe/fw
+    if (result.has('head-e') && result.has('head-w')) {
+      return 'Inconsistent head: both empty and written head specified';
+    }
+    if (result.has('foot-e') && result.has('foot-w')) {
+      return 'Inconsistent foot: both empty and written foot specified';
+    }
+    return null;
   }
 
   private parseColumn(
@@ -166,6 +217,18 @@ export class MsLayoutService {
       };
     }
     this.parseHeightMatch(hm, result);
+
+    // ensure that there are no inconsistencies: he/hw or fe/fw
+    // cannot be both present in the same formula
+    const hError = this.validateHeight(result);
+    if (hError) {
+      return {
+        error: {
+          message: hError,
+          payload: m[3]
+        }
+      }
+    }
 
     // width details:
     // read margin-left and margin-right from edges
