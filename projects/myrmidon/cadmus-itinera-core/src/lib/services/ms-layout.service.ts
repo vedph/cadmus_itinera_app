@@ -1,3 +1,4 @@
+import { removeSummaryDuplicates } from '@angular/compiler';
 import { Injectable } from '@angular/core';
 
 /**
@@ -83,6 +84,21 @@ export class MsLayoutService {
     '^(\\d+)(?:\\/(\\d+))?\\[(?:(\\d+)\\/)?(\\d+)(?:\\/(\\d+))?\\](?:(\\d+)\\/)?(\\d+)'
   );
 
+  // width column. We first strip margins from both edges of width details;
+  // then, we split what remains using the gap token as a delimiter.
+  // Each split portion is a column, which is analyzed with this expression.
+  // [1]=col-1-left-e (outside [) or
+  // [2]=col-1-left-w or col-1-left-e when [3]=*
+  // [3]=* modifier
+  // [4]=col-1-width
+  // [5]=col-1-right-w or col-1-right-e when [6]=* or
+  // [6]=* modifier
+  // [7]=col-1-right-e (outside ])
+  private static readonly _widthColRegex = new RegExp(
+    // /?    cle       [    clw*/            cw        /crw*                ]cre
+    '^\\/?(?:(\\d+))?\\[?(?:(\\d+)(\\*?)\\/)?(\\d+)?(?:\\/(\\d+)(\\*?))(?:\\](\\d+))?'
+  );
+
   // width: edges (margin-left, margin right) and gap
   private static readonly _wmlRegex = new RegExp('^(\\d+)\\b');
   private static readonly _wmrRegex = new RegExp('\\b(\\d+)$');
@@ -150,30 +166,97 @@ export class MsLayoutService {
     col: string,
     coln: number,
     result: Map<string, number>
-  ): string | undefined {
-    // first N is empty if N[
-    const firstEmpty = MsLayoutService._wEmptyFirstRegex.test(col);
-    // last N is empty if ]N
-    const lastEmpty = MsLayoutService._wEmptyLastRegex.test(col);
-    // process col's 3 N or N* (empty)
-    const nRegex = /(\d+)(\*?)/g;
-    let m: RegExpExecArray;
-    let n = 0;
+  ): string | null {
+    const prefix = `col-${coln}-`;
 
-    while ((m = nRegex.exec(col))) {
-      if (++n > 3) {
-        return 'Too many numbers in column #' + coln + ': ' + col;
+    // a column has 1-3 N variously separated by / and [],
+    // and eventually postfixed with * for empty shapes.
+    // As the full columns set is in [], we just need to take
+    // care of the only (if any) N before [, and the only
+    // (if any) N after ].
+    // So, just match ]N*[ where only N is required:
+    // [1]=]
+    // [2]=N
+    // [3]=*
+    // [4]=[
+    const nrRegex = /(?:(\]?)(\d+)(\*)?(\[)?)/g;
+    let m: RegExpExecArray;
+    const nrMatches: RegExpExecArray[] = [];
+
+    while ((m = nrRegex.exec(col))) {
+      nrMatches.push(m);
+      if (nrMatches.length > 3) {
+        return `Too many numbers in column ${coln}: "${col}"`;
       }
-      const empty =
-        (firstEmpty && n === 1) || (lastEmpty && n === 3) || m[2] === '*';
-      let key = `col-${coln}-` + MsLayoutService._lwrKeys[n - 1];
-      if (n !== 2) {
-        key += empty ? '-e' : '-w';
-      }
-      result.set(key, +m[1]);
     }
 
-    return undefined;
+    switch (nrMatches.length) {
+      // with 3 N, we have clx, cw, crx
+      case 3:
+        // cl=cle when N* or N[, else =clw
+        const ml = nrMatches[0];
+        const cle = ml[3] || ml[4];
+        result.set(prefix + (cle ? 'left-e' : 'left-w'), +ml[2]);
+        // cw
+        result.set(prefix + 'width', +nrMatches[1][2]);
+        // cr=cre when N* or ]N, else =crw
+        const mr = nrMatches[2];
+        const cre = mr[3] || mr[1];
+        result.set(prefix + (cre ? 'right-e' : 'right-w'), +mr[2]);
+        break;
+
+      // with 2 N we have:
+      // N* or N*: error (missing cw)
+      // N* N or N N*: the N without * is cw
+      // N N: the bigger is cw (error if equal)
+      case 2:
+        const a = nrMatches[0];
+        const b = nrMatches[1];
+        // N* N*
+        if (a[3] && b[3]) {
+          return `No width in column ${coln}: "${col}"`;
+        }
+        // N* N
+        if (a[3]) {
+          // a=cle, b=cw
+          result.set(prefix + 'left-e', +a[2]);
+          result.set(prefix + 'width', +b[2]);
+        } else {
+          // N N*
+          if (b[3]) {
+            // a=cw, b=cre
+            result.set(prefix + 'width', +a[2]);
+            result.set(prefix + 'right-e', +b[2]);
+          } else {
+            // N N
+            if (+a[2] === +b[2]) {
+              return `Ambiguous values for column ${coln}: ${col}`;
+            }
+            if (+a[2] > +b[2]) {
+              // a=cw, b=crx (cre of ]N, else crw; * is excluded)
+              result.set(prefix + 'width', +a[2]);
+              result.set(prefix + 'right-' + (b[1] ? 'e' : 'w'), +b[2]);
+            } else {
+              // a=clx, b=cw (cle if [N, else clw; * is excluded)
+              result.set(prefix + 'left-' + (a[4] ? 'e' : 'w'), +a[2]);
+              result.set(prefix + 'width', +b[2]);
+            }
+          }
+        }
+        break;
+
+      // with 1 N, we just have cw
+      case 1:
+        // col-N-width
+        result.set(prefix + 'width', +nrMatches[0][2]);
+        break;
+
+      // no N is an error
+      case 0:
+        return `Empty column ${coln}: "${col}"`;
+    }
+
+    return null;
   }
 
   /**
@@ -225,9 +308,9 @@ export class MsLayoutService {
       return {
         error: {
           message: hError,
-          payload: m[3]
-        }
-      }
+          payload: m[3],
+        },
+      };
     }
 
     // width details:
