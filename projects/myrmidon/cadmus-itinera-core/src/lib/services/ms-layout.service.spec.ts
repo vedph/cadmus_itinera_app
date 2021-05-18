@@ -20,8 +20,112 @@ fdescribe('MsLayoutService', () => {
     expect(r.value).toBeNull();
   });
 
+  it('should parse single column clw-cw-crw', () => {
+    const r = service.parseFormula(
+      //                                 ml   clw  cw  crw   mr
+      '250 × 160 = 30 / 5 [170 / 5] 40 × 15 / [3 / 50 / 5] / 15'
+    );
+    expect(r.error).toBeFalsy();
+    expect(r.value).toBeTruthy();
+
+    const map: Map<string, number> = r.value;
+    // height, width
+    expect(map.get('height')).toBe(250);
+    expect(map.get('width')).toBe(160);
+    // height details
+    expect(map.get('margin-top')).toBe(30);
+    expect(map.get('head-e')).toBe(5);
+    expect(map.get('area-height')).toBe(170);
+    expect(map.get('foot-w')).toBe(5);
+    expect(map.get('margin-bottom')).toBe(40);
+    // width details
+    expect(map.get('margin-left')).toBe(15);
+    expect(map.get('col-1-left-w')).toBe(3);
+    expect(map.get('col-1-width')).toBe(50);
+    expect(map.get('col-1-right-w')).toBe(5);
+    expect(map.get('margin-right')).toBe(15);
+  });
+
+  it('should parse single column cle-cw-crw', () => {
+    const r = service.parseFormula(
+      //                                 ml  cle cw  crw   mr
+      '250 × 160 = 30 / 5 [170 / 5] 40 × 15 / 3 [50 / 5] / 15'
+    );
+    expect(r.error).toBeFalsy();
+    expect(r.value).toBeTruthy();
+
+    const map: Map<string, number> = r.value;
+    // height, width
+    expect(map.get('height')).toBe(250);
+    expect(map.get('width')).toBe(160);
+    // height details
+    expect(map.get('margin-top')).toBe(30);
+    expect(map.get('head-e')).toBe(5);
+    expect(map.get('area-height')).toBe(170);
+    expect(map.get('foot-w')).toBe(5);
+    expect(map.get('margin-bottom')).toBe(40);
+    // width details
+    expect(map.get('margin-left')).toBe(15);
+    expect(map.get('col-1-left-e')).toBe(3);
+    expect(map.get('col-1-width')).toBe(50);
+    expect(map.get('col-1-right-w')).toBe(5);
+    expect(map.get('margin-right')).toBe(15);
+  });
+
+  it('should parse single column clw-cw-cre', () => {
+    const r = service.parseFormula(
+      //                                 ml   clw  cw cre  mr
+      '250 × 160 = 30 / 5 [170 / 5] 40 × 15 / [3 / 50] 5 / 15'
+    );
+    expect(r.error).toBeFalsy();
+    expect(r.value).toBeTruthy();
+
+    const map: Map<string, number> = r.value;
+    // height, width
+    expect(map.get('height')).toBe(250);
+    expect(map.get('width')).toBe(160);
+    // height details
+    expect(map.get('margin-top')).toBe(30);
+    expect(map.get('head-e')).toBe(5);
+    expect(map.get('area-height')).toBe(170);
+    expect(map.get('foot-w')).toBe(5);
+    expect(map.get('margin-bottom')).toBe(40);
+    // width details
+    expect(map.get('margin-left')).toBe(15);
+    expect(map.get('col-1-left-w')).toBe(3);
+    expect(map.get('col-1-width')).toBe(50);
+    expect(map.get('col-1-right-e')).toBe(5);
+    expect(map.get('margin-right')).toBe(15);
+  });
+
+  it('should parse single column cle-cw-cre', () => {
+    const r = service.parseFormula(
+      //                                 ml   cle  cw cre  mr
+      '250 × 160 = 30 / 5 [170 / 5] 40 × 15 / 3   [50] 5 / 15'
+    );
+    expect(r.error).toBeFalsy();
+    expect(r.value).toBeTruthy();
+
+    const map: Map<string, number> = r.value;
+    // height, width
+    expect(map.get('height')).toBe(250);
+    expect(map.get('width')).toBe(160);
+    // height details
+    expect(map.get('margin-top')).toBe(30);
+    expect(map.get('head-e')).toBe(5);
+    expect(map.get('area-height')).toBe(170);
+    expect(map.get('foot-w')).toBe(5);
+    expect(map.get('margin-bottom')).toBe(40);
+    // width details
+    expect(map.get('margin-left')).toBe(15);
+    expect(map.get('col-1-left-e')).toBe(3);
+    expect(map.get('col-1-width')).toBe(50);
+    expect(map.get('col-1-right-e')).toBe(5);
+    expect(map.get('margin-right')).toBe(15);
+  });
+
   const text1 =
-  // H     W   | mt   he ah   fw  mb | ml   clw  cw   cre cg clw  cw cre  mr
+    // H     W   | mt   he ah   fw  mb | ml   clw  cw   cre cg clw  cw cre  mr
     '250 × 160 = 30 / 5 [170 / 5] 40 × 15 / [5 / 50 / 5* (20) 5 / 40] 5 / 15';
   it('should parse ' + text1, () => {
     const r = service.parseFormula(text1);
