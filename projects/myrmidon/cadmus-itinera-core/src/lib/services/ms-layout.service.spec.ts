@@ -231,4 +231,49 @@ fdescribe('MsLayoutService', () => {
       }, 0)
     ).toBe(160);
   });
+
+  // build
+  // h w | mt he/hw ah fw/fe mb | ml [cle/clw cw cre/crw gap]+ mr
+  it('should build 1-column formula clw-cw-crw', () => {
+    const f1 = '250 × 160 = 30 / 5 [170 / 5] 40 × 15 / [3 / 50 / 5] / 15';
+    const map = service.parseFormula(f1).value;
+    const f2 = service.buildFormula(map);
+    expect(f2).toBe(f1);
+  });
+
+  it('should build formula with 0 for missing dimensions', () => {
+    const f1 = '250 × 160 = 30 / 5 [170 / 5] 40 × 15 / [3 / 50 / 5] / 15';
+    const map = service.parseFormula(f1).value;
+    map.delete('width');
+    const f2 = service.buildFormula(map);
+    expect(f2).toBe('250 × 0 = 30 / 5 [170 / 5] 40 × 15 / [3 / 50 / 5] / 15');
+  });
+
+  it('should build 1-column cle-cw-crw formula', () => {
+    const f1 = '250 × 160 = 30 / 5 [170 / 5] 40 × 15 / 3 [50 / 5] / 15';
+    const map = service.parseFormula(f1).value;
+    const f2 = service.buildFormula(map);
+    expect(f2).toBe(f1);
+  });
+
+  it('should build 1-column clw-cw-cre formula', () => {
+    const f1 = '250 × 160 = 30 / 5 [170 / 5] 40 × 15 / [3 / 50] 5 / 15';
+    const map = service.parseFormula(f1).value;
+    const f2 = service.buildFormula(map);
+    expect(f2).toBe(f1);
+  });
+
+  it('should build 1-column cle-cw-cre formula', () => {
+    const f1 = '250 × 160 = 30 / 5 [170 / 5] 40 × 15 / 3 [50] 5 / 15';
+    const map = service.parseFormula(f1).value;
+    const f2 = service.buildFormula(map);
+    expect(f2).toBe(f1);
+  });
+
+  it('should build 2-columns formula', () => {
+    const f1 = '250 × 160 = 30 / 5 [170 / 5] 40 × 15 / [5 / 50 / 5* (20) 5 / 40] 5 / 15';
+    const map = service.parseFormula(f1).value;
+    const f2 = service.buildFormula(map);
+    expect(f2).toBe(f1);
+  })
 });
