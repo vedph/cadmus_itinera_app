@@ -430,6 +430,115 @@ export class MsLayoutService {
     return expected;
   }
 
+  /**
+   * Build the manuscript's layout formula from a set of measurements.
+   *
+   * @param map The map with the measurements related to a formula.
+   * @returns Formula; where required numbers are missing, they are
+   * represented by 0.
+   */
+  public buildFormula(map: Map<string, number>): string {
+    const sb: string[] = [];
+    // height x width
+    sb.push(`${map.get('height') || 0}`);
+    sb.push(' × ');
+    sb.push(`${map.get('width') || 0}`);
+    sb.push(' = ');
+
+    // height details
+    // mt
+    sb.push(`${map.get('margin-top') || 0}`);
+    sb.push(' / ');
+    // he[ or [hw/
+    let n: number;
+    n = map.get('hand-e');
+    if (n) {
+      sb.push(`${n} [`);
+    } else {
+      n = map.get('hand-w') || 0;
+      if (n) {
+        sb.push(`[${n} / `);
+      }
+    }
+    // ah
+    sb.push(`${map.get('area-height') || 0}`);
+    // /fw] or ]fe/
+    n = map.get('foot-w');
+    if (n) {
+      sb.push(` / ${n}] `);
+    } else {
+      n = map.get('foot-e');
+      if (n) {
+        sb.push(`] ${n} / `);
+      }
+    }
+    // mb
+    sb.push(`${map.get('margin-top') || 0}`);
+
+    // width details
+    const colCount = this.getColumnCount(map);
+    sb.push(' × ');
+    // ml/
+    sb.push(`${map.get('margin-left') || 0}`);
+    sb.push(' / ');
+
+    let cre = false;
+    // for each column:
+    for (let col = 1; col <= colCount; col++) {
+      // first col: cle[ or [clw/
+      if (col === 1) {
+        if (map.has('col-1-left-e')) {
+          sb.push(`${map.get('col-1-left-e')} [`);
+        } else {
+          if (map.has('col-1-left-w')) {
+            sb.push(`[${map.get('col-1-left-w')} / `);
+          }
+        }
+      } else {
+        // other cols: cle*/ or clw/
+        n = map.get(`col-${col}-left-e`);
+        if (n) {
+          sb.push(`${n}* / `);
+        } else {
+          n = map.get(`col-${col}-left-w`);
+          if (n) {
+            sb.push(`${n} / `);
+          }
+        }
+      }
+
+      // cw
+      sb.push(`${map.get(`col-${col}-width`) || 0}`);
+
+      // /cre* (or ]cre/ if last) or /crw
+      n = map.get(`col-${col}-right-e`);
+      if (n) {
+        if (col === colCount) {
+          sb.push(`] ${n} / `);
+        } else {
+          sb.push(` / ${n}*`);
+        }
+      } else {
+        n = map.get(`col-${col}-right-w`);
+        if (n) {
+          sb.push(`/ ${n}`);
+        }
+      }
+      // (gap)
+      if (col < colCount) {
+        n = map.get(`col-${col}-gap`) || 0;
+        sb.push(` (${n}) `);
+      }
+    }
+    // ]mr (or just mr if ]cre/)
+    if (!cre) {
+      sb.push('] ');
+    }
+    sb.push(`[${map.get('margin-right')} || 0`);
+
+    return sb.join('');
+  }
+
   private getRects(map: Map<string, number>, keys: string[]): MsLayoutRect[] {
     const rects: MsLayoutRect[] = [];
     keys.forEach((key) => {
