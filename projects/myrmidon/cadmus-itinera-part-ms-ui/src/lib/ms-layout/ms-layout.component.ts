@@ -249,11 +249,17 @@ export class MsLayoutComponent implements OnInit {
       }
     });
     this.dimensions.clear();
-    map.forEach((value, key) => {
+
+    // get sorted keys and add dimensions in order
+    const sortedKeys = this._msLayoutService.getSortedKeys(
+      this._msLayoutService.getColumnCount(map),
+      map
+    );
+    sortedKeys.forEach((key) => {
       this.dimensions.push(
         this.getDimensionGroup({
           tag: key,
-          value: value,
+          value: map.get(key),
           unit: 'mm',
         })
       );

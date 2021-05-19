@@ -94,10 +94,10 @@ export class MsLayoutService {
   // [5]=col-1-right-w or col-1-right-e when [6]=* or
   // [6]=* modifier
   // [7]=col-1-right-e (outside ])
-  private static readonly _widthColRegex = new RegExp(
-    // /?    cle       [    clw*/            cw        /crw*                ]cre
-    '^\\/?(?:(\\d+))?\\[?(?:(\\d+)(\\*?)\\/)?(\\d+)?(?:\\/(\\d+)(\\*?))(?:\\](\\d+))?'
-  );
+  // private static readonly _widthColRegex = new RegExp(
+  //   // /?    cle       [    clw*/            cw        /crw*                ]cre
+  //   '^\\/?(?:(\\d+))?\\[?(?:(\\d+)(\\*?)\\/)?(\\d+)?(?:\\/(\\d+)(\\*?))(?:\\](\\d+))?'
+  // );
 
   // width: edges (margin-left, margin right) and gap
   private static readonly _wmlRegex = new RegExp('^(\\d+)\\b');
@@ -378,6 +378,56 @@ export class MsLayoutService {
     return {
       value: result,
     };
+  }
+
+  /**
+   * Get all the possible keys (even when mutually exclusive) connected to
+   * a MS layout formula, in their preferred order.
+   *
+   * @param columnCount The count of columns.
+   * @param map The optional map got from parsing a formula. When this
+   * map gets passed, the sorted keys get filtered by it, so that only
+   * the keys present in the map are returned, yet in the preferred order.
+   * @returns An array with all the possible keys in the preferred order.
+   */
+  public getSortedKeys(
+    columnCount: number,
+    map?: Map<string, number>
+  ): string[] {
+    // general + height
+    const expected = [
+      'height',
+      'width',
+      'margin-top',
+      'hand-e',
+      'hand-w',
+      'area-height',
+      'foot-w',
+      'foot-e',
+      'margin-bottom',
+    ];
+    // width
+    expected.push('margin-left');
+    for (let n = 1; n <= columnCount; n++) {
+      expected.push(`col-${n}-left-e`);
+      expected.push(`col-${n}-left-w`);
+      expected.push(`col-${n}-width`);
+      expected.push(`col-${n}-right-w`);
+      expected.push(`col-${n}-right-e`);
+      expected.push(`col-${n}-gap`);
+    }
+    expected.push('margin-right');
+
+    // filter if requested
+    if (map) {
+      for (let i = expected.length - 1; i > -1; i--) {
+        if (!map.has(expected[i])) {
+          expected.splice(i, 1);
+        }
+      }
+    }
+
+    return expected;
   }
 
   private getRects(map: Map<string, number>, keys: string[]): MsLayoutRect[] {
