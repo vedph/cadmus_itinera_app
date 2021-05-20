@@ -8,9 +8,9 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "build-core": "ng build @myrmidon/cadmus-itinera-core --prod && ng build @myrmidon/cadmus-itinera-ui --prod",
-    "build-lt": "ng build @myrmidon/cadmus-itinera-part-lt-ui --prod && ng build @myrmidon/cadmus-itinera-part-lt-pg --prod",
-    "build-ms": "ng build @myrmidon/cadmus-itinera-part-ms-ui --prod && ng build @myrmidon/cadmus-itinera-part-ms-pg --prod",
+    "build-core": "ng build @myrmidon/cadmus-itinera-core && ng build @myrmidon/cadmus-itinera-ui",
+    "build-lt": "ng build @myrmidon/cadmus-itinera-part-lt-ui && ng build @myrmidon/cadmus-itinera-part-lt-pg",
+    "build-ms": "ng build @myrmidon/cadmus-itinera-part-ms-ui && ng build @myrmidon/cadmus-itinera-part-ms-pg",
     "build-all": "npm run-script build-core && npm run-script build-lt && npm run-script build-ms"
   },
   "private": true,
