@@ -451,11 +451,11 @@ export class MsLayoutService {
     sb.push(' / ');
     // he[ or [hw/
     let n: number;
-    n = map.get('hand-e');
+    n = map.get('head-e');
     if (n) {
       sb.push(`${n} [`);
     } else {
-      n = map.get('hand-w') || 0;
+      n = map.get('head-w') || 0;
       if (n) {
         sb.push(`[${n} / `);
       }
@@ -487,11 +487,13 @@ export class MsLayoutService {
     for (let col = 1; col <= colCount; col++) {
       // first col: cle[ or [clw/
       if (col === 1) {
-        if (map.has('col-1-left-e')) {
-          sb.push(`${map.get('col-1-left-e')} [`);
+        n = map.get('col-1-left-e');
+        if (n) {
+          sb.push(`${n} [`);
         } else {
-          if (map.has('col-1-left-w')) {
-            sb.push(`[${map.get('col-1-left-w')} / `);
+          n = map.get('col-1-left-w');
+          if (n) {
+            sb.push(`[${n} / `);
           }
         }
       } else {
@@ -521,7 +523,7 @@ export class MsLayoutService {
       } else {
         n = map.get(`col-${col}-right-w`);
         if (n) {
-          sb.push(`/ ${n}`);
+          sb.push(` / ${n}`);
         }
       }
       // (gap)
@@ -534,7 +536,7 @@ export class MsLayoutService {
     if (!cre) {
       sb.push('] ');
     }
-    sb.push(`[${map.get('margin-right')} || 0`);
+    sb.push(`${map.get('margin-right') || 0}`);
 
     return sb.join('');
   }
