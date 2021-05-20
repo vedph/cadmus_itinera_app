@@ -80,9 +80,10 @@
           type="text"
           matInput
           [formControl]="formula"
-          placeholder="layout formula (e.g. 250 × 160 = 30 / 5 [170 / 5] 40 × 15 / [5 / 50 / 5* (20) 5 / 40] 5 / 15)"
+          placeholder="layout formula (e.g. 250 × 160 = 30 / 5 [170 / 5] 40 × 15 [5 / 50 / 5* (20) 5 / 40] 5 / 15)"
         />
         <button
+          matTooltip="Apply formula"
           type="submit"
           mat-icon-button
           matSuffix
@@ -91,6 +92,17 @@
         >
           <mat-icon>check_circle</mat-icon>
         </button>
+        <button
+          matTooltip="Update formula"
+          type="button"
+          color="warn"
+          mat-icon-button
+          matSuffix
+          [disabled]="!dimensions?.value?.length"
+          (click)="updateFormula()"
+        >
+        <mat-icon>login</mat-icon>
+      </button>
         <mat-error
           *ngIf="formula.errors?.pattern && (formula.dirty || formula.touched)"
           >invalid formula</mat-error

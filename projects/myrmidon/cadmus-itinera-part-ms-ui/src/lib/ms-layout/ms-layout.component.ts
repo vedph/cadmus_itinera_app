@@ -125,6 +125,11 @@ export class MsLayoutComponent implements OnInit {
     }
     this.initialCounts = model.counts || [];
 
+    // set the formula if at least height is present
+    if (model.dimensions?.find((d) => d.tag === 'height')) {
+      this.updateFormula();
+    }
+
     this.form.markAsPristine();
   }
 
@@ -218,6 +223,14 @@ export class MsLayoutComponent implements OnInit {
     };
   }
 
+  public updateFormula(): void {
+    const map = new Map<string, number>();
+    this.dimensions.controls.forEach((g: FormGroup) => {
+      map.set(g.controls.tag.value, g.controls.value.value);
+    });
+    this.formula.setValue(this._msLayoutService.buildFormula(map));
+  }
+
   /**
    * Apply the MS layout formula by adding all the dimensions got from it.
    */
@@ -243,9 +256,9 @@ export class MsLayoutComponent implements OnInit {
     };
 
     // update dimensions
-    this.dimensions.value.forEach((c: DecoratedCount) => {
-      if (!map.has(c.id)) {
-        map.set(c.id, c.value);
+    this.dimensions.controls.forEach((g: FormGroup) => {
+      if (!map.has(g.controls.tag.value)) {
+        map.set(g.controls.tag.value, g.controls.value.value);
       }
     });
     this.dimensions.clear();
@@ -278,7 +291,7 @@ export class MsLayoutComponent implements OnInit {
     }
     if (sb.length) {
       sb.splice(0, 0, 'Mismatch: ');
-      this.formulaError = sb.join('');
+      this.formulaError = sb.join(' - ');
     }
   }
 

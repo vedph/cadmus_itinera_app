@@ -438,6 +438,9 @@ export class MsLayoutService {
    * represented by 0.
    */
   public buildFormula(map: Map<string, number>): string {
+    if (!map.has('height') || !map.has('width')) {
+      return '';
+    }
     const sb: string[] = [];
     // height x width
     sb.push(`${map.get('height') || 0}`);
@@ -473,7 +476,7 @@ export class MsLayoutService {
       }
     }
     // mb
-    sb.push(`${map.get('margin-top') || 0}`);
+    sb.push(`${map.get('margin-bottom') || 0}`);
 
     // width details
     const colCount = this.getColumnCount(map);
@@ -517,6 +520,7 @@ export class MsLayoutService {
       if (n) {
         if (col === colCount) {
           sb.push(`] ${n} / `);
+          cre = true;
         } else {
           sb.push(` / ${n}*`);
         }

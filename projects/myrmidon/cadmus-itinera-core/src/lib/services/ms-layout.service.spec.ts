@@ -234,23 +234,29 @@ fdescribe('MsLayoutService', () => {
 
   // build
   // h w | mt he/hw ah fw/fe mb | ml [cle/clw cw cre/crw gap]+ mr
+  it('should build all-0 formula from empty', () => {
+    const map = new Map<string, number>();
+    const f = service.buildFormula(map);
+    expect(f).toBe('');
+  });
+
   it('should build 1-column formula clw-cw-crw', () => {
-    const f1 = '250 × 160 = 30 / 5 [170 / 5] 40 × 15 / [3 / 50 / 5] / 15';
+    const f1 = '250 × 160 = 30 / 5 [170 / 5] 40 × 15 / [3 / 50 / 5] 15';
     const map = service.parseFormula(f1).value;
     const f2 = service.buildFormula(map);
     expect(f2).toBe(f1);
   });
 
   it('should build formula with 0 for missing dimensions', () => {
-    const f1 = '250 × 160 = 30 / 5 [170 / 5] 40 × 15 / [3 / 50 / 5] / 15';
+    const f1 = '250 × 160 = 30 / 5 [170 / 5] 40 × 15 / [3 / 50 / 5] 15';
     const map = service.parseFormula(f1).value;
-    map.delete('width');
+    map.delete('area-height');
     const f2 = service.buildFormula(map);
-    expect(f2).toBe('250 × 0 = 30 / 5 [170 / 5] 40 × 15 / [3 / 50 / 5] / 15');
+    expect(f2).toBe('250 × 160 = 30 / 5 [0 / 5] 40 × 15 / [3 / 50 / 5] 15');
   });
 
   it('should build 1-column cle-cw-crw formula', () => {
-    const f1 = '250 × 160 = 30 / 5 [170 / 5] 40 × 15 / 3 [50 / 5] / 15';
+    const f1 = '250 × 160 = 30 / 5 [170 / 5] 40 × 15 / 3 [50 / 5] 15';
     const map = service.parseFormula(f1).value;
     const f2 = service.buildFormula(map);
     expect(f2).toBe(f1);
