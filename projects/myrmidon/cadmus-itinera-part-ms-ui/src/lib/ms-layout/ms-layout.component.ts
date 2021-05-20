@@ -277,6 +277,7 @@ export class MsLayoutComponent implements OnInit {
         })
       );
     });
+    this.dimensions.markAsDirty();
 
     // check sum
     const hw = this.getHW(this.rectSet);
