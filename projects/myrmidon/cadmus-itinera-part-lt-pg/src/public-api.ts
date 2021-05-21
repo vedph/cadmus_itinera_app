@@ -3,6 +3,7 @@
  */
 
 export * from './lib/attachments-part-feature/attachments-part-feature.component';
+export * from './lib/chronotopics-part-feature/chronotopics-part-feature.component';
 export * from './lib/cited-persons-part-feature/cited-persons-part-feature.component';
 export * from './lib/lit-dedications-part-feature/lit-dedications-part-feature.component';
 export * from './lib/corr-exchanges-part-feature/corr-exchanges-part-feature.component';

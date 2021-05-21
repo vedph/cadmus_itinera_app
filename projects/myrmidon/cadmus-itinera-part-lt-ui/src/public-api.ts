@@ -19,6 +19,7 @@ export * from './lib/lit-dedications-part/lit-dedications-part.component';
 export * from './lib/lit-dedication/lit-dedication.component';
 
 export * from './lib/corr-exchanges-part';
+export * from './lib/corr-exchange/corr-exchange.component';
 export * from './lib/corr-exchanges-part/corr-exchanges-part.component';
 
 export * from './lib/corr-pseudonyms-part';
