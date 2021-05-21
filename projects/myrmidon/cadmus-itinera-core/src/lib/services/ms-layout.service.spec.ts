@@ -22,8 +22,8 @@ fdescribe('MsLayoutService', () => {
 
   it('should parse single column clw-cw-crw', () => {
     const r = service.parseFormula(
-      //                                 ml   clw  cw  crw   mr
-      '250 × 160 = 30 / 5 [170 / 5] 40 × 15 / [3 / 50 / 5] / 15'
+      //                                 ml clw  cw  crw mr
+      '250 × 160 = 30 / 5 [170 / 5] 40 × 15 [3 / 50 / 5] 15'
     );
     expect(r.error).toBeFalsy();
     expect(r.value).toBeTruthy();
@@ -75,7 +75,7 @@ fdescribe('MsLayoutService', () => {
   it('should parse single column clw-cw-cre', () => {
     const r = service.parseFormula(
       //                                 ml   clw  cw cre  mr
-      '250 × 160 = 30 / 5 [170 / 5] 40 × 15 / [3 / 50] 5 / 15'
+      '250 × 160 = 30 / 5 [170 / 5] 40 × 15 [3 / 50] 5 / 15'
     );
     expect(r.error).toBeFalsy();
     expect(r.value).toBeTruthy();
@@ -126,7 +126,7 @@ fdescribe('MsLayoutService', () => {
 
   const text1 =
     // H   W   | mt   he ah   fw  mb | ml   clw  cw   cre cg clw  cw cre  mr
-    '250 × 160 = 30 / 5 [170 / 5] 40 × 15 / [5 / 50 / 5* (20) 5 / 40] 5 / 15';
+    '250 × 160 = 30 / 5 [170 / 5] 40 × 15 [5 / 50 / 5* (20) 5 / 40] 5 / 15';
   it('should parse ' + text1, () => {
     const r = service.parseFormula(text1);
     expect(r.error).toBeFalsy();
@@ -241,18 +241,18 @@ fdescribe('MsLayoutService', () => {
   });
 
   it('should build 1-column formula clw-cw-crw', () => {
-    const f1 = '250 × 160 = 30 / 5 [170 / 5] 40 × 15 / [3 / 50 / 5] 15';
+    const f1 = '250 × 160 = 30 / 5 [170 / 5] 40 × 15 [3 / 50 / 5] 15';
     const map = service.parseFormula(f1).value;
     const f2 = service.buildFormula(map);
     expect(f2).toBe(f1);
   });
 
   it('should build formula with 0 for missing dimensions', () => {
-    const f1 = '250 × 160 = 30 / 5 [170 / 5] 40 × 15 / [3 / 50 / 5] 15';
+    const f1 = '250 × 160 = 30 / 5 [170 / 5] 40 × 15 [3 / 50 / 5] 15';
     const map = service.parseFormula(f1).value;
     map.delete('area-height');
     const f2 = service.buildFormula(map);
-    expect(f2).toBe('250 × 160 = 30 / 5 [0 / 5] 40 × 15 / [3 / 50 / 5] 15');
+    expect(f2).toBe('250 × 160 = 30 / 5 [0 / 5] 40 × 15 [3 / 50 / 5] 15');
   });
 
   it('should build 1-column cle-cw-crw formula', () => {
@@ -263,7 +263,7 @@ fdescribe('MsLayoutService', () => {
   });
 
   it('should build 1-column clw-cw-cre formula', () => {
-    const f1 = '250 × 160 = 30 / 5 [170 / 5] 40 × 15 / [3 / 50] 5 / 15';
+    const f1 = '250 × 160 = 30 / 5 [170 / 5] 40 × 15 [3 / 50] 5 / 15';
     const map = service.parseFormula(f1).value;
     const f2 = service.buildFormula(map);
     expect(f2).toBe(f1);
@@ -277,9 +277,16 @@ fdescribe('MsLayoutService', () => {
   });
 
   it('should build 2-columns formula', () => {
-    const f1 = '250 × 160 = 30 / 5 [170 / 5] 40 × 15 / [5 / 50 / 5* (20) 5 / 40] 5 / 15';
+    const f1 = '250 × 160 = 30 / 5 [170 / 5] 40 × 15 [5 / 50 / 5* (20) 5 / 40] 5 / 15';
     const map = service.parseFormula(f1).value;
     const f2 = service.buildFormula(map);
     expect(f2).toBe(f1);
-  })
+  });
+
+  it('should build no head-foot formula', () => {
+    const f1 = '200 × 160 = 30 [130] 40 × 15 [5 / 50 / 5* (10) 5* / 50 / 5] 15';
+    const map = service.parseFormula(f1).value;
+    const f2 = service.buildFormula(map);
+    expect(f2).toBe(f1);
+  });
 });

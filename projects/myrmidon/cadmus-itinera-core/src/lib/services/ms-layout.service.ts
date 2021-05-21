@@ -102,12 +102,6 @@ export class MsLayoutService {
   // width: edges (margin-left, margin right) and gap
   private static readonly _wmlRegex = new RegExp('^(\\d+)\\b');
   private static readonly _wmrRegex = new RegExp('\\b(\\d+)$');
-  // N[
-  private static readonly _wEmptyFirstRegex = new RegExp('^\\d+\\[');
-  // ]N
-  private static readonly _wEmptyLastRegex = new RegExp('\\]\\d+');
-  // N N N in column
-  private static readonly _lwrKeys = ['left', 'width', 'right'];
   // col-N-
   private static readonly _colNRegex = new RegExp('^col-(\\d+)-');
 
@@ -451,16 +445,17 @@ export class MsLayoutService {
     // height details
     // mt
     sb.push(`${map.get('margin-top') || 0}`);
-    sb.push(' / ');
-    // he[ or [hw/
+    // /he[ or [hw/
     let n: number;
     n = map.get('head-e');
     if (n) {
-      sb.push(`${n} [`);
+      sb.push(` / ${n} [`);
     } else {
       n = map.get('head-w') || 0;
       if (n) {
         sb.push(`[${n} / `);
+      } else {
+        sb.push(' [');
       }
     }
     // ah
@@ -473,6 +468,8 @@ export class MsLayoutService {
       n = map.get('foot-e');
       if (n) {
         sb.push(`] ${n} / `);
+      } else {
+        sb.push('] ');
       }
     }
     // mb
@@ -481,26 +478,25 @@ export class MsLayoutService {
     // width details
     const colCount = this.getColumnCount(map);
     sb.push(' × ');
-    // ml/
+    // ml
     sb.push(`${map.get('margin-left') || 0}`);
-    sb.push(' / ');
 
     let cre = false;
     // for each column:
     for (let col = 1; col <= colCount; col++) {
-      // first col: cle[ or [clw/
+      // first col: /cle[ or [clw/
       if (col === 1) {
         n = map.get('col-1-left-e');
         if (n) {
-          sb.push(`${n} [`);
+          sb.push(` / ${n} [`);
         } else {
           n = map.get('col-1-left-w');
           if (n) {
-            sb.push(`[${n} / `);
+            sb.push(` [${n} / `);
           }
         }
       } else {
-        // other cols: cle*/ or clw/
+        // other cols: /cle*/ or /clw/
         n = map.get(`col-${col}-left-e`);
         if (n) {
           sb.push(`${n}* / `);
