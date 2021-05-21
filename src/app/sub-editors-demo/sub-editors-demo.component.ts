@@ -75,6 +75,7 @@ export class SubEditorsDemoComponent implements OnInit {
   public formulaError: string | undefined;
   public figFormula: FormControl;
   public figForm: FormGroup;
+  public dimensions: string[] | undefined;
 
   constructor(
     formBuilder: FormBuilder,
@@ -325,6 +326,17 @@ export class SubEditorsDemoComponent implements OnInit {
       sb.splice(0, 0, 'Mismatch: ');
       this.formulaError = sb.join('');
     }
+
+    // get sorted keys and add dimensions in order
+    const sortedKeys = this._msLayoutService.getSortedKeys(
+      this._msLayoutService.getColumnCount(map),
+      map
+    );
+    const dimensions: string[] = [];
+    sortedKeys.forEach((key) => {
+      dimensions.push(`${key}=${map.get(key)}`);
+    });
+    this.dimensions = dimensions;
   }
 
   public onFigSliderChange(change: MatSliderChange): void {

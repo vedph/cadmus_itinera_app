@@ -197,6 +197,11 @@
             [noScale]="false"
           ></itinera-ms-layout-figure>
         </div>
+        <div>
+          <ol *ngIf="dimensions">
+            <li *ngFor="let d of dimensions">{{d}}</li>
+          </ol>
+        </div>
       </mat-tab>
     </mat-tab-group>
   </mat-card-content>
