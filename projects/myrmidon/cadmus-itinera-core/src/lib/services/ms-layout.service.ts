@@ -453,7 +453,7 @@ export class MsLayoutService {
     } else {
       n = map.get('head-w') || 0;
       if (n) {
-        sb.push(`[${n} / `);
+        sb.push(` [${n} / `);
       } else {
         sb.push(' [');
       }

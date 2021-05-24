@@ -289,4 +289,80 @@ fdescribe('MsLayoutService', () => {
     const f2 = service.buildFormula(map);
     expect(f2).toBe(f1);
   });
+
+  // height (mt he hw ah fe fe mb)
+  // mt ah mb
+  it('should parse & build mt ah mb', () => {
+    const f1 = '200 × 200 = 30 [130] 40 × 30 / 5 [130] 40';
+    const map = service.parseFormula(f1).value;
+    expect(map.get('height')).toBe(200);
+    expect(map.get('margin-top')).toBe(30);
+    expect(map.has('head-e')).toBeFalse();
+    expect(map.has('head-w')).toBeFalse();
+    expect(map.get('area-height')).toBe(130);
+    expect(map.has('foot-e')).toBeFalse();
+    expect(map.has('foot-w')).toBeFalse();
+    expect(map.get('margin-bottom')).toBe(40);
+
+    const f2 = service.buildFormula(map);
+    expect(f2).toBe(f1);
+  });
+
+  // mt he ah mb
+  it('should parse & build mt he ah mb', () => {
+    const f1 = '200 × 200 = 30 / 10 [120] 40 × 30 / 5 [130] 40';
+    const map = service.parseFormula(f1).value;
+    expect(map.get('height')).toBe(200);
+    expect(map.get('margin-top')).toBe(30);
+    expect(map.get('head-e')).toBe(10);
+    expect(map.has('head-w')).toBeFalse();
+    expect(map.get('area-height')).toBe(120);
+    expect(map.has('foot-e')).toBeFalse();
+    expect(map.has('foot-w')).toBeFalse();
+    expect(map.get('margin-bottom')).toBe(40);
+
+    const f2 = service.buildFormula(map);
+    expect(f2).toBe(f1);
+  });
+
+  // mt hw ah mb
+  it('should parse & build mt hw ah mb', () => {
+    const f1 = '200 × 200 = 30 [10 / 120] 40 × 30 / 5 [130] 40';
+    const map = service.parseFormula(f1).value;
+    expect(map.get('height')).toBe(200);
+    expect(map.get('margin-top')).toBe(30);
+    expect(map.has('head-e')).toBeFalse();
+    expect(map.get('head-w')).toBe(10);
+    expect(map.get('area-height')).toBe(120);
+    expect(map.has('foot-e')).toBeFalse();
+    expect(map.has('foot-w')).toBeFalse();
+    expect(map.get('margin-bottom')).toBe(40);
+
+    const f2 = service.buildFormula(map);
+    expect(f2).toBe(f1);
+  });
+
+  // mt ah fe mb
+  it('should parse & build mt ah fe mb', () => {
+    const f1 = '200 × 200 = 30 [120] 10 / 40 × 30 / 5 [130] 40';
+    const map = service.parseFormula(f1).value;
+    expect(map.get('height')).toBe(200);
+    expect(map.get('margin-top')).toBe(30);
+    expect(map.has('head-e')).toBeFalse();
+    expect(map.has('head-w')).toBeFalse();
+    expect(map.get('area-height')).toBe(120);
+    expect(map.has('foot-e')).toBeFalse();
+    expect(map.has('foot-w')).toBeFalse();
+    expect(map.get('margin-bottom')).toBe(40);
+
+    const f2 = service.buildFormula(map);
+    expect(f2).toBe(f1);
+  });
+
+  // mt ah fw mb
+  // mt he ah fe mb
+  // mt he ah fw mb
+  // mt hw ah fe mb
+  // mt hw ah fw mb
+
 });
