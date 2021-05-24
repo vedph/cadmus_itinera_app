@@ -67,9 +67,7 @@ export class MsLayoutService {
   // [2]=width
   // [3]=...height details
   // [4]=...width details
-  private static readonly _sectRegex = new RegExp(
-    '^(\\d+)[Xx×](\\d+)=([^Xx×]+)[Xx×](.+)$'
-  );
+  private static readonly _sectRegex = /^(\d+)[Xx×](\d+)=([^Xx×]+)[Xx×](.+)$/;
 
   // height:
   // [1] = margin-top
@@ -79,10 +77,9 @@ export class MsLayoutService {
   // [5] = foot-w or
   // [6] = foot-e
   // [7] = margin-bottom
-  private static readonly _heightRegex = new RegExp(
+  private static readonly _heightRegex =
     // mt      /he?         [   hw/?       ah         /fw?       ]   fe/?     mb
-    '^(\\d+)(?:\\/(\\d+))?\\[(?:(\\d+)\\/)?(\\d+)(?:\\/(\\d+))?\\](?:(\\d+)\\/)?(\\d+)'
-  );
+    /^(\d+)(?:\/(\d+))?\[(?:(\d+)\/)?(\d+)(?:\/(\d+))?\](?:(\d+)\/)?(\d+)/;
 
   // width column. We first strip margins from both edges of width details;
   // then, we split what remains using the gap token as a delimiter.
@@ -100,10 +97,10 @@ export class MsLayoutService {
   // );
 
   // width: edges (margin-left, margin right) and gap
-  private static readonly _wmlRegex = new RegExp('^(\\d+)\\b');
-  private static readonly _wmrRegex = new RegExp('\\b(\\d+)$');
+  private static readonly _wmlRegex = /^(\d+)\b/;
+  private static readonly _wmrRegex = /\b(\d+)$/;
   // col-N-
-  private static readonly _colNRegex = new RegExp('^col-(\\d+)-');
+  private static readonly _colNRegex = /^col-(\d+)-/;
 
   constructor() {}
 
