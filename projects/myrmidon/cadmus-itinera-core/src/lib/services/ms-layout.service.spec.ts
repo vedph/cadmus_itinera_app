@@ -351,7 +351,7 @@ fdescribe('MsLayoutService', () => {
     expect(map.has('head-e')).toBeFalse();
     expect(map.has('head-w')).toBeFalse();
     expect(map.get('area-height')).toBe(120);
-    expect(map.has('foot-e')).toBeFalse();
+    expect(map.get('foot-e')).toBe(10);
     expect(map.has('foot-w')).toBeFalse();
     expect(map.get('margin-bottom')).toBe(40);
 
@@ -360,9 +360,88 @@ fdescribe('MsLayoutService', () => {
   });
 
   // mt ah fw mb
+  it('should parse & build mt ah fw mb', () => {
+    const f1 = '200 × 200 = 30 [120 / 10] 40 × 30 / 5 [130] 40';
+    const map = service.parseFormula(f1).value;
+    expect(map.get('height')).toBe(200);
+    expect(map.get('margin-top')).toBe(30);
+    expect(map.has('head-e')).toBeFalse();
+    expect(map.has('head-w')).toBeFalse();
+    expect(map.get('area-height')).toBe(120);
+    expect(map.has('foot-e')).toBeFalse();
+    expect(map.get('foot-w')).toBe(10);
+    expect(map.get('margin-bottom')).toBe(40);
+
+    const f2 = service.buildFormula(map);
+    expect(f2).toBe(f1);
+  });
+
   // mt he ah fe mb
+  it('should parse & build mt he ah fe mb', () => {
+    const f1 = '200 × 200 = 30 / 5 [120] 5 / 40 × 30 / 5 [130] 40';
+    const map = service.parseFormula(f1).value;
+    expect(map.get('height')).toBe(200);
+    expect(map.get('margin-top')).toBe(30);
+    expect(map.get('head-e')).toBe(5);
+    expect(map.has('head-w')).toBeFalse();
+    expect(map.get('area-height')).toBe(120);
+    expect(map.get('foot-e')).toBe(5);
+    expect(map.has('foot-w')).toBeFalse();
+    expect(map.get('margin-bottom')).toBe(40);
+
+    const f2 = service.buildFormula(map);
+    expect(f2).toBe(f1);
+  });
+
   // mt he ah fw mb
+  it('should parse & build mt he ah fw mb', () => {
+    const f1 = '200 × 200 = 30 / 5 [120 / 5] 40 × 30 / 5 [130] 40';
+    const map = service.parseFormula(f1).value;
+    expect(map.get('height')).toBe(200);
+    expect(map.get('margin-top')).toBe(30);
+    expect(map.get('head-e')).toBe(5);
+    expect(map.has('head-w')).toBeFalse();
+    expect(map.get('area-height')).toBe(120);
+    expect(map.has('foot-e')).toBeFalse();
+    expect(map.get('foot-w')).toBe(5);
+    expect(map.get('margin-bottom')).toBe(40);
+
+    const f2 = service.buildFormula(map);
+    expect(f2).toBe(f1);
+  });
+
   // mt hw ah fe mb
+  it('should parse & build mt hw ah fe mb', () => {
+    const f1 = '200 × 200 = 30 [5 / 120] 5 / 40 × 30 / 5 [130] 40';
+    const map = service.parseFormula(f1).value;
+    expect(map.get('height')).toBe(200);
+    expect(map.get('margin-top')).toBe(30);
+    expect(map.has('head-e')).toBeFalse();
+    expect(map.get('head-w')).toBe(5);
+    expect(map.get('area-height')).toBe(120);
+    expect(map.get('foot-e')).toBe(5);
+    expect(map.has('foot-w')).toBeFalse();
+    expect(map.get('margin-bottom')).toBe(40);
+
+    const f2 = service.buildFormula(map);
+    expect(f2).toBe(f1);
+  });
+
   // mt hw ah fw mb
+  it('should parse & build mt hw ah fw mb', () => {
+    const f1 = '200 × 200 = 30 [5 / 120 / 5] 40 × 30 / 5 [130] 40';
+    const map = service.parseFormula(f1).value;
+    expect(map.get('height')).toBe(200);
+    expect(map.get('margin-top')).toBe(30);
+    expect(map.has('head-e')).toBeFalse();
+    expect(map.get('head-w')).toBe(5);
+    expect(map.get('area-height')).toBe(120);
+    expect(map.has('foot-e')).toBeFalse();
+    expect(map.get('foot-w')).toBe(5);
+    expect(map.get('margin-bottom')).toBe(40);
+
+    const f2 = service.buildFormula(map);
+    expect(f2).toBe(f1);
+  });
 
 });
