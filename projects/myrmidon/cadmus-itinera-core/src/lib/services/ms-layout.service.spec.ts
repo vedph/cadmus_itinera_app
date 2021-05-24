@@ -652,18 +652,258 @@ fdescribe('MsLayoutService', () => {
   });
 
   // cw1 crw1 cg
+  it('should parse & build cw1 crw1 cg', () => {
+    const f1 = '200 × 160 = 30 [130] 40 × 15 [55 / 5 (10) 60] 15';
+    const map = service.parseFormula(f1).value;
+    expect(map.get('margin-left')).toBe(15);
+    expect(map.has('col-1-left-w')).toBeFalse();
+    expect(map.has('col-1-left-e')).toBeFalse();
+    expect(map.get('col-1-width')).toBe(55);
+    expect(map.get('col-1-right-w')).toBe(5);
+    expect(map.has('col-1-right-e')).toBeFalse();
+    expect(map.get('col-1-gap')).toBe(10);
+    expect(map.get('margin-right')).toBe(15);
+
+    const f2 = service.buildFormula(map);
+    expect(f2).toBe(f1);
+  });
+
   // cw1 cre1 cg
+  it('should parse & build cw1 cre1 cg', () => {
+    const f1 = '200 × 160 = 30 [130] 40 × 15 [55 / 5* (10) 60] 15';
+    const map = service.parseFormula(f1).value;
+    expect(map.get('margin-left')).toBe(15);
+    expect(map.has('col-1-left-w')).toBeFalse();
+    expect(map.has('col-1-left-e')).toBeFalse();
+    expect(map.get('col-1-width')).toBe(55);
+    expect(map.has('col-1-right-w')).toBeFalse();
+    expect(map.get('col-1-right-e')).toBe(5);
+    expect(map.get('col-1-gap')).toBe(10);
+    expect(map.get('margin-right')).toBe(15);
+
+    const f2 = service.buildFormula(map);
+    expect(f2).toBe(f1);
+  });
+
   // clw1 cw1 crw1 cg
+  it('should parse & build clw1 cw1 crw1 cg', () => {
+    const f1 = '200 × 160 = 30 [130] 40 × 15 [5 / 50 / 5 (10) 60] 15';
+    const map = service.parseFormula(f1).value;
+    expect(map.get('margin-left')).toBe(15);
+    expect(map.get('col-1-left-w')).toBe(5);
+    expect(map.has('col-1-left-e')).toBeFalse();
+    expect(map.get('col-1-width')).toBe(50);
+    expect(map.get('col-1-right-w')).toBe(5);
+    expect(map.has('col-1-right-e')).toBeFalse();
+    expect(map.get('col-1-gap')).toBe(10);
+    expect(map.get('margin-right')).toBe(15);
+
+    const f2 = service.buildFormula(map);
+    expect(f2).toBe(f1);
+  });
+
   // clw1 cw1 cre1 cg
+  it('should parse & build clw1 cw1 cre1 cg', () => {
+    const f1 = '200 × 160 = 30 [130] 40 × 15 [5 / 50 / 5* (10) 60] 15';
+    const map = service.parseFormula(f1).value;
+    expect(map.get('margin-left')).toBe(15);
+    expect(map.get('col-1-left-w')).toBe(5);
+    expect(map.has('col-1-left-e')).toBeFalse();
+    expect(map.get('col-1-width')).toBe(50);
+    expect(map.has('col-1-right-w')).toBeFalse();
+    expect(map.get('col-1-right-e')).toBe(5);
+    expect(map.get('col-1-gap')).toBe(10);
+    expect(map.get('margin-right')).toBe(15);
+
+    const f2 = service.buildFormula(map);
+    expect(f2).toBe(f1);
+  });
+
   // cle1 cw1 crw1 cg
+  it('should parse & build cle1 cw1 crw1 cg', () => {
+    const f1 = '200 × 160 = 30 [130] 40 × 15 / 5 [50 / 5 (10) 60] 15';
+    const map = service.parseFormula(f1).value;
+    expect(map.get('margin-left')).toBe(15);
+    expect(map.has('col-1-left-w')).toBeFalse();
+    expect(map.get('col-1-left-e')).toBe(5);
+    expect(map.get('col-1-width')).toBe(50);
+    expect(map.get('col-1-right-w')).toBe(5);
+    expect(map.has('col-1-right-e')).toBeFalse();
+    expect(map.get('col-1-gap')).toBe(10);
+    expect(map.get('margin-right')).toBe(15);
+
+    const f2 = service.buildFormula(map);
+    expect(f2).toBe(f1);
+  });
+
   // cle1 cw1 cre1 cg
-  // cw2  mr
-  // clw2 cw2 mr
-  // cle2 cw2 mr
-  // cw2 crw2 mr
-  // cw2 cre2 mr
-  // clw2 cw2 crw2 mr
-  // clw2 cw2 cre2 mr
-  // cle2 cw2 crw2 mr
-  // cle2 cw2 cre2 mr
+  it('should parse & build cle1 cw1 cre1 cg', () => {
+    const f1 = '200 × 160 = 30 [130] 40 × 15 / 5 [50 / 5* (10) 60] 15';
+    const map = service.parseFormula(f1).value;
+    expect(map.get('margin-left')).toBe(15);
+    expect(map.has('col-1-left-w')).toBeFalse();
+    expect(map.get('col-1-left-e')).toBe(5);
+    expect(map.get('col-1-width')).toBe(50);
+    expect(map.has('col-1-right-w')).toBeFalse();
+    expect(map.get('col-1-right-e')).toBe(5);
+    expect(map.get('col-1-gap')).toBe(10);
+    expect(map.get('margin-right')).toBe(15);
+
+    const f2 = service.buildFormula(map);
+    expect(f2).toBe(f1);
+  });
+
+  // width - 2 columns - second column
+  // cw2
+  it('should parse & build cw2 at col.2', () => {
+    const f1 = '200 × 160 = 30 [130] 40 × 15 [60 (10) 60] 15';
+    const map = service.parseFormula(f1).value;
+    expect(map.get('margin-left')).toBe(15);
+    expect(map.has('col-2-left-w')).toBeFalse();
+    expect(map.has('col-2-left-e')).toBeFalse();
+    expect(map.get('col-2-width')).toBe(60);
+    expect(map.has('col-2-right-w')).toBeFalse();
+    expect(map.has('col-2-right-e')).toBeFalse();
+    expect(map.has('col-2-gap')).toBeFalse();
+    expect(map.get('margin-right')).toBe(15);
+
+    const f2 = service.buildFormula(map);
+    expect(f2).toBe(f1);
+  });
+
+  // clw2 cw2
+  it('should parse & build clw2 cw2 at col.2', () => {
+    const f1 = '200 × 160 = 30 [130] 40 × 15 [60 (10) 5 / 55] 15';
+    const map = service.parseFormula(f1).value;
+    expect(map.get('margin-left')).toBe(15);
+    expect(map.get('col-2-left-w')).toBe(5);
+    expect(map.has('col-2-left-e')).toBeFalse();
+    expect(map.get('col-2-width')).toBe(55);
+    expect(map.has('col-2-right-w')).toBeFalse();
+    expect(map.has('col-2-right-e')).toBeFalse();
+    expect(map.has('col-2-gap')).toBeFalse();
+    expect(map.get('margin-right')).toBe(15);
+
+    const f2 = service.buildFormula(map);
+    expect(f2).toBe(f1);
+  });
+
+  // cle2 cw2
+  it('should parse & build cle2 cw2 at col.2', () => {
+    const f1 = '200 × 160 = 30 [130] 40 × 15 [60 (10) 5* / 55] 15';
+    const map = service.parseFormula(f1).value;
+    expect(map.get('margin-left')).toBe(15);
+    expect(map.has('col-2-left-w')).toBeFalse();
+    expect(map.get('col-2-left-e')).toBe(5);
+    expect(map.get('col-2-width')).toBe(55);
+    expect(map.has('col-2-right-w')).toBeFalse();
+    expect(map.has('col-2-right-e')).toBeFalse();
+    expect(map.has('col-2-gap')).toBeFalse();
+    expect(map.get('margin-right')).toBe(15);
+
+    const f2 = service.buildFormula(map);
+    expect(f2).toBe(f1);
+  });
+
+  // cw2 crw2
+  it('should parse & build cw2 crw2 at col.2', () => {
+    const f1 = '200 × 160 = 30 [130] 40 × 15 [60 (10) 55 / 5] 15';
+    const map = service.parseFormula(f1).value;
+    expect(map.get('margin-left')).toBe(15);
+    expect(map.has('col-2-left-w')).toBeFalse();
+    expect(map.has('col-2-left-e')).toBeFalse();
+    expect(map.get('col-2-width')).toBe(55);
+    expect(map.get('col-2-right-w')).toBe(5);
+    expect(map.has('col-2-right-e')).toBeFalse();
+    expect(map.has('col-2-gap')).toBeFalse();
+    expect(map.get('margin-right')).toBe(15);
+
+    const f2 = service.buildFormula(map);
+    expect(f2).toBe(f1);
+  });
+
+  // cw2 cre2
+  it('should parse & build cw2 cre2 at col.2', () => {
+    const f1 = '200 × 160 = 30 [130] 40 × 15 [60 (10) 55] 5 / 15';
+    const map = service.parseFormula(f1).value;
+    expect(map.get('margin-left')).toBe(15);
+    expect(map.has('col-2-left-w')).toBeFalse();
+    expect(map.has('col-2-left-e')).toBeFalse();
+    expect(map.get('col-2-width')).toBe(55);
+    expect(map.has('col-2-right-w')).toBeFalse();
+    expect(map.get('col-2-right-e')).toBe(5);
+    expect(map.has('col-2-gap')).toBeFalse();
+    expect(map.get('margin-right')).toBe(15);
+
+    const f2 = service.buildFormula(map);
+    expect(f2).toBe(f1);
+  });
+
+  // clw2 cw2 crw2
+  it('should parse & build clw2 cw2 crw2 at col.2', () => {
+    const f1 = '200 × 160 = 30 [130] 40 × 15 [60 (10) 5 / 50 / 5] 15';
+    const map = service.parseFormula(f1).value;
+    expect(map.get('margin-left')).toBe(15);
+    expect(map.get('col-2-left-w')).toBe(5);
+    expect(map.has('col-2-left-e')).toBeFalse();
+    expect(map.get('col-2-width')).toBe(50);
+    expect(map.get('col-2-right-w')).toBe(5);
+    expect(map.has('col-2-right-e')).toBeFalse();
+    expect(map.has('col-2-gap')).toBeFalse();
+    expect(map.get('margin-right')).toBe(15);
+
+    const f2 = service.buildFormula(map);
+    expect(f2).toBe(f1);
+  });
+
+  // clw2 cw2 cre2
+  it('should parse & build clw2 cw2 cre2 at col.2', () => {
+    const f1 = '200 × 160 = 30 [130] 40 × 15 [60 (10) 5 / 50] 5 / 15';
+    const map = service.parseFormula(f1).value;
+    expect(map.get('margin-left')).toBe(15);
+    expect(map.get('col-2-left-w')).toBe(5);
+    expect(map.has('col-2-left-e')).toBeFalse();
+    expect(map.get('col-2-width')).toBe(50);
+    expect(map.has('col-2-right-w')).toBeFalse();
+    expect(map.get('col-2-right-e')).toBe(5);
+    expect(map.has('col-2-gap')).toBeFalse();
+    expect(map.get('margin-right')).toBe(15);
+
+    const f2 = service.buildFormula(map);
+    expect(f2).toBe(f1);
+  });
+
+  // cle2 cw2 crw2
+  it('should parse & build cle2 cw2 crw2 at col.2', () => {
+    const f1 = '200 × 160 = 30 [130] 40 × 15 [60 (10) 5* / 50 / 5] 15';
+    const map = service.parseFormula(f1).value;
+    expect(map.get('margin-left')).toBe(15);
+    expect(map.has('col-2-left-w')).toBeFalse();
+    expect(map.get('col-2-left-e')).toBe(5);
+    expect(map.get('col-2-width')).toBe(50);
+    expect(map.get('col-2-right-w')).toBe(5);
+    expect(map.has('col-2-right-e')).toBeFalse();
+    expect(map.has('col-2-gap')).toBeFalse();
+    expect(map.get('margin-right')).toBe(15);
+
+    const f2 = service.buildFormula(map);
+    expect(f2).toBe(f1);
+  });
+
+  // cle2 cw2 cre2
+  it('should parse & build cle2 cw2 cre2 at col.2', () => {
+    const f1 = '200 × 160 = 30 [130] 40 × 15 [60 (10) 5* / 50] 5 / 15';
+    const map = service.parseFormula(f1).value;
+    expect(map.get('margin-left')).toBe(15);
+    expect(map.has('col-2-left-w')).toBeFalse();
+    expect(map.get('col-2-left-e')).toBe(5);
+    expect(map.get('col-2-width')).toBe(50);
+    expect(map.has('col-2-right-w')).toBeFalse();
+    expect(map.get('col-2-right-e')).toBe(5);
+    expect(map.has('col-2-gap')).toBeFalse();
+    expect(map.get('margin-right')).toBe(15);
+
+    const f2 = service.buildFormula(map);
+    expect(f2).toBe(f1);
+  });
 });
