@@ -490,6 +490,8 @@ export class MsLayoutService {
           n = map.get('col-1-left-w');
           if (n) {
             sb.push(` [${n} / `);
+          } else {
+            sb.push(' [');
           }
         }
       } else {
