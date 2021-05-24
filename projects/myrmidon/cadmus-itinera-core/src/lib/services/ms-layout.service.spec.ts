@@ -445,7 +445,7 @@ fdescribe('MsLayoutService', () => {
     expect(f2).toBe(f1);
   });
 
-  // width (ml cle clw cw crw cre mr)
+  // width - 1 column (ml cle clw cw crw cre mr)
   // ml cw mr
   it('should parse & build ml cw mr', () => {
     const f1 = '200 × 200 = 30 [130] 40 × 30 [130] 40';
@@ -598,4 +598,72 @@ fdescribe('MsLayoutService', () => {
     const f2 = service.buildFormula(map);
     expect(f2).toBe(f1);
   });
+
+  // width - 2 columns (ml clw1 cle1 cw1 crw1 cre1 cg clw2 cle2 cw2 crw2 cre2 mr)
+  // cw1 cg
+  it('should parse & build cw1 cg', () => {
+    const f1 = '200 × 160 = 30 [130] 40 × 15 [60 (10) 60] 15';
+    const map = service.parseFormula(f1).value;
+    expect(map.get('margin-left')).toBe(15);
+    expect(map.has('col-1-left-w')).toBeFalse();
+    expect(map.has('col-1-left-e')).toBeFalse();
+    expect(map.get('col-1-width')).toBe(60);
+    expect(map.has('col-1-right-w')).toBeFalse();
+    expect(map.has('col-1-right-e')).toBeFalse();
+    expect(map.get('col-1-gap')).toBe(10);
+    expect(map.get('margin-right')).toBe(15);
+
+    const f2 = service.buildFormula(map);
+    expect(f2).toBe(f1);
+  });
+
+  // clw1 cw1 cg
+  it('should parse & build clw1 cw1 cg', () => {
+    const f1 = '200 × 160 = 30 [130] 40 × 15 [5 / 55 (10) 60] 15';
+    const map = service.parseFormula(f1).value;
+    expect(map.get('margin-left')).toBe(15);
+    expect(map.get('col-1-left-w')).toBe(5);
+    expect(map.has('col-1-left-e')).toBeFalse();
+    expect(map.get('col-1-width')).toBe(55);
+    expect(map.has('col-1-right-w')).toBeFalse();
+    expect(map.has('col-1-right-e')).toBeFalse();
+    expect(map.get('col-1-gap')).toBe(10);
+    expect(map.get('margin-right')).toBe(15);
+
+    const f2 = service.buildFormula(map);
+    expect(f2).toBe(f1);
+  });
+
+  // cle1 cw1 cg
+  it('should parse & build cle1 cw1 cg', () => {
+    const f1 = '200 × 160 = 30 [130] 40 × 15 / 5 [55 (10) 60] 15';
+    const map = service.parseFormula(f1).value;
+    expect(map.get('margin-left')).toBe(15);
+    expect(map.has('col-1-left-w')).toBeFalse();
+    expect(map.get('col-1-left-e')).toBe(5);
+    expect(map.get('col-1-width')).toBe(55);
+    expect(map.has('col-1-right-w')).toBeFalse();
+    expect(map.has('col-1-right-e')).toBeFalse();
+    expect(map.get('col-1-gap')).toBe(10);
+    expect(map.get('margin-right')).toBe(15);
+
+    const f2 = service.buildFormula(map);
+    expect(f2).toBe(f1);
+  });
+
+  // cw1 crw1 cg
+  // cw1 cre1 cg
+  // clw1 cw1 crw1 cg
+  // clw1 cw1 cre1 cg
+  // cle1 cw1 crw1 cg
+  // cle1 cw1 cre1 cg
+  // cw2  mr
+  // clw2 cw2 mr
+  // cle2 cw2 mr
+  // cw2 crw2 mr
+  // cw2 cre2 mr
+  // clw2 cw2 crw2 mr
+  // clw2 cw2 cre2 mr
+  // cle2 cw2 crw2 mr
+  // cle2 cw2 cre2 mr
 });
