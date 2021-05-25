@@ -1,4 +1,3 @@
-import { removeSummaryDuplicates } from '@angular/compiler';
 import { Injectable } from '@angular/core';
 
 /**
@@ -49,6 +48,20 @@ export const MS_LAYOUT_FORMULA_REGEX =
 // width:
 //      col1                   col2
 // [ml] [cle/clw][cw][cre/crw] [cg][cle/clw][cw][cre/crw]... [mr]
+
+const LAYOUT_FIXED_KEYS = [
+  'height',
+  'width',
+  'margin-top',
+  'head-e',
+  'head-w',
+  'area-height',
+  'foot-w',
+  'foot-e',
+  'margin-bottom',
+  'margin-left',
+  'margin-right',
+];
 
 /**
  * Manuscript's layout formula service.
@@ -574,6 +587,22 @@ export class MsLayoutService {
       'foot-w',
       'margin-bottom',
     ]);
+  }
+
+  /**
+   * Returns true if the specified measurement key belongs to the set
+   * of measurement keys handled by the layout formula.
+   *
+   * @param key The measurement key.
+   */
+  public isLayoutMeasure(key: string): boolean {
+    if (!key) {
+      return false;
+    }
+    if (LAYOUT_FIXED_KEYS.indexOf(key) > -1) {
+      return true;
+    }
+    return /^col-\d+-(?:left-e|left-w|width|right-e|right-w|gap)$/.test(key);
   }
 
   /**

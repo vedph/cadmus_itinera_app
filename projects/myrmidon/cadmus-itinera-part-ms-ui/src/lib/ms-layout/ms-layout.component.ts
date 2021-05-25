@@ -255,15 +255,21 @@ export class MsLayoutComponent implements OnInit {
       gap: 4,
     };
 
-    // update dimensions
+    // update dimensions: first collect all the measurements
+    // which are not found in the newly got set, nor do NOT belong
+    // to a layout formula, so we can preserve them
+    const extraDims = new Map<string, PhysicalDimension>();
     this.dimensions.controls.forEach((g: FormGroup) => {
-      if (!map.has(g.controls.tag.value)) {
-        map.set(g.controls.tag.value, g.controls.value.value);
+      if (
+        !map.has(g.controls.tag.value) &&
+        !this._msLayoutService.isLayoutMeasure(g.controls.tag.value)
+      ) {
+        extraDims.set(g.controls.tag.value, g.controls.value.value);
       }
     });
-    this.dimensions.clear();
 
-    // get sorted keys and add dimensions in order
+    // then get the sorted formula keys, and add dimensions in order
+    this.dimensions.clear();
     const sortedKeys = this._msLayoutService.getSortedKeys(
       this._msLayoutService.getColumnCount(map),
       map
@@ -276,6 +282,15 @@ export class MsLayoutComponent implements OnInit {
           unit: 'mm',
         })
       );
+    });
+
+    // re-add the extra dimensions
+    extraDims.forEach((value, key) => {
+      this.dimensions.push(this.getDimensionGroup({
+        tag: key,
+        value: value.value,
+        unit: value.unit
+      }));
     });
     this.dimensions.markAsDirty();
 
