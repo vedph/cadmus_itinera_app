@@ -157,11 +157,12 @@ export class PersonWorksPartComponent
   }
 
   public onWorkSave(entry: PersonWork): void {
-    this.works.setValue(
-      this.works.value.map((e: PersonWork, i: number) =>
-        i === this._editedIndex ? entry : e
-      )
-    );
+    if (this._editedIndex === -1) {
+      this.works.value.push(entry);
+    } else {
+      this.works.value.splice(this._editedIndex, 1, entry);
+    }
+    this.form.markAsDirty();
     this.closeWorkEditor();
   }
 

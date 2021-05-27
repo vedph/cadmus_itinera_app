@@ -213,23 +213,23 @@
               >label too long</mat-error
             >
           </mat-form-field>
-          <div>
+          <div class="additional-row">
             <!-- start -->
             <mat-form-field>
               <input matInput formControlName="start" placeholder="start" />
               <mat-error
                 *ngIf="
-                  item['controls'].start.errors?.required &&
-                  (item['controls'].start.dirty ||
-                    item['controls'].start.touched)
+                  unit['controls'].start.errors?.required &&
+                  (unit['controls'].start.dirty ||
+                    unit['controls'].start.touched)
                 "
                 >required</mat-error
               >
               <mat-error
                 *ngIf="
-                  item['controls'].start.errors?.pattern &&
-                  (item['controls'].start.dirty ||
-                    item['controls'].start.touched)
+                  unit['controls'].start.errors?.pattern &&
+                  (unit['controls'].start.dirty ||
+                    unit['controls'].start.touched)
                 "
                 >invalid</mat-error
               >
@@ -241,15 +241,15 @@
               <input matInput formControlName="end" placeholder="end" />
               <mat-error
                 *ngIf="
-                  item['controls'].end.errors?.required &&
-                  (item['controls'].end.dirty || item['controls'].end.touched)
+                  unit['controls'].end.errors?.required &&
+                  (unit['controls'].end.dirty || unit['controls'].end.touched)
                 "
                 >required</mat-error
               >
               <mat-error
                 *ngIf="
-                  item['controls'].end.errors?.pattern &&
-                  (item['controls'].end.dirty || item['controls'].end.touched)
+                  unit['controls'].end.errors?.pattern &&
+                  (unit['controls'].end.dirty || unit['controls'].end.touched)
                 "
                 >invalid</mat-error
               >
