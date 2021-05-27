@@ -152,16 +152,19 @@ export class PersonWorksPartComponent
   }
 
   private closeWorkEditor(): void {
+    this._editedIndex = -1;
     this.editedWork = undefined;
     this.tabIndex = 0;
   }
 
   public onWorkSave(entry: PersonWork): void {
+    const works = [...this.works.value];
     if (this._editedIndex === -1) {
-      this.works.value.push(entry);
+      works.push(entry);
     } else {
-      this.works.value.splice(this._editedIndex, 1, entry);
+      works.splice(this._editedIndex, 1, entry);
     }
+    this.works.setValue(works);
     this.form.markAsDirty();
     this.closeWorkEditor();
   }

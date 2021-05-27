@@ -118,6 +118,7 @@ export class MsContentComponent implements OnInit {
     this.incipit.setValue(model.incipit);
     this.explicit.setValue(model.explicit);
     this.note.setValue(model.note);
+    this.units.clear();
     if (model.units?.length) {
       for (const unit of model.units) {
         this.addUnit(unit);
