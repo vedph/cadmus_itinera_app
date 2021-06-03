@@ -1,113 +1,116 @@
-<header>
-  <mat-toolbar color="primary" fxLayout="row" fxLayoutAlign="start center">
-    <span style="flex: 0 0 60px"
-      ><img src="./assets/img/itinera-bird-64.png" alt="Fusisoft"
-    /></span>
-    <a mat-button routerLink="/home">Cadmus Itinera</a>
+<div>
+  <header>
+    <mat-toolbar color="primary" fxLayout="row" fxLayoutAlign="start center">
+      <span style="flex: 0 0 60px"
+        ><img src="./assets/img/itinera-bird-64.png" alt="Fusisoft"
+      /></span>
+      <a mat-button routerLink="/home">Cadmus Itinera</a>
 
-    <button
-      mat-button
-      [matMenuTriggerFor]="itemMenu"
-      *ngIf="logged && itemBrowsers"
-    >
-      Items
-    </button>
-    <mat-menu #itemMenu>
-      <a mat-menu-item routerLink="/items">Items</a>
-      <a
-        mat-menu-item
-        *ngFor="let entry of itemBrowsers"
-        [routerLink]="'item-browser/' + getItemBrowserRoute(entry.id)"
-        >{{ entry.value }}</a
+      <button
+        mat-button
+        [matMenuTriggerFor]="itemMenu"
+        *ngIf="logged && itemBrowsers"
       >
-    </mat-menu>
-    <ng-container *ngIf="logged && !itemBrowsers">
-      <a mat-button routerLink="/items">Items</a>
-    </ng-container>
-
-    <a mat-button routerLink="/search" *ngIf="logged">Search</a>
-
-    <a
-      mat-button
-      routerLink="/thesauri"
-      *ngIf="
-        user && (user.roles.includes('admin') || user.roles.includes('editor'))
-      "
-      >Thesauri</a
-    >
-
-    <span class="tb-fill-remaining-space"></span>
-
-    <div *ngIf="logged" fxLayout="row" fxLayoutAlign="start center">
-      <img [src]="getGravatarUrl(user.email, 32)" [alt]="user.userName" />
-      <mat-icon
-        class="small-icon"
-        *ngIf="user && user.roles.includes('admin')"
-        title="admin"
-        >build</mat-icon
-      >
-      <mat-icon
-        class="small-icon"
-        *ngIf="user && !user.emailConfirmed"
-        title="You must verify your email address! Please check your mailbox {{
-          user.email
-        }}"
-        >feedback</mat-icon
-      >
-      <button mat-icon-button [mat-menu-trigger-for]="menu">
-        <mat-icon>more_vert</mat-icon>
+        Items
       </button>
-      <mat-menu x-position="before" #menu="matMenu">
+      <mat-menu #itemMenu>
+        <a mat-menu-item routerLink="/items">Items</a>
         <a
           mat-menu-item
-          *ngIf="user && user.roles.includes('admin')"
-          routerLink="/admin"
-          >Admin</a
+          *ngFor="let entry of itemBrowsers"
+          [routerLink]="'item-browser/' + getItemBrowserRoute(entry.id)"
+          >{{ entry.value }}</a
         >
-        <a mat-menu-item (click)="logout()">Logout</a>
       </mat-menu>
-    </div>
+      <ng-container *ngIf="logged && !itemBrowsers">
+        <a mat-button routerLink="/items">Items</a>
+      </ng-container>
 
-    <div *ngIf="!logged">
-      <a mat-button routerLink="/login">Login</a>
-    </div>
-  </mat-toolbar>
-</header>
+      <a mat-button routerLink="/search" *ngIf="logged">Search</a>
 
-<main>
-  <router-outlet></router-outlet>
-</main>
+      <a
+        mat-button
+        routerLink="/thesauri"
+        *ngIf="
+          user &&
+          (user.roles.includes('admin') || user.roles.includes('editor'))
+        "
+        >Thesauri</a
+      >
 
-<footer>
-  <div class="footer-container">
-    <div class="logo">
-      <img src="./assets/img/banner-200.jpg" />
+      <span class="tb-fill-remaining-space"></span>
+
+      <div *ngIf="logged" fxLayout="row" fxLayoutAlign="start center">
+        <img [src]="getGravatarUrl(user.email, 32)" [alt]="user.userName" />
+        <mat-icon
+          class="small-icon"
+          *ngIf="user && user.roles.includes('admin')"
+          title="admin"
+          >build</mat-icon
+        >
+        <mat-icon
+          class="small-icon"
+          *ngIf="user && !user.emailConfirmed"
+          title="You must verify your email address! Please check your mailbox {{
+            user.email
+          }}"
+          >feedback</mat-icon
+        >
+        <button mat-icon-button [mat-menu-trigger-for]="menu">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu x-position="before" #menu="matMenu">
+          <a
+            mat-menu-item
+            *ngIf="user && user.roles.includes('admin')"
+            routerLink="/admin"
+            >Admin</a
+          >
+          <a mat-menu-item (click)="logout()">Logout</a>
+        </mat-menu>
+      </div>
+
+      <div *ngIf="!logged">
+        <a mat-button routerLink="/login">Login</a>
+      </div>
+    </mat-toolbar>
+  </header>
+
+  <main>
+    <router-outlet></router-outlet>
+  </main>
+
+  <footer>
+    <div class="footer-container">
+      <div class="logo">
+        <img src="./assets/img/banner-200.jpg" />
+      </div>
+      <div class="info">
+        <p>
+          Petrarch’s ITINERA: Italian Trecento Intellectual Network and European
+          Renaissance Advent
+        </p>
+        <p>
+          <a href="https://www.unisi.it" target="_blank"
+            >Università degli Studi di Siena</a
+          >
+          -
+          <a href="https://www.uniroma3.it" target="_blank"
+            >Università degli Studi Roma Tre</a
+          >
+          -
+          <a href="https://www.unina.it" target="_blank"
+            >Università degli Studi di Napoli Federico II</a
+          >
+          -
+          <a href="https://www.unistrapg.it" target="_blank"
+            >Università per Stranieri di Perugia</a
+          >
+          - Cadmus by
+          <a href="https://www.fusisoft.net" target="_blank">Daniele Fusi</a> at
+          <a href="https://www.unive.it/pag/39287" target="_blank">VeDPH</a>
+        </p>
+      </div>
     </div>
-    <div class="info">
-      <p>
-        Petrarch’s ITINERA: Italian Trecento Intellectual Network and European
-        Renaissance Advent
-      </p>
-      <p>
-        <a href="https://www.unisi.it" target="_blank"
-          >Università degli Studi di Siena</a
-        >
-        -
-        <a href="https://www.uniroma3.it" target="_blank"
-          >Università degli Studi Roma Tre</a
-        >
-        -
-        <a href="https://www.unina.it" target="_blank"
-          >Università degli Studi di Napoli Federico II</a
-        >
-        -
-        <a href="https://www.unistrapg.it" target="_blank"
-          >Università per Stranieri di Perugia</a
-        >
-        - Cadmus by
-        <a href="https://www.fusisoft.net" target="_blank">Daniele Fusi</a> at
-        <a href="https://www.unive.it/pag/39287" target="_blank">VeDPH</a>
-      </p>
-    </div>
-  </div>
-</footer>
+  </footer>
+</div>
