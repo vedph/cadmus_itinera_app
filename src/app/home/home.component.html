@@ -1,7 +1,6 @@
 <div style="margin: 0 16px">
-  <div class="banner">
+  <div id="banner">
     <img
-      class="banner-img"
       srcset="
         ./assets/img/banner-1024.jpg 1024w,
         ./assets/img/banner-512.jpg   512w
@@ -9,46 +8,65 @@
       sizes="(max-width: 600px) 512px, 1024px"
     />
   </div>
-  <article>
-    <h1>Itinera</h1>
-    <h2>Welcome</h2>
-    <h3>
-      Petrarch’s ITINERA: Italian Trecento Intellectual Network and European
-      Renaissance Advent
-    </h3>
-    <p>Welcome to the project editing dashboard.</p>
-    <p>
-      You can use this dashboard to edit the Itinera database composed of
-      letters, correspondents, poetic texts, and manuscripts.
-    </p>
-    <p>
-      The technical documentation about models can be found in
-      <a href="https://github.com/vedph/cadmus_itinera_doc" target="_blank"
-        >this GitHub repository</a
-      >.
-    </p>
-    <p *ngIf="!logged" style="margin-bottom: 8px">
-      <a mat-mini-fab color="primary" routerLink="/login"
-        ><mat-icon>login</mat-icon></a
-      ><span style="margin-left: 8px">please login</span>
-    </p>
-
-    <h2>Sub-Models</h2>
-    <p>
-      In our data design, several models share some sub-models. For instance,
-      whenever a structured person name occurs (as a correspondent in a letter,
-      as an actor in the history of a manuscript, etc.), this can be of type
-      <code>PersonName</code>.
-    </p>
-    <p>
-      As data is modular, so is the editing system. In this case, we provide an
-      editor for each sub-model, which can be included into a higher-order
-      editor, thus composing its UI.
-    </p>
-    <p>
-      You can see the
-      <a routerLink="/sub-demo">sub-models editors page</a> for a live
-      demonstration.
-    </p>
+  <article
+    gdAreas="text text | unisi unina | unirm3 unistrapg"
+    gdAreas.lt-md="text | unisi | unina | unirm3 | unistrapg"
+    gdColumns="1fr 1fr"
+    gdColumns.lt-md="1fr"
+    gdGap="8px"
+    gdAlignColumns="start"
+    gdAlignRows="center"
+  >
+    <div gdArea="text">
+      <h3>
+        Petrarch’s ITINERA: Italian Trecento Intellectual Network and European
+        Renaissance Advent
+      </h3>
+      <p>
+        <span *ngIf="!logged" style="margin-bottom: 8px">
+          <a mat-mini-fab color="primary" matTooltip="Login" routerLink="/login"
+            ><mat-icon>login</mat-icon></a
+          >
+        </span>
+        <span style="margin-left: 16px">
+          <a
+            mat-mini-fab
+            routerLink="/sub-demo"
+            matTooltip="Sub-model editors demo"
+            ><mat-icon>extension</mat-icon></a
+          >
+        </span>
+        <span style="margin-left: 16px">
+          <a
+            mat-mini-fab
+            href="https://github.com/vedph/cadmus_itinera_doc"
+            target="_blank"
+            matTooltip="Technical documentation"
+            ><mat-icon>menu_book</mat-icon></a
+          >
+        </span>
+      </p>
+    </div>
+    <div gdArea="unisi">
+      <img src="./assets/img/unisi-300.png" alt="Università di Siena" />
+    </div>
+    <div gdArea="unina">
+      <img
+        src="./assets/img/unina-300.png"
+        alt="Università degli studi di Napoli"
+      />
+    </div>
+    <div gdArea="unirm3">
+      <img
+        src="./assets/img/unirm3-300.png"
+        alt="Università degli studi di Roma 3"
+      />
+    </div>
+    <div gdArea="unistrapg">
+      <img
+        src="./assets/img/unistrapg-300.png"
+        alt="Università per stranieri di Perugia"
+      />
+    </div>
   </article>
 </div>
