@@ -1,6 +1,9 @@
 #banner {
   margin-bottom: 16px;
 }
+#buttons {
+  margin: 0 0 32px 140px;
+}
 h1 {
   position: relative;
   padding-top: 60px;

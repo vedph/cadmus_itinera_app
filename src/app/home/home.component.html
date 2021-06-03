@@ -8,65 +8,61 @@
       sizes="(max-width: 600px) 512px, 1024px"
     />
   </div>
-  <article
-    gdAreas="text text | unisi unina | unirm3 unistrapg"
-    gdAreas.lt-md="text | unisi | unina | unirm3 | unistrapg"
-    gdColumns="1fr 1fr"
-    gdColumns.lt-md="1fr"
-    gdGap="8px"
-    gdAlignColumns="start"
-    gdAlignRows="center"
-  >
-    <div gdArea="text">
-      <h3>
-        Petrarch’s ITINERA: Italian Trecento Intellectual Network and European
-        Renaissance Advent
-      </h3>
-      <p>
-        <span *ngIf="!logged" style="margin-bottom: 8px">
-          <a mat-mini-fab color="primary" matTooltip="Login" routerLink="/login"
-            ><mat-icon>login</mat-icon></a
-          >
-        </span>
-        <span style="margin-left: 16px">
-          <a
-            mat-mini-fab
-            routerLink="/sub-demo"
-            matTooltip="Sub-model editors demo"
-            ><mat-icon>extension</mat-icon></a
-          >
-        </span>
-        <span style="margin-left: 16px">
-          <a
-            mat-mini-fab
-            href="https://github.com/vedph/cadmus_itinera_doc"
-            target="_blank"
-            matTooltip="Technical documentation"
-            ><mat-icon>menu_book</mat-icon></a
-          >
-        </span>
-      </p>
+  <div>
+    <div id="buttons">
+      <span
+        style="display: inline-block; margin-left: 16px"
+        *ngIf="!logged"
+        style="margin-bottom: 8px"
+      >
+        <a mat-mini-fab color="primary" matTooltip="Login" routerLink="/login"
+          ><mat-icon>login</mat-icon></a
+        >
+      </span>
+      <span style="margin-left: 16px">
+        <a
+          mat-mini-fab
+          routerLink="/sub-demo"
+          matTooltip="Sub-model editors demo"
+          ><mat-icon>extension</mat-icon></a
+        >
+      </span>
+      <span style="margin-left: 16px">
+        <a
+          mat-mini-fab
+          href="https://github.com/vedph/cadmus_itinera_doc"
+          target="_blank"
+          matTooltip="Technical documentation"
+          ><mat-icon>menu_book</mat-icon></a
+        >
+      </span>
     </div>
-    <div gdArea="unisi">
-      <img src="./assets/img/unisi-300.png" alt="Università di Siena" />
+    <div
+      fxLayout="row wrap"
+      fxLayout.lt-md="column"
+      fxLayoutAlign="center center"
+    >
+      <div fxFlex>
+        <img src="./assets/img/unisi-300.png" alt="Università di Siena" />
+      </div>
+      <div fxFlex>
+        <img
+          src="./assets/img/unina-300.png"
+          alt="Università degli studi di Napoli"
+        />
+      </div>
+      <div fxFlex>
+        <img
+          src="./assets/img/unirm3-300.png"
+          alt="Università degli studi di Roma 3"
+        />
+      </div>
+      <div fxFlex>
+        <img
+          src="./assets/img/unistrapg-300.png"
+          alt="Università per stranieri di Perugia"
+        />
+      </div>
     </div>
-    <div gdArea="unina">
-      <img
-        src="./assets/img/unina-300.png"
-        alt="Università degli studi di Napoli"
-      />
-    </div>
-    <div gdArea="unirm3">
-      <img
-        src="./assets/img/unirm3-300.png"
-        alt="Università degli studi di Roma 3"
-      />
-    </div>
-    <div gdArea="unistrapg">
-      <img
-        src="./assets/img/unistrapg-300.png"
-        alt="Università per stranieri di Perugia"
-      />
-    </div>
-  </article>
+  </div>
 </div>
