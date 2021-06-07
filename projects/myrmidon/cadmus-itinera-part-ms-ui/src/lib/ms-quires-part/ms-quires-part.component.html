@@ -8,13 +8,14 @@
     </mat-card-header>
     <mat-card-content>
       <!-- types -->
-      <div>
+      <fieldset>
+        <legend>main</legend>
         <cadmus-multi-entry-selector
           [entries]="typeEntries"
           [selectedIds]="types?.value"
           (selectionChange)="onTypeSelectionChange($event)"
         ></cadmus-multi-entry-selector>
-      </div>
+      </fieldset>
 
       <!-- formula -->
       <hr>
