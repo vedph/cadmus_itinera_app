@@ -285,7 +285,7 @@ export interface MsRubrication {
  * A manuscript's subscription.
  */
 export interface MsSubscription {
-  locations: MsLocation[];
+  ranges: MsLocationRange[];
   language: string;
   text?: string;
 }
@@ -324,7 +324,7 @@ export interface MsHand {
   ranges: MsLocationRange[];
   extentNote?: string;
   rubrications?: MsRubrication[];
-  subscription?: MsSubscription;
+  subscriptions?: MsSubscription[];
   signs?: MsHandSign[];
   imageIds?: string[];
 }

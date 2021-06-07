@@ -15,6 +15,7 @@ import {
   MsLocationRange,
   MsLocationService,
   MsRubrication,
+  MsSubscription,
 } from '@myrmidon/cadmus-itinera-core';
 import { NoteSet } from '@myrmidon/cadmus-itinera-ui';
 import { DialogService } from '@myrmidon/cadmus-ui';
@@ -84,12 +85,8 @@ export class MsHandComponent implements OnInit {
   public noteSet: NoteSet;
   // rubrications
   public rubrications: FormArray;
-  // subscription
-  public subForm: FormGroup;
-  public subPresent: FormControl;
-  public subLocations: FormControl;
-  public subLanguage: FormControl;
-  public subText: FormControl;
+  // subscriptions
+  public subscriptions: FormArray;
   // signs
   public signs: FormControl;
   public editedIndex: number;
@@ -140,25 +137,8 @@ export class MsHandComponent implements OnInit {
     this.updateNoteSetDefs();
     // form - rubrications
     this.rubrications = _formBuilder.array([]);
-    // form - subscription
-    // the subscription form gets enabled/disabled according to this
-    // (disabling the nested form also disables its own validation)
-    this.subPresent = _formBuilder.control(false);
-    this.subLocations = _formBuilder.control(null, [
-      Validators.maxLength(500),
-      Validators.required,
-      Validators.pattern(MsLocationService.locsRegexp),
-    ]);
-    this.subLanguage = _formBuilder.control(null, [
-      Validators.required,
-      Validators.maxLength(50),
-    ]);
-    this.subText = _formBuilder.control(null, Validators.maxLength(1000));
-    this.subForm = _formBuilder.group({
-      subLocations: this.subLocations,
-      subLanguage: this.subLanguage,
-      subText: this.subText,
-    });
+    // form - subscriptions
+    this.subscriptions = _formBuilder.array([]);
     // form - signs
     this.signs = _formBuilder.control([]);
     // form
@@ -174,17 +154,18 @@ export class MsHandComponent implements OnInit {
       imageIds: this.imageIds,
       // rubrications
       rubrications: this.rubrications,
-      // subscription
-      subPresent: this.subPresent,
-      subscription: this.subForm,
+      // subscriptions
+      subscriptions: this.subscriptions,
       // signs
       signs: this.signs,
     });
   }
 
-  private parseNoteDefEntry(
-    entry: ThesaurusEntry
-  ): { label: string; maxLength: number; markdown: boolean } {
+  private parseNoteDefEntry(entry: ThesaurusEntry): {
+    label: string;
+    maxLength: number;
+    markdown: boolean;
+  } {
     // value: label|LEN*
     let text = entry.value;
     let md = false;
@@ -252,19 +233,7 @@ export class MsHandComponent implements OnInit {
     this.noteSet.definitions = defs;
   }
 
-  private toggleSubscription(enabled: boolean): void {
-    if (enabled) {
-      this.subForm.enable();
-    } else {
-      this.subForm.disable();
-    }
-  }
-
   ngOnInit(): void {
-    this.toggleSubscription(false);
-    this.subPresent.valueChanges.subscribe((present) => {
-      this.toggleSubscription(present);
-    });
     if (this._hand) {
       this.updateForm(this._hand);
     }
@@ -307,25 +276,10 @@ export class MsHandComponent implements OnInit {
       this.addRubrication(rubrication);
     }
 
-    // subscription
-    if (model.subscription) {
-      this.subPresent.setValue(true);
-      if (model.subscription.locations?.length) {
-        this.subLocations.setValue(
-          model.subscription.locations
-            .map((l) => {
-              return this._locService.locationToString(l);
-            })
-            .join(' ')
-        );
-      } else {
-        this.subLocations.setValue(null);
-      }
-      this.subLanguage.setValue(model.subscription.language);
-      this.subText.setValue(model.subscription.text);
-    } else {
-      this.subPresent.setValue(false);
-      this.subForm.reset();
+    // subscriptions
+    this.subscriptions.clear();
+    for (const subscription of model.subscriptions || []) {
+      this.addSubscription(subscription);
     }
 
     // signs
@@ -388,7 +342,7 @@ export class MsHandComponent implements OnInit {
   }
 
   private getModel(): MsHand {
-    const model: MsHand = {
+    return {
       // general
       id: this.id.value?.trim(),
       personId: this.personId.value?.trim(),
@@ -405,20 +359,11 @@ export class MsHandComponent implements OnInit {
       abbreviations: this.getSetNote('a'),
       // rubrications
       rubrications: this.getRubrications(),
+      // subscriptions
+      subscriptions: this.getSubscriptions(),
       // signs
       signs: this.signs.value.length ? this.signs.value : undefined,
     };
-
-    // subscription (if checked)
-    if (this.subPresent.value) {
-      model.subscription = {
-        locations: this.parseLocations(this.subLocations.value),
-        language: this.subLanguage.value?.trim(),
-        text: this.subText.value?.trim(),
-      };
-    }
-
-    return model;
   }
 
   public onNoteChange(note: KeyValue<string, string>): void {
@@ -612,6 +557,78 @@ export class MsHandComponent implements OnInit {
         type: g.controls.type.value?.trim(),
         description: g.controls.description.value?.trim(),
         issues: g.controls.issues.value?.trim(),
+      });
+    }
+    return entries.length ? entries : undefined;
+  }
+  //#endregion
+
+  //#region Subscriptions
+  private getSubscriptionGroup(subscription?: MsSubscription): FormGroup {
+    return this._formBuilder.group({
+      subRanges: this._formBuilder.control(
+        subscription?.ranges
+          ? subscription.ranges
+              .map((r) => {
+                return this._locService.rangeToString(r);
+              })
+              .join(' ')
+          : null,
+        [
+          Validators.maxLength(500),
+          Validators.required,
+          Validators.pattern(MsLocationService.rangesRegexp),
+        ]
+      ),
+      language: this._formBuilder.control(subscription?.language, [
+        Validators.required,
+        Validators.maxLength(50),
+      ]),
+      text: this._formBuilder.control(
+        subscription?.text,
+        Validators.maxLength(1000)
+      ),
+    });
+  }
+
+  public addSubscription(item?: MsSubscription): void {
+    this.subscriptions.push(this.getSubscriptionGroup(item));
+    this.subscriptions.markAsDirty();
+  }
+
+  public removeSubscription(index: number): void {
+    this.subscriptions.removeAt(index);
+    this.subscriptions.markAsDirty();
+  }
+
+  public moveSubscriptionUp(index: number): void {
+    if (index < 1) {
+      return;
+    }
+    const item = this.subscriptions.controls[index];
+    this.subscriptions.removeAt(index);
+    this.subscriptions.insert(index - 1, item);
+    this.subscriptions.markAsDirty();
+  }
+
+  public moveSubscriptionDown(index: number): void {
+    if (index + 1 >= this.subscriptions.length) {
+      return;
+    }
+    const item = this.subscriptions.controls[index];
+    this.subscriptions.removeAt(index);
+    this.subscriptions.insert(index + 1, item);
+    this.subscriptions.markAsDirty();
+  }
+
+  private getSubscriptions(): MsSubscription[] | undefined {
+    const entries: MsSubscription[] = [];
+    for (let i = 0; i < this.subscriptions.length; i++) {
+      const g = this.subscriptions.at(i) as FormGroup;
+      entries.push({
+        ranges: this.parseRanges(g.controls.subRanges.value),
+        language: g.controls.language.value?.trim(),
+        text: g.controls.text.value?.trim(),
       });
     }
     return entries.length ? entries : undefined;

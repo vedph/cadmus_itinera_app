@@ -445,96 +445,148 @@
     </mat-tab>
 
     <mat-tab label="subscription">
-      <div>
-        <mat-checkbox [formControl]="subPresent">subscription</mat-checkbox>
+      <div formArrayName="subscriptions">
+        <div>
+          <button
+            type="button"
+            mat-icon-button
+            color="primary"
+            (click)="addSubscription()"
+          >
+            <mat-icon>add_circle</mat-icon>
+            add subscription
+          </button>
+        </div>
+        <br />
+        <div
+          *ngFor="
+            let item of subscriptions.controls;
+            let i = index;
+            let first = first;
+            let last = last
+          "
+        >
+          <!-- child form -->
+          <div [formGroupName]="i">
+            <!-- child actions -->
+            {{ i + 1 }}.
+            <button
+              mat-icon-button
+              type="button"
+              matTooltip="Remove this subscription"
+              color="warn"
+              (click)="removeSubscription(i)"
+            >
+              <mat-icon>remove_circle</mat-icon>
+            </button>
+            <button
+              [disabled]="first"
+              mat-icon-button
+              type="button"
+              matTooltip="Move subscription up"
+              (click)="moveSubscriptionUp(i)"
+            >
+              <mat-icon>arrow_upward</mat-icon>
+            </button>
+            <button
+              [disabled]="last"
+              mat-icon-button
+              type="button"
+              matTooltip="Move subscription down"
+              (click)="moveSubscriptionDown(i)"
+            >
+              <mat-icon>arrow_downward</mat-icon>
+            </button>
+
+            <!-- child controls -->
+            <!-- ranges -->
+            <mat-form-field style="width: 15em">
+              <input
+                matInput
+                formControlName="subRanges"
+                placeholder="ranges (space delimited)"
+              />
+              <mat-error
+                *ngIf="
+                  item['controls'].subRanges.errors?.required &&
+                  (item['controls'].subRanges.dirty ||
+                    item['controls'].subRanges.touched)
+                "
+                >ranges required</mat-error
+              >
+              <mat-error
+                *ngIf="
+                  item['controls'].subRanges.errors?.maxLength &&
+                  (item['controls'].subRanges.dirty ||
+                    item['controls'].subRanges.touched)
+                "
+                >ranges too long</mat-error
+              >
+              <mat-error *ngIf="item['controls'].subRanges.errors?.pattern"
+                >invalid ranges</mat-error
+              >
+            </mat-form-field>
+
+            <!-- language (bound) -->
+            &nbsp;
+            <mat-form-field *ngIf="rubrEntries?.length">
+              <mat-select formControlName="language" placeholder="language">
+                <mat-option *ngFor="let e of langEntries" [value]="e.id">{{
+                  e.value
+                }}</mat-option>
+              </mat-select>
+              <mat-error
+                *ngIf="
+                  item['controls'].language.errors?.required &&
+                  (item['controls'].language.dirty ||
+                    item['controls'].language.touched)
+                "
+                >language required</mat-error
+              >
+            </mat-form-field>
+
+            <!-- language (free) -->
+            <mat-form-field *ngIf="!langEntries?.length">
+              <input
+                matInput
+                formControlName="language"
+                placeholder="language"
+              />
+              <mat-error
+                *ngIf="
+                  item['controls'].language.errors?.required &&
+                  (item['controls'].language.dirty ||
+                    item['controls'].language.touched)
+                "
+                >language required</mat-error
+              >
+              <mat-error
+                *ngIf="
+                  item['controls'].language.errors?.maxLength &&
+                  (item['controls'].language.dirty ||
+                    item['controls'].language.touched)
+                "
+                >language too long</mat-error
+              >
+            </mat-form-field>
+
+            <div class="additional-row">
+              <!-- text -->
+              <mat-form-field class="long-text">
+                <input matInput formControlName="text" placeholder="text" />
+                <mat-error
+                  *ngIf="
+                    item['controls'].text.errors?.maxLength &&
+                    (item['controls'].text.dirty ||
+                      item['controls'].text.touched)
+                  "
+                  >text too long</mat-error
+                >
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
       </div>
-      <br />
-      <form [formGroup]="subForm">
-        <div>
-          <!-- locations -->
-          <mat-form-field style="width: 15em">
-            <input
-              matInput
-              [formControl]="subLocations"
-              placeholder="locations (space delimited)"
-            />
-            <mat-error
-              *ngIf="
-                subLocations.errors?.required &&
-                (subLocations.dirty || subLocations.touched)
-              "
-              >locations required</mat-error
-            >
-            <mat-error
-              *ngIf="
-                subLocations.errors?.maxLength &&
-                (subLocations.dirty || subLocations.touched)
-              "
-              >locations too long</mat-error
-            >
-            <mat-error *ngIf="subLocations.errors?.pattern"
-              >invalid locations</mat-error
-            >
-          </mat-form-field>
-
-          &nbsp;
-          <!-- language (bound) -->
-          <mat-form-field *ngIf="langEntries?.length" style="width: 8em">
-            <mat-select [formControl]="subLanguage" placeholder="language">
-              <mat-option *ngFor="let e of langEntries" [value]="e.id">{{
-                e.value
-              }}</mat-option>
-            </mat-select>
-            <mat-error
-              *ngIf="
-                subLanguage.errors?.required &&
-                (subLanguage.dirty || subLanguage.touched)
-              "
-              >language required</mat-error
-            >
-          </mat-form-field>
-
-          <!-- language (free) -->
-          <mat-form-field *ngIf="!langEntries?.length" style="width: 8em">
-            <input
-              matInput
-              [formControl]="subLanguage"
-              placeholder="language"
-            />
-            <mat-error
-              *ngIf="
-                subLanguage.errors?.required &&
-                (subLanguage.dirty || subLanguage.touched)
-              "
-              >language required</mat-error
-            >
-            <mat-error
-              *ngIf="
-                subLanguage.errors?.maxLength &&
-                (subLanguage.dirty || subLanguage.touched)
-              "
-              >language too long</mat-error
-            >
-          </mat-form-field>
-        </div>
-        <div>
-          <!-- text -->
-          <mat-form-field class="long-text">
-            <textarea
-              matInput
-              rows="3"
-              [formControl]="subText"
-              placeholder="text"
-            ></textarea>
-            <mat-error
-              *ngIf="
-                subText.errors?.maxLength && (subText.dirty || subText.touched)
-              "
-              >text too long</mat-error
-            >
-          </mat-form-field>
-        </div>
-      </form>
     </mat-tab>
 
     <mat-tab label="signs">
