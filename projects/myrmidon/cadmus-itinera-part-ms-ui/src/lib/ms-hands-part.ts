@@ -228,34 +228,72 @@ export const MSHANDS_PART_SCHEMA = {
                   ],
                 },
               },
-              subscription: {
-                type: 'object',
-                required: ['location', 'language'],
-                properties: {
-                  location: {
-                    type: 'object',
-                    required: ['n'],
-                    properties: {
-                      n: {
-                        type: 'integer',
-                      },
-                      r: {
-                        type: 'boolean',
-                      },
-                      s: {
-                        type: 'integer',
-                      },
-                      l: {
-                        type: 'integer',
+              subscriptions: {
+                type: 'array',
+                items: {
+                  anyOf: [
+                    {
+                      type: 'object',
+                      required: ['ranges', 'language'],
+                      properties: {
+                        ranges: {
+                          type: 'array',
+                          items: {
+                            anyOf: [
+                              {
+                                type: 'object',
+                                required: ['start', 'end'],
+                                properties: {
+                                  start: {
+                                    type: 'object',
+                                    required: ['n'],
+                                    properties: {
+                                      n: {
+                                        type: 'integer',
+                                      },
+                                      r: {
+                                        type: 'boolean',
+                                      },
+                                      s: {
+                                        type: 'integer',
+                                      },
+                                      l: {
+                                        type: 'integer',
+                                      },
+                                    },
+                                  },
+                                  end: {
+                                    type: 'object',
+                                    required: ['n'],
+                                    properties: {
+                                      n: {
+                                        type: 'integer',
+                                      },
+                                      r: {
+                                        type: 'boolean',
+                                      },
+                                      s: {
+                                        type: 'integer',
+                                      },
+                                      l: {
+                                        type: 'integer',
+                                      },
+                                    },
+                                  },
+                                },
+                              },
+                            ],
+                          },
+                        },
+                        language: {
+                          type: 'string',
+                        },
+                        text: {
+                          type: 'string',
+                        },
                       },
                     },
-                  },
-                  language: {
-                    type: 'string',
-                  },
-                  text: {
-                    type: 'string',
-                  },
+                  ],
                 },
               },
               signs: {
