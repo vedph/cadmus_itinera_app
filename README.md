@@ -5,8 +5,8 @@
 Quick Docker image build:
 
 1. `npm run build-all`
-2. `ng build`
-3. `docker build . -t vedph2020/cadmus-itinera-app:1.0.45 -t vedph2020/cadmus-itinera-app:latest` (replace with the current version).
+2. `ng build --configuration production`
+3. `docker build . -t vedph2020/cadmus-itinera-app:1.0.46 -t vedph2020/cadmus-itinera-app:latest` (replace with the current version).
 
 ## Production
 
@@ -18,7 +18,7 @@ window.__env.apiUrl = "https://itinera.unisi.it:54184/api/";
 window.__env.biblioApiUrl = "https://itinera.unisi.it:61692/api/";
 ```
 
-3. build a new image for production: `docker build . -t vedph2020/cadmus-itinera-app:1.0.45-prod`. The production version is labeled like this one, with `-prod` suffix.
+3. build a new image for production: `docker build . -t vedph2020/cadmus-itinera-app:1.0.46-prod`. The production version is labeled like this one, with `-prod` suffix.
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.1.4.
 

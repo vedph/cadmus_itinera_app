@@ -71,6 +71,7 @@ const LAYOUT_FIXED_KEYS = [
  * col-N-width, col-N-right-w or col-N-right-e.
  * https://github.com/vedph/cadmus_itinera_doc/blob/master/models.md#mslayoutspart
  */
+// @dynamic
 @Injectable({
   providedIn: 'root',
 })
