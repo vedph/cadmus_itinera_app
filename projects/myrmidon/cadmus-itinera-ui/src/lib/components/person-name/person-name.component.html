@@ -56,20 +56,22 @@
         </mat-select>
       </mat-form-field>
     </ng-container>
+
+    <!-- add part -->
+    &nbsp;
+    <button
+      type="button"
+      mat-stroked-button
+      color="primary"
+      (click)="addPart()"
+      matTooltip="Add a new part to the name"
+    >
+      <mat-icon>add_circle</mat-icon> part
+    </button>
   </div>
 
   <!-- parts -->
   <div formArrayName="parts">
-    <div>
-      <button
-        type="button"
-        mat-stroked-button
-        color="primary"
-        (click)="addPart()" matTooltip="Add a new part to the name"
-      >
-        <mat-icon>add_circle</mat-icon> add part
-      </button>
-    </div>
     <div
       *ngFor="
         let item of parts.controls;
@@ -151,8 +153,10 @@
         </ng-container>
 
         <!-- value -->
+        &nbsp;
         <mat-form-field>
-          <input #partValue
+          <input
+            #partValue
             matInput
             maxlength="50"
             formControlName="value"
